@@ -6,14 +6,14 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\nYou can learn more about KBLab here.\n\n\n\n",
-      "last_modified": "2021-03-17T19:56:48+01:00"
+      "last_modified": "2021-03-17T20:22:08+01:00"
     },
     {
       "path": "index.html",
       "title": "KBLab",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-03-17T19:56:49+01:00"
+      "last_modified": "2021-03-17T20:22:09+01:00"
     }
   ],
   "collections": ["posts/posts.json"]

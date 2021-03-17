@@ -3,7 +3,7 @@ title: "Introduction to Distill for R Markdown"
 description: |
   A short introduction showcasing the capabilities of the distill 
   package for scientific and technical writing. Get yourself set up and 
-  start publishing posts! 
+  start publishing posts!
 author:
   - name: Faton Rekathati
     url: https://github.com/Lauler
@@ -21,7 +21,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-reticulate::use_condaenv("pytorch3000")
+reticulate::use_condaenv("pytorch3k")
 ```
 
 Distill is a publication format for scientific and technical writing, native to the web. You can learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>. An example of a website built on this package is the [RStudio AI Blog](https://blogs.rstudio.com/ai/). More examples can be found [here](https://pkgs.rstudio.com/distill/articles/examples.html). 
@@ -138,7 +138,7 @@ print(f"The value for '{my_key}' is: {my_dict[my_key]}.")
 
 A conda Python environment named "pytorch3000" can be activated in the following manner in an R code chunk:
 
-```{r, echo=TRUE, eval=TRUE, code_folding=FALSE}
+```{r, echo=TRUE, eval=FALSE, code_folding=FALSE}
 reticulate::use_condaenv("pytorch3000")
 ```
 
