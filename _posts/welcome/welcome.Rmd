@@ -1,0 +1,29 @@
+---
+title: "Welcome to KBLab"
+description: |
+  Welcome to KBLab. We are a research lab at the National Library 
+  of Sweden. On this website we will publish posts, tutorials
+  and code related to our work.
+author:
+  - name: Faton Rekathati 
+    url: https://github.com/Lauler
+    affiliation: KBLab
+    affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
+preview: logo.png
+date: 2021-02-23
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating blogs with Distill at:
+# https://rstudio.github.io/distill/blog.html
+
+```
+
+Welcome to KBLab dear reader! We are a national research infrastructure for digital humanities and social science located at The National Library of Sweden. Our work includes making the library's collections and materials available via structured APIs, training and publishing large scale Swedish language models, along with exploring the potential for machine learning in curating and extracting metadata from existing collections. 
+
+We hope you will enjoy this space where we plan to post news about new models, APIs and various internal projects along with examples and tutorials! 

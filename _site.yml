@@ -1,0 +1,27 @@
+name: "KBLab"
+title: "KBLab"
+description: |
+  KBLab experimental space for code and posts.
+output_dir: docs
+navbar:
+  logo:
+    image: images/kblab_logo_circle.png
+    href: index.html
+  right:
+    - text: "Models"
+      menu:
+        - text: "Swedish BERT"
+          href: https://github.com/Kungbib/swedish-bert-models
+        - text: "Swedish spaCy"
+          href: https://github.com/Kungbib/swedish-spacy
+    - text: "API"
+      menu:
+        - text: "kblab python"
+          href: https://github.com/Kungbib/kblab
+        - text: "Documentation"
+          href: about.html
+    - text: "About"
+      href: about.html
+    - icon: fab fa-github
+      href: https://github.com/Kungbib
+output: distill::distill_article
