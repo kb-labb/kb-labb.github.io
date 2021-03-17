@@ -72,15 +72,13 @@ Once you've created your post and started adding content to it, you can generate
 knitr::include_graphics("knit.jpg")
 ```
 
-When you click "knit" on your post's `.Rmd`-file, it will only render and update the contents related to your own post. While this is fine for generating a preview, ultimately will also want to re-knit the `index.Rmd` file in the root directory. This will ensure that your new post gets listed on the front page. 
-
-A second way to ensure that everything is up to date before publishing, is to render the whole website via
+When you click "knit" on your post's `.Rmd`-file, it will only render and update the contents related to your own post. While this is fine for generating a preview, ultimately we will also want to re-knit the `index.Rmd` file in the root directory. This will ensure that the listing of blog articles on the front page gets updated with your post. Do this either by opening `index.Rmd` and clicking on the "knit" button, or alternatively via
 
 ```{r, eval=FALSE, echo=TRUE}
 rmarkdown::render_site()
 ```
 
-This will however re-render all previous blog posts as well. It may take some time depending on whether or not a post includes heavy computations. 
+This will only re-render the root-level `.Rmd` files (`index.Rmd` and `about.Rmd`) while leaving the blog articles intact. The reason being that old code frequently breaks due to environment changes and package updates. The *only* way of updating a blog post is thus by explicitly knitting it!
 
 ### Mix code with text in your post
 In your posts you can organize and style the contents using Markdown Syntax. An informative and short reference guide for R Markdown can be found [here](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf). 
@@ -102,7 +100,7 @@ ggplot(data = df, aes(x = x_sample)) +
 After the squiggly `{` bracket you specify the language, which can be for example `r`, `python` or `bash`. Optional chunk options are added afterwards which can control whether the code chunk e.g. is evaluated or not, whether the code and/or the output are displayed, as well as whether the code should be folded by default with an option to expand. Here is how a code chunk will actually be displayed when run properly:
 
 
-```{r, echo=TRUE, eval=TRUE, code_folding=TRUE}
+```{r, echo=TRUE, code_folding=TRUE}
 library(ggplot2)
 df <- data.frame(x_sample = rnorm(n = 500, mean = 2, sd = 5))
 ggplot(data = df, aes(x = x_sample)) +
@@ -127,9 +125,9 @@ print(f"The value for '{my_key}' is: {my_dict[my_key]}.")
 ```
 ````
 
-When run with `echo=TRUE`, `eval=TRUE` and `code_folding=FALSE` the above produces the following result:
+When run with `echo=TRUE`, `eval=TRUE` (you can remove eval entirely since its default is `TRUE`) and `code_folding=FALSE` the above produces the following result:
 
-```{python, echo=TRUE, eval=TRUE, code_folding=FALSE}
+```{python, echo=TRUE, code_folding=FALSE}
 # Dictionaries in an R IDE?!?! Amazing!
 my_dict = {"a": 5, "b": 9, "c": 4}
 my_key = "c"
@@ -148,14 +146,14 @@ However, be careful to ensure this chunk is run before the first time Python is 
 
 In R Markdown documents we can also directly access data and objects created in one language from the other language. To access python objects from R:
 
-```{r, echo=TRUE, eval=TRUE, code_folding=FALSE}
+```{r, echo=TRUE, code_folding=FALSE}
 library(reticulate)
 paste("The value for", py$my_key, "is:", py$my_dict["c"])
 ```
 
 And correspondingly from Python:
 
-```{python, echo=TRUE, eval=TRUE, code_folding=FALSE}
+```{python, echo=TRUE, code_folding=FALSE}
 import pandas as pd
 df_dict = r.df # is a dictionary in Python: {x_sample: [..., ...]}
 df = pd.DataFrame(df_dict)
