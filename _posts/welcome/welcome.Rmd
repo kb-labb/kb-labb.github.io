@@ -1,7 +1,7 @@
 ---
 title: "Welcome to KBLab"
 description: |
-  Welcome to KBLab. We are a research lab at the National Library 
+  Welcome to KBLab. We are a national research infrastructure located at the National Library 
   of Sweden. On this website we will publish posts, tutorials
   and code related to our work.
 author:
@@ -26,4 +26,4 @@ knitr::opts_chunk$set(echo = FALSE)
 
 Welcome to KBLab dear reader! We are a national research infrastructure for digital humanities and social science located at The National Library of Sweden. Our work includes making the library's collections and materials available via structured APIs, training and publishing large scale Swedish language models, along with exploring the potential for machine learning in curating and extracting metadata from existing collections. 
 
-We hope you will enjoy this space where we plan to post news about new models, APIs and various internal projects along with examples and tutorials! 
+We hope you will enjoy this space where we plan to post news about new models, APIs and various internal projects together with examples and tutorials! 

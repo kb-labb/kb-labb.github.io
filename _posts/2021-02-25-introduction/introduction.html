@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["inside_posts.jpg","install_distill.jpg","introduction_files/anchor-4.2.2/anchor.min.js","introduction_files/bowser-1.9.3/bowser.min.js","introduction_files/distill-2.2.21/template.v2.js","introduction_files/figure-html5/unnamed-chunk-3-1.png","introduction_files/figure-html5/unnamed-chunk-4-1.png","introduction_files/figure-html5/unnamed-chunk-5-1.png","introduction_files/figure-html5/unnamed-chunk-6-1.png","introduction_files/figure-html5/unnamed-chunk-7-1.png","introduction_files/header-attrs-2.7/header-attrs.js","introduction_files/jquery-1.11.3/jquery.min.js","introduction_files/popper-2.6.0/popper.min.js","introduction_files/tippy-6.2.7/tippy-bundle.umd.min.js","introduction_files/tippy-6.2.7/tippy-light-border.css","introduction_files/tippy-6.2.7/tippy.css","introduction_files/tippy-6.2.7/tippy.umd.min.js","introduction_files/webcomponents-2.0.0/webcomponents.js","kblabintro.jpg","knit.jpg","posts_folder.jpg"]}
+  {"type":"character","attributes":{},"value":["inside_posts.jpg","install_distill.jpg","introduction_files/anchor-4.2.2/anchor.min.js","introduction_files/bowser-1.9.3/bowser.min.js","introduction_files/distill-2.2.21/template.v2.js","introduction_files/figure-html5/unnamed-chunk-3-1.png","introduction_files/figure-html5/unnamed-chunk-4-1.png","introduction_files/figure-html5/unnamed-chunk-5-1.png","introduction_files/figure-html5/unnamed-chunk-6-1.png","introduction_files/figure-html5/unnamed-chunk-7-1.png","introduction_files/figure-html5/unnamed-chunk-8-1.png","introduction_files/header-attrs-2.7/header-attrs.js","introduction_files/jquery-1.11.3/jquery.min.js","introduction_files/popper-2.6.0/popper.min.js","introduction_files/tippy-6.2.7/tippy-bundle.umd.min.js","introduction_files/tippy-6.2.7/tippy-light-border.css","introduction_files/tippy-6.2.7/tippy.css","introduction_files/tippy-6.2.7/tippy.umd.min.js","introduction_files/webcomponents-2.0.0/webcomponents.js","kblabintro.jpg","knit.jpg","posts_folder.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1499,7 +1499,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="r-and-rstudio-setup">R and RStudio setup</h2>
 <p>First things first, you will need to download and <a href="https://ftp.acc.umu.se/mirror/CRAN/">install R</a>. Secondly, it is highly recommended that you install the <a href="https://rstudio.com/products/rstudio/download/#download">RStudio IDE</a> (integrated development environment).</p>
 <h3 id="install-packages">Install packages</h3>
-<p>Once you have R and RStudio setup, open the IDE and install the <a href="https://pkgs.rstudio.com/distill/"><code>distill</code></a> package:</p>
+<p>Once you have R and RStudio setup, open the IDE and install the <a href="https://pkgs.rstudio.com/distill/"><code>distill</code></a> package. If you are on Ubuntu, you may need to install the following external dependencies via the terminal first:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">sudo</span> apt-get install libssl-dev</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">sudo</span> apt-get install libxml2-dev</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">sudo</span> apt-get install libpng-dev</span></code></pre></div>
+</div>
+<p>Then in the R console inside Rstudio:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"distill"</span><span class='op'>)</span>
@@ -1507,7 +1513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-2"></span>
+<div class="figure"><span id="fig:unnamed-chunk-3"></span>
 <img src="install_distill.jpg" alt="Install the `distill` package in the console pane."  />
 <p class="caption">
 Figure 1: Install the <code>distill</code> package in the console pane.
@@ -1534,7 +1540,7 @@ Figure 1: Install the <code>distill</code> package in the console pane.
 <h3 id="render-the-post-for-preview-and-publication">Render the post for preview and publication</h3>
 <p>Once you’ve created your post and started adding content to it, you can generate the final product for preview or publication by “knitting” it. Knitting is R slang for generating the html/latex/pdf from Rmarkdown. The name comes from the package that does all the heavy lifting in the background (<a href="https://yihui.org/knitr/"><code>knitr</code></a>).</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-5"></span>
+<div class="figure"><span id="fig:unnamed-chunk-6"></span>
 <img src="knit.jpg" alt="Press the `Knit` button to generate a preview and a publishable html document."  />
 <p class="caption">
 Figure 2: Press the <code>Knit</code> button to generate a preview and a publishable html document.
@@ -1552,15 +1558,15 @@ Figure 2: Press the <code>Knit</code> button to generate a preview and a publish
 <h3 id="mix-code-with-text-in-your-post">Mix code with text in your post</h3>
 <p>In your posts you can organize and style the contents using Markdown Syntax. An informative and short reference guide for R Markdown can be found <a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">here</a>.</p>
 <p>Code can be intermixed with text. We put code in so called <em>code chunks</em> which are preceded and followed by three backticks like so:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>```{r, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
-<span id="cb1-2"><a href="#cb1-2"></a>library(ggplot2)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>df <span class="op">&lt;-</span> data.frame(x_sample <span class="op">=</span> rnorm(n <span class="op">=</span> <span class="dv">500</span>, mean <span class="op">=</span> <span class="dv">2</span>, sd <span class="op">=</span> <span class="dv">5</span>))</span>
-<span id="cb1-4"><a href="#cb1-4"></a>ggplot(data <span class="op">=</span> df, aes(x <span class="op">=</span> x_sample)) <span class="op">+</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  geom_histogram() <span class="op">+</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  theme_light() <span class="op">+</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  labs(x <span class="op">=</span> <span class="st">&quot;x&quot;</span>,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>       title <span class="op">=</span> <span class="st">&quot;A very pretty histogram&quot;</span>) </span>
-<span id="cb1-9"><a href="#cb1-9"></a>```</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>```{r, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
+<span id="cb2-2"><a href="#cb2-2"></a>library(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>df <span class="op">&lt;-</span> data.frame(x_sample <span class="op">=</span> rnorm(n <span class="op">=</span> <span class="dv">500</span>, mean <span class="op">=</span> <span class="dv">2</span>, sd <span class="op">=</span> <span class="dv">5</span>))</span>
+<span id="cb2-4"><a href="#cb2-4"></a>ggplot(data <span class="op">=</span> df, aes(x <span class="op">=</span> x_sample)) <span class="op">+</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>  geom_histogram() <span class="op">+</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  theme_light() <span class="op">+</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>  labs(x <span class="op">=</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8"></a>       title <span class="op">=</span> <span class="st">&quot;A very pretty histogram&quot;</span>) </span>
+<span id="cb2-9"><a href="#cb2-9"></a>```</span></code></pre></div>
 <p>After the squiggly <code>{</code> bracket you specify the language, which can be for example <code>r</code>, <code>python</code> or <code>bash</code>. Optional chunk options are added afterwards which can control whether the code chunk e.g. is evaluated or not, whether the code and/or the output are displayed, as well as whether the code should be folded by default with an option to expand. Here is how a code chunk will actually be displayed when run properly:</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1576,23 +1582,23 @@ Figure 2: Press the <code>Knit</code> button to generate a preview and a publish
 </code></pre>
 </div>
 </details>
-<p><img src="introduction_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+<p><img src="introduction_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
 <h3 id="combine-r-and-python-in-the-same-notebook">Combine R and Python in the same notebook</h3>
 <p>The RStudio IDE has support for both R and Python. Thanks to the <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> package. By default, R will use the Python interpreter available on your system path. However, you can configure this inside of R with the help of <a href="https://rstudio.github.io/reticulate/articles/versions.html">reticulate configuration functions</a> and choose any environment (including virtualenv and conda envs).</p>
 <p>To use python, simply:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>```{python, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
-<span id="cb2-4"><a href="#cb2-4"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>```</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>```{python, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
+<span id="cb3-4"><a href="#cb3-4"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>```</span></code></pre></div>
 <p>When run with <code>echo=TRUE</code>, <code>eval=TRUE</code> (you can remove eval entirely since its default is <code>TRUE</code>) and <code>code_folding=FALSE</code> the above produces the following result:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
-<span id="cb3-3"><a href="#cb3-3"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
+<span id="cb4-3"><a href="#cb4-3"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span></code></pre></div>
 <pre><code>The value for &#39;c&#39; is: 4.</code></pre>
 </div>
 <p>A conda Python environment named “pytorch3000” can be activated in the following manner in an R code chunk:</p>
@@ -1615,18 +1621,18 @@ Figure 2: Press the <code>Knit</code> button to generate a preview and a publish
 </div>
 <p>And correspondingly from Python:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-2"><a href="#cb6-2"></a>df_dict <span class="op">=</span> r.df <span class="co"># is a dictionary in Python: {x_sample: [..., ...]}</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>df <span class="op">=</span> pd.DataFrame(df_dict)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>df.head()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2"></a>df_dict <span class="op">=</span> r.df <span class="co"># is a dictionary in Python: {x_sample: [..., ...]}</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>df <span class="op">=</span> pd.DataFrame(df_dict)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>df.head()</span></code></pre></div>
 <pre><code>   x_sample
-0  4.539198
-1 -4.280013
-2  2.903960
-3  0.330933
-4  3.469893</code></pre>
+0 -2.499870
+1  7.264082
+2  8.569369
+3  6.990089
+4  5.021209</code></pre>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

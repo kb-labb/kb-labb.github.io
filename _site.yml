@@ -3,6 +3,7 @@ title: "KBLab"
 description: |
   KBLab experimental space for code and posts.
 output_dir: docs
+exclude: ["*.csv", "*.feather"]
 navbar:
   logo:
     image: images/kblab_logo_circle.png

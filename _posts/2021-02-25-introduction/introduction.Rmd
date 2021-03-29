@@ -33,7 +33,15 @@ First things first, you will need to download and [install R](https://ftp.acc.um
 
 ### Install packages
 
-Once you have R and RStudio setup, open the IDE and install the [`distill`](https://pkgs.rstudio.com/distill/) package:
+Once you have R and RStudio setup, open the IDE and install the [`distill`](https://pkgs.rstudio.com/distill/) package. If you are on Ubuntu, you may need to install the following external dependencies via the terminal first:
+
+```{bash, echo=TRUE, eval=FALSE}
+sudo apt-get install libssl-dev
+sudo apt-get install libxml2-dev
+sudo apt-get install libpng-dev
+```
+
+Then in the R console inside Rstudio:
 
 ```{r, include=TRUE, echo=TRUE, eval=FALSE}
 install.packages("distill")

@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>KBLab: A multimodal approach to advertisement classification in digitized newspapers</title>
+
+<meta property="description" itemprop="description" content="The process of digitizing historical newspapers at the National Library of Sweden&#10;involves scanning physical copies of newspapers and storing them as images. &#10;In order to make the scanned contents machine readable and searchable, OCR &#10;(optical character recognition) procedures are applied. &#10;This results in a wealth of information being generated from different data &#10;modalities (images, text and OCR metadata). In this article we explore &#10;how features from multiple modalities can be integrated into a unified advertisement &#10;classifier model."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-03-28"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-03-28"/>
+<meta name="article:author" content="Faton Rekathati"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="KBLab: A multimodal approach to advertisement classification in digitized newspapers"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="The process of digitizing historical newspapers at the National Library of Sweden&#10;involves scanning physical copies of newspapers and storing them as images. &#10;In order to make the scanned contents machine readable and searchable, OCR &#10;(optical character recognition) procedures are applied. &#10;This results in a wealth of information being generated from different data &#10;modalities (images, text and OCR metadata). In this article we explore &#10;how features from multiple modalities can be integrated into a unified advertisement &#10;classifier model."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="KBLab"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="KBLab: A multimodal approach to advertisement classification in digitized newspapers"/>
+<meta property="twitter:description" content="The process of digitizing historical newspapers at the National Library of Sweden&#10;involves scanning physical copies of newspapers and storing them as images. &#10;In order to make the scanned contents machine readable and searchable, OCR &#10;(optical character recognition) procedures are applied. &#10;This results in a wealth of information being generated from different data &#10;modalities (images, text and OCR metadata). In this article we explore &#10;how features from multiple modalities can be integrated into a unified advertisement &#10;classifier model."/>
+
+<!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=EfficientNet: Rethinking model scaling for convolutional neural networks;citation_publication_date=2019;citation_author=Mingxing Tan;citation_author=Quoc V. Le"/>
+  <meta name="citation_reference" content="citation_title=Playing with words at the national library of sweden – making a swedish bert;citation_publication_date=2020;citation_author=Martin Malmsten;citation_author=Love Börjeson;citation_author=Chris Haffenden"/>
+  <meta name="citation_reference" content="citation_title=BERT: pre-training of deep bidirectional transformers for language understanding;citation_publication_date=2018;citation_volume=abs/1810.04805;citation_author=Jacob Devlin;citation_author=Ming-Wei Chang;citation_author=Kenton Lee;citation_author=Kristina Toutanova"/>
+  <meta name="citation_reference" content="citation_title=Efficient annotation of newspaper sections;citation_author=Faton Rekathati;citation_author=Miriam Hurtado Bodell;citation_author=Måns Magnusson"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography","date","preview","output","resources"]}},"value":[{"type":"character","attributes":{},"value":["A multimodal approach to advertisement classification in digitized newspapers"]},{"type":"character","attributes":{},"value":["The process of digitizing historical newspapers at the National Library of Sweden\ninvolves scanning physical copies of newspapers and storing them as images. \nIn order to make the scanned contents machine readable and searchable, OCR \n(optical character recognition) procedures are applied. \nThis results in a wealth of information being generated from different data \nmodalities (images, text and OCR metadata). In this article we explore \nhow features from multiple modalities can be integrated into a unified advertisement \nclassifier model."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Faton Rekathati"]},{"type":"character","attributes":{},"value":["https://github.com/Lauler"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["03-28-2021"]},{"type":"character","attributes":{},"value":["images/pred_good.jpg"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["exclude"]}},"value":[{"type":"character","attributes":{},"value":["*.feather"]}]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["ad-classification_files/anchor-4.2.2/anchor.min.js","ad-classification_files/bowser-1.9.3/bowser.min.js","ad-classification_files/core-js-2.5.3/LICENSE","ad-classification_files/core-js-2.5.3/package.json","ad-classification_files/core-js-2.5.3/shim.min.js","ad-classification_files/distill-2.2.21/template.v2.js","ad-classification_files/figure-html5/charlength-1.png","ad-classification_files/figure-html5/unnamed-chunk-3-1.png","ad-classification_files/htmlwidgets-1.5.1/htmlwidgets.js","ad-classification_files/jquery-1.11.3/jquery.min.js","ad-classification_files/popper-2.6.0/popper.min.js","ad-classification_files/react-17.0.0/AUTHORS","ad-classification_files/react-17.0.0/LICENSE.txt","ad-classification_files/react-17.0.0/react-dom.min.js","ad-classification_files/react-17.0.0/react.min.js","ad-classification_files/reactable-binding-0.2.3/reactable.js","ad-classification_files/reactwidget-1.0.0/react-tools.js","ad-classification_files/reactwidget-1.0.0/react-tools.js.map","ad-classification_files/tippy-6.2.7/tippy-bundle.umd.min.js","ad-classification_files/tippy-6.2.7/tippy-light-border.css","ad-classification_files/tippy-6.2.7/tippy.css","ad-classification_files/tippy-6.2.7/tippy.umd.min.js","ad-classification_files/webcomponents-2.0.0/webcomponents.js","images/ad_annotation.jpg","images/ad_model.png","images/boxcoords.png","images/boxes_hist.jpg","images/pred_example1.jpg","images/pred_example2.jpg","images/pred_good_page.jpg","images/pred_good.jpg","images/predictions.jpg","images/subzone.png","images/trainval_table.png","references.bib"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+/* adjust viewport for navbar height */
+/* helps vertically center bootstrap (non-distill) content */
+.min-vh-100 {
+  min-height: calc(100vh - 100px) !important;
+}
+
+</style>
+
+<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+              ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+              : '';
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description || ''}
+                </div>
+                <div class="search-item-preview">
+                  ${img}
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+.nav-search {
+  font-size: x-small;
+}
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  font-size: 1rem;
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="../../site_libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <script src="../../site_libs/reactable-binding-0.2.3/reactable.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"A multimodal approach to advertisement classification in digitized newspapers","description":"The process of digitizing historical newspapers at the National Library of Sweden\ninvolves scanning physical copies of newspapers and storing them as images. \nIn order to make the scanned contents machine readable and searchable, OCR \n(optical character recognition) procedures are applied. \nThis results in a wealth of information being generated from different data \nmodalities (images, text and OCR metadata). In this article we explore \nhow features from multiple modalities can be integrated into a unified advertisement \nclassifier model.","authors":[{"author":"Faton Rekathati","authorURL":"https://github.com/Lauler","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2021-03-28T00:00:00.000+01:00","citationText":"Rekathati, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo" href="https://kb-labb.github.io/">
+<img src="../../images/kblab_logo_circle.png" alt="Logo"/>
+</a>
+<a href="../../index.html" class="title">KBLab</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Models
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="https://github.com/Kungbib/swedish-bert-models">Swedish BERT</a>
+<a href="https://github.com/Kungbib/swedish-spacy">Swedish spaCy</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+API
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="https://github.com/Kungbib/kblab">kblab python</a>
+<a href="../../about.html">Documentation</a>
+</div>
+</div>
+<a href="../../about.html">About</a>
+<a href="https://github.com/Kungbib">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>A multimodal approach to advertisement classification in digitized newspapers</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>The process of digitizing historical newspapers at the National Library of Sweden involves scanning physical copies of newspapers and storing them as images. In order to make the scanned contents machine readable and searchable, OCR (optical character recognition) procedures are applied. This results in a wealth of information being generated from different data modalities (images, text and OCR metadata). In this article we explore how features from multiple modalities can be integrated into a unified advertisement classifier model.</p></p>
+</div>
+
+<div class="d-byline">
+  Faton Rekathati <a href="https://github.com/Lauler" class="uri">https://github.com/Lauler</a> (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+  
+<br/>03-28-2021
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#objective">Objective</a></li>
+<li><a href="#data">Data</a><ul>
+<li><a href="#annotation-of-training-and-evaluation-sets">Annotation of training and evaluation sets</a></li>
+<li><a href="#descriptive-statistics">Descriptive statistics</a></li>
+<li><a href="#features">Features</a></li>
+</ul></li>
+<li><a href="#method">Method</a><ul>
+<li><a href="#cnn-models">CNN models</a></li>
+<li><a href="#kb-bert">KB-BERT</a></li>
+<li><a href="#training-and-validation-split">Training and validation split</a></li>
+<li><a href="#metadata-features">Metadata features</a></li>
+<li><a href="#fc-classifier">FC classifier</a></li>
+<li><a href="#hyperparameters-optimizer-and-hardware">Hyperparameters, optimizer and hardware</a></li>
+</ul></li>
+<li><a href="#results-and-discussion">Results and discussion</a><ul>
+<li><a href="#a-closer-look-at-predictions">A closer look at predictions</a></li>
+<li><a href="#models-without-positional-metadata-variables">Models without positional metadata variables</a></li>
+</ul></li>
+<li><a href="#future-improvements">Future improvements</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</nav>
+</div>
+<p>The digital archives at The National Library of Sweden hold millions digitized of historical newspaper pages. Researchers accessing these collections for quantitative research purposes commonly inquire whether it is possible to search or filter the contents based on their research needs. One such request is to filter out all advertisement content in a query and select <em>only</em> the editorial content.</p>
+<p>While OCR digitizes the text in scanned images of newspaper pages, it is unfortunately not able to determine whether the text it has digitized is an article title, the body text of an article or an advertisement. Such contextual information is lost in the process of digitization. An important aspect of our work at KBLab is thus to develop automated methods to recover the information that is implicitly present in the structure and layout of newspaper pages, but cannot as of yet adequately be captured by digitization tools.</p>
+<p>A human reader looking at a newspaper page is generally able to distinguish advertisements from editorial content quickly and accurately at a glance. Advertisements tend to be visually distinct, featuring bright colorful designs, all capitalized text, large and distinctive fonts, and inverted text colors (light color text against dark backgrounds). A quick visual pass is therefore more often than not all that is required. Wherever any ambiguity persists, it can be resolved by reading a portion of the text. The presence of named commercial entities and logos along with advertisement-specific language tends to clear up any lingering uncertainty.</p>
+<p>Ideally, a machine learning model built to classify advertisements should be able to incorporate information from an array of <em>senses</em> similar to the ones we are using when making a determination. And since the way we classify content is through a combination of visual and contextual language clues, we aim for our model to do the same.</p>
+<h2 id="objective">Objective</h2>
+<p>Our objective with this article is to propose and evaluate an advertisement classifier trained as a single joint model using three diverse set of features: images, text and metadata. In order to further investigate the contribution of each component part of this model, ablation studies are performed where selected model components are omitted in the training.</p>
+<h2 id="data">Data</h2>
+<p>The dataset consists of 35 sampled editions of the newspaper Svenska Dagbladet from 2017-03-29 to 2019-05-25 previously used for newspaper section classification <span class="citation" data-cites="rekathati">(Rekathati, Hurtado Bodell, and Magnusson, <a href="#ref-rekathati" role="doc-biblioref">n.d.</a>)</span>. Stratified sampling was performed based on weekday, meaning 7 editions were randomly sampled for each day of the week (Monday, Tuesday, …) during the period.</p>
+<p>When OCR procedures are applied to newspaper page images they perform a segmentation of the contents of the page. Figure <a href="#fig:subzone">1</a> below illustrates how the procedure may look like. The segmentation process first attempts to detect article zones (orange). The key word here is <em>attempts</em>, as it seldom is completely successful. Within the detected article zones it performs another pass to detect text blocks (blue) and image blocks (green). The unit of observation, i.e. the data we are going to train and predict on in this work, consists of the text and image blocks (blue and green boxes).</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="figure"><span id="fig:subzone"></span>
+<img src="images/subzone.png" alt="OCR segmentation of newspaper content results in identified blocks of text (blue) and images (green). These are the observational unit we are trying to classify as either editorial or advertisement content." width="762" />
+<p class="caption">
+Figure 1: OCR segmentation of newspaper content results in identified blocks of text (blue) and images (green). These are the observational unit we are trying to classify as either editorial or advertisement content.
+</p>
+</div>
+</div>
+<h3 id="annotation-of-training-and-evaluation-sets">Annotation of training and evaluation sets</h3>
+<p>The 35 sampled editions were manually annotated. Every observation (segmented text or image box) was assigned a label of either <code>ad</code> or <code>editorial</code>. Ads include sponsored, paid for and commercial content including advertisements for charity organizations and including the newspaper’s own campaigns for subscription services, wine tastings, workshops, etc. However, links and information referring readers to extra coverage of news stories online were annotated as <code>editorial</code>.</p>
+<p>A visual annotation tool was used to label the observations. This tool highlighted existing observations when the annotator hovered over them in an image. A label was assigned by clicking over the highlighted area. In order to annotate the data as efficiently as possible, the annotation task was divided in the following steps:</p>
+<ol type="1">
+<li>Perform a first pass over all pages in the sampled editions. If the whole page consists of editorial content, mark the entire page to be annotated as <code>editorial</code>. If the page consists of a full page ad, mark all the observations to be annotated as <code>ad</code>. If the page contains a mix of editorial and commercial content, mark the page as <code>mixed</code>.</li>
+<li>Perform a second pass over the pages tagged as <code>mixed</code>. In these pages all segmented boxes containing commercial content are annotated as <code>ad</code> using a visual annotation tool (see Figure <a href="#fig:annotation">2</a> to the right).</li>
+<li>Programmatically assign all the remaining observations which are yet to receive a label to the class <code>editorial</code>.</li>
+</ol>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:annotation"></span>
+<img src="images/ad_annotation.jpg" alt="Segmented boxes containing `ads` highlighted in **red**."  />
+<p class="caption">
+Figure 2: Segmented boxes containing <code>ads</code> highlighted in <strong>red</strong>.
+</p>
+</div>
+</div>
+</aside>
+<p>As a general rule this process was quick and yielded mostly accurate results. However, since the annotator was required to hover over an area of the picture for the segmented box to be highlighted, it was possible for some segmented boxes to go undetected and unlabeled in step 2 of the annotation procedure. A future more flexible and fool proof method of annotating would be to select the the entire area covered by ads and then later – if necessary – assign all segmented boxes which fall into that area to the corresponding class. We will likely switch to this annotation strategy in the future, as it works independently of whatever OCR software was used. That is, even if the OCR and its segmentation were to change, the annotations would still be valid. Labeling the area as opposed to the OCR boxes would further allow us to train object detection and semantic segmentation models.</p>
+<h3 id="descriptive-statistics">Descriptive statistics</h3>
+<p>The dataset was divided into a train and validation set using a time series split. The training set consisted of editions from <code>2017-04-08</code> to <code>2018-10-16</code>, and the validation set editions from <code>2019-01-08</code> to <code>2019-04-05</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="images/trainval_table.png" width="808" /></p>
+</div>
+<p>Most of the segmented boxes were identified as text boxes (around <span class="math inline">\(88\%\)</span>), whereas only roughly <span class="math inline">\(12\%\)</span> were detected as images by the OCR software. A quarter to a third of the content in the newspaper is ads.</p>
+<div class="layout-chunk" data-layout="l-page">
+<div class="figure"><span id="fig:boxhist"></span>
+<img src="images/boxes_hist.jpg" alt="Histograms over the distribution of segmented boxes (i.e. observations) per newspaper page (Fig. 3a), and the distribution of character lengths over observations (Fig. 3b)"  />
+<p class="caption">
+Figure 3: Histograms over the distribution of segmented boxes (i.e. observations) per newspaper page (Fig. 3a), and the distribution of character lengths over observations (Fig. 3b)
+</p>
+</div>
+</div>
+<p>The mean number of segmented boxer per newspaper page in the samples was 44. The majority of these boxes contained less than 50 characters of text all in all.</p>
+<h3 id="features">Features</h3>
+<p>The majority of features used for classification were extracted from pretrained vision and language models. This feature extraction process is described in the method. Regular tabular features consisted of metadata relating to the segmented boxes. The OCR process logs positional information of each segmented box. In other words the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of the upper leftmost corner of the segmented box in terms of pixel position, as well as <code>width</code> extending rightwards from <span class="math inline">\((x, y)\)</span> as well as <code>height</code> extending downwards from <span class="math inline">\((x,y)\)</span>. Additionally, <code>weekday</code> (Monday, Tuesdary, …) was used as a categorical feature.</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:boxcoords"></span>
+<img src="images/boxcoords.png" alt="Metadata associated with a segmented box." width="484" />
+<p class="caption">
+Figure 4: Metadata associated with a segmented box.
+</p>
+</div>
+</div>
+</aside>
+<h2 id="method">Method</h2>
+<p>Three different neural networks are used to extract useful features from images and text. Their respective outputs are concatenated and connected in a fully connected (FC) classifier. Additional metadata features from the OCR process are also concatenated to the feature vector fed as input to this FC classifier. In particular, positional information is added, since CNNs are designed to be (approximately) invariant against translations (movement) of objects within an image. That is, they are designed to output similar activations regardless of where an object happens to appear in an image. However, for our advertisement model, we want it to be able to reason spatially.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:fullmodel"></span>
+<img src="images/ad_model.png" alt="The full advertisement classifier model. In the results section we remove and isolate certain components of the model to investigate the contribution of each part." width="572" />
+<p class="caption">
+Figure 5: The full advertisement classifier model. In the results section we remove and isolate certain components of the model to investigate the contribution of each part.
+</p>
+</div>
+</div>
+<aside>
+Model code can be found <a href="https://github.com/kb-labb/ad_classification/blob/main/src/models.py#L44-L78">here</a>.
+</aside>
+<p>All model parameters in the above model are set to be trainable in each of the models. Thus, they are all jointly “fine tuned” for the classification task of detecting advertisements.</p>
+<h3 id="cnn-models">CNN models</h3>
+<p>Two, initially identical, CNN models are trained side by side. One to extract features from a zoomed out “global” level, and the other to focus on learning “local” zoomed in features. The <strong>local</strong> CNN model takes as input images of the cropped segmentation boxes depicted in Figure <a href="#fig:boxcoords">4</a> and Figure <a href="#fig:subzone">1</a>. We crop the segmented boxes by using the available positional information: <span class="math inline">\((x, y)\)</span>, <code>width</code> and <code>height</code>. Thus, one such cropped image box exists for every observation in our dataset.</p>
+<p>The second CNN model, in contrast, receives an image of the entire newspaper page where the observation in question is located. Here, the rationale being that the context surrounding an observation is important in determining whether the observation is an  or not. A consequence of this is that the same newspaper page image is passed as input to the model for however many segmented boxes exist on said page. Recall from the histograms in Figure <a href="#fig:boxhist">3</a>, that a mean of 44 segmented boxes (observations) exist for each newspaper page. Each time the <strong>global</strong> image is fed to the model, it is therefore paired with a different <strong>local</strong> segmented box however.</p>
+<p>The backbone model used for both CNNs is an Efficientnet-B2 <span class="citation" data-cites="Tan2019EfficientNetRM">(Tan and Le <a href="#ref-Tan2019EfficientNetRM" role="doc-biblioref">2019</a>)</span> with pretrained Imagenet weights. The classification head is discarded and instead the output of the convolutional layers are captured. This output is a 1408-dimensional vector.</p>
+<h3 id="kb-bert">KB-BERT</h3>
+<p>Swedish BERT base <span class="citation" data-cites="swedish-bert">(Malmsten, Börjeson, and Haffenden <a href="#ref-swedish-bert" role="doc-biblioref">2020</a>)</span> is applied as a feature extractor for any text associated with the segmented boxes. Commonly the embedding of the <code>[CLS]</code> token is extracted and used to fine tune models for downstream classification tasks <span class="citation" data-cites="bert">(Devlin et al. <a href="#ref-bert" role="doc-biblioref">2018</a>)</span>. Here, we follow this procedure and extract the 768-dimensional embedding corresponding to the <code>[CLS]</code> token and concatenate it to the previously extracted image features.</p>
+<p>The observations in our data do not always have text content associated with them. Images, for example, have no OCR text fields. Segmented text detected in observations also vary in length all the way from single characters to series of paragraphs. In this work the maximum sequence length is set to 64. Padding is applied to the sequences of all observations whose number of tokens do not reach 64. This means that <code>[PAD]</code> tokens are added until we reach a sequence length of 64. Conversely, we truncate all observations exceeding a sequence length of 64 tokens.</p>
+<p>No preprocessing or cleaning of the text is performed. KB-BERT is a cased model. However, “cased” does not take into account all caps text as well as it does uncased text. In advertisements all caps text occur fairly common. The unrecognized tokens then often gets split up in many subtoken components or tokenized as <code>[UNK]</code> (unknown).</p>
+<h3 id="training-and-validation-split">Training and validation split</h3>
+<p>A time series split was chosen for the train and validation sets. This decision was informed by two main reasons:</p>
+<ol type="1">
+<li>A simple random sample (SRS) of observations risked introducing test set leakage into the model. Since the global CNN model took the same image of the entire newspaper page as input multiple times, a SRS would have resulted in the same input data being exposed both to the train and validation sets.</li>
+<li>A time series split increases the difficulty of the prediction task. The model has to predict future data as opposed to data for which it has seem recent examples.</li>
+</ol>
+<h3 id="metadata-features">Metadata features</h3>
+<p>Only five variables were added from OCR metadata. Positional information: <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>; and the <code>weekday</code> which was treated as a categorical variable for which a separate embedding layer was created. Categorical variables can be treated similar to word/token embeddings in language models. We ask our model to learn useful embeddings for the weekdays, just like BERT learns token embeddings for its vocabulary.</p>
+<p>In the end a metadata feature vector of 7 dimensions was concatenated to the BERT and image features.</p>
+<h3 id="fc-classifier">FC classifier</h3>
+<p>A fully connected classifier was built on top of the previously mentioned methods. The FC classifier consisted of a single hidden layer with 512 neurons. As input it took the <span class="math inline">\(1408+1408+768+7\)</span> features from images, text and metadata respectively. The hidden layer applied a ReLU activation and a dropout layer with a dropout fraction of <span class="math inline">\(0.3\)</span>. The last output layer was a single neuron with sigmoid activation and binary cross entropy loss.</p>
+<h3 id="hyperparameters-optimizer-and-hardware">Hyperparameters, optimizer and hardware</h3>
+<p>The Adam optimizer was used with an initial learning rate of 0.00002. This learning rate was decreased by a factor of 0.65 every epoch. Models were trained 2 to 8 epochs, depending on when validation performance was observed to level off. A batch size of 16 was used for the full model. The smaller models were trained with larger batch sizes, and in general the learning rate was adjusted higher with increasing batch size.</p>
+<p>All models were trained on a GeForce RTX 2080 TI. Total training time varied from circa 15 minutes for the smaller models to about 2 hours for the largest model.</p>
+<h2 id="results-and-discussion">Results and discussion</h2>
+<p>Results seem to indicate that all component models are useful. Some (global image features) provide a bigger boost than others, but all of them do contribute to a better overall performance of the full prediction model. The results displayed in the table below show that the full model reaches an accuracy of <span class="math inline">\(97.2\%\)</span>. The model’s sensitivity, the proportion of actual ads it detects and labels as <code>ad</code> is <span class="math inline">\(94.9\%\)</span>, whereas its specificity (proportion of actual editorial content it detects as <code>editorial</code>) reaches <span class="math inline">\(98.4\%\)</span>. We have used a decision threshold of <span class="math inline">\(0.5\)</span> to decide whether an observation should be classified as <code>ad</code> (<span class="math inline">\(&gt;0.5\)</span> gets classified as <code>ad</code>). Researchers using these results can themselves adjust the decision threshold to boost either specificity or sensitivity depending on what is most important to them. Most researchers likely want a high specificity, i.e. for the model to retain as much of the actual editorial content as possible.</p>
+<p>The <strong>CNN Global</strong> model was a particularly strong feature extractor. It seemingly was succesful in incorporating spatial information when generating predictions. Since this model only saw the entirety of the newspaper page as input, it should not be able to reason very well about the spatial position of ads. Its performance seems to suggest that either i) the metadata features allow the model to combine image features with spatial information, or ii) the CNN architecture is not entirely invariant to objects being appearing at different locations of an image (translation invariance).</p>
+<div class="layout-chunk" data-layout="l-page">
+<details>
+<summary>Show code</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://readr.tidyverse.org'>readr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://glin.github.io/reactable/'>reactable</a></span><span class='op'>)</span>
+
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_feather.html'>read_feather</a></span><span class='op'>(</span><span class='st'>"df_preds.feather"</span><span class='op'>)</span>
+
+<span class='va'>metrics_by_txtlength</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>txt_len</span>,
+                                 <span class='va'>df</span>, 
+                                 <span class='va'>preds_col</span>, 
+                                 <span class='va'>probs_col</span>,
+                                 <span class='va'>decision_threshold</span> <span class='op'>=</span> <span class='fl'>0.5</span>, 
+                                 <span class='va'>observation_type</span> <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span><span class='op'>{</span>
+  
+  <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>text_length</span> <span class='op'>&gt;=</span> <span class='va'>txt_len</span><span class='op'>)</span>
+  
+  <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>observation_type</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>==</span> <span class='va'>observation_type</span><span class='op'>)</span>
+  <span class='op'>}</span> <span class='kw'>else</span><span class='op'>{</span>
+    <span class='va'>observation_type</span> <span class='op'>=</span> <span class='st'>"All"</span>
+  <span class='op'>}</span>
+  
+  <span class='va'>df</span><span class='op'>[</span>, <span class='va'>preds_col</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+  <span class='va'>df</span><span class='op'>[</span><span class='va'>df</span><span class='op'>[</span>, <span class='va'>probs_col</span><span class='op'>]</span> <span class='op'>&gt;</span> <span class='va'>decision_threshold</span>, <span class='va'>preds_col</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+  <span class='va'>conf_mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>preds_col</span><span class='op'>)</span>, <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>label</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>conf_mat</span> <span class='op'>&lt;-</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/caret/man/confusionMatrix.html'>confusionMatrix</a></span><span class='op'>(</span><span class='va'>conf_mat</span>, positive<span class='op'>=</span><span class='st'>"1"</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='va'>conf_mat</span><span class='op'>$</span><span class='va'>overall</span><span class='op'>[</span><span class='st'>"Accuracy"</span><span class='op'>]</span>,
+                sensitivity <span class='op'>=</span> <span class='va'>conf_mat</span><span class='op'>$</span><span class='va'>byClass</span><span class='op'>[</span><span class='st'>"Sensitivity"</span><span class='op'>]</span>,
+                specificity <span class='op'>=</span> <span class='va'>conf_mat</span><span class='op'>$</span><span class='va'>byClass</span><span class='op'>[</span><span class='st'>"Specificity"</span><span class='op'>]</span>,
+                threshold <span class='op'>=</span> <span class='va'>decision_threshold</span>,
+                text_length <span class='op'>=</span> <span class='va'>txt_len</span>,
+                model <span class='op'>=</span> <span class='va'>preds_col</span>,
+                type <span class='op'>=</span> <span class='va'>observation_type</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>preds_col</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"preds_bertgloballocal"</span>, <span class='st'>"preds_bertglobal"</span>, <span class='st'>"preds_global"</span>,
+                <span class='st'>"preds_local"</span>, <span class='st'>"preds_bertlocal"</span>, <span class='st'>"preds_bert"</span><span class='op'>)</span>
+<span class='va'>probs_col</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"probs_bertgloballocal"</span>, <span class='st'>"probs_bertglobal"</span>, <span class='st'>"probs_global"</span>,
+                <span class='st'>"probs_local"</span>, <span class='st'>"probs_bertlocal"</span>, <span class='st'>"probs_bert"</span><span class='op'>)</span>
+
+<span class='va'>observation_type</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"Image"</span>, <span class='st'>"Text"</span><span class='op'>)</span>
+
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"list"</span>, length <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>observation_type</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>preds_col</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>j</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span><span class='op'>{</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>type</span> <span class='kw'>in</span> <span class='va'>observation_type</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='va'>res</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>metrics_by_txtlength</span><span class='op'>(</span>txt_len<span class='op'>=</span><span class='fl'>0</span>,
+                                   <span class='va'>df</span>, 
+                                   preds_col <span class='op'>=</span> <span class='va'>preds_col</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span>, 
+                                   probs_col <span class='op'>=</span> <span class='va'>probs_col</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span>,
+                                   decision_threshold <span class='op'>=</span> <span class='fl'>0.5</span>,
+                                   observation_type <span class='op'>=</span> <span class='va'>type</span><span class='op'>)</span>
+    
+    <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+<span class='va'>df_table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>bind_rows</span>, <span class='va'>res</span><span class='op'>)</span>
+
+<span class='va'>df_table</span><span class='op'>[</span><span class='st'>"model"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span><span class='op'>(</span><span class='va'>df_table</span><span class='op'>$</span><span class='va'>model</span>, 
+                             preds_bertgloballocal <span class='op'>=</span> <span class='st'>"Full model"</span>,
+                             preds_bertglobal <span class='op'>=</span> <span class='st'>"Bert + Global"</span>,
+                             preds_global <span class='op'>=</span> <span class='st'>"Global"</span>,
+                             preds_local <span class='op'>=</span> <span class='st'>"Local"</span>,
+                             preds_bertlocal <span class='op'>=</span> <span class='st'>"Bert + Local"</span>,
+                             preds_bert <span class='op'>=</span> <span class='st'>"Bert"</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span><span class='va'>df_table</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>accuracy</span>, <span class='va'>sensitivity</span>, <span class='va'>specificity</span>, <span class='va'>type</span><span class='op'>)</span>,
+          defaultSorted <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"type"</span>, <span class='st'>"accuracy"</span><span class='op'>)</span>,
+          highlight <span class='op'>=</span> <span class='cn'>TRUE</span>,
+          defaultPageSize <span class='op'>=</span> <span class='fl'>9</span>,
+          <span class='co'># searchable = TRUE,</span>
+          columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+            model <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span><span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"Model"</span><span class='op'>)</span>,
+            accuracy <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Accuracy"</span>,
+                             format <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colFormat.html'>colFormat</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>,
+                             defaultSortOrder <span class='op'>=</span> <span class='st'>"desc"</span><span class='op'>)</span>,
+            sensitivity <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Sensitivity"</span>,
+                             format <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colFormat.html'>colFormat</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>,
+            specificity <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Specificity"</span>,
+                             format <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colFormat.html'>colFormat</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>,
+            type <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Data subset"</span>,
+                             format <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colFormat.html'>colFormat</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+            <span class='op'>)</span>,
+          rowStyle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/htmlwidgets/man/JS.html'>JS</a></span><span class='op'>(</span><span class='st'>"function(rowInfo) {
+                            if (rowInfo.row['model'] == 'Full model') {
+                              return { background: 'rgba(0, 0, 0, 0.05)' }
+                            }
+                          }"</span>
+           <span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<div id="htmlwidget-a68b11d4eb6975fa15d5" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a68b11d4eb6975fa15d5">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"model":["Full model","Full model","Full model","Bert + Global","Bert + Global","Bert + Global","Global","Global","Global","Local","Local","Local","Bert + Local","Bert + Local","Bert + Local","Bert","Bert","Bert"],"accuracy":[0.972276523902612,0.949012402388608,0.975720892274211,0.965582607665423,0.930179145613229,0.970824265505985,0.946981813873586,0.90767110702802,0.952801958650707,0.903145548249511,0.7859439595774,0.920497823721436,0.899532018245365,0.78961874138723,0.915805223068553,0.857176707541022,0.62379421221865,0.891730141458107],"sensitivity":[0.949216732656223,0.943022295623452,0.950848194867334,0.941297985883973,0.930635838150289,0.944106133101348,0.871922878292305,0.85962014863749,0.875163114397564,0.798588397314512,0.761354252683732,0.808394954327969,0.821483904286452,0.783649876135425,0.83144845585037,0.703907729385436,0.528488852188274,0.750108742931709],"specificity":[0.984375,0.956521739130435,0.98703740352266,0.978323699421965,0.929606625258799,0.982980407678607,0.986361994219653,0.967908902691511,0.988125865822284,0.958002167630058,0.816770186335404,0.971502077973481,0.94048049132948,0.797101449275362,0.954185632297645,0.937590317919075,0.743271221532091,0.956164654660598],"type":["All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text"]},"columns":[{"accessor":"model","name":"Model","type":"character"},{"accessor":"accuracy","name":"Accuracy","type":"numeric","defaultSortDesc":true,"format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"sensitivity","name":"Sensitivity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"specificity","name":"Specificity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"type","name":"Data subset","type":"character","format":{"cell":{"digits":3},"aggregated":{"digits":3}}}],"defaultSorted":[{"id":"type","desc":false},{"id":"accuracy","desc":true}],"defaultPageSize":9,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"rowStyle":"function(rowInfo) {\n                            if (rowInfo.row['model'] == 'Full model') {\n                              return { background: 'rgba(0, 0, 0, 0.05)' }\n                            }\n                          }","dataKey":"31cca38d540cc701a8988ac79992c667","key":"31cca38d540cc701a8988ac79992c667"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.rowStyle"],"jsHooks":[]}</script>
+</div>
+<p>In general specificity is higher than sensitivity. This can be seen as a positive trait of all models as researchers tend to care more about the model retaining as much editorial content as possible (even if this means some ads slip through). Specificity also tends to increase with when more text is available in the segmented OCR box. Most long text sequences tend to be paragraphs from editorial content. It is comparatively rare for ads to feature long cohesive text paragraphs. The models also generally perform better on text data as opposed to image data.</p>
+<p>Upon further inspection of the model predictions, it became apparent that about one third to one half of the faulty predictions were in fact cases where the annotator had mislabeled examples. Most annotation mistakes occurred as a result of not finding all segmented advertisement boxes on a given page. This was in part due to annotator error, but in part – we discovered – also because it was not possible to highlight some of the smaller segmented boxes with the annotation tool.</p>
+<div class="layout-chunk" data-layout="l-page">
+<details>
+<summary>Show code</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>gridExtra</span><span class='op'>)</span>
+<span class='va'>metrics_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"list"</span>, length <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+
+<span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>j</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>metrics_list</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>metrics_list</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfr</a></span><span class='op'>(</span>.x <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>500</span>, 
+                                     df <span class='op'>=</span> <span class='va'>df</span>,
+                                     .f <span class='op'>=</span> <span class='va'>metrics_by_txtlength</span>,
+                                     preds_col <span class='op'>=</span> <span class='va'>preds_col</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span>, 
+                                     probs_col <span class='op'>=</span> <span class='va'>probs_col</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span>,
+                                     decision_threshold <span class='op'>=</span> <span class='fl'>0.5</span>,
+                                     observation_type <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
+  <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span>
+<span class='op'>}</span>
+
+<span class='va'>df_metrics</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>bind_rows</span>, <span class='va'>metrics_list</span><span class='op'>)</span>
+
+<span class='va'>df_metrics</span> <span class='op'>&lt;-</span> <span class='va'>df_metrics</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>model <span class='op'>=</span> <span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>model</span>, <span class='st'>"preds_"</span><span class='op'>)</span>,
+         model <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/recode.html'>recode</a></span><span class='op'>(</span><span class='va'>model</span>,
+                        <span class='st'>"bertgloballocal"</span> <span class='op'>=</span> <span class='st'>"full_model"</span>,
+                        <span class='st'>"bertglobal"</span> <span class='op'>=</span> <span class='st'>"bert + global"</span>,
+                        <span class='st'>"bertlocal"</span> <span class='op'>=</span> <span class='st'>"bert + local"</span><span class='op'>)</span><span class='op'>)</span>
+
+
+<span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_metrics</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>text_length</span>, 
+                             y <span class='op'>=</span> <span class='va'>sensitivity</span>, 
+                             color <span class='op'>=</span> <span class='va'>model</span>,
+                             linetype <span class='op'>=</span> <span class='va'>model</span>,
+                             size <span class='op'>=</span> <span class='va'>model</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>df_metrics</span><span class='op'>[</span><span class='va'>df_metrics</span><span class='op'>$</span><span class='va'>text_length</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='op'>]</span>,
+             size <span class='op'>=</span> <span class='fl'>0.7</span>, 
+             show.legend <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_light</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_linetype_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='st'>"bert + global"</span> <span class='op'>=</span> <span class='fl'>1</span>, 
+                                   <span class='st'>"global"</span> <span class='op'>=</span> <span class='fl'>2</span>, <span class='st'>"bert + local"</span> <span class='op'>=</span> <span class='fl'>1</span>, 
+                                   <span class='st'>"local"</span> <span class='op'>=</span> <span class='fl'>2</span>, <span class='st'>"bert"</span> <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+                        breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                                   <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span> <span class='op'>=</span> <span class='st'>"grey10"</span>, <span class='st'>"bert + global"</span> <span class='op'>=</span> <span class='st'>"steelblue"</span>, 
+                                 <span class='st'>"global"</span> <span class='op'>=</span> <span class='st'>"steelblue2"</span>, <span class='st'>"bert + local"</span> <span class='op'>=</span> <span class='st'>"firebrick"</span>, 
+                                 <span class='st'>"local"</span> <span class='op'>=</span> <span class='st'>"firebrick2"</span>, <span class='st'>"bert"</span> <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span>,
+                     breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                                <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_size_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>6</span><span class='op'>)</span>,
+                    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                               <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"&gt;= Character Length"</span>,
+       y <span class='op'>=</span> <span class='st'>"Sensitivity"</span>, 
+       title <span class='op'>=</span> <span class='st'>"Proportion of actual advertisement content detected (sensitivity) 
+evaluated on all observations equal to or greater than the character length"</span>,
+       color <span class='op'>=</span> <span class='st'>"Model"</span>,
+       linetype <span class='op'>=</span> <span class='st'>"Model"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guides.html'>guides</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></span><span class='op'>(</span>override.aes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size<span class='op'>=</span><span class='fl'>0.3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
+
+
+<span class='va'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_metrics</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>text_length</span>, 
+                             y <span class='op'>=</span> <span class='va'>specificity</span>, 
+                             color <span class='op'>=</span> <span class='va'>model</span>,
+                             linetype <span class='op'>=</span> <span class='va'>model</span>,
+                             size <span class='op'>=</span> <span class='va'>model</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>df_metrics</span><span class='op'>[</span><span class='va'>df_metrics</span><span class='op'>$</span><span class='va'>text_length</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='op'>]</span>,
+             size <span class='op'>=</span> <span class='fl'>0.7</span>, 
+             show.legend <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_light</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_linetype_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='st'>"bert + global"</span> <span class='op'>=</span> <span class='fl'>1</span>, 
+                                   <span class='st'>"global"</span> <span class='op'>=</span> <span class='fl'>2</span>, <span class='st'>"bert + local"</span> <span class='op'>=</span> <span class='fl'>1</span>, 
+                                   <span class='st'>"local"</span> <span class='op'>=</span> <span class='fl'>2</span>, <span class='st'>"bert"</span> <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+                        breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                                   <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span> <span class='op'>=</span> <span class='st'>"grey10"</span>, <span class='st'>"bert + global"</span> <span class='op'>=</span> <span class='st'>"steelblue"</span>, 
+                                 <span class='st'>"global"</span> <span class='op'>=</span> <span class='st'>"steelblue2"</span>, <span class='st'>"bert + local"</span> <span class='op'>=</span> <span class='st'>"firebrick"</span>, 
+                                 <span class='st'>"local"</span> <span class='op'>=</span> <span class='st'>"firebrick2"</span>, <span class='st'>"bert"</span> <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span>,
+                     breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                                <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_size_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>6</span><span class='op'>)</span>,
+                    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"full_model"</span>, <span class='st'>"bert + global"</span>, <span class='st'>"global"</span>, <span class='st'>"bert + local"</span>,
+                               <span class='st'>"local"</span>, <span class='st'>"bert"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"&gt;= Character Length"</span>,
+       y <span class='op'>=</span> <span class='st'>"Specificity"</span>, 
+       title <span class='op'>=</span> <span class='st'>"Proportion of actual editorial content detected (specificity) 
+evaluated on all observations equal to or greater than the character length"</span>,
+       color <span class='op'>=</span> <span class='st'>"Model"</span>,
+       linetype <span class='op'>=</span> <span class='st'>"Model"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guides.html'>guides</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></span><span class='op'>(</span>override.aes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size<span class='op'>=</span><span class='fl'>0.3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span><span class='va'>p1</span>, <span class='va'>p2</span>, ncol<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<div class="figure"><span id="fig:charlength"></span>
+<img src="ad-classification_files/figure-html5/charlength-1.png" alt="The plots above display the sensitivity and specificity respectively for all observations of equal or greater length than the specified character length on the x-axis. In general researchers tend to be interested in conducting research on editorial content. Detecting and assigning correct labels to actual editorial content (specificity) is therefore of importance." width="624" />
+<p class="caption">
+Figure 6: The plots above display the sensitivity and specificity respectively for all observations of equal or greater length than the specified character length on the x-axis. In general researchers tend to be interested in conducting research on editorial content. Detecting and assigning correct labels to actual editorial content (specificity) is therefore of importance.
+</p>
+</div>
+</div>
+<h3 id="a-closer-look-at-predictions">A closer look at predictions</h3>
+<p>The majority of predictions made by the <strong>full model</strong> are accurate. Below is an example where ads and editorial content are mixed on the same newspaper page.</p>
+<div style="width: 230px;">
+<p><img src="images/pred_good_page.jpg" onmouseover="this.src='images/pred_good.jpg'" onmouseout="this.src='images/pred_good_page.jpg'" /></p>
+</div>
+<aside>
+<p><strong>Tip:</strong> Hover over the image with your mouse to view the model’s predictions.</p>
+<p><code>Ad</code> (<strong>red</strong>)</p>
+<code>Editorial</code> (<strong>yellow</strong>)
+</aside>
+<p>Our multimodal advertisment classifier did not have much trouble separating the ads on the right side from the editorial content on the left. It made only a handful of small mistakes.</p>
+<p>Next, we chose to display predictions on a page where our <strong>full model</strong> performed uncharacteristically poorly. These predictions can be seen in Figure <a href="#fig:predictions">7</a> below. The example also works great to display how the global image features model manages to spatially reason about the location of advertisements on a page.</p>
+<div class="layout-chunk" data-layout="l-page">
+<div class="figure"><span id="fig:predictions"></span>
+<img src="images/predictions.jpg" alt="The predictions of three different models. `Ad` (**red**) and `editorial` (**yellow**). The global image features model seems to be able to incorporate spatial information in its predictions. Possibly from the metadata features that were added, but possibly also from learning specific **ads-on-the-right-side** or **ads-on-the-left-side** type of neuron signals whenever certain parts of the image  has lots of color and images."  />
+<p class="caption">
+Figure 7: The predictions of three different models. <code>Ad</code> (<strong>red</strong>) and <code>editorial</code> (<strong>yellow</strong>). The global image features model seems to be able to incorporate spatial information in its predictions. Possibly from the metadata features that were added, but possibly also from learning specific <strong>ads-on-the-right-side</strong> or <strong>ads-on-the-left-side</strong> type of neuron signals whenever certain parts of the image has lots of color and images.
+</p>
+</div>
+</div>
+<p>The Global image features model occasionally displays problematic behavior when paired up with the BERT model. We haven’t been able to figure out exactly why, but the combination of these two models occasionally seems to cause confusion in spatial reasoning. From all of the individual component models, we see that the Global image feature model is the one most unsure in its predictions about whether the editorial article paragraphs are actually editorial content. This uncertainty gets magnified for some reason when it is paired up with Bert. Further studies would be useful to investigate what causes this behavior. An especially interesting approach would be to feed parts of pages as input to the network as opposed to the entire page (expanding the area around the existing observation and cropping more of it).</p>
+<p>Advertisement observations generally exhibit strong spatial correlation, as do editorial content. <code>Ad</code> observations tend to be found close to other <code>ad</code> observations, and vice versa. Thus we want to incorporate information from the area surrounding any given observation, while at the same time potentially tempering any potential problematic behavior from including an entire newspaper page. Either case, the occasional spatial confusion of the <strong>global</strong> model warrants further study.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="figure"><span id="fig:predexample1"></span>
+<img src="images/pred_example1.jpg" alt="Example of output confidence score of the different component models in classifying a given observation to the class `ad`."  />
+<p class="caption">
+Figure 8: Example of output confidence score of the different component models in classifying a given observation to the class <code>ad</code>.
+</p>
+</div>
+</div>
+<p>We can see that the combination of <strong>BERT+Global</strong> sometimes causes inconsistent and problematic predictions. All predictions displayed in Figure <a href="#fig:predexample1">8</a> and Figure <a href="#fig:predexample2">9</a> belong to the <code>editorial</code> class. However, the BERT+Global model confidently predicts them all as <code>ad</code> despite its two component models’ scores being below 0.5 for all observations.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="figure"><span id="fig:predexample2"></span>
+<img src="images/pred_example2.jpg" alt="Model score for predicting `ad`."  />
+<p class="caption">
+Figure 9: Model score for predicting <code>ad</code>.
+</p>
+</div>
+</div>
+<h3 id="models-without-positional-metadata-variables">Models without positional metadata variables</h3>
+<p>Were the positional metadata features at all useful for model prediction? An easy way to investigate is by checking the BERT model’s predictions on images. BERT should not be able to predict images without metadata features. In fact, we can see in the table below that BERT without positional metadata features resorts to predicting <code>editorial</code> for every single image it encounters. This makes sense as <code>editorial</code> is the majority class. When faced with a complete absence of useful information, the model defaults to guessing the most frequently occurring outcome. The distribution of predictions of the BERT model with and without metadata features is as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-526cf682b1eb2c10c8ec" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-526cf682b1eb2c10c8ec">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Type":["Image","Image","Text","Text"],"Bert":[1289,888,10812,3892],"Bert_no_pos":[2177,0,10694,4010],"Prediction":["Editorial","Advertisment","Editorial","Advertisement"]},"columns":[{"accessor":"Type","name":"Type","type":"character"},{"accessor":"Bert","name":"Bert","type":"numeric"},{"accessor":"Bert_no_pos","name":"Bert_no_pos","type":"numeric"},{"accessor":"Prediction","name":"Prediction","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9a25caa481f6318ea61020374bc91ac1","key":"9a25caa481f6318ea61020374bc91ac1"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Similarly, the <em>global</em> CNN model should have trouble knowing what to predict when it is fed the same image of the entire newspaper page as input for every observation within a page. The performance does deteriorate somewhat, but it still performs surprisingly well in away that is quite difficult to explain.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-56d40417cb6103173f5d" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-56d40417cb6103173f5d">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"model":["global","global_nm"],"accuracy":[0.946981813873586,0.924708251880813],"sensitivity":[0.871922878292305,0.84592873127905],"specificity":[0.986361994219653,0.966040462427746],"type":["All","All"]},"columns":[{"accessor":"model","name":"Model","type":"character"},{"accessor":"accuracy","name":"Accuracy","type":"numeric","defaultSortDesc":true,"format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"sensitivity","name":"Sensitivity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"specificity","name":"Specificity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"accessor":"type","name":"Data subset","type":"character","format":{"cell":{"digits":3},"aggregated":{"digits":3}}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"82839561d22ad4a5656bd0afa16046fd","key":"82839561d22ad4a5656bd0afa16046fd"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="future-improvements">Future improvements</h2>
+<p>The most obvious avenue for improvement is switching over to an alternate annotation method where we label the <em>area</em> covered by ads as opposed to explicitly labeling the OCR segmentation boxes. First and foremost because it is quicker and less error prone, but also because the OCR segmentation boxes can indirectly be annotated once we have <em>area</em> annotations. We can check whether the area of the OCR segmentation intersects with the labeled advertisement area beyond some threshold. Furthermore, a changed annotation approach allows for more flexibility in model choice. It opens up opportunities for applying object detection and semantic segmentation models.</p>
+<p>Another easy way to boost the score of the model is to perform some post processing of the predictions. If an <code>editorial</code> prediction is completely surrounded by advertisement predictions, it is quite likely that the <code>editorial</code> prediction label was mistaken. Same goes for <code>ad</code> predictions surrounded on all sides by <code>editorials</code>. Simple postprocessing of can probably yield a boost in predictive performance.</p>
+<p>Finally, the ultimate advertisement model should be context aware, much like modern transformer-based language models. Currently, we crudely incorporate the context by supplying an image of the entire page as input to one of the CNN models. This can most likely be improved via some kind of a self-attention approach applied on the image embeddings of observations within a newspaper page.</p>
+<h2 id="code">Code</h2>
+<p>Code (without data) can be found at <a href="https://github.com/kb-labb/ad_classification" class="uri">https://github.com/kb-labb/ad_classification</a> .</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-bert">
+<p>Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. “BERT: Pre-Training of Deep Bidirectional Transformers for Language Understanding.” <em>CoRR</em> abs/1810.04805. <a href="http://arxiv.org/abs/1810.04805">http://arxiv.org/abs/1810.04805</a>.</p>
+</div>
+<div id="ref-swedish-bert">
+<p>Malmsten, Martin, Love Börjeson, and Chris Haffenden. 2020. “Playing with Words at the National Library of Sweden – Making a Swedish Bert.” <a href="http://arxiv.org/abs/2007.01658">http://arxiv.org/abs/2007.01658</a>.</p>
+</div>
+<div id="ref-rekathati">
+<p>Rekathati, Faton, Miriam Hurtado Bodell, and Måns Magnusson. n.d. “Efficient Annotation of Newspaper Sections.”</p>
+</div>
+<div id="ref-Tan2019EfficientNetRM">
+<p>Tan, Mingxing, and Quoc V. Le. 2019. “EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks.” In <em>ICML</em>.</p>
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="references">References</h3>
+  <div id="references-listing"></div>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
