@@ -16,7 +16,7 @@ author:
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
 bibliography: references.bib
 date: 03-28-2021
-preview: images/pred_good.jpg
+preview: images/pred_goodb.jpg
 output:
   distill::distill_article:
     self_contained: false
@@ -66,7 +66,7 @@ A visual annotation tool was used to label the observations. This tool highlight
 
 <aside>
 ```{r annotation, fig.height=6, fig.cap="Segmented boxes containing `ads` highlighted in **red**."}
-knitr::include_graphics("images/ad_annotation.jpg")
+knitr::include_graphics("images/ad_annotationb.jpg")
 ```
 </aside>
 
@@ -353,7 +353,7 @@ grid.arrange(p1, p2, ncol=2)
 The majority of predictions made by the **full model** are accurate. Below is an example where ads and editorial content are mixed on the same newspaper page. 
 
 <div style="width: 230px;">
-<img src="images/pred_good_page.jpg" onmouseover="this.src='images/pred_good.jpg'" onmouseout="this.src='images/pred_good_page.jpg'" />
+<img src="images/pred_good_pageb.jpg" onmouseover="this.src='images/pred_goodb.jpg'" onmouseout="this.src='images/pred_good_pageb.jpg'" />
 </div>
 
 <aside>
@@ -369,7 +369,7 @@ Our multimodal advertisment classifier did not have much trouble separating the 
 Next, we chose to display predictions on a page where our **full model** performed uncharacteristically poorly. These predictions can be seen in Figure \@ref(fig:predictions) below. The example also works great to display how the global image features model manages to spatially reason about the location of advertisements on a page. 
 
 ```{r predictions, layout="l-page", fig.cap="The predictions of three different models. `Ad` (**red**) and `editorial` (**yellow**). The global image features model seems to be able to incorporate spatial information in its predictions. Possibly from the metadata features that were added, but possibly also from learning specific **ads-on-the-right-side** or **ads-on-the-left-side** type of neuron signals whenever certain parts of the image  has lots of color and images."}
-knitr::include_graphics("images/predictions.jpg")
+knitr::include_graphics("images/predictionsb.jpg")
 ```
 
 The Global image features model occasionally displays problematic behavior when paired up with the BERT model. We haven't been able to figure out exactly why, but the combination of these two models occasionally seems to cause confusion in spatial reasoning. From all of the individual component models, we see that the Global image feature model is the one most unsure in its predictions about whether the editorial article paragraphs are actually editorial content. This uncertainty gets magnified for some reason when it is paired up with Bert. Further studies would be useful to investigate what causes this behavior. An especially interesting approach would be to feed parts of pages as input to the network as opposed to the entire page (expanding the area around the existing observation and cropping more of it).

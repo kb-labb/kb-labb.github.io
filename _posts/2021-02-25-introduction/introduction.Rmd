@@ -26,8 +26,6 @@ reticulate::use_condaenv("pytorch3k")
 
 Distill is a publication format for scientific and technical writing, native to the web. You can learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>. An example of a website built on this package is the [RStudio AI Blog](https://blogs.rstudio.com/ai/). More examples can be found [here](https://pkgs.rstudio.com/distill/articles/examples.html). 
 
-The below guide will be expanded upon. Right now it's mostly a template.  
-
 ## R and RStudio setup
 First things first, you will need to download and [install R](https://ftp.acc.umu.se/mirror/CRAN/). Secondly, it is highly recommended that you install the [RStudio IDE](https://rstudio.com/products/rstudio/download/#download) (integrated development environment). 
 

@@ -1,7 +1,7 @@
 ---
-title: "About this blog"
+title: "About KBLab"
 description: |
-  Some additional details about the blog
+  KBLab is a datalab at The National Library of Sweden.
 ---
 
 ```{r setup, include=FALSE}
