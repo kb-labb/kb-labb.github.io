@@ -86,635 +86,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>KBLab</title>
+  <title>The Power of Crowdsourcing</title>
+
+  <meta property="description" itemprop="description" content="High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model."/>
 
 
-
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-04-08"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-08"/>
+  <meta name="article:author" content="Elena Fano"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="KBLab"/>
+  <meta property="og:title" content="The Power of Crowdsourcing"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="KBLab"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="KBLab"/>
+  <meta property="twitter:title" content="The Power of Crowdsourcing"/>
+  <meta property="twitter:description" content="High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output"]}},"value":[{"type":"character","attributes":{},"value":["The Power of Crowdsourcing"]},{"type":"character","attributes":{},"value":["High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["ner_page.jpg"]},{"type":"character","attributes":{},"value":["04-08-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["internal-crowdsourcing-for-dataset-creation_files/anchor-4.2.2/anchor.min.js","internal-crowdsourcing-for-dataset-creation_files/bowser-1.9.3/bowser.min.js","internal-crowdsourcing-for-dataset-creation_files/distill-2.2.21/template.v2.js","internal-crowdsourcing-for-dataset-creation_files/header-attrs-2.7/header-attrs.js","internal-crowdsourcing-for-dataset-creation_files/jquery-1.11.3/jquery.min.js","internal-crowdsourcing-for-dataset-creation_files/popper-2.6.0/popper.min.js","internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy-bundle.umd.min.js","internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy-light-border.css","internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy.css","internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy.umd.min.js","internal-crowdsourcing-for-dataset-creation_files/webcomponents-2.0.0/webcomponents.js","KB-BERT_performance.png","ner_page.jpg","ner_tool.png"]}
+  </script>
   <!--radix_placeholder_navigation_in_header-->
-  <meta name="distill:offset" content=""/>
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        tolerance: 5,
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
-  </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #0F2E3D;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-    min-width: 150px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative; min-height: 500px; }
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  /* adjust viewport for navbar height */
-  /* helps vertically center bootstrap (non-distill) content */
-  .min-vh-100 {
-    min-height: calc(100vh - 100px) !important;
-  }
-
-  </style>
-
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
-  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
-  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-
-  <script type="application/javascript">
-
-  function getMeta(metaName) {
-    var metas = document.getElementsByTagName('meta');
-    for (let i = 0; i < metas.length; i++) {
-      if (metas[i].getAttribute('name') === metaName) {
-        return metas[i].getAttribute('content');
-      }
-    }
-    return '';
-  }
-
-  function offsetURL(url) {
-    var offset = getMeta('distill:offset');
-    return offset ? offset + '/' + url : url;
-  }
-
-  function createFuseIndex() {
-
-    // create fuse index
-    var options = {
-      keys: [
-        { name: 'title', weight: 20 },
-        { name: 'categories', weight: 15 },
-        { name: 'description', weight: 10 },
-        { name: 'contents', weight: 5 },
-      ],
-      ignoreLocation: true,
-      threshold: 0
-    };
-    var fuse = new window.Fuse([], options);
-
-    // fetch the main search.json
-    return fetch(offsetURL('search.json'))
-      .then(function(response) {
-        if (response.status == 200) {
-          return response.json().then(function(json) {
-            // index main articles
-            json.articles.forEach(function(article) {
-              fuse.add(article);
-            });
-            // download collections and index their articles
-            return Promise.all(json.collections.map(function(collection) {
-              return fetch(offsetURL(collection)).then(function(response) {
-                if (response.status === 200) {
-                  return response.json().then(function(articles) {
-                    articles.forEach(function(article) {
-                      fuse.add(article);
-                    });
-                  })
-                } else {
-                  return Promise.reject(
-                    new Error('Unexpected status from search index request: ' +
-                              response.status)
-                  );
-                }
-              });
-            })).then(function() {
-              return fuse;
-            });
-          });
-
-        } else {
-          return Promise.reject(
-            new Error('Unexpected status from search index request: ' +
-                        response.status)
-          );
-        }
-      });
-  }
-
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-
-    // get search element (bail if we don't have one)
-    var searchEl = window.document.getElementById('distill-search');
-    if (!searchEl)
-      return;
-
-    createFuseIndex()
-      .then(function(fuse) {
-
-        // make search box visible
-        searchEl.classList.remove('hidden');
-
-        // initialize autocomplete
-        var options = {
-          autoselect: true,
-          hint: false,
-          minLength: 2,
-        };
-        window.autocomplete(searchEl, options, [{
-          source: function(query, callback) {
-            const searchOptions = {
-              isCaseSensitive: false,
-              shouldSort: true,
-              minMatchCharLength: 2,
-              limit: 10,
-            };
-            var results = fuse.search(query, searchOptions);
-            callback(results
-              .map(function(result) { return result.item; })
-            );
-          },
-          templates: {
-            suggestion: function(suggestion) {
-              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
-                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
-                : '';
-              var html = `
-                <div class="search-item">
-                  <h3>${suggestion.title}</h3>
-                  <div class="search-item-description">
-                    ${suggestion.description || ''}
-                  </div>
-                  <div class="search-item-preview">
-                    ${img}
-                  </div>
-                </div>
-              `;
-              return html;
-            }
-          }
-        }]).on('autocomplete:selected', function(event, suggestion) {
-          window.location.href = offsetURL(suggestion.path);
-        });
-        // remove inline display style on autocompleter (we want to
-        // manage responsive display via css)
-        $('.algolia-autocomplete').css("display", "");
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-  });
-
-  </script>
-
-  <style type="text/css">
-
-  .nav-search {
-    font-size: x-small;
-  }
-
-  /* Algolioa Autocomplete */
-
-  .algolia-autocomplete {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: sub;
-    background-color: white;
-    color: black;
-    padding: 6px;
-    padding-top: 8px;
-    padding-bottom: 0;
-    border-radius: 6px;
-    border: 1px #0F2E3D solid;
-    width: 180px;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-nav .algolia-autocomplete {
-      display: none;
-      visibility: hidden;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete {
-      display: inline-block;
-      visibility: visible;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
-      margin-left: 0;
-      width: 400px;
-      max-height: 400px;
-    }
-  }
-
-  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-    width: 90%;
-    outline: none;
-    border: none;
-  }
-
-  .algolia-autocomplete .aa-hint {
-    color: #999;
-  }
-  .algolia-autocomplete .aa-dropdown-menu {
-    width: 550px;
-    max-height: 70vh;
-    overflow-x: visible;
-    overflow-y: scroll;
-    padding: 5px;
-    margin-top: 3px;
-    margin-left: -150px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #999;
-    border-top: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-    cursor: pointer;
-    padding: 5px 4px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
-    border-bottom: none;
-    margin-bottom: 2px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
-    overflow: hidden;
-    font-size: 0.8em;
-    line-height: 1.4em;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
-    font-size: 1rem;
-    margin-block-start: 0;
-    margin-block-end: 5px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
-    display: inline-block;
-    overflow: hidden;
-    height: 2.8em;
-    width: 80%;
-    margin-right: 4%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
-    display: inline-block;
-    width: 15%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
-    height: 3em;
-    width: auto;
-    display: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
-    display: initial;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-    background-color: #eee;
-  }
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-    font-weight: bold;
-    font-style: normal;
-  }
-
-  </style>
-
-
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -2030,285 +1434,82 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
-  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/header-attrs-2.7/header-attrs.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/popper-2.6.0/popper.min.js"></script>
+  <link href="internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="internal-crowdsourcing-for-dataset-creation_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="internal-crowdsourcing-for-dataset-creation_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
   <!--/radix_placeholder_site_in_header-->
 
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"KBLab","authors":[]}
+{"title":"The Power of Crowdsourcing","description":"High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.","authors":[{"author":"Elena Fano","authorURL":"#","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2021-04-08T00:00:00.000+02:00","citationText":"Fano, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a class="logo" href="https://kb-labb.github.io/">
-<img src="images/kblab_logo_circle.png" alt="Logo"/>
-</a>
-<a href="index.html" class="title">KBLab</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
-</div>
-<div class="nav-right">
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Models
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="https://github.com/Kungbib/swedish-bert-models">Swedish BERT</a>
-<a href="https://github.com/Kungbib/swedish-spacy">Swedish spaCy</a>
-</div>
-</div>
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-API
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="https://github.com/Kungbib/kblab">kblab python</a>
-<a href="about.html">Documentation</a>
-</div>
-</div>
-<a href="about.html">About</a>
-<a href="https://github.com/Kungbib">
-<i class="fab fa-github" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption="KBLab">KBLab</h1>
-<a href="posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">April 8, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Elena Fano</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/ner_page.jpg"/>
-</div>
-<div class="description">
-<h2>The Power of Crowdsourcing</h2>
-<div class="dt-tags"></div>
-<p>High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.</p>
-</div>
-</a>
-<a href="posts/2021-03-28-ad-classification/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">March 28, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Faton Rekathati</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-03-28-ad-classification/images/pred_goodb.jpg"/>
-</div>
-<div class="description">
-<h2>A multimodal approach to advertisement classification in digitized newspapers</h2>
-<div class="dt-tags"></div>
-<p>The process of digitizing historical newspapers at the National Library of Sweden
-involves scanning physical copies of newspapers and storing them as images. 
-In order to make the scanned contents machine readable and searchable, OCR 
-(optical character recognition) procedures are applied. 
-This results in a wealth of information being generated from different data 
-modalities (images, text and OCR metadata). In this article we explore 
-how features from multiple modalities can be integrated into a unified advertisement 
-classifier model.</p>
-</div>
-</a>
-<a href="posts/2021-02-25-introduction/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 24, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Faton Rekathati</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-02-25-introduction/kblabintro.jpg"/>
-</div>
-<div class="description">
-<h2>Introduction to Distill for R Markdown</h2>
-<div class="dt-tags"></div>
-<p>A short introduction showcasing the capabilities of the distill 
-package for scientific and technical writing. Get yourself set up and 
-start publishing posts!</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>KBLab</h1>
+<h1>The Power of Crowdsourcing</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-
+<p><p>High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.</p></p>
 </div>
 
+<div class="d-byline">
+  Elena Fano  (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+  
+<br/>04-08-2021
+</div>
 
 <div class="d-article">
+<style>
+body {
+text-align: justify}
+</style>
+<h2 id="the-quest">The Quest</h2>
+<p>In the spring of 2020, KBLab released a pre-trained BERT model for Swedish that was received with enthusiasm in the NLP community. In order to asses the performance of the model, it was fine-tuned on the SUC 3.0 dataset for Named Entity Recognition (NER). The model showed a good performance, better than other comparable models, but to a manual exam it was apparent that there were issues in the NER output. In addition, the performance for some classes, like PERSON and LOCATION, was really high (around 96%), while other classes like OBJECT and WORK OF ART were recognized significantly worse (72-77% accuracy). Of course, it might be the case that some types of entities are inherently harder to recognize, but the huge disparity pointed to some issues with the training data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:unnamed-chunk-1"></span>
+<img src="KB-BERT_performance.png" alt="The performance of KB-BERT on NER compared to Arbetsförmedlingen-AI's model and Google's Multilingual BERT. Table from Malmsten, M., Börjeson, L., &amp; Haffenden, C. (2020). Playing with Words at the National Library of Sweden--Making a Swedish BERT. arXiv preprint arXiv:2007.01658." width="180%" />
+<p class="caption">
+Figure 1: The performance of KB-BERT on NER compared to Arbetsförmedlingen-AI’s model and Google’s Multilingual BERT. Table from Malmsten, M., Börjeson, L., &amp; Haffenden, C. (2020). Playing with Words at the National Library of Sweden–Making a Swedish BERT. arXiv preprint arXiv:2007.01658.
+</p>
+</div>
+</div>
+<p>Sure enough, <a href="https://spraakbanken.gu.se/en/resources/suc3">SUC 3.0</a> does not claim to be a gold standard dataset for NER. It is clearly stated in its documentation that the named entities, unlike morphology and part-of-speech tags, have been annotated using a tool called Sparv, so not by human annotators. Moreover, the dataset was not put together with NER as a main objective and there are huge imbalances between the different categories in terms of number of examples. This means that the BERT model was fine-tuned on a sub-optimal NER dataset, and no matter how good its language understanding was, it was not going to reach better performance levels. At this point we decided to fill a void in Swedish NLP and produce a gold standard NER dataset, which not only would be used to fine-tune our models but also published to benefit the community.</p>
+<p>As any data scientist will confirm, annotating data is not an endeavor one embarks on lightly. It is way too time-consuming for a single person to produce enough data in a reasonable amount of time. In order for the model to be able to learn, it is necessary to feed it thousands of labeled examples for each class. This was clearly not something KBLab could do on its own. That is when we came up with the idea to ask our colleagues at the National Library for help.</p>
+<h3 id="crowdsourcing-to-the-rescue">Crowdsourcing to the rescue</h3>
+<p>First we needed to put together a corpus. We thought we could go over SUC 3.0 and manually correct the annotations in order to obtain a gold standard, but we also wanted to create a new dataset that was stronger on the types of entities that would be useful in a library context, like publications, publishers and works of art in general. Since we wanted to be able to publish our dataset, it was also important that the texts belong to the public domain. We finally settled on Wikipedia articles about works of arts, music, books, films and artists of different kinds. We extracted them automatically from a Wikipedia dump and segmented them into sentences to be ready for annotation.</p>
+<p>The next step was to find a suitable annotation tool for named entities. We looked at some commercially available tools, but eventually our Lead Data scientist Martin decided to build a tool from scratch in order to have maximum control over the application. Annotators could navigate to an internal webpage on their browser and the sentences from the dataset would be presented to them, already pre-annotated by our KB-BERT model. The task was therefore to correct KB-BERT’s annotation, and we hoped this would save some time compared to annotating from scratch, since the model in many cases makes the right prediction.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:unnamed-chunk-2"></span>
+<img src="ner_tool.png" alt="Screenshot from our in-house NER annotation tool." width="754" />
+<p class="caption">
+Figure 2: Screenshot from our in-house NER annotation tool.
+</p>
+</div>
+</div>
+<p>Last but not least, we needed to recruit annotators. We knew we would have to run a pilot with a limited number of annotators to test the technical aspect and to receive some feedback about the annotation guidelines. Who best to perform this perilous task than a handful of our most hardened librarians? We turned to a unit who works daily with metadata and has a long experience of categorizing entities, albeit with a different purpose. To our great delight, eight colleagues immediately responded to our call to arms and volunteered to be part of the pilot.</p>
+<p>Annotating text material sounds like a trivial task but it most certainly isn’t. Agreement among annotators is paramount to obtaining a coherent dataset that the models can learn from, while it is nearly impossible to foresee all improbable contexts and quirky use of language that natural language often presents. Just as an example, what kind of entity is the Ming Dinasty? Is it a PERSON, an ORGANISATION or is it maybe a TIME period? We couldn’t add more categories to accommodate all the weird entities that popped up, so we had to reason together with our gifted annotators to find the best solution for each case and improve the guidelines.</p>
+<h2 id="to-infinity-and-beyond">To infinity and beyond</h2>
+<p>We have now recently concluded the pilot after a very fruitful cooperation with our volunteers and are ready to go big by involving other units and departments in the project. As soon as we have enough annotated material we will curate the dataset the best we can and release it for everyone to use. So stay tuned!</p>
+<p>This crowdsourcing adventure has taught us a lot and we feel confident that we can apply the same concept to other areas. We have recently started working on a Swedish <a href="https://ai.facebook.com/blog/wav2vec-20-learning-the-structure-of-speech-from-raw-audio/">Wav2vec 2.0</a>, which is a speech recognition model developed at Facebook AI. We will need some hours of transcribed Swedish speech to fine-tune our model after the pre-training stage, and we are setting up a similar environment for transcription where our colleagues can work directly from their browser. In this case we aim to recruit people who already work with radio and other sound media, so they can be part of KBLab’s effort to make KB’s digital collections more accessible. And who knows what boons this library-wide collaborative spirit will bring in the future?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
