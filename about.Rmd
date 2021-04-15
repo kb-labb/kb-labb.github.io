@@ -36,7 +36,7 @@ My background before Natural Language Processing is in linguistics and cognitive
 knitr::include_graphics("images/robin.jpg")
 ```
 
-### [Robin Kurtz, Data scientist](mailto:robin.kurtz@kb.se) 
+### Robin Kurtz, Data scientist [✉️](mailto:robin.kurtz@kb.se) 
 As one of the KBLab's data scientists I work on developing models and datasets
 that are intended to be used not only internally at the National Library, but
 also for general use by industry, governmental agencies, and academia.
