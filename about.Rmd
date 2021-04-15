@@ -28,3 +28,26 @@ knitr::include_graphics("images/elena.jpeg")
 
 My background before Natural Language Processing is in linguistics and cognitive science. I studied for many years how the human brain interacts with language, especially in bilingual subjects. Then I became interested in how a different type of computational entities, namely machines, can work with human language. I took a Master's degree in Language Technology from Uppsala University in 2019 and I started working as a data scientist with NLP expertise. I particularly enjoy experimenting with machine learning techniques and my programming language of choice is python.
 
+
+<br />
+<br />
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/robin.jpg")
+```
+
+### [Robin Kurtz, Data scientist](mailto:robin.kurtz@kb.se) 
+As one of the KBLab's data scientists I work on developing models and datasets
+that are intended to be used not only internally at the National Library, but
+also for general use by industry, governmental agencies, and academia.
+With the recent rise of importance of transformer-based language models, we
+focus on making use of the library's vast amounts of text data to train and
+publish these language models.
+
+I have a strong background in language technology, with degrees in natural
+language processing (NLP), computational linguistics and computer science.
+Before starting at the library in October 2020 I received my
+[doctoral degree](http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-167847)
+in computer science (datalogi) from Linköping University, working on semantic
+dependency parsing, studying algorithms, machine learning methods, and
+potential applications.
