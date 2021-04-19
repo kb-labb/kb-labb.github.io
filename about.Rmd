@@ -51,3 +51,15 @@ Before starting at the library in October 2020 I received my
 in computer science (datalogi) from Linköping University, working on semantic
 dependency parsing, studying algorithms, machine learning methods, and
 potential applications.
+
+<br />
+<br />
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/faton.jpg")
+```
+
+### Faton Rekathati, Data scientist [`r emo::ji("e-mail")`](mailto:faton.rekathati@kb.se)
+My first contact with KBLab was as an external researcher. In the spring of 2020 I wrote a masters thesis on the subject of [curating news sections in historical newspapers](http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-166313). Over the summer I continued work on the same project as a research assistant for Linköping University, before eventually ending up as a Data scientist with KBLab in September 2020. At KBLab I mostly work with making the library's collections of visual materials searchable and navigable. This includes image similarity search, free text search for images, along with adding metadata and tags to the materials by automatically detecting objects such as landmarks. 
+
+My background is in statistics and machine Learning. At the lab I have come to specialize mainly on computer vision tasks. Lately, we have increasingly been experimenting with multimodal approaches in for example [classifying advertisements in newspapers](https://kb-labb.github.io/posts/2021-03-28-ad-classification/), and in implementing text search for images (using CLIP). As a statistician I of course love R `r emo::ji("smile")`, though nowadays I spend most of my time working with Python.
