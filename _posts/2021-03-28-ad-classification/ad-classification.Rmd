@@ -107,7 +107,7 @@ knitr::include_graphics("images/ad_model.png")
 ```
 
 <aside>
-Model code can be found [here](https://github.com/kb-labb/ad_classification/blob/main/src/models.py#L44-L78).
+Model code can be found [here](https://github.com/kb-labb/ad_classification/blob/8ab8c2d324c92650dc5baf9a592799f52ca98c52/src/models.py#L194-L248).
 </aside>
 
 All model parameters in the above model are set to be trainable in each of the models. Thus, they are all jointly "fine tuned" for the classification task of detecting advertisements. 
