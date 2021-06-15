@@ -2200,7 +2200,7 @@ Figure 2: Schema for the hierarchical federated learning architecture implemente
 <p>While we do not evaluate downstream model performance, we clearly see how the training is affected.</p>
 <h3 id="number-of-local-updates">Number of local updates</h3>
 <p>In our first set of experiments we investigate how various local round lengths affect the training progress. We try four different local round lengths, with 100, 1000, 2000, and 5000 gradient steps before recombining the models.</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <div class="figure"><span id="fig:unnamed-chunk-3"></span>
 <img src="images/round_lengths_steps.png" alt="Loss plotted over the number of gradient updates for three runs with round times set to 100, 1000, and 5000 steps." width="684" />
 <p class="caption">
@@ -2209,7 +2209,7 @@ Figure 3: Loss plotted over the number of gradient updates for three runs with r
 </div>
 </div>
 <p>While the loss decreases the most per steps taken when the model is updated as often as possible (i.e. 100 steps), it takes far longer than in the other setups to reach the same loss values. Increasing the local round length to 5000 gradient steps allows us to do the most gradient steps in the shortest amount of time, but results in the loss not decreasing as quickly as with for example 1000 steps per round.</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <div class="figure"><span id="fig:unnamed-chunk-4"></span>
 <img src="images/round_lengths_time_long.png" alt="Loss plotted over real-time minutes for three runs with round times set to 100, 1000, and 5000 steps." width="684" />
 <p class="caption">
@@ -2220,7 +2220,7 @@ Figure 4: Loss plotted over real-time minutes for three runs with round times se
 <p>In this scenario we finally settle for 1000 steps per round, giving us the best speed-performance trade-off. With real-world models being much larger than the one used in our experiments, it could be interesting to change the round length during training. Longer round length in the beginning allows the model to see more data, while shorter round lengths towards the end will help the model to converge.</p>
 <h3 id="local-vs.-global-optimizer">Local vs. global optimizer</h3>
 <p>Using a more advanced optimizer such as <a href="https://ruder.io/optimizing-gradient-descent/index.html#adam">Adam</a> is necessary when training models with parameters now regularly surpassing multiple billions. This unfortunately means that the number of parameters that we need to federate triples, which increases the communication overhead. In order to test whether it is enough to only federate the model parameters themselves while keeping the optimizer states local, we train our small ELECTRA model with the additional Adam parameters retaining their local states, and averaging them just as the regular model parameters.</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <div class="figure"><span id="fig:unnamed-chunk-5"></span>
 <img src="images/local_v_global_steps.png" alt="Loss plotted over the number of gradient updates for two runs with a global and a local optimizer." width="684" />
 <p class="caption">
@@ -2229,7 +2229,7 @@ Figure 5: Loss plotted over the number of gradient updates for two runs with a g
 </div>
 </div>
 <p>We can see that averaging the optimization-specific parameters allows the loss to decrease further, without taking much more time. While keeping the optimization parameters local increases the speed a little bit (the green curve in the figure above is slightly longer), it is not enough to counteract the decrease in learning.</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <div class="figure"><span id="fig:unnamed-chunk-6"></span>
 <img src="images/local_v_global_time.png" alt="Loss plotted over real-time minutes for two runs with a global and a local optimizer." width="684" />
 <p class="caption">
