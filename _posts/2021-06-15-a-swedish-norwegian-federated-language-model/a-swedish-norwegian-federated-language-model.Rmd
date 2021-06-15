@@ -253,7 +253,7 @@ affect the training progress.
 We try four different local round lengths, with 100, 1000, 2000, and 5000 
 gradient steps before recombining the models.
 
-```{r, fig.width=6, fig.height=1.5, layout="l-body-outset", fig.cap="Loss plotted over the number of gradient updates for three runs with round times set to 100, 1000, and 5000 steps."}
+```{r, fig.width=6, fig.height=1.5, layout="l-page", fig.cap=""}
 knitr::include_graphics("images/round_lengths_steps.png")
 ```
 
@@ -264,7 +264,7 @@ Increasing the local round length to 5000 gradient steps allows us to do the
 most gradient steps in the shortest amount of time, but results in the loss
 not decreasing as quickly as with for example 1000 steps per round.
 
-```{r, fig.width=6, fig.height=1.5, layout="l-body-outset", fig.cap="Loss plotted over real-time minutes for three runs with round times set to 100, 1000, and 5000 steps."}
+```{r, fig.width=6, fig.height=1.5, layout="l-page", fig.cap=""}
 knitr::include_graphics("images/round_lengths_time_long.png")
 ```
 
@@ -288,7 +288,7 @@ themselves while keeping the optimizer states local, we train our small
 ELECTRA model with the additional Adam parameters retaining their local states,
 and averaging them just as the regular model parameters.
 
-```{r, fig.width=6, fig.height=1.5, layout="l-body-outset", fig.cap="Loss plotted over the number of gradient updates for two runs with a global and a local optimizer."}
+```{r, fig.width=6, fig.height=1.5, layout="l-page", fig.cap=""}
 knitr::include_graphics("images/local_v_global_steps.png")
 ```
 
@@ -298,7 +298,7 @@ While keeping the optimization parameters local increases the speed a little
 bit (the green curve in the figure above is slightly longer), it is not enough
 to counteract the decrease in learning.
 
-```{r, fig.width=6, fig.height=1.5, layout="l-body-outset", fig.cap="Loss plotted over real-time minutes for two runs with a global and a local optimizer."}
+```{r, fig.width=6, fig.height=1.5, layout="l-page", fig.cap=""}
 knitr::include_graphics("images/local_v_global_time.png")
 ```
 
