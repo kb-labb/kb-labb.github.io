@@ -1,12 +1,16 @@
-name: "KBLab"
-title: "KBLab"
+name: "the-kblab-blog"
+title: "The KBLab Blog"
 description: |
-  KBLab experimental space for code and posts.
+  A blog with news, posts and articles about the work done at KBLab, a datalab 
+  at the National Library of Sweden.
+favicon: images/kb_logo_black.png
+base_url: https://kblabb.github.io
+repository_url: https://github.com/kb-labb/kb-labb.github.io
 output_dir: docs
 exclude: ["*.csv", "*.feather"]
 navbar:
   logo:
-    image: images/kblab_logo_circle.png
+    image: images/kb_logo_white.png
     href: https://kb-labb.github.io/
   right:
     - text: "Models"
@@ -25,4 +29,6 @@ navbar:
       href: about.html
     - icon: fab fa-github
       href: https://github.com/Kungbib
-output: distill::distill_article
+output: 
+  distill::distill_article:
+    theme: theme.css

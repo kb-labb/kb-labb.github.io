@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>The KBLab Blog</title>
+    <link>https://kblabb.github.io</link>
+    <atom:link href="https://kblabb.github.io/index.xml" rel="self" type="application/rss+xml"/>
+    <description>A blog with news, posts and articles about the work done at KBLab, a datalab 
+at the National Library of Sweden.
+</description>
+    <image>
+      <title>The KBLab Blog</title>
+      <url>https://kblabb.github.io/images/kb_logo_black.png</url>
+      <link>https://kblabb.github.io</link>
+    </image>
+    <generator>Distill</generator>
+    <lastBuildDate>Tue, 15 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>A Swedish-Norwegian Federated Language Model</title>
+      <dc:creator>Robin Kurtz</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</link>
+      <description>We trained a bilingual Swedish-Norwegian
+[ELECTRA](https://github.com/google-research/electra) language model in
+a federated setup, showcasing LM training when various corpora cannot be
+shared directly.
+The main goal of the project was to validate the feasibility
+of the approch, as well as to study some key numerical
+properties affecting the performance of the FL process.</description>
+      <guid>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</guid>
+      <pubDate>Tue, 15 Jun 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/images/HFedAvg.png" medium="image" type="image/png" width="1696" height="810"/>
+    </item>
+    <item>
+      <title>Topic models for Statens Offentliga Utredningar</title>
+      <dc:creator>Elena Fano</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous</link>
+      <description>We built some topic models on the National Library's SOU collection, as an example of what can be done with the Library's materials. The curated dataset can be a useful resource for other researchers interested in this collection, or a good playground for students who need a large dataset of freely available Swedish text.</description>
+      <guid>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous</guid>
+      <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous/SOU_1935_Bostadssociala_utredningen.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>The Power of Crowdsourcing</title>
+      <dc:creator>Elena Fano</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</link>
+      <description>High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.</description>
+      <guid>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</guid>
+      <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/ner_page.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>A multimodal approach to advertisement classification in digitized newspapers</title>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-03-28-ad-classification</link>
+      <description>The process of digitizing historical newspapers at the National Library of Sweden
+involves scanning physical copies of newspapers and storing them as images. 
+In order to make the scanned contents machine readable and searchable, OCR 
+(optical character recognition) procedures are applied. 
+This results in a wealth of information being generated from different data 
+modalities (images, text and OCR metadata). In this article we explore 
+how features from multiple modalities can be integrated into a unified advertisement 
+classifier model.</description>
+      <guid>https://kblabb.github.io/posts/2021-03-28-ad-classification</guid>
+      <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-03-28-ad-classification/images/pred_goodb.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Introduction to Distill for R Markdown</title>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-02-25-introduction</link>
+      <description>A short introduction showcasing the capabilities of the distill 
+package for scientific and technical writing. Get yourself set up and 
+start publishing posts!</description>
+      <guid>https://kblabb.github.io/posts/2021-02-25-introduction</guid>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-02-25-introduction/kblabintro.jpg" medium="image" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>
