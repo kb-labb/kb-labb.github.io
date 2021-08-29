@@ -13,7 +13,22 @@ at the National Library of Sweden.
       <link>https://kblabb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 15 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Introducing a Swedish Sentence Transformer</title>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <link>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</link>
+      <description>While language models such as BERT are effective at many tasks, they have limited
+use when it comes to information retrieval and large scale similarity comparisons. 
+In this post we introduce a Swedish sentence transformer which produces semantically
+meaningful sentence embeddings suitable for use in semantic search applications. 
+We evaluate the model on SuperLim (Swedish SuperGLUE), where it achieves the
+highest published scores on SweParaphrase (a test set to evaluate 
+sentence similarity). The model is publicly available on Huggingface.</description>
+      <guid>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</guid>
+      <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/images/similarity.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>A Swedish-Norwegian Federated Language Model</title>
       <dc:creator>Robin Kurtz</dc:creator>
