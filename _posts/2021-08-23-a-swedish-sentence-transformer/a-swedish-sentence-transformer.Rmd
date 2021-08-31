@@ -217,6 +217,10 @@ Here is a short description of each dataset:
 [`get_parallel_data_tatoeba.py`](https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_tatoeba.py)
 [`get_parallel_data_ted2020.py`](https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_ted2020.py)</aside>
 
+### Dev set validation during training
+
+We split off 1000 sentence pairs each from TED2020 and Tatoeba to form a validation set. The model was validated against these every 1000 training steps. The best model was continually autosaved during training based on the lowest combined MSE (sum) of the student model's English and Swedish sentence embeddings against the teacher model's English sentence embedding. 
+
 ## Method: Translating models via knowledge distillation
 
 The method used for KBLab's Sentence-BERT is described in the paper "Making Monolingual Sentence Embeddings Multilingual using
