@@ -2682,6 +2682,7 @@ API
 <li><a href="#swesat-synonyms">SweSAT synonyms</a></li>
 <li><a href="#supersim">SuperSim</a></li>
 </ul></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#closing-words">Closing words</a></li>
 </ul>
 </nav>
@@ -2946,8 +2947,8 @@ STSb-dev
 <p>We have data in the form of one sentence from the source language (English) and one sentence from the target language (Swedish). An example of the first 100 sentences of the English-Swedish Europarl dataset can be found <a href="https://opus.nlpl.eu/Europarl/v8/en-sv_sample.html">here</a>.</p>
 <p>The OPUS (Open Parallel Corpus) project <span class="citation" data-cites="opus">(<a href="#ref-opus" role="doc-biblioref">Tiedemann 2012</a>)</span> has made available a great collection of parallel corpora from the web from a diverse set of sources. We use a number of different data sources to ensure our translated parallel sentences cover a wide range of language. Below is a table of the number of total sentences from each dataset used in the training of our model. Each English and Swedish sentence is counted uniquely. The reason some datasets have an odd number of sentences, is because in rare occasions two (or more) different candidate translations may be attached to the same sentence. We filter out all sentences above 600 characters in length. Furthermore, single sentences without a suggested candidate translation or source sentence are not included in training.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-008fea531b47e8baa9b1" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-008fea531b47e8baa9b1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Dataset":["OpenSubtitles 18","Europarl","JW300","EMEA","EUbookshop","TED2020","Tatoeba"],"Sentences_v1":[6360393,3680593,3248845,651402,355341,232643,51972],"Sentences_v2":["TBD","TBD","TBD","TBD","TBD","TBD","TBD"]},"columns":[{"accessor":"Dataset","name":"Dataset","type":"character"},{"accessor":"Sentences_v1","name":"Sentences_v1","type":"numeric"},{"accessor":"Sentences_v2","name":"Sentences_v2","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"ecac4bd8f72a6842a73f42ac1b059526","key":"ecac4bd8f72a6842a73f42ac1b059526"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f2e16eb336f18e02f524" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f2e16eb336f18e02f524">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Dataset":["OpenSubtitles 18","Europarl","JW300","EMEA","EUbookshop","TED2020","Tatoeba"],"Sentences_v1":[6360393,3680593,3248845,651402,355341,232643,51972],"Sentences_v2":["TBD","TBD","TBD","TBD","TBD","TBD","TBD"]},"columns":[{"accessor":"Dataset","name":"Dataset","type":"character"},{"accessor":"Sentences_v1","name":"Sentences_v1","type":"numeric"},{"accessor":"Sentences_v2","name":"Sentences_v2","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"ecac4bd8f72a6842a73f42ac1b059526","key":"ecac4bd8f72a6842a73f42ac1b059526"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>The question of dataset bias may naturally arise as a result of our selection. However, it should be noted that we – in our training – are merely recreating and matching the knowledge of the original model. The training process is not meant to impart “new knowledge” to our student model. Biases in our datasets are unlikely to be reflected in any substantial manner in the final model. Rather the final model will reflect the biases already present in the teacher model.</p>
 <p>Here is a short description of each dataset:</p>
@@ -2996,8 +2997,8 @@ Figure 2: Student model takes a sentence from a source language and a sentence f
 <h3 id="sweparaphrase-results">SweParaphrase results</h3>
 <p>We compare our results (KB-SBERT) to the previous highest published scores on SweParaphrase reported by <span class="citation" data-cites="isbister-simply">(<a href="#ref-isbister-simply" role="doc-biblioref">Isbister and Sahlgren 2020</a>)</span>. Results reported as <code>Correlation coefficient * 100</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-5c614b838946f373af79" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5c614b838946f373af79">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["KB-BERT (Isbister & Sahlgren)","KB-SBERT"],"Pearson":[82.5,91.83],"Spearman":["NA",91.14]},"columns":[{"accessor":"Model","name":"Model","type":"character"},{"accessor":"Pearson","name":"Pearson","type":"numeric"},{"accessor":"Spearman","name":"Spearman","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"f7291f26b95f3f7516a36d118e8d0cce","key":"f7291f26b95f3f7516a36d118e8d0cce"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1aa82d2d54e2f0352d4e" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1aa82d2d54e2f0352d4e">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["KB-BERT (Isbister & Sahlgren)","KB-SBERT"],"Pearson":[82.5,91.83],"Spearman":["NA",91.14]},"columns":[{"accessor":"Model","name":"Model","type":"character"},{"accessor":"Pearson","name":"Pearson","type":"numeric"},{"accessor":"Spearman","name":"Spearman","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"f7291f26b95f3f7516a36d118e8d0cce","key":"f7291f26b95f3f7516a36d118e8d0cce"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <aside>
 Code to replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_sweparaphrase.py">evaluate_sweparaphrase.py</a>
@@ -3019,15 +3020,17 @@ Replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/e
 <h3 id="supersim">SuperSim</h3>
 <p>Here we predict semantic word similarity between word pairs as opposed to sentence pairs. We compare results with baselines published by <span class="citation" data-cites="supersim"><a href="#ref-supersim" role="doc-biblioref">Hengchen and Tahmasebi</a> (<a href="#ref-supersim" role="doc-biblioref">2021</a>)</span> on the word similarity task.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-763385c680ffcfaa2b62" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-763385c680ffcfaa2b62">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["fastText","GloVe","Word2Vec","KB-SBERT"],"Spearman":[52.8,49.9,49.6,34.3]},"columns":[{"accessor":"Model","name":"Model","type":"character"},{"accessor":"Spearman","name":"Spearman","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"38d66814b0bbf42727fcf27a80690bd5","key":"38d66814b0bbf42727fcf27a80690bd5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-86aff742595c53f94b27" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-86aff742595c53f94b27">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["fastText","GloVe","Word2Vec","KB-SBERT"],"Spearman":[52.8,49.9,49.6,34.3]},"columns":[{"accessor":"Model","name":"Model","type":"character"},{"accessor":"Spearman","name":"Spearman","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"38d66814b0bbf42727fcf27a80690bd5","key":"38d66814b0bbf42727fcf27a80690bd5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <aside>
 Replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_supersim.py">evaluate_supersim.py</a>
 </aside>
 <p>It appears KB-SBERT is not to recommend for word embeddings.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>We gratefully acknowledge the HPC RIVR consortium (<a href="www.hpc-rivr.si">www.hpc-rivr.si</a>) and EuroHPC JU (<a href="eurohpc-ju.europa.eu">eurohpc-ju.europa.eu</a>) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (<a href="www.izum.si">www.izum.si</a>).</p>
 <h2 id="closing-words">Closing words</h2>
-<p>KB-SBERT appears to performs well on sentence similarity tasks. Training on parallel corpora using a teacher model seems to produce better results compared to machine translation. However, it still remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision.</p>
+<p>KB-SBERT appears to perform well on sentence similarity tasks. Training on parallel corpora using a teacher model leads to better results compared to machine translation. However, it remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision.</p>
 <p>If you use KB-SBERT in your work, and perhaps fine-tune it for specific tasks, please drop us a message and tell us how it went. You can find the lab’s e-mail address in the footer of this webpage.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">

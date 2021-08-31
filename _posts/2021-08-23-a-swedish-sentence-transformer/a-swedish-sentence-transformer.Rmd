@@ -308,8 +308,12 @@ reactable(df, highlight=TRUE)
 
 It appears KB-SBERT is not to recommend for word embeddings. 
 
+## Acknowledgements
+
+We gratefully acknowledge the HPC RIVR consortium ([www.hpc-rivr.si](www.hpc-rivr.si)) and EuroHPC JU ([eurohpc-ju.europa.eu](eurohpc-ju.europa.eu)) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science ([www.izum.si](www.izum.si)).
+
 ## Closing words
 
-KB-SBERT appears to performs well on sentence similarity tasks. Training on parallel corpora using a teacher model seems to produce better results compared to machine translation. However, it still remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision. 
+KB-SBERT appears to perform well on sentence similarity tasks. Training on parallel corpora using a teacher model leads to better results compared to machine translation. However, it remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision. 
 
 If you use KB-SBERT in your work, and perhaps fine-tune it for specific tasks, please drop us a message and tell us how it went. You can find the lab's e-mail address in the footer of this webpage. 
