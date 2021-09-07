@@ -252,7 +252,7 @@ SuperLim is a Swedish evaluation suite for natural language understanding models
 
 We chose to the four resources most relevant to the tasks our model was trained on: 
 
-* [SweParaphrase](https://spraakbanken.gu.se/en/resources/sweparaphrase): A subset of the English STS benchmark [@stsb] dataset translated to Swedish. It consists of 165 sentence pairs. Human evaluators ranked the sentences according to how similar the two sentences were deemed to be (from 0 meaning no meaning overlap, to 5 meaning equivalence). Assembled and translated to Swedish by [@isbister-simply]
+* [SweParaphrase](https://spraakbanken.gu.se/en/resources/sweparaphrase): A subset of the English STS benchmark [@stsb] dataset translated to Swedish. It consists of 165 sentence pairs. Human evaluators ranked the sentences according to how similar the two sentences were deemed to be (from 0 meaning no meaning overlap, to 5 meaning equivalence). Assembled and translated to Swedish by @isbister-simply. **Update (correction, 2021-09-07):** The English STSb was machine translated to Swedish by @isbister-simply. A subset of 165 sentence pairs from this automatically translated dataset were manually corrected by a native speaker of Swedish. 
 
 * [Swedish FAQ](https://spraakbanken.gu.se/resurser/faq): A collection of questions and answers from various Swedish authorities websites (Försäkringskassan, Skatteverket, etc). The questions are divided into categories, for example `Förälder :: Barnbidrag :: Vanliga frågor`. The task is to match questions within a category to the correct answer (among a set of candidate answers that have been shuffled within the category). 
 * [SweSAT synonyms](https://spraakbanken.gu.se/en/resources/swesat-synonyms): Multiple choice word synonym task of Högskoleprovet (Swedish equivalent to SAT). Test taker is presented with a question word, and needs to match it to the correct option (synonym) from 5 possible choices. 
@@ -260,7 +260,9 @@ We chose to the four resources most relevant to the tasks our model was trained 
 
 ### SweParaphrase results
 
-We compare our results (KB-SBERT) to the previous highest published scores on SweParaphrase reported by [@isbister-simply]. Results reported as `Correlation coefficient * 100`. 
+We compare our results (KB-SBERT) to the previous highest published scores on SweParaphrase reported by @isbister-simply. Results reported as `Correlation coefficient * 100`. 
+
+**Update (article correction, 2021-09-07):**  @isbister-simply evaluated on a machine translated version of the STSb test set. SweParaphrase is a subset of this machine translated version consisting of 165 sentence pairs. The sentence pairs were manually corrected by a native Swedish speaker. The results are therefore not directly comparable. 
 
 ```{r}
 df <- data.frame("Model" = c("KB-BERT (Isbister & Sahlgren)", 
@@ -318,6 +320,6 @@ We gratefully acknowledge the HPC RIVR consortium ([www.hpc-rivr.si](www.hpc-riv
 
 ## Closing words
 
-KB-SBERT appears to perform well on sentence similarity tasks. Training on parallel corpora using a teacher model leads to better results compared to machine translation. However, it remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision. 
+KB-SBERT appears to perform well on sentence similarity tasks. Training on parallel corpora using a teacher model seemingly leads to better results compared to machine translation. However, it remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision. 
 
 If you use KB-SBERT in your work, and perhaps fine-tune it for specific tasks, please drop us a message and tell us how it went. You can find the lab's e-mail address in the footer of this webpage. 
