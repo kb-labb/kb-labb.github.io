@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://kblabb.github.io/about.html</loc>
-    <lastmod>2021-05-21T13:40:52+02:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/</loc>
-    <lastmod>2021-11-15T10:58:02+01:00</lastmod>
+    <lastmod>2021-07-01T02:15:55+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</loc>
@@ -14,30 +14,30 @@
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/</loc>
-    <lastmod>2021-11-15T11:56:11+01:00</lastmod>
+    <lastmod>2021-12-02T14:26:32+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/</loc>
-    <lastmod>2021-11-15T10:58:02+01:00</lastmod>
+    <lastmod>2021-12-02T14:39:58+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/</loc>
-    <lastmod>2021-11-15T10:58:02+01:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous/</loc>
-    <lastmod>2021-06-01T12:03:12+02:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/</loc>
-    <lastmod>2021-04-14T13:03:30+02:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-03-28-ad-classification/</loc>
-    <lastmod>2021-05-10T15:33:44+02:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-02-25-introduction/</loc>
-    <lastmod>2021-04-06T13:27:15+02:00</lastmod>
+    <lastmod>2021-06-19T19:18:45+02:00</lastmod>
   </url>
 </urlset>

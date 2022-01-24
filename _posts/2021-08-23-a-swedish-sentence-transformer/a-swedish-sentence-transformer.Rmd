@@ -162,11 +162,11 @@ An ever-present concern when training Swedish language models tends to be the la
 
 ### Machine translation
 
-Different ways of getting around the issue of data have been explored. @isbister-simply investigated whether simply machine translating the English NLI and STS training datasets to Swedish could yield competitive results. They used [KB-BERT](https://huggingface.co/KB/bert-base-swedish-cased) [@swedish-bert] trained in a cross-encoder setting and found it outperformed all other evaluated options ($82.5$ Pearson correlation on SweParaphrase). Ultimately the authors still recommended against using their model "due to a high prevalence of translation errors" in the data with unknown effects on downstream applications.
+Different ways of getting around the issue of data have been explored. @isbister-simply investigated whether simply machine translating the English NLI and STS training datasets to Swedish could yield competitive results. They used [KB-BERT](https://huggingface.co/KB/bert-base-swedish-cased) [@swedish-bert] trained in a cross-encoder setting and found it outperformed all other evaluated options ($82.5$ Pearson correlation on a machine translated version of STS-b test set). Ultimately the authors still recommended against using their model "due to a high prevalence of translation errors" in the data with unknown effects on downstream applications.
 
 ### Self-supervised
 
-A second avenue for getting around the lack of training data has been by training completely self-supervised/unsupervised. @carlsson trained their models on data dumps of Wikipedia. Contrastive tension was used to maximize similarity between identical sentences, and minimize it for differing sentences without any need for labels. Their model however performed somewhat worse for Swedish than other languages (Arabic, English, Russian, Spanish). The Swedish model achieved $61.69$ Pearson correlation on SweParaphrase. 
+A second avenue for getting around the lack of training data has been by training completely self-supervised/unsupervised. @carlsson trained their models on data dumps of Wikipedia. Contrastive tension was used to maximize similarity between identical sentences, and minimize it for differing sentences without any need for labels. Their model however performed somewhat worse for Swedish than other languages (Arabic, English, Russian, Spanish). The Swedish model achieved $61.69$ Pearson correlation on the machine translated version of the STS-b test set created by @isbister-simply . 
 
 While the results are encouraging, at this point there still existed a gap that had yet to be closed when compared to the best performing English models.
 
@@ -250,7 +250,7 @@ Our student model was the Swedish pretrained [KB-BERT](https://huggingface.co/KB
 
 SuperLim is a Swedish evaluation suite for natural language understanding models [@superlim]. It was inspired by the English SuperGLUE [@superglue]. 
 
-We chose to the four resources most relevant to the tasks our model was trained on: 
+We chose the four resources most relevant to the tasks our model was trained on: 
 
 * [SweParaphrase](https://spraakbanken.gu.se/en/resources/sweparaphrase): A subset of the English STS benchmark [@stsb] dataset translated to Swedish. It consists of 165 sentence pairs. Human evaluators ranked the sentences according to how similar the two sentences were deemed to be (from 0 meaning no meaning overlap, to 5 meaning equivalence). Assembled and translated to Swedish by @isbister-simply. ***Update (correction, 2021-09-07):*** The English STSb was machine translated to Swedish by @isbister-simply. A subset of 165 sentence pairs from this automatically translated dataset were manually corrected by a native speaker of Swedish as part of the SuperLim project. 
 
@@ -260,7 +260,7 @@ We chose to the four resources most relevant to the tasks our model was trained 
 
 ### SweParaphrase results
 
-We compare our results (KB-SBERT) to the previous highest published scores on SweParaphrase reported by @isbister-simply. Results reported as `Correlation coefficient * 100`. 
+We compare our results (KB-SBERT) to ~~the previous highest published scores on SweParaphrase reported by~~ @isbister-simply. Results reported as `Correlation coefficient * 100`. 
 
 **Update (article correction, 2021-09-07):**  @isbister-simply evaluated on a machine translated version of the STSb test set. SweParaphrase is a subset of this machine translated version consisting of 165 sentence pairs. The sentence pairs were manually corrected by a native Swedish speaker. The results are therefore not directly comparable. 
 

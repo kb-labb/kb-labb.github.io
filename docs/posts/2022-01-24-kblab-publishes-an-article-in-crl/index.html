@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
@@ -86,51 +86,51 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>The KBLab Blog: Introduction to Distill for R Markdown</title>
+<title>The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL</title>
 
-<meta property="description" itemprop="description" content="A short introduction showcasing the capabilities of the distill &#10;package for scientific and technical writing. Get yourself set up and &#10;start publishing posts!"/>
+<meta property="description" itemprop="description" content="What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries."/>
 
-<link rel="canonical" href="https://kblabb.github.io/posts/2021-02-25-introduction/"/>
+<link rel="canonical" href="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"/>
 <link rel="icon" type="image/png" href="../../images/kb_logo_black.png"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2021-02-24"/>
-<meta property="article:created" itemprop="dateCreated" content="2021-02-24"/>
-<meta name="article:author" content="Faton Rekathati"/>
+<meta property="article:published" itemprop="datePublished" content="2022-01-24"/>
+<meta property="article:created" itemprop="dateCreated" content="2022-01-24"/>
+<meta name="article:author" content="Elena Fano and Chris Haffenden"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="The KBLab Blog: Introduction to Distill for R Markdown"/>
+<meta property="og:title" content="The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="A short introduction showcasing the capabilities of the distill &#10;package for scientific and technical writing. Get yourself set up and &#10;start publishing posts!"/>
-<meta property="og:url" content="https://kblabb.github.io/posts/2021-02-25-introduction/"/>
-<meta property="og:image" content="https://kblabb.github.io/posts/2021-02-25-introduction/kblabintro.jpg"/>
+<meta property="og:description" content="What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries."/>
+<meta property="og:url" content="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"/>
+<meta property="og:image" content="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="The KBLab Blog"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="The KBLab Blog: Introduction to Distill for R Markdown"/>
-<meta property="twitter:description" content="A short introduction showcasing the capabilities of the distill &#10;package for scientific and technical writing. Get yourself set up and &#10;start publishing posts!"/>
-<meta property="twitter:url" content="https://kblabb.github.io/posts/2021-02-25-introduction/"/>
-<meta property="twitter:image" content="https://kblabb.github.io/posts/2021-02-25-introduction/kblabintro.jpg"/>
+<meta property="twitter:title" content="The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL"/>
+<meta property="twitter:description" content="What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries."/>
+<meta property="twitter:url" content="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"/>
+<meta property="twitter:image" content="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="The KBLab Blog: Introduction to Distill for R Markdown"/>
-<meta name="citation_fulltext_html_url" content="https://kblabb.github.io/posts/2021-02-25-introduction/"/>
-<meta name="citation_online_date" content="2021/02/24"/>
-<meta name="citation_publication_date" content="2021/02/24"/>
-<meta name="citation_author" content="Faton Rekathati"/>
+<meta name="citation_title" content="The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL"/>
+<meta name="citation_fulltext_html_url" content="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"/>
+<meta name="citation_online_date" content="2022/01/24"/>
+<meta name="citation_publication_date" content="2022/01/24"/>
+<meta name="citation_author" content="Elena Fano and Chris Haffenden"/>
 <meta name="citation_author_institution" content="KBLab"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Introduction to Distill for R Markdown"]},{"type":"character","attributes":{},"value":["A short introduction showcasing the capabilities of the distill \npackage for scientific and technical writing. Get yourself set up and \nstart publishing posts!"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Faton Rekathati"]},{"type":"character","attributes":{},"value":["https://github.com/Lauler"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["kblabintro.jpg"]},{"type":"character","attributes":{},"value":["2021-02-24"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://kblabb.github.io/posts/2021-02-25-introduction/"]},{"type":"character","attributes":{},"value":["https://kblabb.github.io/posts/2021-02-25-introduction/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["KBLAB publishes an article about AI in the library in C&RL"]},{"type":"character","attributes":{},"value":["What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano and Chris Haffenden"]},{"type":"character","attributes":{},"value":["KBLab"]}]}]},{"type":"character","attributes":{},"value":["newspapers.jpg"]},{"type":"character","attributes":{},"value":["01-24-2022"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"]},{"type":"character","attributes":{},"value":["https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["inside_posts.jpg","install_distill.jpg","introduction_files/anchor-4.2.2/anchor.min.js","introduction_files/bowser-1.9.3/bowser.min.js","introduction_files/distill-2.2.21/template.v2.js","introduction_files/figure-html5/unnamed-chunk-3-1.png","introduction_files/figure-html5/unnamed-chunk-4-1.png","introduction_files/figure-html5/unnamed-chunk-5-1.png","introduction_files/figure-html5/unnamed-chunk-6-1.png","introduction_files/figure-html5/unnamed-chunk-7-1.png","introduction_files/figure-html5/unnamed-chunk-8-1.png","introduction_files/header-attrs-2.7/header-attrs.js","introduction_files/jquery-1.11.3/jquery.min.js","introduction_files/popper-2.6.0/popper.min.js","introduction_files/tippy-6.2.7/tippy-bundle.umd.min.js","introduction_files/tippy-6.2.7/tippy-light-border.css","introduction_files/tippy-6.2.7/tippy.css","introduction_files/tippy-6.2.7/tippy.umd.min.js","introduction_files/webcomponents-2.0.0/webcomponents.js","kblabintro.jpg","knit.jpg","posts_folder.jpg"]}
+  {"type":"character","attributes":{},"value":["kblab-publishes-an-article-in-crl_files/anchor-4.2.2/anchor.min.js","kblab-publishes-an-article-in-crl_files/bowser-1.9.3/bowser.min.js","kblab-publishes-an-article-in-crl_files/distill-2.2.21/template.v2.js","kblab-publishes-an-article-in-crl_files/header-attrs-2.8/header-attrs.js","kblab-publishes-an-article-in-crl_files/jquery-1.11.3/jquery.min.js","kblab-publishes-an-article-in-crl_files/popper-2.6.0/popper.min.js","kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy-bundle.umd.min.js","kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy-light-border.css","kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy.css","kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy.umd.min.js","kblab-publishes-an-article-in-crl_files/webcomponents-2.0.0/webcomponents.js","newspapers.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2559,6 +2559,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2579,7 +2580,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Introduction to Distill for R Markdown","description":"A short introduction showcasing the capabilities of the distill \npackage for scientific and technical writing. Get yourself set up and \nstart publishing posts!","authors":[{"author":"Faton Rekathati","authorURL":"https://github.com/Lauler","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2021-02-24T00:00:00.000+01:00","citationText":"Rekathati, 2021"}
+{"title":"KBLAB publishes an article about AI in the library in C&RL","description":"What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.","authors":[{"author":"Elena Fano and Chris Haffenden","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-01-24T00:00:00.000+01:00","citationText":"Haffenden, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2603,8 +2604,6 @@ Models
 <div class="nav-dropdown-content">
 <a href="https://github.com/Kungbib/swedish-bert-models">Swedish BERT</a>
 <a href="https://github.com/Kungbib/swedish-spacy">Swedish spaCy</a>
-<a href="https://huggingface.co/KBLab">KBLab Huggingface</a>
-<a href="https://huggingface.co/KB">KB Huggingface</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2631,174 +2630,26 @@ API
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Introduction to Distill for R Markdown</h1>
+<h1>KBLAB publishes an article about AI in the library in C&amp;RL</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>A short introduction showcasing the capabilities of the distill package for scientific and technical writing. Get yourself set up and start publishing posts!</p></p>
+<p><p>What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries.</p></p>
 </div>
 
 <div class="d-byline">
-  Faton Rekathati <a href="https://github.com/Lauler" class="uri">https://github.com/Lauler</a> (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+  Elena Fano and Chris Haffenden  (KBLab)
   
-<br/>2021-02-24
+<br/>01-24-2022
 </div>
 
 <div class="d-article">
-<div class="d-contents d-contents-float">
-<nav class="l-text toc figcaption" id="TOC">
-<h3>Contents</h3>
-<ul>
-<li><a href="#r-and-rstudio-setup">R and RStudio setup</a><ul>
-<li><a href="#install-packages">Install packages</a></li>
-</ul></li>
-<li><a href="#clone-the-repository-with-git">Clone the repository with Git</a></li>
-<li><a href="#create-a-new-blog-post">Create a new blog post</a><ul>
-<li><a href="#render-the-post-for-preview-and-publication">Render the post for preview and publication</a></li>
-<li><a href="#mix-code-with-text-in-your-post">Mix code with text in your post</a></li>
-<li><a href="#combine-r-and-python-in-the-same-notebook">Combine R and Python in the same notebook</a></li>
-<li><a href="#access-r-objects-from-python-and-vice-versa">Access R objects from Python and vice versa</a></li>
-</ul></li>
-</ul>
-</nav>
-</div>
-<p>Distill is a publication format for scientific and technical writing, native to the web. You can learn more about using Distill for R Markdown at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>. An example of a website built on this package is the <a href="https://blogs.rstudio.com/ai/">RStudio AI Blog</a>. More examples can be found <a href="https://pkgs.rstudio.com/distill/articles/examples.html">here</a>.</p>
-<h2 id="r-and-rstudio-setup">R and RStudio setup</h2>
-<p>First things first, you will need to download and <a href="https://ftp.acc.umu.se/mirror/CRAN/">install R</a>. Secondly, it is highly recommended that you install the <a href="https://rstudio.com/products/rstudio/download/#download">RStudio IDE</a> (integrated development environment).</p>
-<h3 id="install-packages">Install packages</h3>
-<p>Once you have R and RStudio setup, open the IDE and install the <a href="https://pkgs.rstudio.com/distill/"><code>distill</code></a> package. If you are on Ubuntu, you may need to install the following external dependencies via the terminal first:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">sudo</span> apt-get install libssl-dev</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">sudo</span> apt-get install libxml2-dev</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">sudo</span> apt-get install libpng-dev</span></code></pre></div>
-</div>
-<p>Then in the R console inside Rstudio:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"distill"</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-3"></span>
-<img src="install_distill.jpg" alt="Install the `distill` package in the console pane."  />
-<p class="caption">
-Figure 1: Install the <code>distill</code> package in the console pane.
-</p>
-</div>
-</div>
-<h2 id="clone-the-repository-with-git">Clone the repository with Git</h2>
-<p>Set up <a href="https://git-scm.com/">git</a> on your system.</p>
-<p>Clone your organization’s distill repository. The recommended simple way of doing this while also setting up an “R project” is through <code>File -&gt; New Project -&gt; Version Control -&gt; Git</code>. However, you can also clone from a terminal and set up an R project later. An R project is just an RStudio specific way of setting up a project directory, where the base directory acts like the working directory. It’s convenient since most function calls can then often be run without specifying absolute paths.</p>
-<h2 id="create-a-new-blog-post">Create a new blog post</h2>
-<p>A new blog post can be created by using the <a href="https://pkgs.rstudio.com/distill/reference/create_post.html"><code>create_post()</code></a> function in the root directory of the project. To create a new post with the title “The Deepest Deeper Deep Learning Methods”, you simply:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/rstudio/distill'>"distill"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://pkgs.rstudio.com/distill/reference/create_post.html'>create_post</a></span><span class='op'>(</span><span class='st'>"The Deepest Deeper Deep Learning Methods"</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<p>This will create a new directory inside of the <code>_posts</code> directory with the name <code>{yyyy_mm_dd}-The-Deepest-Deeper-Deep-Learning-Methods</code>. It will always name the directory after the current date so that your blog posts are sorted chronologically. Inside of this directory you will find a newly generated <code>.Rmd</code>-file named something like <code>thedeepestdeeperdeeplearningmethods.Rmd</code> where the actual content of the post goes.</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="posts_folder.jpg" width="49%" /><img src="inside_posts.jpg" width="49%" /></p>
-</div>
-<p>The pictures above display the appearance of the <code>_posts</code> folder after I created this introductory post. I named it “introduction”. The title of the actual post when it is published does not have to be the same as the given name when creating the post.</p>
-<h3 id="render-the-post-for-preview-and-publication">Render the post for preview and publication</h3>
-<p>Once you’ve created your post and started adding content to it, you can generate the final product for preview or publication by “knitting” it. Knitting is R slang for generating the html/latex/pdf from Rmarkdown. The name comes from the package that does all the heavy lifting in the background (<a href="https://yihui.org/knitr/"><code>knitr</code></a>).</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-6"></span>
-<img src="knit.jpg" alt="Press the `Knit` button to generate a preview and a publishable html document."  />
-<p class="caption">
-Figure 2: Press the <code>Knit</code> button to generate a preview and a publishable html document.
-</p>
-</div>
-</div>
-<p>When you click “knit” on your post’s <code>.Rmd</code>-file, it will only render and update the contents related to your own post. While this is fine for generating a preview, ultimately we will also want to re-knit the <code>index.Rmd</code> file in the root directory. This will ensure that the listing of blog articles on the front page gets updated with your post. Do this either by opening <code>index.Rmd</code> and clicking on the “knit” button, or alternatively via</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/render_site.html'>render_site</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<p>This will only re-render the root-level <code>.Rmd</code> files (<code>index.Rmd</code> and <code>about.Rmd</code>) while leaving the blog articles intact. The reason being that old code frequently breaks due to environment changes and package updates. The <em>only</em> way of updating a blog post is thus by explicitly knitting it!</p>
-<h3 id="mix-code-with-text-in-your-post">Mix code with text in your post</h3>
-<p>In your posts you can organize and style the contents using Markdown Syntax. An informative and short reference guide for R Markdown can be found <a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">here</a>.</p>
-<p>Code can be intermixed with text. We put code in so called <em>code chunks</em> which are preceded and followed by three backticks like so:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>```{r, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
-<span id="cb2-2"><a href="#cb2-2"></a>library(ggplot2)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>df <span class="op">&lt;-</span> data.frame(x_sample <span class="op">=</span> rnorm(n <span class="op">=</span> <span class="dv">500</span>, mean <span class="op">=</span> <span class="dv">2</span>, sd <span class="op">=</span> <span class="dv">5</span>))</span>
-<span id="cb2-4"><a href="#cb2-4"></a>ggplot(data <span class="op">=</span> df, aes(x <span class="op">=</span> x_sample)) <span class="op">+</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  geom_histogram() <span class="op">+</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>  theme_light() <span class="op">+</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>  labs(x <span class="op">=</span> <span class="st">&quot;x&quot;</span>,</span>
-<span id="cb2-8"><a href="#cb2-8"></a>       title <span class="op">=</span> <span class="st">&quot;A very pretty histogram&quot;</span>) </span>
-<span id="cb2-9"><a href="#cb2-9"></a>```</span></code></pre></div>
-<p>After the squiggly <code>{</code> bracket you specify the language, which can be for example <code>r</code>, <code>python</code> or <code>bash</code>. Optional chunk options are added afterwards which can control whether the code chunk e.g. is evaluated or not, whether the code and/or the output are displayed, as well as whether the code should be folded by default with an option to expand. Here is how a code chunk will actually be displayed when run properly:</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x_sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>500</span>, mean <span class='op'>=</span> <span class='fl'>2</span>, sd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x_sample</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_light</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"x"</span>,
-       title <span class='op'>=</span> <span class='st'>"A very pretty histogram"</span><span class='op'>)</span> 
-</code></pre>
-</div>
-</details>
-<p><img src="introduction_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<h3 id="combine-r-and-python-in-the-same-notebook">Combine R and Python in the same notebook</h3>
-<p>The RStudio IDE has support for both R and Python. Thanks to the <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> package. By default, R will use the Python interpreter available on your system path. However, you can configure this inside of R with the help of <a href="https://rstudio.github.io/reticulate/articles/versions.html">reticulate configuration functions</a> and choose any environment (including virtualenv and conda envs).</p>
-<p>To use python, simply:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>```{python, echo<span class="op">=</span>TRUE, <span class="bu">eval</span><span class="op">=</span>FALSE, code_folding<span class="op">=</span>FALSE}</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
-<span id="cb3-4"><a href="#cb3-4"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>```</span></code></pre></div>
-<p>When run with <code>echo=TRUE</code>, <code>eval=TRUE</code> (you can remove eval entirely since its default is <code>TRUE</code>) and <code>code_folding=FALSE</code> the above produces the following result:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Dictionaries in an R IDE?!?! Amazing!</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>my_dict <span class="op">=</span> {<span class="st">&quot;a&quot;</span>: <span class="dv">5</span>, <span class="st">&quot;b&quot;</span>: <span class="dv">9</span>, <span class="st">&quot;c&quot;</span>: <span class="dv">4</span>}</span>
-<span id="cb4-3"><a href="#cb4-3"></a>my_key <span class="op">=</span> <span class="st">&quot;c&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="bu">print</span>(<span class="ss">f&quot;The value for &#39;</span><span class="sc">{</span>my_key<span class="sc">}</span><span class="ss">&#39; is: </span><span class="sc">{</span>my_dict[my_key]<span class="sc">}</span><span class="ss">.&quot;</span>)</span></code></pre></div>
-<pre><code>The value for &#39;c&#39; is: 4.</code></pre>
-</div>
-<p>A conda Python environment named “pytorch3000” can be activated in the following manner in an R code chunk:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>reticulate</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/reticulate/man/use_python.html'>use_condaenv</a></span><span class='op'>(</span><span class='st'>"pytorch3000"</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<p>However, be careful to ensure this chunk is run before the first time Python is called in your document. Otherwise it will fail to successfully change the Python version from whatever was the system default.</p>
-<h3 id="access-r-objects-from-python-and-vice-versa">Access R objects from Python and vice versa</h3>
-<p>In R Markdown documents we can also directly access data and objects created in one language from the other language. To access python objects from R:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/reticulate'>reticulate</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"The value for"</span>, <span class='va'>py</span><span class='op'>$</span><span class='va'>my_key</span>, <span class='st'>"is:"</span>, <span class='va'>py</span><span class='op'>$</span><span class='va'>my_dict</span><span class='op'>[</span><span class='st'>"c"</span><span class='op'>]</span><span class='op'>)</span>
-</code></pre>
-</div>
-<pre><code>[1] &quot;The value for c is: 4&quot;</code></pre>
-</div>
-<p>And correspondingly from Python:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb7-2"><a href="#cb7-2"></a>df_dict <span class="op">=</span> r.df <span class="co"># is a dictionary in Python: {x_sample: [..., ...]}</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>df <span class="op">=</span> pd.DataFrame(df_dict)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>df.head()</span></code></pre></div>
-<pre><code>   x_sample
-0 -1.444003
-1 -2.346573
-2 -5.654136
-3  4.709806
-4  1.597854</code></pre>
-</div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="ai-in-the-library">AI in the library</h2>
+<p>With the increasingly rapid appearance of new techniques over the past few years, the role of AI within the library is becoming a hot topic today. Yet despite a growing interest among librarians, there remains surpisingly little research devoted to the subject.<br />
+We have sought to fill this gap at KBLab by conducting research focused specifically upon AI in the context of libraries. The aim with our new article, <em>Making and using AI in the library: creating a BERT model at the National Library of Sweden</em>, is to show how AI techniques create new possibilities for processing and organizing information at scale in a library (e.g. though automated classification and enriched metadata), but also how library collections might be used to make even better AI tools in the future.</p>
+<p>In this way, we have sought to nuance the image that otherwise tends to predominate of the library as a passive space for the application of AI solutions developed elsewhere. On the contrary, we argue that libraries can have an important roll to play in AI development, especially in relation to language technology (NLP) for other languages than English and Chinese. We hope that our text can lead to new and exciting conversations about the future role of AI in the library!</p>
+<h3 id="read-the-article-online">Read the article online</h3>
+<p>The article has been accepted for publication in the Open Access journal College &amp; Research Libraries, but is available to read online as a preprint now (<a href="https://osf.io/preprints/socarxiv/k9duq/">link to a downloadable PDF on SocArXiv</a>).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2815,13 +2666,13 @@ Figure 2: Press the <code>Knit</code> button to generate a preview and a publish
   <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kb-labb/kb-labb.github.io/issues/new">create an issue</a> on the source repository.</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Rekathati (2021, Feb. 24). The KBLab Blog: Introduction to Distill for R Markdown. Retrieved from https://kblabb.github.io/posts/2021-02-25-introduction/</pre>
+  <pre class="citation-appendix short">Haffenden (2022, Jan. 24). The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL. Retrieved from https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{rekathati2021introduction,
-  author = {Rekathati, Faton},
-  title = {The KBLab Blog: Introduction to Distill for R Markdown},
-  url = {https://kblabb.github.io/posts/2021-02-25-introduction/},
-  year = {2021}
+  <pre class="citation-appendix long">@misc{haffenden2022kblab,
+  author = {Haffenden, Elena Fano and Chris},
+  title = {The KBLab Blog: KBLAB publishes an article about AI in the library in C&amp;RL},
+  url = {https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/},
+  year = {2022}
 }</pre>
 </div>
 <!--/radix_placeholder_appendices-->

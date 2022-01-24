@@ -19,6 +19,10 @@ navbar:
           href: https://github.com/Kungbib/swedish-bert-models
         - text: "Swedish spaCy"
           href: https://github.com/Kungbib/swedish-spacy
+        - text: "KBLab Huggingface"
+          href: https://huggingface.co/KBLab
+        - text: "KB Huggingface"
+          href: https://huggingface.co/KB
     - text: "API"
       menu:
         - text: "kblab python"
