@@ -14,7 +14,7 @@ author:
     affiliation: AISweden, KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
 date: 02-07-2022
-preview: images/
+preview: images/ner.png
 output:
   distill::distill_article:
     self_contained: false
