@@ -170,7 +170,7 @@ Each column illustrates one setting of tag & case type with the performance diff
 | F1-Dev  | +0.005     | +0.003    | +0.0042    | -0.0014        | +0.0037      | +0.0074      |
 | F1-Test | +0.0077    | -0.0014   | -0.0026    | -0.0042        | +0.0058      | -0.0035      |
 
-Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimze or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values).
+Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values).
 One such hyperparameter might be the _warmup ratio_, given that the model is already stable and is only being finetuned to a relatively simple task.
 
 #### Successful Hyperparameters
