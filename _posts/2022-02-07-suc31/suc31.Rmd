@@ -2,7 +2,7 @@
 title: "SUC 3.1"
 description: |
   We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of  Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.
-  We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface dataset at https://huggingface.co/datasets/KBLab/suc3_1.
+  We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface  🤗  dataset at https://huggingface.co/datasets/KBLab/suc3_1.
 
 author:
   - name: Robin Kurtz
@@ -33,7 +33,8 @@ knitr::opts_chunk$set(echo = FALSE)
 Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application.
 For Swedish, the Stockholm Umeå Corpus (SUC) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags.
 Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically.
-The new named entitities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time.
+The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time.
+These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating new regular and predictable annotations.
 A comparison of the entity categories is given below.
 
 | Manually Annotated | Automatically Annotated |
@@ -56,27 +57,28 @@ With large transformer language models (LM) such as [BERT](https://arxiv.org/abs
 
 In order to compare the performance of various models, it is common in NLP practice to create a canonical split of the training data into training-, development-, and test-data, that everyone uses to train and evaluate their models to provide a fair comparison.
 While this practice comes with a [heap of problems](https://aclanthology.org/P19-1267/), it is nonetheless an easy way to quickly compare models with the same setup to give an intuition about their performance.
-We therefore split the SUC 3.0 corpus into these three parts at random, whil keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.
+We therefore split the SUC 3.0 corpus into these three parts at random, while keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.
 
 The original SUC 3.0 corpus uses XML to structure its various types of annotations.
 We use a much friendlier `json`-based format that only contains the sentence split into tokens, the POS annotations, and the NER annotations in the BIO format.
 
 ```json
 e245ac6c-e24b4fe4
-[ "I", "dag", "är", "han", "ingenjör", "på", "vetenskapsakademins", "kemisk-tekniska", "institution", "i", "Vilnius", "." ]
+[ "I", "dag", "är", "han", "ingenjör", "på", "vetenskapsakademins",
+                    "kemisk-tekniska", "institution", "i", "Vilnius", "." ]
 [ "PP", "NN", "VB", "PN", "NN", "PP", "NN", "JJ", "NN", "PP", "PM", "MAD" ]
 [ "B-TME", "I-TME", "O", "O", "O", "O", "O", "O", "O", "O", "B-LOC", "O" ] 
 ```
 
-The data and its variations can be downloaded either with `git` or directly as a huggingface `dataset` here https://huggingface.co/datasets/KBLab/suc3_1.
+The data and its variations can be downloaded either with `git` or directly as a huggingface  🤗 `dataset` here https://huggingface.co/datasets/KBLab/suc3_1.
 
 ### Variations
 
-The original annotations of SUC are sometimes criticized to be somewhat inconsistent ("farbror _Johan_" and "_farbror Johan_"), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) _other_ category.
+The original annotations of SUC are sometimes criticized to be somewhat inconsistent ("farbror _Johan_" and "_farbror Johan_", where _farbror_ in the first example does not belong to the full entity, whereas it does in the second), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) _other_ category.
 In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.
 In our first dataset variation we only take sentences with annotations, which do not contain the _other_  category, and where the manual and automatic annotations match according to the mapping above.
-The new measurement (MSR) and time (TME) annotations are included as well.
-This means that this new dataset is somewhat smaller as all sentences where the annotations did not match for each token are removed.
+The new _measurement_ (MSR) and _time_ (TME) annotations are included as well.
+This means that this new dataset is somewhat smaller, as all sentences where the annotations did not match for each token are removed.
 
 #### Cased and Uncased
 
@@ -89,11 +91,11 @@ This allows users that wish to train and/or evaluate a model on a dataset where 
 ## Hyper-Parameter Optimization
 
 While we already achieve good performance with our KB-BERT model finetuned to do NER, we want to see if this can be improved by choosing a different set of hyper-parameters.
-With Hyper-Parameter Optimization (HPO) methods we can test combinations of different values for a choses set of hyper-parameters that we believe can impact the performance of our final NER system.
+With Hyper-Parameter Optimization (HPO) methods we can test combinations of different values for a chosen set of hyper-parameters that we believe can impact the performance of our final NER system.
 
 ### Baselines
 
-First we use the standard set of parameters of the huggingface training API to create our baselines.
+First we use the standard set of parameters of the huggingface  🤗  training API to create our baselines.
 We refer to the manually annotated tags as `original` (`org`) and the automatically annotated ones as `simple`.
 The measurement used for NER is F1-score, a measure that combines (for each tag) both the precision (to annotate only when it truly is of some type) and recall (to annotate all instances of some type).
 
@@ -119,13 +121,13 @@ Warmup Ratio: 0.0
 
 ### Methods
 
-Choosing which hyperparemters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other.
-Additionally to that, a certain experience is needed as well and the knowledge of the dark arts of optimization: certain parameter settings that generally work well out of the box, without necessarily being published in some way.
-But even then, there are simply too many possible settings that one can reasonably test manually while making informed decision based on previous results.
+Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other.
+Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way.
+But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results.
 One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters.
-If the search space is too large, one can then instead only search a random sub-space with random search.
+If the search space is too large, one can instead only search a random sub-space with random search.
 
-While more advanced methods such as ASHA and BOHB are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when chosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.
+While more advanced methods such as ASHA and BOHB are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when choosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.
 
 ### Results
 
@@ -185,6 +187,6 @@ One such hyperparameter might be the _warmup ratio_, given that the model is alr
 ## Conclusion
 
 We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers.
-We hope that the new format and its availability via the huggingface ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER.
+We hope that the new format and its availability via the huggingface  🤗  ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER.
 With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.
 
