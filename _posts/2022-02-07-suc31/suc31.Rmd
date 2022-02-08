@@ -119,12 +119,22 @@ Warmup Ratio:  [0.00, 0.04, 0.08, 0.12]
 
 Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other. Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way.
 
-But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search.
+But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search. The following figure illustrates some ways of visualizing the results of hyperparameter optimization, which is useful to gain intuition of the hyperparameter behaviors. 
+
+```{r, fig.retina=1, fig.cap="Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset."}
+knitr::include_graphics("images/RS_simple_lowermix_overall.png")
+```
 
 While more advanced methods such as [ASHA](https://arxiv.org/abs/1810.05934), [BOHB](https://arxiv.org/abs/1807.01774), and [PBT](https://arxiv.org/abs/1711.09846) are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when choosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.
 
 #### Advanced HPO Methods
 The more advanced HPO algorithms excel in different settings and can provide more efficient optimization. For example, ASHA and BOHB are both scalable and robust and can rapidly search through a large hyperparameter space by heavily utilizing early termination of non-promising runs. Furthermore, Bayesian Optimization (BO) models estimate the objective function and can draw informed samples of hyperparameter configurations, yielding successively better samples throughout the HPO session. While BO and early stopping sound promising, they possess the most value with a large number of runs and when early iterations of training consistently indicate end-of-run performance. In our case, we used a limited number of runs and searched for hyperparameters that clearly do not benefit from early stopping. For instance, a low learning rate with a large warmup ratio might perform poorly after training only for an epoch but may result in good performance after the full run. 
+
+The figure below demonstrates the early stopping behavior used in ASHA, terminating the lowest performing runs after roughly 2 epochs. Note that mechanisms as early stopping makes it difficult to visualize results and gain intuition about hyperparameters, as the final F1-scores become strongly biased towards runs that make it through the early phases of training.
+
+```{r, fig.retina=1, fig.cap="The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset."}
+knitr::include_graphics("images/ASHA_original_lower_f1.png")
+```
 
 DeepMind's PBT proved highly resource-demanding in our experiments and showed little to no performance gain. Increasing the population size and tweaking with other settings may yield a strong hyperparameter schedule if one has access to compute and wants to push the most out of a model/dataset. We did not investigate this further. Our experiments showed no significant advantage to using these advanced methods over random search.
 
