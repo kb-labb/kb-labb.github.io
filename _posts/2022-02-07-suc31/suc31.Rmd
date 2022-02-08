@@ -30,6 +30,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Introduction
 
+```{r, fig.retina=1, fig.cap="A simple NER example with three entities of two types."}
+knitr::include_graphics("images/ner.png")
+```
+
+
 Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the Stockholm Umeå Corpus (SUC) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating new regular and predictable annotations. A comparison of the entity categories is given below.
 
 | Manually Annotated | Automatically Annotated |
