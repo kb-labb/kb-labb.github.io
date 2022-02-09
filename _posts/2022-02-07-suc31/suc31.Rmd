@@ -35,7 +35,7 @@ knitr::include_graphics("images/ner.png")
 ```
 
 
-Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the Stockholm Umeå Corpus (SUC) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating new regular and predictable annotations. A comparison of the entity categories is given below.
+Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the [Stockholm Umeå Corpus (SUC)](https://spraakbanken.gu.se/en/resources/suc3) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating regular and predictable annotations. A comparison of the entity categories is given below.
 
 | Manually Annotated | Automatically Annotated |
 | ------------------ | ----------------------- |
@@ -71,13 +71,13 @@ The data and its variations can be downloaded either with `git` or directly as a
 
 ### Variations
 
-The original annotations of SUC are sometimes criticized to be somewhat inconsistent ("farbror _Johan_" and "_farbror Johan_", where _farbror_ in the first example does not belong to the full entity, whereas it does in the second), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) _other_ category. In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.
+The original annotations of SUC are sometimes criticized to be somewhat inconsistent compared with other datasets (should titles be included in the named entity: _kungen [Waldemar Atterdag]_ vs. _[kung Carl Gustaf]_), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) _other_ category. In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.
 
 In our first dataset variation we only take sentences with annotations, which do not contain the _other_  category, and where the manual and automatic annotations match according to the mapping above. The new _measurement_ (MSR) and _time_ (TME) annotations are included as well. This means that this new dataset is somewhat smaller, as all sentences where the annotations did not match for each token are removed.
 
 #### Cased and Uncased
 
-Due to the custom in Swedish (and a lot of other European languages), to write named entities with a leading capital letter, NER systems quickly learn to rely on this simple feature. This improves performance as it is a clear indicator, when the data consists of properly formatted text, but leads systems to near absolute failure, when the data does not use case, as is often the case in online text resources or chat. 
+Due to the custom in Swedish (and a lot of other European languages), to write named entities with a leading capital letter, NER systems quickly learn to rely on this simple feature. This improves performance as it is a clear indicator, when the data consists of properly formatted text, but leads systems to near absolute failure, when the data does not use case, as is often the case in web-text resources or chat. 
 
 We therefore also add a completely lower-cased (uncased) version of the dataset, and a cased-uncased-mixed version, that can be used to train and evaluate systems that are supposed to handle more noisy data. The new dataset variations uses the suffix "_lower" at the sentence-id, to indicate that the sentence has been lower-cased. This allows users that wish to train and/or evaluate a model on a dataset where each sentence exists twice, cased and uncased, by simply combining the instances of each dataset into a new one.
 
@@ -98,7 +98,7 @@ Each column illustrates one setting of NER tag & case type with batch size 64 an
 
 While there are many hyperparameters that one can vary, we only vary the learning rate, the weight decay, and the warmup ratio, three closely interconnected training parameters. The hyperparameter space that is shown below, was initially determined through inspiration from published related work and adapted after initial experiments.
 
-The _learning rate_ controls how much parameters are changed at every optimization step. _Weight decay_ denotes a parameter that controls the impact of the regularizing L_2 norm, favouring models with weights closer to zero. Finally, the _warmup ratio_ controls the length of a warmup period during training in which the learning rate is increased to its initial maximum, aiming to avoid instability during early updates when the model weights are not yet aligned and the learning rate is too large.
+The _learning rate_ controls how much parameters are changed at every optimization step. _Weight decay_ denotes a parameter that controls the impact of the regularizing L<sub>2</sub>-norm, favouring models with weights closer to zero. Finally, the _warmup ratio_ controls the length of a warmup period during training in which the learning rate is increased to its initial maximum, aiming to avoid instability during early updates when the model weights are not yet aligned and the learning rate is too large.
 
 **Original Hyperparameters:**
 
