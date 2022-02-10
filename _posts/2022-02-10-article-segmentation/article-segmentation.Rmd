@@ -1,0 +1,100 @@
+---
+title: "Article segmentation in digitized newspapers"
+description: |
+  When physical newspaper copies are digitized at KB, optical character 
+  recognition (OCR) is applied to scanned images of newspaper pages. The
+  OCR software segments the page in to detected boxes of text and images. 
+  However, these individual boxes are not further connected as part of articles. 
+  This post summarizes a master thesis project undertaken at KBLab with the 
+  goal of segmenting articles in newspaper pages.
+author:
+  - name: Gustav Henning
+    url: https://github.com/GustavHenning
+    affiliation: KTH
+  - name: Faton Rekathati
+    url: https://github.com/Lauler
+    affiliation: KBLab
+    affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 02-10-2022
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Converting scanned images of physical newspaper copies to a machine readable format enables them to be explored and accessed in new ways. Automated processes involving OCR (optical character recognition) software are able to successfully detect regions of text in an image and read the printed text off of the page. Unfortunately, the discovered regions of text tend to be organized as individual paragraphs without any information on how they may be interconnected. When researchers and library users perform searches on these corpuses, the returned results are thus in the context of individual blocks of text belonging to a page, as opposed to blocks of text/images connected as part of articles with a suggested reading order. 
+
+In the fall of 2021 KBLab hosted a master thesis project written with the goal of segmenting articles in digitized newspapers. The thesis was written by Gustav Henning, who in this blog post will summarize some of his findings.
+
+## Introduction and purpose
+
+<!--- This is a html comment. 
+I'm going to suggest some content for you to include, but you need to flesh it out.
+--->
+
+As mentioned before, digitized newspaper content is organized in to segmented boxes detected by OCR software. One approach to connect these boxes would be to work with the segmented boxes directly and try to cluster or classify them in to groups. This, however, may have a disadvantage in that OCR software may change or improve in the future. The National Library of Sweden may at some point choose to redo their OCR. Therefore we ideally do not want our article segmentation method to be too dependent of the output of an OCR software.
+
+Instead, I/we have chosen to use object detection, instance/semantic segmentation as a method. 
+
+Advantages: 
+
+* Independent of OCR software, does not require the boxes outputted by OCR. 
+* Predicts directly on the page level.
+* Can incorporate data from OCR software in the form of text and positional info.
+
+
+### Multimodal input
+
+Whether a region of a newspaper page forms a cohesive article unit is not necessarily only determined by visual cues, but can also benefit from taking into account textual information. Therefore I/we decided to experiment with multimodal inputs. We extended the chosen object detection framework to incorporate textual input by appending... 
+
+<!--- Fill in some text and expand on explanation of multimodal inputs --->
+
+### Research questions
+
+<!--- Fill it in so it sounds natural --->
+In the thesis we were interested in investigating whether
+
+1. Multimodal neural network architectures can outperform unimodal NNs.
+2. There is a difference in how well they perform with changing design/time.
+3. Increasing the amount of annotated data also increases the generalizationperformance of the model.
+
+
+## Data
+
+Describe the data split. We annotated a training dataset
+
+In domain, near domain, out of domain. What was the purpose of splitting it this way? Relate to research question nr2: To test how well a model trained on one newspaper and time period can generalize on other similar and not-so-similar newspapers.
+
+<!--- Insert either some markdown tables here or send me csv/picture of table so I can input it --->
+
+### Labels and annotation
+Describe the different classes/labels. Write something about treating every class as a single publication unit. Briefly describe the annotation process.
+
+<!--- Insert example pics of segmentation/annotation, send me the pics or upload to your git repo branch if you clone this --->
+
+### The effect of more data
+
+Describe the setup with training only with subsets of the training data set.
+
+<!--- Insert either some markdown tables here or send me csv/picture of table so I can input it --->
+
+## Models
+
+Don't need to describe the models you have used in too much detail. Can be enough to just list them and write something very brief so people can understand the results later on.
+
+<!--- Insert pic/table of list of models --->
+
+## Results
+
+<!--- I'm not going to write anything here, I think you can write about results and relate them to the research questions 
+Insert table or send me pics of diagrams you want to use either via mail or upload to git repo branch.
+Indicate where each picture should be placed. --->
+
+## Discussion and suggestions for future improvments
+
