@@ -91,10 +91,17 @@ First we use the standard set of parameters of the huggingface 🤗 training API
 
 Each column illustrates one setting of NER tag & case type with batch size 64 and standard hyperparameters.
 
+
+
 |         | org/cased | org/uncased | org/mixed | simple/cased | simple/uncased | simple/mixed |
 |---------|-------------|-----------|-----------|----------------|--------------|--------------|
 | F1-Dev  | 0.8901      | 0.8683    | 0.866     | 0.9359         | 0.912        | 0.9111       |
 | F1-Test | 0.8901      | 0.867     | 0.8687    | 0.9346         | 0.9017       | 0.9118       |
+
+<aside>
+Note that these experiments use a version for the _simple_ tags that does not use BIO-encoding in combination with the NE-tags.
+The dataset we publish uses BIO-tags, which can be removed if necessary.
+</aside>
 
 While there are many hyperparameters that one can vary, we only vary the learning rate, the weight decay, and the warmup ratio, three closely interconnected training parameters. The hyperparameter space that is shown below, was initially determined through inspiration from published related work and adapted after initial experiments.
 
@@ -118,6 +125,7 @@ Warmup Ratio:  [0.00, 0.04, 0.08, 0.12]
 ### Methods
 
 Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other. Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way.
+For the HPO experiments we used the [`ray tune`](https://docs.ray.io/en/latest/tune/index.html) library, which is [easily integrated](https://huggingface.co/blog/ray-tune) within the huggingface  🤗  ecosystem.
 
 But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search. The following figure illustrates some ways of visualizing the results of hyperparameter optimization, which is useful to gain intuition of the hyperparameter behaviors. 
 
@@ -189,6 +197,12 @@ Unfortunately these differences are not what we hoped for, pointing to either a 
 | Simple     | cased             | RS      | 5e-05         | 0.05         | 0.04         |
 | Simple     | uncased           | RS      | 8e-05         | 0.05         | 0.04         |
 | Simple     | uncased-cased-mix | RS      | 6e-05         | 0.05         | 0.12         |
+
+### Models
+
+We publish two models for our _simple_ tags without BIO-encoding, trained on [cased data](https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner) and [mixed cased-uncased data](https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner) data for anyone to try, with more models to follow.
+If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data.
+Let us know how the models perform in your projects and how you improved them.
 
 ## Conclusion
 
