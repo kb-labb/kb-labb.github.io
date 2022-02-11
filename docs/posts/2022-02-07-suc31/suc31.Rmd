@@ -156,6 +156,7 @@ Most notably in these results is the performance of a system trained on regular 
 
 #### Development
 
+::: l-body-outset
 | Tag Family | Trained on        | HPO Alg | cased  | uncased | uncased-cased-mix | uncased-cased-both | ne-lower | ne-lower-cased-mix | ne-lower-cased-both  |
 | ---------- | ----------------- | ------- | -----  | ------- | ----------------- | ------------------ | -------- | ------------------ | -------------------- |
 | Original   | cased             | RS      | 0.8951 | 0.4067  | 0.7054            | 0.6987             | 0.4110   | 0.7045             | 0.6985               |
@@ -164,9 +165,11 @@ Most notably in these results is the performance of a system trained on regular 
 | Simple     | cased             | RS      | 0.9345 | 0.3037  | 0.7035            | 0.6974             | 0.3038   | 0.6995             | 0.6941               |
 | Simple     | uncased           | RS      | 0.8361 | 0.9157  | 0.8753            | 0.8774             | 0.9154   | 0.8754             | 0.8773               |
 | Simple     | uncased-cased-mix | RS      | 0.9275 | 0.9078  | 0.9185            | 0.9177             | 0.9029   | 0.9155             | 0.9153               |
+:::
 
 #### Test
 
+::: l-body-outset
 | Tag Family | Trained on        | HPO Alg | cased  | uncased | uncased-cased-mix | uncased-cased-both | ne-lower | ne-lower-cased-mix | ne-lower-cased-both  |
 | ---------- | ----------------- | ------- | -----  | ------- | ----------------- | ------------------ | -------- | ------------------ | -------------------- |
 | Original   | cased             | RS      | 0.8978 | 0.4053  | 0.6940            | 0.7000             | 0.4103   | 0.6924             | 0.6998               |
@@ -175,20 +178,24 @@ Most notably in these results is the performance of a system trained on regular 
 | Simple     | cased             | RS      | 0.9304 | 0.2963  | 0.6940            | 0.6929             | 0.2902   | 0.6879             | 0.6861               |
 | Simple     | uncased           | RS      | 0.8299 | 0.9075  | 0.8687            | 0.8702             | 0.9074   | 0.8685             | 0.8702               |
 | Simple     | uncased-cased-mix | RS      | 0.9219 | 0.8988  | 0.9083            | 0.9104             | 0.8950   | 0.9064             | 0.9085               |
+:::
 
 #### Baselines Comparison
 
 In order to see how much HPO actually helps for this task we compare with our unoptimized baseline systems. Each column illustrates one setting of tag & case type with the performance difference after HPO: `F1(HPO) - F1(baseline)`
 
+::: l-body-outset
 |         | org/cased | org/uncased | org/mixed | simple/cased | simple/uncased | simple/mixed |
 |---------|-------------|-----------|-----------|----------------|--------------|--------------|
 | F1-Dev  | +0.005     | +0.003    | +0.0042    | -0.0014        | +0.0037      | +0.0074      |
 | F1-Test | +0.0077    | -0.0014   | -0.0026    | -0.0042        | +0.0058      | -0.0035      |
+:::
 
 Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values). One such hyperparameter might be the _warmup ratio_, given that the model is already stable and is only being finetuned to a relatively simple task. We speculate that a more consistent gain in validation set performance could be achieved by taking the stochastic elements into account, i.e. running each experiment with multiple seeds, which argues for the insignificance of the HPO results. 
 
 #### Successful Hyperparameters
 
+::: l-body-outset
 | Tag Family | Trained on        | HPO Alg | learning rate | weight decay | warmup ratio |
 | ---------- | ----------------- | ------- | ------------- | ------------ | ------------ |
 | Original   | cased             | RS      | 7e-05         | 0.15         | 0.04         |
@@ -197,6 +204,7 @@ Unfortunately these differences are not what we hoped for, pointing to either a 
 | Simple     | cased             | RS      | 5e-05         | 0.05         | 0.04         |
 | Simple     | uncased           | RS      | 8e-05         | 0.05         | 0.04         |
 | Simple     | uncased-cased-mix | RS      | 6e-05         | 0.05         | 0.12         |
+:::
 
 ### Models
 

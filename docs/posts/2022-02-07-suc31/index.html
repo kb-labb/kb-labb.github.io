@@ -2834,6 +2834,7 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 <p>We report our results using random search with 30 trials training on both the <em>original</em> and <em>simple</em> tags. For each tag-family we train the taggers on cased, uncased, and a mixed data set, while evaluating on all three development and test sets plus an additional set where only the named entity has been lower-cased. The columns labelled <em>uncased-cased-both</em> and <em>ne-lower-cased-both</em> denote data sets, in which every sentence appears both cased and uncased.</p>
 <p>Most notably in these results is the performance of a system trained on regular <em>cased</em> data, when evaluated on <em>uncased</em> or partially lowercased data. At the same time we see that the system trained on a mix of cased and uncased data performs only slightly worse than their pure counterparts on the pure evaluation sets, while clearly outperforming them on the mixed evaluation sets.</p>
 <h4 id="development">Development</h4>
+<div class="l-body-outset">
 <table>
 <colgroup>
 <col style="width: 7%" />
@@ -2936,7 +2937,9 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="test">Test</h4>
+<div class="l-body-outset">
 <table>
 <colgroup>
 <col style="width: 7%" />
@@ -3039,8 +3042,10 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="baselines-comparison">Baselines Comparison</h4>
 <p>In order to see how much HPO actually helps for this task we compare with our unoptimized baseline systems. Each column illustrates one setting of tag &amp; case type with the performance difference after HPO: <code>F1(HPO) - F1(baseline)</code></p>
+<div class="l-body-outset">
 <table>
 <thead>
 <tr class="header">
@@ -3074,8 +3079,10 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 </tr>
 </tbody>
 </table>
+</div>
 <p>Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values). One such hyperparameter might be the <em>warmup ratio</em>, given that the model is already stable and is only being finetuned to a relatively simple task. We speculate that a more consistent gain in validation set performance could be achieved by taking the stochastic elements into account, i.e. running each experiment with multiple seeds, which argues for the insignificance of the HPO results.</p>
 <h4 id="successful-hyperparameters">Successful Hyperparameters</h4>
+<div class="l-body-outset">
 <table>
 <thead>
 <tr class="header">
@@ -3138,6 +3145,7 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 </tr>
 </tbody>
 </table>
+</div>
 <h3 id="models">Models</h3>
 <p>We publish two models for our <em>simple</em> tags without BIO-encoding, trained on <a href="https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner">cased data</a> and <a href="https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner">mixed cased-uncased data</a> data for anyone to try, with more models to follow. If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data. Let us know how the models perform in your projects and how you improved them.</p>
 <h2 id="conclusion">Conclusion</h2>
