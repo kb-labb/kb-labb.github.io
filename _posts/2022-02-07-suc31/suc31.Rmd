@@ -216,3 +216,7 @@ Let us know how the models perform in your projects and how you improved them.
 
 We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.
 
+<aside>
+The scripts to generate the SUC3.1 data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/suc3_1.
+</aside>
+

@@ -3150,6 +3150,9 @@ Figure 3: The validation F1 scores for an HPO session using ASHA, searching hype
 <p>We publish two models for our <em>simple</em> tags without BIO-encoding, trained on <a href="https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner">cased data</a> and <a href="https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner">mixed cased-uncased data</a> data for anyone to try, with more models to follow. If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data. Let us know how the models perform in your projects and how you improved them.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.</p>
+<aside>
+The scripts to generate the SUC3.1 data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at <a href="https://github.com/kb-labb/suc3_1" class="uri">https://github.com/kb-labb/suc3_1</a>.
+</aside>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
