@@ -1,8 +1,8 @@
 ---
-title: "SUC 3.1"
+title: "SUCX 3.0 - NER"
 description: |
   We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.
-  We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/suc3_1.
+  We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner.
 
 author:
   - name: Robin Kurtz
@@ -35,7 +35,11 @@ knitr::include_graphics("images/ner.png")
 ```
 
 
-Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the [Stockholm Umeå Corpus (SUC)](https://spraakbanken.gu.se/en/resources/suc3) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating regular and predictable annotations. A comparison of the entity categories is given below.
+Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application.
+For Swedish, the [Stockholm Umeå Corpus (SUC)](https://spraakbanken.gu.se/en/resources/suc3) has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags.
+Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. This enhanced version of the corpus is called _SUCX 3.0_.
+The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time.
+These new entity annotations are done by a [rule-based NER system](https://aclanthology.org/L14-1339/), creating regular and predictable annotations. A comparison of the entity categories is given below.
 
 | Manually Annotated | Automatically Annotated |
 | ------------------ | ----------------------- |
@@ -67,7 +71,7 @@ e245ac6c-e24b4fe4
 [ "B-TME", "I-TME", "O", "O", "O", "O", "O", "O", "O", "O", "B-LOC", "O" ] 
 ```
 
-The data and its variations can be downloaded either with `git` or directly as a huggingface 🤗 `dataset` here https://huggingface.co/datasets/KBLab/suc3_1.
+The data and its variations can be downloaded either with `git` or directly as a huggingface 🤗 `dataset` here https://huggingface.co/datasets/KBLab/sucx3_ner.
 
 ### Variations
 
@@ -217,6 +221,6 @@ Let us know how the models perform in your projects and how you improved them.
 We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.
 
 <aside>
-The scripts to generate the SUC3.1 data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/suc3_1.
+The scripts to generate the _SUCX 3.0 - NER_ data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/sucx3_ner.
 </aside>
 
