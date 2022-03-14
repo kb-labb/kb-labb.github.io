@@ -13,7 +13,17 @@ at the National Library of Sweden.
       <link>https://kblabb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 07 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Mar 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Swedish Bootleg model</title>
+      <dc:creator>Elena Fano</dc:creator>
+      <link>https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model</link>
+      <description>We at KBLab have trained a Swedish version of an entity disambiguation model called Bootleg, developed by the Hazy Research Lab at Stanford. 
+The model is trained on Swedish Wikipedia and can be used to disambiguate named entities based on their context.</description>
+      <guid>https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model</guid>
+      <pubDate>Thu, 03 Mar 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" medium="image" type="image/png" width="600" height="555"/>
+    </item>
     <item>
       <title>SUCX 3.0 - NER</title>
       <dc:creator>Robin Kurtz</dc:creator>
