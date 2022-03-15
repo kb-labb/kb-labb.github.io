@@ -60,12 +60,12 @@ The model understands that the first sentence must be about a person and links t
 **Entities**: ['Andreas Duplantis', 'Svenska Dagbladets guldmedalj', 'Friidrottsrekord', 'Hopp (dygd)']  
   
 **Sentence**: "Ekonomer vid internationella valutafonden IMF har räknat ut att varje storvuxen bardval enbart genom sin förmåga att binda kol utför en nytta värd minst 20 miljoner kronor."  
-**Entities**: ['Ekonom', 'Internationella valutafonden', 'Internationella valutafonden', 'Bardvalar', 'Kol (bränsle)', 'Miljon', 'Svensk krona']  
+**Entities**: ['Internationella valutafonden', 'Internationella valutafonden', 'Bardvalar', 'Kol (bränsle)', 'Svensk krona']  
 
 **Sentence**: "Elhandelsbolagen i Norden köper sin el på den nordiska elhandelsbörsen Nord Pool och vad det kostar beror på en mängd olika faktorer."  
-**Entities**: ['Norden', 'Elektricitet', 'Nord Pool', 'Mängd']  
+**Entities**: ['Norden', 'Nord Pool']  
 
-Clearly the main problem is that as long as there is an entry for it in Wikimedia, anything is considered an entity. Depending on the application, we might not want everyday objects and concepts like "coal" and "amount" to be treated as name entities, although there isn't really a good way to tell Bootleg to only predict some entities in the knowledge base and not others. This issue could be probably solved by running a Named Entity Recognition model on the same data, for example kb-bert-ner, and ignoring all the entities in the Bootleg output that the NER model doesn't recognize as such.  
+Clearly the main problem is that as long as there is an entry for it in Wikidata, anything is considered an entity. Depending on the application, we might not want everyday objects and concepts like "kol" and "friidrottsrekord" to be treated as name entities. We have already applied a filter that removes from the entity database those aliases that appear very often in Wikipedia texts without being marked as mentions, the reasoning being that these aliases point to common words that are not named entities. Still, the results are a bit noisy. This issue could be probably solved by running a Named Entity Recognition model on the same data, for example kb-bert-ner, and ignoring all the entities in the Bootleg output that the NER model doesn't recognize as such.  
 
 There are also some actual mistakes, for example predicting "Andreas Duplantis" instead of his brother Armand Duplantis, but it would require too much world knowledge for the model to know which one of the two pole-vaulting brothers recently set a world record. In the same sentence, "hopp" is identified as the Christian virtue of "hope", which is incorrect, but maybe justified by the fact that "högsta hoppet" (highest hope/jump) can be a good collocation for both senses of the word. 
 
