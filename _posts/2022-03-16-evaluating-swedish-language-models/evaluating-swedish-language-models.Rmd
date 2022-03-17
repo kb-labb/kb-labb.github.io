@@ -79,7 +79,7 @@ We evaluate the following models:
 * [BERT  🤗](https://huggingface.co/KBLab/bert-base-swedish-cased-new)
 * [Megatron-BERT-base 125k](https://huggingface.co/KBLab/megatron-bert-base-swedish-cased-new)
 * [Megatron-BERT-base 600k](https://huggingface.co/KBLab/megatron-bert-base-swedish-cased-600k)
-* [Megatron-BERT-large 110k](https://huggingface.co/KBLab)
+* [Megatron-BERT-large 110k](https://huggingface.co/KBLab/megatron-bert-large-swedish-cased-110k)
 
 KB-BART and the last four models in that list use the same amount of data, roughly 70GB.
 BERT 🤗 was trained using the huggingface 🤗 framework, concatenating multiple short documents into one long sequence, additionally to the traditional splitting of documents longer than 512 tokens into multiple sequences.
@@ -131,7 +131,7 @@ The reported F-scores on the test set were averaged to give a more even view.
 | ------------------------ | ------ | -------- |
 | AI-Sweden BERT-large     | 88.73% | 86.07%   |
 | KB-BERT                  | 89.35% | 86.71%   |
-| BERT 🤗                  | 89.80% | 87.43%   |
+| BERT 🤗                  | **89.80%** | **87.43%**   |
 | Megatron-BERT-base 125k  | 87.84% | 84.95%   |
 | Megatron-BERT-base 600k  | 88.60% | 86.11%   |
 | Megatron-BERT-large 110k | 89.78% | 87.32%   |
