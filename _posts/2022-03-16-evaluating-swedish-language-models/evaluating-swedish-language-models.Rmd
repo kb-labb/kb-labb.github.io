@@ -152,3 +152,7 @@ With the publication of this dataset we hope to give the Scandinavian NLP commun
 Even though we think that any results on this data should not be used to claim the state-of-the-art of your newest model, we hope to instill a little bit of healthy competition into the community, especially for everyone developing multi-lingual models.
 
 
+## Acknowledgements
+
+We gratefully acknowledge the HPC RIVR consortium (https://www.hpc-rivr.si) and EuroHPC JU (https://eurohpc-ju.europa.eu) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (https://www.izum.si).
+

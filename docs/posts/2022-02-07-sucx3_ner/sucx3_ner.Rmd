@@ -224,3 +224,6 @@ We have taken the venerable SUC 3.0 dataset and given it a little refresher for 
 The scripts to generate the _SUCX 3.0 - NER_ data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/sucx3_ner.
 </aside>
 
+## Acknowledgements
+
+We gratefully acknowledge the HPC RIVR consortium (https://www.hpc-rivr.si) and EuroHPC JU (https://eurohpc-ju.europa.eu) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (https://www.izum.si).

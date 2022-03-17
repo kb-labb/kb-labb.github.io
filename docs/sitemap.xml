@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://kblabb.github.io/about.html</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2021-06-15T11:56:04+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2022-02-07T15:31:32+01:00</lastmod>
+  </url>
+  <url>
+    <loc>https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</loc>
+    <lastmod>2022-03-16T14:59:16+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model/</loc>
-    <lastmod>2022-03-15T16:09:54+01:00</lastmod>
+    <lastmod>2022-03-16T15:58:45+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2022-02-07-sucx3_ner/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2022-03-17T10:23:23+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</loc>
-    <lastmod>2022-03-15T16:11:27+01:00</lastmod>
+    <lastmod>2022-03-16T15:58:45+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2022-02-07T15:31:32+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2022-02-07T15:31:32+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2022-03-16T14:58:36+01:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2021-06-15T11:56:04+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2021-04-15T10:07:53+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-03-28-ad-classification/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2021-05-18T18:01:19+02:00</lastmod>
   </url>
   <url>
     <loc>https://kblabb.github.io/posts/2021-02-25-introduction/</loc>
-    <lastmod>2022-03-14T15:59:42+01:00</lastmod>
+    <lastmod>2021-04-06T16:20:58+02:00</lastmod>
   </url>
 </urlset>

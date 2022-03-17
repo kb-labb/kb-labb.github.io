@@ -13,7 +13,19 @@ at the National Library of Sweden.
       <link>https://kblabb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 03 Mar 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Mar 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Evaluating Swedish Language Models</title>
+      <dc:creator>Robin Kurtz</dc:creator>
+      <link>https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models</link>
+      <description>We present _OverLim_, a new benchmark for evaluating large language models for Swedish, Danish, and Norwegian, created by translating a subset of the GLUE and SuperGLUE benchmark tasks.
+The lack of suitable downstream tasks for these three Scandinavian languages has made it difficult to evaluate new models that are being published; model developers cannot easily see whether their traning has succeeded, and comparison between various models becomes even more tedious.
+While the translations were done using state-of-the-art models, their quality was not double-checked with native speakers, meaning that any results on these datasets should be interpreted carefully.
+The dataset is available via the _huggingface_ 🤗 ecosystem and can be downloaded at https://huggingface.co/datasets/KBLab/overlim.</description>
+      <guid>https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models</guid>
+      <pubDate>Wed, 16 Mar 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models/images/bokstaver_kvalitet.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Swedish Bootleg model</title>
       <dc:creator>Elena Fano</dc:creator>
@@ -41,7 +53,7 @@ We publish the data with a balanced train-development-test split using both manu
       <link>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</link>
       <description>What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries.</description>
       <guid>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</guid>
-      <pubDate>Sun, 23 Jan 2022 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
       <media:content url="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
