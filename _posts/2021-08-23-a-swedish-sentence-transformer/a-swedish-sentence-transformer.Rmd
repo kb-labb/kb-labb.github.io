@@ -236,7 +236,7 @@ Knowledge Distillation" [@multilingual-sentence-bert]. In short it allows us to 
 knitr::include_graphics("images/multilingual.jpg") 
 ```
 
-***Update 2022-04-22:*** In a previous version of this post the author discussed and alluded to the English-Swedish input sentence pairs being cross-encoded in the student model. However, when training a bi-encoder sentence transformer the sentences from different languages are processed independently, one at a time, by the student model network. 
+***Update 2022-04-22:*** In a previous version of this post the author discussed and alluded to the English-Swedish input sentence pairs being cross-encoded in the student model. However, when training a bi-encoder sentence transformer the sentences from different languages are processed independently by the student model network. 
 
 ### Teacher model
 
