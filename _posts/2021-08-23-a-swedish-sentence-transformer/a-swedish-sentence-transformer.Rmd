@@ -236,7 +236,7 @@ Knowledge Distillation" [@multilingual-sentence-bert]. In short it allows us to 
 knitr::include_graphics("images/multilingual.jpg") 
 ```
 
-One may remark here that the English and Swedish sentence pair are in fact being cross-encoded in the above student model setup. How come this does not spoil the sentence embeddings of the respective sentences? The model presumably learns to either i) treat the sentences independently since their respective sentence embeddings (mean pooled token embeddings) are both pushed towards outputting the same embedding, or ii) it learns to produce the correct embeddings irrespective of any cross-encoding which may occur. In either case the design of the loss function likely lessens the effects of "cross-contamination" between sentences, making the model produce semantically meaningful sentence embeddings.
+***Update 2022-04-22:*** In a previous version of this post the author discussed and alluded to the English-Swedish input sentence pairs being cross-encoded in the student model. However, when training a bi-encoder sentence transformer the sentences from different languages are processed independently, one at a time, by the student model network. 
 
 ### Teacher model
 
