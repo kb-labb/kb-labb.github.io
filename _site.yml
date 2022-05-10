@@ -4,7 +4,7 @@ description: |
   A blog with news, posts and articles about the work done at KBLab, a datalab 
   at the National Library of Sweden.
 favicon: images/kb_logo_black.png
-base_url: https://kblabb.github.io
+base_url: https://kb-labb.github.io
 repository_url: https://github.com/kb-labb/kb-labb.github.io
 output_dir: docs
 exclude: ["*.csv", "*.feather"]
