@@ -87,58 +87,58 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-<title>The KBLab Blog: SUCX 3.0 - NER</title>
+<title>The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT</title>
 
-<meta property="description" itemprop="description" content="We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.&#10;We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner."/>
+<meta property="description" itemprop="description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
 
-<link rel="canonical" href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"/>
+<link rel="canonical" href="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
 <link rel="icon" type="image/png" href="../../images/kb_logo_black.png"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2022-02-07"/>
-<meta property="article:created" itemprop="dateCreated" content="2022-02-07"/>
-<meta name="article:author" content="Robin Kurtz"/>
-<meta name="article:author" content="Joey Öhman"/>
+<meta property="article:published" itemprop="datePublished" content="2022-06-14"/>
+<meta property="article:created" itemprop="dateCreated" content="2022-06-14"/>
+<meta name="article:author" content="Elena Fano"/>
+<meta name="article:author" content="Chris Haffenden"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="The KBLab Blog: SUCX 3.0 - NER"/>
+<meta property="og:title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.&#10;We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner."/>
-<meta property="og:url" content="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"/>
-<meta property="og:image" content="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png"/>
-<meta property="og:image:width" content="1138"/>
-<meta property="og:image:height" content="203"/>
+<meta property="og:description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
+<meta property="og:url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
+<meta property="og:image" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png"/>
+<meta property="og:image:width" content="600"/>
+<meta property="og:image:height" content="531"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="The KBLab Blog"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="The KBLab Blog: SUCX 3.0 - NER"/>
-<meta property="twitter:description" content="We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.&#10;We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner."/>
-<meta property="twitter:url" content="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"/>
-<meta property="twitter:image" content="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png"/>
-<meta property="twitter:image:width" content="1138"/>
-<meta property="twitter:image:height" content="203"/>
+<meta property="twitter:title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
+<meta property="twitter:description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
+<meta property="twitter:url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
+<meta property="twitter:image" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png"/>
+<meta property="twitter:image:width" content="600"/>
+<meta property="twitter:image:height" content="531"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="The KBLab Blog: SUCX 3.0 - NER"/>
-<meta name="citation_fulltext_html_url" content="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"/>
-<meta name="citation_online_date" content="2022/02/07"/>
-<meta name="citation_publication_date" content="2022/02/07"/>
-<meta name="citation_author" content="Robin Kurtz"/>
+<meta name="citation_title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
+<meta name="citation_fulltext_html_url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
+<meta name="citation_online_date" content="2022/06/14"/>
+<meta name="citation_publication_date" content="2022/06/14"/>
+<meta name="citation_author" content="Elena Fano"/>
 <meta name="citation_author_institution" content="KBLab"/>
-<meta name="citation_author" content="Joey Öhman"/>
-<meta name="citation_author_institution" content="AISweden, KBLab"/>
+<meta name="citation_author" content="Chris Haffenden"/>
+<meta name="citation_author_institution" content="KBLab"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["SUCX 3.0 - NER"]},{"type":"character","attributes":{},"value":["We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.\nWe publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Robin Kurtz"]},{"type":"character","attributes":{},"value":["https://github.com/RobinQrtz"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Joey Öhman"]},{"type":"character","attributes":{},"value":["https://github.com/JoeyOhman"]},{"type":"character","attributes":{},"value":["AISweden, KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["02-07-2022"]},{"type":"character","attributes":{},"value":["images/ner.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["BERTopic for Swedish: Topic modeling made easier via KB-BERT"]},{"type":"character","attributes":{},"value":["Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano"]},{"type":"character","attributes":{},"value":["KBLab"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Chris Haffenden"]},{"type":"character","attributes":{},"value":["KBLab"]}]}]},{"type":"character","attributes":{},"value":["2022-06-14"]},{"type":"character","attributes":{},"value":["Bertopic_algorithm.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-06-14-bertopic/"]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-06-14-bertopic/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["images/ASHA_original_lower_f1.png","images/ner.png","images/RS_simple_lowermix_overall.png","sucx3_ner_files/anchor-4.2.2/anchor.min.js","sucx3_ner_files/bowser-1.9.3/bowser.min.js","sucx3_ner_files/distill-2.2.21/template.v2.js","sucx3_ner_files/header-attrs-2.14/header-attrs.js","sucx3_ner_files/header-attrs-2.7/header-attrs.js","sucx3_ner_files/jquery-1.11.3/jquery.min.js","sucx3_ner_files/jquery-3.6.0/jquery-3.6.0.js","sucx3_ner_files/jquery-3.6.0/jquery-3.6.0.min.js","sucx3_ner_files/jquery-3.6.0/jquery-3.6.0.min.map","sucx3_ner_files/popper-2.6.0/popper.min.js","sucx3_ner_files/tippy-6.2.7/tippy-bundle.umd.min.js","sucx3_ner_files/tippy-6.2.7/tippy-light-border.css","sucx3_ner_files/tippy-6.2.7/tippy.css","sucx3_ner_files/tippy-6.2.7/tippy.umd.min.js","sucx3_ner_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["Bertopic_algorithm.png","bertopic_files/anchor-4.2.2/anchor.min.js","bertopic_files/bowser-1.9.3/bowser.min.js","bertopic_files/distill-2.2.21/template.v2.js","bertopic_files/header-attrs-2.11/header-attrs.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.min.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.min.map","bertopic_files/popper-2.6.0/popper.min.js","bertopic_files/tippy-6.2.7/tippy-bundle.umd.min.js","bertopic_files/tippy-6.2.7/tippy-light-border.css","bertopic_files/tippy-6.2.7/tippy.css","bertopic_files/tippy-6.2.7/tippy.umd.min.js","bertopic_files/webcomponents-2.0.0/webcomponents.js","Bertopic1.png","Bertopic2.png","Bertopic4.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2570,7 +2570,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.11/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2591,7 +2591,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"SUCX 3.0 - NER","description":"We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.\nWe publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner.","authors":[{"author":"Robin Kurtz","authorURL":"https://github.com/RobinQrtz","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""},{"author":"Joey Öhman","authorURL":"https://github.com/JoeyOhman","affiliation":"AISweden, KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2022-02-07T00:00:00.000+01:00","citationText":"Kurtz & Öhman, 2022"}
+{"title":"BERTopic for Swedish: Topic modeling made easier via KB-BERT","description":"Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started.","authors":[{"author":"Elena Fano","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""},{"author":"Chris Haffenden","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-06-14T00:00:00.000+02:00","citationText":"Fano & Haffenden, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2643,524 +2643,173 @@ API
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>SUCX 3.0 - NER</h1>
+<h1>BERTopic for Swedish: Topic modeling made easier via KB-BERT</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT. We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at <a href="https://huggingface.co/datasets/KBLab/sucx3_ner" class="uri">https://huggingface.co/datasets/KBLab/sucx3_ner</a>.</p></p>
+<p><p>Topic modeling is an exciting option for exploring and finding
+patterns in large volumes of text data. While this previously required
+considerable programming skills, a recent innovation has simplified the
+method to make it more accessible for researchers in and beyond the
+academy. We explain how BERTopic harnesses KBLab’s language models to
+produce state-of-the-art topic modeling, and we offer some tips on how
+to get started.</p></p>
 </div>
 
 <div class="d-byline">
-  Robin Kurtz <a href="https://github.com/RobinQrtz" class="uri">https://github.com/RobinQrtz</a> (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+  Elena Fano  (KBLab)
   
-,   Joey Öhman <a href="https://github.com/JoeyOhman" class="uri">https://github.com/JoeyOhman</a> (AISweden, KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+,   Chris Haffenden  (KBLab)
   
-<br/>02-07-2022
+<br/>2022-06-14
 </div>
 
 <div class="d-article">
-<div class="d-contents d-contents-float">
-<nav class="l-text toc figcaption" id="TOC">
-<h3>Contents</h3>
-<ul>
-<li><a href="#introduction">Introduction</a>
-<ul>
-<li><a href="#data-splits">Data Splits</a></li>
-<li><a href="#variations">Variations</a></li>
-</ul></li>
-<li><a href="#hyper-parameter-optimization">Hyper-Parameter Optimization</a>
-<ul>
-<li><a href="#baselines">Baselines</a></li>
-<li><a href="#methods">Methods</a></li>
-<li><a href="#results">Results</a></li>
-<li><a href="#models">Models</a></li>
-</ul></li>
-<li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#acknowledgements">Acknowledgements</a></li>
-</ul>
-</nav>
-</div>
-<h2 id="introduction">Introduction</h2>
+<p>The emergence of transformer-based language models has significantly
+enhanced the potential for machine learning to be used for extracting
+meaning from large volumes of text. Yet this potential has hitherto been
+limited to the select few with the requisite knowledge in data science.
+To the vast majority without prior experience of programming in Python,
+the promise of cutting-edge language processing from a BERT model
+remains just that—a distant promise.</p>
+<p>However, this has now changed with the development of BERTopic.
+Recent work by the Dutch data scientist, Maarten Grootendorst makes it
+possible to harness the impressive performance of BERT language models
+without first needing to become an expert in data science. More
+specifically, it enables the sophisticated and flexible NLP capacities
+of a BERT model to serve as the basis for a more accessible form of
+topic modeling. By offering a new and simpler way of using KBLab’s
+language models, BERTopic brings a cutting-edge yet previously
+technically challenging method within reach of a broader range of
+researchers and other users working with Swedish material.</p>
+<p>In this post, we provide a brief introduction to using BERTopic for
+topic modeling with Swedish text data. We explain how BERTopic harnesses
+KBLab’s models to produce state-of-the-art topic models, and we outline
+some tips on how to get started. If you’re interested in finding out
+more about this particular method, or about topic modeling in general,
+check out the links at the bottom of the page!</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span id="fig:unnamed-chunk-1"></span>
-<img src="images/ner.png" alt="A simple NER example with three entities of two types." width="1138" />
+<img src="Bertopic1.png" alt="Intertopic distance map for a topic model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
 <p class="caption">
-Figure 1: A simple NER example with three entities of two types.
+Figure 1: Intertopic distance map for a topic model of
+Swedish governmental reports (SOUs) on education between 1970-2021
 </p>
 </div>
 </div>
-<p>Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the <a href="https://spraakbanken.gu.se/en/resources/suc3">Stockholm Umeå Corpus (SUC)</a> has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. This enhanced version of the corpus is called <em>SUCX 3.0</em>. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a <a href="https://aclanthology.org/L14-1339/">rule-based NER system</a>, creating regular and predictable annotations. A comparison of the entity categories is given below.</p>
-<table>
-<thead>
-<tr class="header">
-<th>Manually Annotated</th>
-<th>Automatically Annotated</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>person</td>
-<td>PRS</td>
-</tr>
-<tr class="even">
-<td>place</td>
-<td>LOC</td>
-</tr>
-<tr class="odd">
-<td>inst</td>
-<td>ORG</td>
-</tr>
-<tr class="even">
-<td>work</td>
-<td>WRK</td>
-</tr>
-<tr class="odd">
-<td>product</td>
-<td>OBJ</td>
-</tr>
-<tr class="even">
-<td>animal</td>
-<td>PRS</td>
-</tr>
-<tr class="odd">
-<td>event</td>
-<td>EVN</td>
-</tr>
-<tr class="even">
-<td>myth</td>
-<td>PRS</td>
-</tr>
-<tr class="odd">
-<td>-</td>
-<td>MSR</td>
-</tr>
-<tr class="even">
-<td>-</td>
-<td>TME</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<p>With large transformer language models (LM) such as <a href="https://arxiv.org/abs/1810.04805">BERT</a> becoming the de-facto standard for most NLP tasks, they have also shown their worth for somewhat simpler tasks such as NER.</p>
-<h3 id="data-splits">Data Splits</h3>
-<p>In order to compare the performance of various models, it is common in NLP practice to create a canonical split of the training data into training-, development-, and test-data, that everyone uses to train and evaluate their models to provide a fair comparison. While this practice comes with a <a href="https://aclanthology.org/P19-1267/">heap of problems</a>, it is nonetheless an easy way to quickly compare models with the same setup to give an intuition about their performance. We therefore split the SUC 3.0 corpus into these three parts at random, while keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.</p>
-<p>The original SUC 3.0 corpus uses XML to structure its various types of annotations. We use a much friendlier <code>json</code>-based format that only contains the sentence split into tokens, the POS annotations, and the NER annotations in the BIO format.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">e245ac6c-e24b4fe4</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">&quot;I&quot;</span><span class="ot">,</span> <span class="st">&quot;dag&quot;</span><span class="ot">,</span> <span class="st">&quot;är&quot;</span><span class="ot">,</span> <span class="st">&quot;han&quot;</span><span class="ot">,</span> <span class="st">&quot;ingenjör&quot;</span><span class="ot">,</span> <span class="st">&quot;på&quot;</span><span class="ot">,</span> <span class="st">&quot;vetenskapsakademins&quot;</span><span class="ot">,</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;kemisk-tekniska&quot;</span><span class="ot">,</span> <span class="st">&quot;institution&quot;</span><span class="ot">,</span> <span class="st">&quot;i&quot;</span><span class="ot">,</span> <span class="st">&quot;Vilnius&quot;</span><span class="ot">,</span> <span class="st">&quot;.&quot;</span> <span class="ot">]</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">&quot;PP&quot;</span><span class="ot">,</span> <span class="st">&quot;NN&quot;</span><span class="ot">,</span> <span class="st">&quot;VB&quot;</span><span class="ot">,</span> <span class="st">&quot;PN&quot;</span><span class="ot">,</span> <span class="st">&quot;NN&quot;</span><span class="ot">,</span> <span class="st">&quot;PP&quot;</span><span class="ot">,</span> <span class="st">&quot;NN&quot;</span><span class="ot">,</span> <span class="st">&quot;JJ&quot;</span><span class="ot">,</span> <span class="st">&quot;NN&quot;</span><span class="ot">,</span> <span class="st">&quot;PP&quot;</span><span class="ot">,</span> <span class="st">&quot;PM&quot;</span><span class="ot">,</span> <span class="st">&quot;MAD&quot;</span> <span class="ot">]</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">&quot;B-TME&quot;</span><span class="ot">,</span> <span class="st">&quot;I-TME&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span><span class="ot">,</span> <span class="st">&quot;B-LOC&quot;</span><span class="ot">,</span> <span class="st">&quot;O&quot;</span> <span class="ot">]</span> </span></code></pre></div>
-<p>The data and its variations can be downloaded either with <code>git</code> or directly as a huggingface 🤗 <code>dataset</code> here <a href="https://huggingface.co/datasets/KBLab/sucx3_ner" class="uri">https://huggingface.co/datasets/KBLab/sucx3_ner</a>.</p>
-<h3 id="variations">Variations</h3>
-<p>The original annotations of SUC are sometimes criticized to be somewhat inconsistent compared with other datasets (should titles be included in the named entity: <em>kungen [Waldemar Atterdag]</em> vs. <em>[kung Carl Gustaf]</em>), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) <em>other</em> category. In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.</p>
-<p>In our first dataset variation we only take sentences with annotations, which do not contain the <em>other</em> category, and where the manual and automatic annotations match according to the mapping above. The new <em>measurement</em> (MSR) and <em>time</em> (TME) annotations are included as well. This means that this new dataset is somewhat smaller, as all sentences where the annotations did not match for each token are removed.</p>
-<h4 id="cased-and-uncased">Cased and Uncased</h4>
-<p>Due to the custom in Swedish (and a lot of other European languages), to write named entities with a leading capital letter, NER systems quickly learn to rely on this simple feature. This improves performance as it is a clear indicator, when the data consists of properly formatted text, but leads systems to near absolute failure, when the data does not use case, as is often the case in web-text resources or chat.</p>
-<p>We therefore also add a completely lower-cased (uncased) version of the dataset, and a cased-uncased-mixed version, that can be used to train and evaluate systems that are supposed to handle more noisy data. The new dataset variations uses the suffix "_lower" at the sentence-id, to indicate that the sentence has been lower-cased. This allows users that wish to train and/or evaluate a model on a dataset where each sentence exists twice, cased and uncased, by simply combining the instances of each dataset into a new one.</p>
-<h2 id="hyper-parameter-optimization">Hyper-Parameter Optimization</h2>
-<p>While we already achieve good performance with our KB-BERT model finetuned to do NER, we want to see if this can be improved by choosing a different set of hyper-parameters. With Hyper-Parameter Optimization (HPO) methods we can test combinations of different values for a chosen set of hyper-parameters that we believe can impact the performance of our final NER system.</p>
-<h3 id="baselines">Baselines</h3>
-<p>First we use the standard set of parameters of the huggingface 🤗 training API to create our baselines. We refer to the manually annotated tags as <code>original</code> (<code>org</code>) and the automatically annotated ones as <code>simple</code>. The measurement used for NER is F1-score, a measure that combines (for each tag) both the precision (to annotate only when it truly is of some type) and recall (to annotate all instances of some type).</p>
-<p>Each column illustrates one setting of NER tag &amp; case type with batch size 64 and standard hyperparameters.</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th>org/cased</th>
-<th>org/uncased</th>
-<th>org/mixed</th>
-<th>simple/cased</th>
-<th>simple/uncased</th>
-<th>simple/mixed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>F1-Dev</td>
-<td>0.8901</td>
-<td>0.8683</td>
-<td>0.866</td>
-<td>0.9359</td>
-<td>0.912</td>
-<td>0.9111</td>
-</tr>
-<tr class="even">
-<td>F1-Test</td>
-<td>0.8901</td>
-<td>0.867</td>
-<td>0.8687</td>
-<td>0.9346</td>
-<td>0.9017</td>
-<td>0.9118</td>
-</tr>
-</tbody>
-</table>
-<aside>
-Note that these experiments use a version for the <em>simple</em> tags that does not use BIO-encoding in combination with the NE-tags. The dataset we publish uses BIO-tags, which can be removed if necessary.
-</aside>
-<p>While there are many hyperparameters that one can vary, we only vary the learning rate, the weight decay, and the warmup ratio, three closely interconnected training parameters. The hyperparameter space that is shown below, was initially determined through inspiration from published related work and adapted after initial experiments.</p>
-<p>The <em>learning rate</em> controls how much parameters are changed at every optimization step. <em>Weight decay</em> denotes a parameter that controls the impact of the regularizing L<sub>2</sub>-norm, favouring models with weights closer to zero. Finally, the <em>warmup ratio</em> controls the length of a warmup period during training in which the learning rate is increased to its initial maximum, aiming to avoid instability during early updates when the model weights are not yet aligned and the learning rate is too large.</p>
-<p><strong>Original Hyperparameters:</strong></p>
-<pre class="text"><code>Learning Rate: 5e-5
-Weight Decay:  0.0
-Warmup Ratio:  0.0</code></pre>
-<p><strong>Hyperparameter Search Space:</strong></p>
-<pre class="text"><code>Learning Rate: [2e-5, 3e-5, ..., 8e-5]
-Weight Decay:  [0.00, 0.05, 0.10, 0.15]
-Warmup Ratio:  [0.00, 0.04, 0.08, 0.12]</code></pre>
-<h3 id="methods">Methods</h3>
-<p>Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other. Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way. For the HPO experiments we used the <a href="https://docs.ray.io/en/latest/tune/index.html"><code>ray tune</code></a> library, which is <a href="https://huggingface.co/blog/ray-tune">easily integrated</a> within the huggingface 🤗 ecosystem.</p>
-<p>But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search. The following figure illustrates some ways of visualizing the results of hyperparameter optimization, which is useful to gain intuition of the hyperparameter behaviors.</p>
+<h3
+id="what-is-topic-modeling-and-why-might-it-be-helpful-for-researchers">What
+is topic modeling and why might it be helpful for researchers?</h3>
+<p>Topic modeling is a quantitative method for text analysis that allows
+researchers to gain insights on large text corpora without manually
+going through all the data themselves. The principal idea is to find a
+number of major topics in the collection and to be able to retrieve
+documents that are relevant for these topics.</p>
+<p>The output of a topic model is a list of topics represented by words
+that define them. It is possible to visualize the topics in charts to
+see their size and distance to each other (see figure 1).<br />
+Topic models can be used in many ways, for example to follow the
+development of a concept over time or to analyze subtopics of a given
+issue (see figures 2 and 3). The main insight is in utilizing data
+mining algorithms to make vast amounts of data searchable—and thus
+legible—according to the particular themes of which it is comprised.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span id="fig:unnamed-chunk-2"></span>
-<img src="images/RS_simple_lowermix_overall.png" alt="Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset." width="2070" />
+<img src="Bertopic4.png" alt="Topics over time for model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
 <p class="caption">
-Figure 2: Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset.
+Figure 2: Topics over time for model of Swedish governmental
+reports (SOUs) on education between 1970-2021
 </p>
 </div>
 </div>
-<p>While more advanced methods such as <a href="https://arxiv.org/abs/1810.05934">ASHA</a>, <a href="https://arxiv.org/abs/1807.01774">BOHB</a>, and <a href="https://arxiv.org/abs/1711.09846">PBT</a> are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when choosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.</p>
-<h4 id="advanced-hpo-methods">Advanced HPO Methods</h4>
-<p>The more advanced HPO algorithms excel in different settings and can provide more efficient optimization. For example, ASHA and BOHB are both scalable and robust and can rapidly search through a large hyperparameter space by heavily utilizing early termination of non-promising runs. Furthermore, Bayesian Optimization (BO) models estimate the objective function and can draw informed samples of hyperparameter configurations, yielding successively better samples throughout the HPO session. While BO and early stopping sound promising, they possess the most value with a large number of runs and when early iterations of training consistently indicate end-of-run performance. In our case, we used a limited number of runs and searched for hyperparameters that clearly do not benefit from early stopping. For instance, a low learning rate with a large warmup ratio might perform poorly after training only for an epoch but may result in good performance after the full run.</p>
-<p>The figure below demonstrates the early stopping behavior used in ASHA, terminating the lowest performing runs after roughly 2 epochs. Note that mechanisms as early stopping makes it difficult to visualize results and gain intuition about hyperparameters, as the final F1-scores become strongly biased towards runs that make it through the early phases of training.</p>
+<h3
+id="whats-new-with-bertopic-and-how-does-it-make-the-method-more-accessible">What’s
+new with BERTopic and how does it make the method more accessible?</h3>
+<p>BERTopic is a new topic modeling tool that builds on powerful neural
+networks. At the base there is a model called sentence-BERT, which can
+be considered an all-purpose language model that has some understanding
+of the meaning of a sentence or paragraph. The documents are grouped
+into clusters and then some words are extracted from each cluster to
+label the topic.</p>
+<p>The main advantage of BERTopic over traditional topic models is that
+there is next to no pre-processing of the documents required prior to
+modeling: the pre-trained transformer model, sentence-BERT, takes care
+of identifying the meaningful parts of the text, which means that we
+don’t need to do it by hand. On top of that, the process is highly
+automated, so there are relatively few operative decisions that can
+influence the final result and that need to be accounted for.</p>
+<h3 id="what-do-you-need-to-do-to-get-started-with-this-method">What do
+you need to do to get started with this method?</h3>
+<p>To build a BERTopic model you need to have a collection of relatively
+short documents, for example paragraphs or abstracts. While you don’t
+need to be an expert, you do need some experience with Python
+programming, since you need to be able to load your documents into
+Python to run the modeling on them. If you are planning to use the
+method on Swedish data, then you may want to use the sentence
+transformer model we have released, which can be found on KBLab’s
+HuggingFace page (see link below).</p>
+<p>There are excellent tutorials available via the BERTopic repository
+on Github (link below), which provide the best starting point for
+testing out the method.</p>
+<h3 id="what-are-the-computational-requirements-of-this-approach">What
+are the computational requirements of this approach?</h3>
+<p>The powerful language model that BERTopic is based on needs to run on
+a GPU, which not everyone has at their disposal. There are two possible
+solutions if you do not have access to a GPU at your institution: either
+you can run BERTopic with less computation-intensive embedding models
+like Flair, spaCy or Gensim, or you can use Google Colab to have
+temporary free access to a GPU.</p>
+<p>Both options have pros and cons. Using a lighter model that runs on
+CPU means giving up some of the complex language understanding of a
+transformer model: BERT and similar models have consistently proven to
+be superior to other methods in many NLP tasks, and a BERTopic without
+an underlying BERT would be falling short of its full potential. Using
+Google Colab, on the other hand, means that you need to have a Google
+account, you need to have permission to load your documents online and
+you might not get enough GPU memory and/or time for your modelling
+needs. But having said that, experimenting with this latter option would
+certainly be a good place to start!</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span id="fig:unnamed-chunk-3"></span>
-<img src="images/ASHA_original_lower_f1.png" alt="The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset." width="1794" />
+<img src="Bertopic2.png" alt="Hierarchical clustering of topics for a model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
 <p class="caption">
-Figure 3: The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset.
+Figure 3: Hierarchical clustering of topics for a model of
+Swedish governmental reports (SOUs) on education between 1970-2021
 </p>
 </div>
 </div>
-<p>DeepMind’s PBT proved highly resource-demanding in our experiments and showed little to no performance gain. Increasing the population size and tweaking with other settings may yield a strong hyperparameter schedule if one has access to compute and wants to push the most out of a model/dataset. We did not investigate this further. Our experiments showed no significant advantage to using these advanced methods over random search.</p>
-<p>We also conducted some modest experiments tuning the attention dropout rate, hidden dropout rate, and random seed as well, together with the more advanced HPO methods. Those results indicated that we can squeeze out a small amount of performance through more intricate HPO, but the procedure becomes expensive and prone to overfitting on the validation set without observing any performance gains on the test set.</p>
-<h3 id="results">Results</h3>
-<p>We report our results using random search with 30 trials training on both the <em>original</em> and <em>simple</em> tags. For each tag-family we train the taggers on cased, uncased, and a mixed data set, while evaluating on all three development and test sets plus an additional set where only the named entity has been lower-cased. The columns labelled <em>uncased-cased-both</em> and <em>ne-lower-cased-both</em> denote data sets, in which every sentence appears both cased and uncased.</p>
-<p>Most notably in these results is the performance of a system trained on regular <em>cased</em> data, when evaluated on <em>uncased</em> or partially lowercased data. At the same time we see that the system trained on a mix of cased and uncased data performs only slightly worse than their pure counterparts on the pure evaluation sets, while clearly outperforming them on the mixed evaluation sets.</p>
-<h4 id="development">Development</h4>
-<div class="l-body-outset">
-<table>
-<colgroup>
-<col style="width: 7%" />
-<col style="width: 13%" />
-<col style="width: 5%" />
-<col style="width: 3%" />
-<col style="width: 5%" />
-<col style="width: 13%" />
-<col style="width: 14%" />
-<col style="width: 6%" />
-<col style="width: 14%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>cased</th>
-<th>uncased</th>
-<th>uncased-cased-mix</th>
-<th>uncased-cased-both</th>
-<th>ne-lower</th>
-<th>ne-lower-cased-mix</th>
-<th>ne-lower-cased-both</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.8951</td>
-<td>0.4067</td>
-<td>0.7054</td>
-<td>0.6987</td>
-<td>0.4110</td>
-<td>0.7045</td>
-<td>0.6985</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.7847</td>
-<td>0.8713</td>
-<td>0.8278</td>
-<td>0.8293</td>
-<td>0.8695</td>
-<td>0.8263</td>
-<td>0.8285</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.8821</td>
-<td>0.8573</td>
-<td>0.8702</td>
-<td>0.8698</td>
-<td>0.8504</td>
-<td>0.8671</td>
-<td>0.866</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.9345</td>
-<td>0.3037</td>
-<td>0.7035</td>
-<td>0.6974</td>
-<td>0.3038</td>
-<td>0.6995</td>
-<td>0.6941</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.8361</td>
-<td>0.9157</td>
-<td>0.8753</td>
-<td>0.8774</td>
-<td>0.9154</td>
-<td>0.8754</td>
-<td>0.8773</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.9275</td>
-<td>0.9078</td>
-<td>0.9185</td>
-<td>0.9177</td>
-<td>0.9029</td>
-<td>0.9155</td>
-<td>0.9153</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="test">Test</h4>
-<div class="l-body-outset">
-<table>
-<colgroup>
-<col style="width: 7%" />
-<col style="width: 13%" />
-<col style="width: 5%" />
-<col style="width: 3%" />
-<col style="width: 5%" />
-<col style="width: 13%" />
-<col style="width: 14%" />
-<col style="width: 6%" />
-<col style="width: 14%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>cased</th>
-<th>uncased</th>
-<th>uncased-cased-mix</th>
-<th>uncased-cased-both</th>
-<th>ne-lower</th>
-<th>ne-lower-cased-mix</th>
-<th>ne-lower-cased-both</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.8978</td>
-<td>0.4053</td>
-<td>0.6940</td>
-<td>0.7000</td>
-<td>0.4103</td>
-<td>0.6924</td>
-<td>0.6998</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.7811</td>
-<td>0.8656</td>
-<td>0.8248</td>
-<td>0.8245</td>
-<td>0.8649</td>
-<td>0.8245</td>
-<td>0.8242</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.8833</td>
-<td>0.8523</td>
-<td>0.8661</td>
-<td>0.8680</td>
-<td>0.8489</td>
-<td>0.8650</td>
-<td>0.8663</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.9304</td>
-<td>0.2963</td>
-<td>0.6940</td>
-<td>0.6929</td>
-<td>0.2902</td>
-<td>0.6879</td>
-<td>0.6861</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.8299</td>
-<td>0.9075</td>
-<td>0.8687</td>
-<td>0.8702</td>
-<td>0.9074</td>
-<td>0.8685</td>
-<td>0.8702</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.9219</td>
-<td>0.8988</td>
-<td>0.9083</td>
-<td>0.9104</td>
-<td>0.8950</td>
-<td>0.9064</td>
-<td>0.9085</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="baselines-comparison">Baselines Comparison</h4>
-<p>In order to see how much HPO actually helps for this task we compare with our unoptimized baseline systems. Each column illustrates one setting of tag &amp; case type with the performance difference after HPO: <code>F1(HPO) - F1(baseline)</code></p>
-<div class="l-body-outset">
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th>org/cased</th>
-<th>org/uncased</th>
-<th>org/mixed</th>
-<th>simple/cased</th>
-<th>simple/uncased</th>
-<th>simple/mixed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>F1-Dev</td>
-<td>+0.005</td>
-<td>+0.003</td>
-<td>+0.0042</td>
-<td>-0.0014</td>
-<td>+0.0037</td>
-<td>+0.0074</td>
-</tr>
-<tr class="even">
-<td>F1-Test</td>
-<td>+0.0077</td>
-<td>-0.0014</td>
-<td>-0.0026</td>
-<td>-0.0042</td>
-<td>+0.0058</td>
-<td>-0.0035</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values). One such hyperparameter might be the <em>warmup ratio</em>, given that the model is already stable and is only being finetuned to a relatively simple task. We speculate that a more consistent gain in validation set performance could be achieved by taking the stochastic elements into account, i.e. running each experiment with multiple seeds, which argues for the insignificance of the HPO results.</p>
-<h4 id="successful-hyperparameters">Successful Hyperparameters</h4>
-<div class="l-body-outset">
-<table>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>learning rate</th>
-<th>weight decay</th>
-<th>warmup ratio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>7e-05</td>
-<td>0.15</td>
-<td>0.04</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>5e-05</td>
-<td>0.10</td>
-<td>0.08</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>8e-05</td>
-<td>0.15</td>
-<td>0.12</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>5e-05</td>
-<td>0.05</td>
-<td>0.04</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>8e-05</td>
-<td>0.05</td>
-<td>0.04</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>6e-05</td>
-<td>0.05</td>
-<td>0.12</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="models">Models</h3>
-<p>We publish two models for our <em>simple</em> tags without BIO-encoding, trained on <a href="https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner">cased data</a> and <a href="https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner">mixed cased-uncased data</a> data for anyone to try, with more models to follow. If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data. Let us know how the models perform in your projects and how you improved them.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.</p>
-<aside>
-The scripts to generate the <em>SUCX 3.0 - NER</em> data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at <a href="https://github.com/kb-labb/sucx3_ner" class="uri">https://github.com/kb-labb/sucx3_ner</a>.
-</aside>
-<h2 id="acknowledgements">Acknowledgements</h2>
-<p>We gratefully acknowledge the HPC RIVR consortium (<a href="https://www.hpc-rivr.si" class="uri">https://www.hpc-rivr.si</a>) and EuroHPC JU (<a href="https://eurohpc-ju.europa.eu" class="uri">https://eurohpc-ju.europa.eu</a>) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (<a href="https://www.izum.si" class="uri">https://www.izum.si</a>).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="links-about-bertopic">Links about BERTopic:</h3>
+<p>Tutorials on GitHub: <a href="https://github.com/MaartenGr/BERTopic"
+class="uri">https://github.com/MaartenGr/BERTopic</a><br />
+Complete documentation: <a href="https://maartengr.github.io/BERTopic/"
+class="uri">https://maartengr.github.io/BERTopic/</a><br />
+KBLab’s sentence BERT for Swedish: <a
+href="https://huggingface.co/KBLab/sentence-bert-swedish-cased"
+class="uri">https://huggingface.co/KBLab/sentence-bert-swedish-cased</a><br />
+Google Colab: <a href="https://colab.research.google.com/"
+class="uri">https://colab.research.google.com/</a></p>
+<h3 id="further-reading-on-topic-modeling-as-a-research-method">Further
+reading on topic modeling as a research method:</h3>
+<p>“Topic Modeling with BERT,” Medium article by Maarten Grootendorst:
+<a
+href="https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6"
+class="uri">https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6</a></p>
+<p>“Interactive Topic Modeling with BERT,” Medium article by Maarten
+Grootendorst <a
+href="https://towardsdatascience.com/interactive-topic-modeling-with-bertopic-1ea55e7d73d8"
+class="uri">https://towardsdatascience.com/interactive-topic-modeling-with-bertopic-1ea55e7d73d8</a></p>
+<p>“Probabilistic Topic Models,” David M. Blei article: <a
+href="https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf"
+class="uri">https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf</a></p>
+<p>“The Digital Humanities Contribution to Topic Modeling”, Journal of
+Digital Humanities special edition: <a
+href="http://journalofdigitalhumanities.org/2-1/"
+class="uri">http://journalofdigitalhumanities.org/2-1/</a></p>
+<p>“Topic Modeling: What Humanists Actually Do With It,” University of
+California blog post by Teddy Roland: <a
+href="https://digitalhumanities.berkeley.edu/blog/16/07/14/topic-modeling-what-humanists-actually-do-it-guest-post-teddy-roland-university"
+class="uri">https://digitalhumanities.berkeley.edu/blog/16/07/14/topic-modeling-what-humanists-actually-do-it-guest-post-teddy-roland-university</a></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -3177,12 +2826,12 @@ The scripts to generate the <em>SUCX 3.0 - NER</em> data from the original data 
   <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kb-labb/kb-labb.github.io/issues/new">create an issue</a> on the source repository.</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Kurtz &amp; Öhman (2022, Feb. 7). The KBLab Blog: SUCX 3.0 - NER. Retrieved from https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</pre>
+  <pre class="citation-appendix short">Fano &amp; Haffenden (2022, June 14). The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT. Retrieved from https://kb-labb.github.io/posts/2022-06-14-bertopic/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{kurtz2022sucx,
-  author = {Kurtz, Robin and Öhman, Joey},
-  title = {The KBLab Blog: SUCX 3.0 - NER},
-  url = {https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/},
+  <pre class="citation-appendix long">@misc{fano2022bertopic,
+  author = {Fano, Elena and Haffenden, Chris},
+  title = {The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT},
+  url = {https://kb-labb.github.io/posts/2022-06-14-bertopic/},
   year = {2022}
 }</pre>
 </div>

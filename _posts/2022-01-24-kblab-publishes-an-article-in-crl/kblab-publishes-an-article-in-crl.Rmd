@@ -3,7 +3,9 @@ title: "KBLab publishes an article about AI in the library in C&RL"
 description: |
   What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.
 author:
-  - name: Elena Fano and Chris Haffenden
+  - name: Elena Fano
+    affiliation: KBLab
+  - name: Chris Haffenden
     affiliation: KBLab
 preview: newspapers.jpg
 date: 01-24-2022

@@ -2,73 +2,84 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
     <title>The KBLab Blog</title>
-    <link>https://kblabb.github.io</link>
-    <atom:link href="https://kblabb.github.io/index.xml" rel="self" type="application/rss+xml"/>
+    <link>https://kb-labb.github.io</link>
+    <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
     <description>A blog with news, posts and articles about the work done at KBLab, a datalab 
 at the National Library of Sweden.
 </description>
     <image>
       <title>The KBLab Blog</title>
-      <url>https://kblabb.github.io/images/kb_logo_black.png</url>
-      <link>https://kblabb.github.io</link>
+      <url>https://kb-labb.github.io/images/kb_logo_black.png</url>
+      <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 16 Mar 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>BERTopic for Swedish: Topic modeling made easier via KB-BERT</title>
+      <dc:creator>Elena Fano</dc:creator>
+      <dc:creator>Chris Haffenden</dc:creator>
+      <link>https://kb-labb.github.io/posts/2022-06-14-bertopic</link>
+      <description>Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started.</description>
+      <guid>https://kb-labb.github.io/posts/2022-06-14-bertopic</guid>
+      <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png" medium="image" type="image/png" width="600" height="531"/>
+    </item>
     <item>
       <title>Evaluating Swedish Language Models</title>
       <dc:creator>Robin Kurtz</dc:creator>
-      <link>https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models</link>
+      <link>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models</link>
       <description>We present _OverLim_, a new benchmark for evaluating large language models for Swedish, Danish, and Norwegian, created by translating a subset of the GLUE and SuperGLUE benchmark tasks.
 The lack of suitable downstream tasks for these three Scandinavian languages has made it difficult to evaluate new models that are being published; model developers cannot easily see whether their traning has succeeded, and comparison between various models becomes even more tedious.
 While the translations were done using state-of-the-art models, their quality was not double-checked with native speakers, meaning that any results on these datasets should be interpreted carefully.
 The dataset is available via the _huggingface_ 🤗 ecosystem and can be downloaded at https://huggingface.co/datasets/KBLab/overlim.</description>
-      <guid>https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models</guid>
+      <guid>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models</guid>
       <pubDate>Wed, 16 Mar 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2022-03-16-evaluating-swedish-language-models/images/bokstaver_kvalitet.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/images/bokstaver_kvalitet.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>Swedish Bootleg model</title>
       <dc:creator>Elena Fano</dc:creator>
-      <link>https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model</link>
+      <link>https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model</link>
       <description>We at KBLab have trained a Swedish version of an entity disambiguation model called Bootleg, developed by the Hazy Research Lab at Stanford. 
 The model is trained on Swedish Wikipedia and can be used to disambiguate named entities based on their context.</description>
-      <guid>https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model</guid>
+      <guid>https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model</guid>
       <pubDate>Thu, 03 Mar 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" medium="image" type="image/png" width="600" height="555"/>
+      <media:content url="https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" medium="image" type="image/png" width="600" height="555"/>
     </item>
     <item>
       <title>SUCX 3.0 - NER</title>
       <dc:creator>Robin Kurtz</dc:creator>
       <dc:creator>Joey Öhman</dc:creator>
-      <link>https://kblabb.github.io/posts/2022-02-07-sucx3_ner</link>
+      <link>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner</link>
       <description>We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT.
 We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner.</description>
-      <guid>https://kblabb.github.io/posts/2022-02-07-sucx3_ner</guid>
+      <guid>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner</guid>
       <pubDate>Mon, 07 Feb 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png" medium="image" type="image/png" width="1138" height="203"/>
+      <media:content url="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png" medium="image" type="image/png" width="1138" height="203"/>
     </item>
     <item>
       <title>KBLab publishes an article about AI in the library in C&amp;RL</title>
-      <dc:creator>Elena Fano and Chris Haffenden</dc:creator>
-      <link>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</link>
+      <dc:creator>Elena Fano</dc:creator>
+      <dc:creator>Chris Haffenden</dc:creator>
+      <link>https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</link>
       <description>What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries.</description>
-      <guid>https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</guid>
+      <guid>https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl</guid>
       <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>KBLab's director Love Börjeson nominated as AI Swede of the year 2021</title>
       <dc:creator>Elena Fano</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021</link>
+      <link>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021</link>
       <description>We are very pleased to announce that our director Love Börjeson has been nominated for the prestigious prize Årets AI Svensk 2021 (AI Swede of the year 2021) which is awarded by TechSverige.</description>
-      <guid>https://kblabb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021</guid>
+      <guid>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021</guid>
       <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/ai_swede.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/ai_swede.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>Introducing a Swedish Sentence Transformer</title>
       <dc:creator>Faton Rekathati</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</link>
+      <link>https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</link>
       <description>While language models such as BERT are effective at many tasks, they have limited
 use when it comes to information retrieval and large scale similarity comparisons. 
 In this post we introduce a Swedish sentence transformer which produces semantically
@@ -76,14 +87,14 @@ meaningful sentence embeddings suitable for use in semantic search applications.
 We evaluate the model on SuperLim (Swedish SuperGLUE), where it achieves the
 highest published scores on SweParaphrase (a test set to evaluate 
 sentence similarity). The model is publicly available on Huggingface.</description>
-      <guid>https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</guid>
+      <guid>https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer</guid>
       <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/images/similarity.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/images/similarity.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>A Swedish-Norwegian Federated Language Model</title>
       <dc:creator>Robin Kurtz</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</link>
+      <link>https://kb-labb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</link>
       <description>We trained a bilingual Swedish-Norwegian
 [ELECTRA](https://github.com/google-research/electra) language model in
 a federated setup, showcasing LM training when various corpora cannot be
@@ -91,32 +102,32 @@ shared directly.
 The main goal of the project was to validate the feasibility
 of the approch, as well as to study some key numerical
 properties affecting the performance of the FL process.</description>
-      <guid>https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</guid>
+      <guid>https://kb-labb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model</guid>
       <pubDate>Tue, 15 Jun 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/images/HFedAvg.png" medium="image" type="image/png" width="1696" height="810"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/images/HFedAvg.png" medium="image" type="image/png" width="1696" height="810"/>
     </item>
     <item>
       <title>Topic models for Statens Offentliga Utredningar</title>
       <dc:creator>Elena Fano</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous</link>
+      <link>https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous</link>
       <description>We built some topic models on the National Library's SOU collection, as an example of what can be done with the Library's materials. The curated dataset can be a useful resource for other researchers interested in this collection, or a good playground for students who need a large dataset of freely available Swedish text.</description>
-      <guid>https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous</guid>
+      <guid>https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous</guid>
       <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-05-04-topic-models-for-sous/SOU_1935_Bostadssociala_utredningen.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/SOU_1935_Bostadssociala_utredningen.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>The Power of Crowdsourcing</title>
       <dc:creator>Elena Fano</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</link>
+      <link>https://kb-labb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</link>
       <description>High-quality, curated datasets for minor languages like Swedish are hard to come by for most NLP tasks. We at KBLab decided to do something about it and are enlisting the help of our colleagues to annotate data to improve our models. Currently we are working on a NER dataset particularly suited for library purposes and we are also starting a project to transcribe radio speech for a new speech recognition model.</description>
-      <guid>https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</guid>
+      <guid>https://kb-labb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation</guid>
       <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/ner_page.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-04-08-internal-crowdsourcing-for-dataset-creation/ner_page.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>A multimodal approach to advertisement classification in digitized newspapers</title>
       <dc:creator>Faton Rekathati</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-03-28-ad-classification</link>
+      <link>https://kb-labb.github.io/posts/2021-03-28-ad-classification</link>
       <description>The process of digitizing historical newspapers at the National Library of Sweden
 involves scanning physical copies of newspapers and storing them as images. 
 In order to make the scanned contents machine readable and searchable, OCR 
@@ -125,20 +136,20 @@ This results in a wealth of information being generated from different data
 modalities (images, text and OCR metadata). In this article we explore 
 how features from multiple modalities can be integrated into a unified advertisement 
 classifier model.</description>
-      <guid>https://kblabb.github.io/posts/2021-03-28-ad-classification</guid>
+      <guid>https://kb-labb.github.io/posts/2021-03-28-ad-classification</guid>
       <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-03-28-ad-classification/images/pred_goodb.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-03-28-ad-classification/images/pred_goodb.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>Introduction to Distill for R Markdown</title>
       <dc:creator>Faton Rekathati</dc:creator>
-      <link>https://kblabb.github.io/posts/2021-02-25-introduction</link>
+      <link>https://kb-labb.github.io/posts/2021-02-25-introduction</link>
       <description>A short introduction showcasing the capabilities of the distill 
 package for scientific and technical writing. Get yourself set up and 
 start publishing posts!</description>
-      <guid>https://kblabb.github.io/posts/2021-02-25-introduction</guid>
+      <guid>https://kb-labb.github.io/posts/2021-02-25-introduction</guid>
       <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kblabb.github.io/posts/2021-02-25-introduction/kblabintro.jpg" medium="image" type="image/jpeg"/>
+      <media:content url="https://kb-labb.github.io/posts/2021-02-25-introduction/kblabintro.jpg" medium="image" type="image/jpeg"/>
     </item>
   </channel>
 </rss>

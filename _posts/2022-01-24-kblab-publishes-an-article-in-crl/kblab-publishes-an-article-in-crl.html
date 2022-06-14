@@ -56,7 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
 code span.cf { color: #007ba5; } /* ControlFlow */
@@ -77,13 +77,14 @@ code span.kw { color: #007ba5; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
 code span.ot { color: #007ba5; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>KBLab publishes an article about AI in the library in C&amp;RL</title>
@@ -94,7 +95,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2022-01-24"/>
   <meta property="article:created" itemprop="dateCreated" content="2022-01-24"/>
-  <meta name="article:author" content="Elena Fano and Chris Haffenden"/>
+  <meta name="article:author" content="Elena Fano"/>
+  <meta name="article:author" content="Chris Haffenden"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="KBLab publishes an article about AI in the library in C&amp;RL"/>
@@ -111,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output"]}},"value":[{"type":"character","attributes":{},"value":["KBLab publishes an article about AI in the library in C&RL"]},{"type":"character","attributes":{},"value":["What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano and Chris Haffenden"]},{"type":"character","attributes":{},"value":["KBLab"]}]}]},{"type":"character","attributes":{},"value":["newspapers.jpg"]},{"type":"character","attributes":{},"value":["01-24-2022"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output"]}},"value":[{"type":"character","attributes":{},"value":["KBLab publishes an article about AI in the library in C&RL"]},{"type":"character","attributes":{},"value":["What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano"]},{"type":"character","attributes":{},"value":["KBLab"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Chris Haffenden"]},{"type":"character","attributes":{},"value":["KBLab"]}]}]},{"type":"character","attributes":{},"value":["newspapers.jpg"]},{"type":"character","attributes":{},"value":["01-24-2022"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1263,7 +1265,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1434,8 +1439,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="kblab-publishes-an-article-in-crl_files/header-attrs-2.8/header-attrs.js"></script>
-  <script src="kblab-publishes-an-article-in-crl_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="kblab-publishes-an-article-in-crl_files/header-attrs-2.11/header-attrs.js"></script>
+  <script src="kblab-publishes-an-article-in-crl_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="kblab-publishes-an-article-in-crl_files/popper-2.6.0/popper.min.js"></script>
   <link href="kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="kblab-publishes-an-article-in-crl_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -1455,7 +1460,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"KBLab publishes an article about AI in the library in C&RL","description":"What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.","authors":[{"author":"Elena Fano and Chris Haffenden","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-01-24T00:00:00.000+01:00","citationText":"Haffenden, 2022"}
+{"title":"KBLab publishes an article about AI in the library in C&RL","description":"What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.","authors":[{"author":"Elena Fano","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""},{"author":"Chris Haffenden","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-01-24T00:00:00.000+01:00","citationText":"Fano & Haffenden, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1468,23 +1473,48 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>KBLab publishes an article about AI in the library in C&amp;RL</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College &amp; Research Libraries.</p></p>
+<p><p>What does AI mean for libraries and how could libraries pave the
+way for ethical AI? KBLab reflects on these questions in an article in
+the Open Access journal College &amp; Research Libraries.</p></p>
 </div>
 
 <div class="d-byline">
-  Elena Fano and Chris Haffenden  (KBLab)
+  Elena Fano  (KBLab)
+  
+,   Chris Haffenden  (KBLab)
   
 <br/>01-24-2022
 </div>
 
 <div class="d-article">
 <h2 id="ai-in-the-library">AI in the library</h2>
-<p>With the increasingly rapid appearance of new techniques over the past few years, the role of AI within the library is becoming a hot topic today. Yet despite a growing interest among librarians, there remains surpisingly little research devoted to the subject.<br />
-We have sought to fill this gap at KBLab by conducting research focused specifically upon AI in the context of libraries. The aim with our new article, <em>Making and using AI in the library: creating a BERT model at the National Library of Sweden</em>, is to show how AI techniques create new possibilities for processing and organizing information at scale in a library (e.g. though automated classification and enriched metadata), but also how library collections might be used to make even better AI tools in the future.</p>
-<p>In this way, we have sought to nuance the image that otherwise tends to predominate of the library as a passive space for the application of AI solutions developed elsewhere. On the contrary, we argue that libraries can have an important roll to play in AI development, especially in relation to language technology (NLP) for other languages than English and Chinese. We hope that our text can lead to new and exciting conversations about the future role of AI in the library!</p>
+<p>With the increasingly rapid appearance of new techniques over the
+past few years, the role of AI within the library is becoming a hot
+topic today. Yet despite a growing interest among librarians, there
+remains surpisingly little research devoted to the subject.<br />
+We have sought to fill this gap at KBLab by conducting research focused
+specifically upon AI in the context of libraries. The aim with our new
+article, <em>Making and using AI in the library: creating a BERT model
+at the National Library of Sweden</em>, is to show how AI techniques
+create new possibilities for processing and organizing information at
+scale in a library (e.g. though automated classification and enriched
+metadata), but also how library collections might be used to make even
+better AI tools in the future.</p>
+<p>In this way, we have sought to nuance the image that otherwise tends
+to predominate of the library as a passive space for the application of
+AI solutions developed elsewhere. On the contrary, we argue that
+libraries can have an important roll to play in AI development,
+especially in relation to language technology (NLP) for other languages
+than English and Chinese. We hope that our text can lead to new and
+exciting conversations about the future role of AI in the library!</p>
 <h3 id="read-the-article-online">Read the article online</h3>
-<p>The article has been accepted for publication in the Open Access journal College &amp; Research Libraries, but is available to read online as a preprint now (<a href="https://osf.io/preprints/socarxiv/k9duq/">link to a downloadable PDF on SocArXiv</a>).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>The article has been accepted for publication in the Open Access
+journal College &amp; Research Libraries, but is available to read
+online as a preprint now (<a
+href="https://osf.io/preprints/socarxiv/k9duq/">link to a downloadable
+PDF on SocArXiv</a>).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
