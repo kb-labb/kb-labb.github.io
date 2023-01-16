@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,9 +74,9 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
 code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
@@ -87,58 +88,51 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-<title>The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT</title>
+<title>The KBLab Blog: Swedish Sentence Transformer 2.0</title>
 
-<meta property="description" itemprop="description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
+<meta property="description" itemprop="description" content="KBLab&#39;s Swedish sentence transformer has been updated to a newer version. The&#10;new version features an increased maximum sequence length of 384 tokens, &#10;allowing users to encode longer documents. It also performs better on retrieval&#10;tasks, such as matching questions and answers."/>
 
-<link rel="canonical" href="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
+<link rel="canonical" href="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"/>
 <link rel="icon" type="image/png" href="../../images/kb_logo_black.png"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2022-06-14"/>
-<meta property="article:created" itemprop="dateCreated" content="2022-06-14"/>
-<meta name="article:author" content="Elena Fano"/>
-<meta name="article:author" content="Chris Haffenden"/>
+<meta property="article:published" itemprop="datePublished" content="2023-01-16"/>
+<meta property="article:created" itemprop="dateCreated" content="2023-01-16"/>
+<meta name="article:author" content="Faton Rekathati"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
+<meta property="og:title" content="The KBLab Blog: Swedish Sentence Transformer 2.0"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
-<meta property="og:url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
-<meta property="og:image" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png"/>
-<meta property="og:image:width" content="600"/>
-<meta property="og:image:height" content="531"/>
+<meta property="og:description" content="KBLab&#39;s Swedish sentence transformer has been updated to a newer version. The&#10;new version features an increased maximum sequence length of 384 tokens, &#10;allowing users to encode longer documents. It also performs better on retrieval&#10;tasks, such as matching questions and answers."/>
+<meta property="og:url" content="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"/>
+<meta property="og:image" content="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/images/sentence_transformer.svg"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="The KBLab Blog"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
-<meta property="twitter:description" content="Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."/>
-<meta property="twitter:url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
-<meta property="twitter:image" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png"/>
-<meta property="twitter:image:width" content="600"/>
-<meta property="twitter:image:height" content="531"/>
+<meta property="twitter:title" content="The KBLab Blog: Swedish Sentence Transformer 2.0"/>
+<meta property="twitter:description" content="KBLab&#39;s Swedish sentence transformer has been updated to a newer version. The&#10;new version features an increased maximum sequence length of 384 tokens, &#10;allowing users to encode longer documents. It also performs better on retrieval&#10;tasks, such as matching questions and answers."/>
+<meta property="twitter:url" content="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"/>
+<meta property="twitter:image" content="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/images/sentence_transformer.svg"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT"/>
-<meta name="citation_fulltext_html_url" content="https://kb-labb.github.io/posts/2022-06-14-bertopic/"/>
-<meta name="citation_online_date" content="2022/06/14"/>
-<meta name="citation_publication_date" content="2022/06/14"/>
-<meta name="citation_author" content="Elena Fano"/>
-<meta name="citation_author_institution" content="KBLab"/>
-<meta name="citation_author" content="Chris Haffenden"/>
+<meta name="citation_title" content="The KBLab Blog: Swedish Sentence Transformer 2.0"/>
+<meta name="citation_fulltext_html_url" content="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"/>
+<meta name="citation_online_date" content="2023/01/16"/>
+<meta name="citation_publication_date" content="2023/01/16"/>
+<meta name="citation_author" content="Faton Rekathati"/>
 <meta name="citation_author_institution" content="KBLab"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["BERTopic for Swedish: Topic modeling made easier via KB-BERT"]},{"type":"character","attributes":{},"value":["Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Elena Fano"]},{"type":"character","attributes":{},"value":["KBLab"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Chris Haffenden"]},{"type":"character","attributes":{},"value":["KBLab"]}]}]},{"type":"character","attributes":{},"value":["2022-06-14"]},{"type":"character","attributes":{},"value":["Bertopic_algorithm.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-06-14-bertopic/"]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2022-06-14-bertopic/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Swedish Sentence Transformer 2.0"]},{"type":"character","attributes":{},"value":["KBLab's Swedish sentence transformer has been updated to a newer version. The\nnew version features an increased maximum sequence length of 384 tokens, \nallowing users to encode longer documents. It also performs better on retrieval\ntasks, such as matching questions and answers."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Faton Rekathati"]},{"type":"character","attributes":{},"value":["https://github.com/Lauler"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["2023-01-16"]},{"type":"character","attributes":{},"value":["images/sentence_transformer.svg"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"]},{"type":"character","attributes":{},"value":["https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["Bertopic_algorithm.png","bertopic_files/anchor-4.2.2/anchor.min.js","bertopic_files/bowser-1.9.3/bowser.min.js","bertopic_files/distill-2.2.21/template.v2.js","bertopic_files/header-attrs-2.11/header-attrs.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.min.js","bertopic_files/jquery-3.6.0/jquery-3.6.0.min.map","bertopic_files/popper-2.6.0/popper.min.js","bertopic_files/tippy-6.2.7/tippy-bundle.umd.min.js","bertopic_files/tippy-6.2.7/tippy-light-border.css","bertopic_files/tippy-6.2.7/tippy.css","bertopic_files/tippy-6.2.7/tippy.umd.min.js","bertopic_files/webcomponents-2.0.0/webcomponents.js","Bertopic1.png","Bertopic2.png","Bertopic4.png"]}
+  {"type":"character","attributes":{},"value":["images/sentence_transformer.svg","sentence-transformer-20_files/anchor-4.2.2/anchor.min.js","sentence-transformer-20_files/bowser-1.9.3/bowser.min.js","sentence-transformer-20_files/distill-2.2.21/template.v2.js","sentence-transformer-20_files/header-attrs-2.18/header-attrs.js","sentence-transformer-20_files/jquery-3.6.0/jquery-3.6.0.js","sentence-transformer-20_files/jquery-3.6.0/jquery-3.6.0.min.js","sentence-transformer-20_files/jquery-3.6.0/jquery-3.6.0.min.map","sentence-transformer-20_files/popper-2.6.0/popper.min.js","sentence-transformer-20_files/tippy-6.2.7/tippy-bundle.umd.min.js","sentence-transformer-20_files/tippy-6.2.7/tippy-light-border.css","sentence-transformer-20_files/tippy-6.2.7/tippy.css","sentence-transformer-20_files/tippy-6.2.7/tippy.umd.min.js","sentence-transformer-20_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2606,7 +2600,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.18/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2627,7 +2621,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"BERTopic for Swedish: Topic modeling made easier via KB-BERT","description":"Topic modeling is an exciting option for exploring and finding patterns in large volumes of text data.  While this previously required considerable programming skills, a recent innovation has simplified the method to make it more accessible for researchers in and beyond the academy. We explain how BERTopic harnesses KBLab’s language models to produce state-of-the-art topic modeling, and we offer some tips on how to get started.","authors":[{"author":"Elena Fano","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""},{"author":"Chris Haffenden","authorURL":"#","affiliation":"KBLab","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-06-14T00:00:00.000+02:00","citationText":"Fano & Haffenden, 2022"}
+{"title":"Swedish Sentence Transformer 2.0","description":"KBLab's Swedish sentence transformer has been updated to a newer version. The\nnew version features an increased maximum sequence length of 384 tokens, \nallowing users to encode longer documents. It also performs better on retrieval\ntasks, such as matching questions and answers.","authors":[{"author":"Faton Rekathati","authorURL":"https://github.com/Lauler","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2023-01-16T00:00:00.000+01:00","citationText":"Rekathati, 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2679,173 +2673,308 @@ API
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>BERTopic for Swedish: Topic modeling made easier via KB-BERT</h1>
+<h1>Swedish Sentence Transformer 2.0</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Topic modeling is an exciting option for exploring and finding
-patterns in large volumes of text data. While this previously required
-considerable programming skills, a recent innovation has simplified the
-method to make it more accessible for researchers in and beyond the
-academy. We explain how BERTopic harnesses KBLab’s language models to
-produce state-of-the-art topic modeling, and we offer some tips on how
-to get started.</p></p>
+<p><p>KBLab’s Swedish sentence transformer has been updated to a newer version. The
+new version features an increased maximum sequence length of 384 tokens,
+allowing users to encode longer documents. It also performs better on retrieval
+tasks, such as matching questions and answers.</p></p>
 </div>
 
 <div class="d-byline">
-  Elena Fano  (KBLab)
+  Faton Rekathati <a href="https://github.com/Lauler" class="uri">https://github.com/Lauler</a> (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
   
-,   Chris Haffenden  (KBLab)
-  
-<br/>2022-06-14
+<br/>2023-01-16
 </div>
 
 <div class="d-article">
-<p>The emergence of transformer-based language models has significantly
-enhanced the potential for machine learning to be used for extracting
-meaning from large volumes of text. Yet this potential has hitherto been
-limited to the select few with the requisite knowledge in data science.
-To the vast majority without prior experience of programming in Python,
-the promise of cutting-edge language processing from a BERT model
-remains just that—a distant promise.</p>
-<p>However, this has now changed with the development of BERTopic.
-Recent work by the Dutch data scientist, Maarten Grootendorst makes it
-possible to harness the impressive performance of BERT language models
-without first needing to become an expert in data science. More
-specifically, it enables the sophisticated and flexible NLP capacities
-of a BERT model to serve as the basis for a more accessible form of
-topic modeling. By offering a new and simpler way of using KBLab’s
-language models, BERTopic brings a cutting-edge yet previously
-technically challenging method within reach of a broader range of
-researchers and other users working with Swedish material.</p>
-<p>In this post, we provide a brief introduction to using BERTopic for
-topic modeling with Swedish text data. We explain how BERTopic harnesses
-KBLab’s models to produce state-of-the-art topic models, and we outline
-some tips on how to get started. If you’re interested in finding out
-more about this particular method, or about topic modeling in general,
-check out the links at the bottom of the page!</p>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#the-sequence-length-problem" id="toc-the-sequence-length-problem">The sequence length problem</a></li>
+<li><a href="#longer-parallel-texts" id="toc-longer-parallel-texts">Longer parallel texts</a></li>
+<li><a href="#new-models" id="toc-new-models">New models</a></li>
+<li><a href="#training" id="toc-training">Training</a></li>
+<li><a href="#results-on-superlim" id="toc-results-on-superlim">Results on SuperLim</a>
+<ul>
+<li><a href="#sweparahrase-v1.0" id="toc-sweparahrase-v1.0">SweParahrase v1.0</a></li>
+<li><a href="#sweparaphrase-v2.0" id="toc-sweparaphrase-v2.0">SweParaphrase v2.0</a></li>
+<li><a href="#swefaq-v2.0" id="toc-swefaq-v2.0">SweFAQ v2.0</a></li>
+</ul></li>
+<li><a href="#acknowledgements" id="toc-acknowledgements">Acknowledgements</a></li>
+<li><a href="#code-availability" id="toc-code-availability">Code availability</a></li>
+</ul>
+</nav>
+</div>
+<p>We release an updated Swedish sentence transformer model. In addition to training the model on parallel sentences, we concatenate sentences from those parallel text corpora whose sentence orderings are sequential, training our model on longer text paragraphs. The new <strong>KB-SBERT v2.0</strong> has an increased maximum sequence length of 384, up from the 256 maximum tokens of the previous model. The model performs only marginally worse on SuperLim’s SweParaphrase benchmark, while performing significantly better on SweFaQ.</p>
+<h2 id="the-sequence-length-problem">The sequence length problem</h2>
+<p>The training of the vast majority of available non-English sentence transformer models involves the use of so called <em>parallel corpora</em>. These are text translations of the same source documents in two or more languages. Typically these datasets come in the form of sentence-aligned observations. As a result, the context of any single given observation is quite small.</p>
+<aside>
+You can read more about the first version of the model in another article on our blog: <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/">Introducing a Swedish Sentence Transformer</a>.
+</aside>
+<p>The setup for training the first version of KB-SBERT involved parallel corpora and using <em>knowledge distillation</em> to transfer the knowledge of an English sentence transformer to a Swedish student BERT model. The library <a href="https://github.com/UKPLab/sentence-transformers"><code>sentence-transformers</code></a> provides a template for training models in this manner. Its default setting however recommends a maximum sequence length of <span class="math inline">\(128\)</span> for knowledge distilled bi- or multilingual models. This is due to most training examples in parallel corpora being rather short. It is unclear whether models trained on only short inputs can perform well on longer inputs.</p>
+<aside>
+The limited maximum sequence length of multilingual models is discussed in a <a href="https://github.com/UKPLab/sentence-transformers/issues/1476">Github issue</a>.
+</aside>
+<p>In this article, we set out to train a new model where we investigate and try to address the sequence length problem.</p>
+<h2 id="longer-parallel-texts">Longer parallel texts</h2>
+<p>The new model is trained on a similar set of source datasets as the old one, assembled mostly from the <a href="https://opus.nlpl.eu/">Open Parallel Corpus (OPUS)</a>. We use <code>JW300</code>, <code>Europarl</code>, <code>DGT-TM</code>, <code>EMEA</code>, <code>ELITR-ECA</code>, <code>TED2020</code>, <code>Tatoeba</code> and <code>OpenSubtitles</code>. We discovered issues in alignments in the published files from OPUS for the DGT dataset. For this reason we downloaded all the raw DGT-TM data files from EU’s data portal and processed them ourselves (<a href="https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_dgt.py">code</a>). Some of the datasets have quality filters indicating the confidence of the alignments. You can see which thresholds we used in the following <a href="https://github.com/kb-labb/swedish-sbert/blob/fb829a2ce3832a24912f29b1dc20c7f4878bc44e/get_parallel_data_opus.py#L57-L67">highlighted lines</a>.</p>
+<aside>
+Read more about the datasets in <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/#data-parallel-corpus-training-data">the original article</a>.
+</aside>
+<p>The main difference when it comes to training data comes from</p>
+<ol type="1">
+<li>identifying the datasets where sentences are ordered consecutively.</li>
+<li>concatenating consecutive sentences in both English and Swedish to longer parallel texts.</li>
+</ol>
+<p>A dataset with longer texts was created using <code>DGT-TM</code>, <code>Europarl</code>, <code>EMEA</code>, <code>ELITR-ECA</code>, <code>JW300</code> and <code>TED2020</code>. Word counts were calculated for all sentences. Consecutive sentences were then concatenated until the cumulative number of words exceeded a maximum word limit determined by sampling from a truncated normal distribution:</p>
+<p><span class="math display">\[
+\mathcal{TN}(\mu, \sigma, a, b)
+\]</span></p>
+<aside>
+<span class="math inline">\(\mu\)</span> – mean.<br />
+<span class="math inline">\(\sigma\)</span> – standard deviation.<br />
+<span class="math inline">\(a\)</span> – minimum nr of words.<br />
+<span class="math inline">\(b\)</span> – maximum nr of words.
+</aside>
+<p>where <span class="math inline">\(\mu=270\)</span>, <span class="math inline">\(\sigma=110\)</span>, <span class="math inline">\(a=60\)</span>, <span class="math inline">\(b=330\)</span>. Generally each word is represented by an average of <span class="math inline">\(1.3\)</span> to <span class="math inline">\(1.4\)</span> tokens. Some of the concatenated texts will thus exceed the <span class="math inline">\(384\)</span> max sequence length of the model and be truncated. We imagine truncation will be common in real world usage as well, and the pretraining schemes of some language models such as BERT even included too long sequences for this very reason. Therefore we don’t regard the occasional truncation as an issue.</p>
+<h2 id="new-models">New models</h2>
+<p>We train two new models with <span class="math inline">\(384\)</span> max sequence length. The one called <strong>v1.1</strong> is trained with the same teacher model as our original <strong>v1.0</strong> model. The new default model called <strong>v2.0</strong> is trained with a more recently released teacher model <code>all-mpnet-base-v2</code> that is <a href="https://www.sbert.net/docs/pretrained_models.html">supposedly better</a>. An overview of available models and their differences are listed below.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th style="text-align: left;">Teacher Model</th>
+<th>Max Sequence Length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2">paraphrase-mpnet-base-v2</a></td>
+<td>256</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2">paraphrase-mpnet-base-v2</a></td>
+<td>384</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2">all-mpnet-base-v2</a></td>
+<td>384</td>
+</tr>
+</tbody>
+</table>
+<style>
+table th:first-of-type {
+    width: 32%;
+}
+table th:nth-of-type(2) {
+    width: 36%;
+}
+table th:nth-of-type(3) {
+    width: 32%;
+}
+</style>
+<p>You can still access and use older version of the model with Huggingface via</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-1"></span>
-<img src="Bertopic1.png" alt="Intertopic distance map for a topic model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
-<p class="caption">
-Figure 1: Intertopic distance map for a topic model of
-Swedish governmental reports (SOUs) on education between 1970-2021
-</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>AutoModel.from_pretrained(<span class="st">&#39;KBLab/sentence-bert-swedish-cased&#39;</span>, revision<span class="op">=</span><span class="st">&quot;v1.0&quot;</span>)</span></code></pre></div>
 </div>
-</div>
-<h3
-id="what-is-topic-modeling-and-why-might-it-be-helpful-for-researchers">What
-is topic modeling and why might it be helpful for researchers?</h3>
-<p>Topic modeling is a quantitative method for text analysis that allows
-researchers to gain insights on large text corpora without manually
-going through all the data themselves. The principal idea is to find a
-number of major topics in the collection and to be able to retrieve
-documents that are relevant for these topics.</p>
-<p>The output of a topic model is a list of topics represented by words
-that define them. It is possible to visualize the topics in charts to
-see their size and distance to each other (see figure 1).<br />
-Topic models can be used in many ways, for example to follow the
-development of a concept over time or to analyze subtopics of a given
-issue (see figures 2 and 3). The main insight is in utilizing data
-mining algorithms to make vast amounts of data searchable—and thus
-legible—according to the particular themes of which it is comprised.</p>
+<p>or with <code>sentence-transformers</code> by cloning the repository to your computer with</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-2"></span>
-<img src="Bertopic4.png" alt="Topics over time for model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
-<p class="caption">
-Figure 2: Topics over time for model of Swedish governmental
-reports (SOUs) on education between 1970-2021
-</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="at">--depth</span> 1 <span class="at">--branch</span> v1.0 https://huggingface.co/KBLab/sentence-bert-swedish-cased</span></code></pre></div>
 </div>
-</div>
-<h3
-id="whats-new-with-bertopic-and-how-does-it-make-the-method-more-accessible">What’s
-new with BERTopic and how does it make the method more accessible?</h3>
-<p>BERTopic is a new topic modeling tool that builds on powerful neural
-networks. At the base there is a model called sentence-BERT, which can
-be considered an all-purpose language model that has some understanding
-of the meaning of a sentence or paragraph. The documents are grouped
-into clusters and then some words are extracted from each cluster to
-label the topic.</p>
-<p>The main advantage of BERTopic over traditional topic models is that
-there is next to no pre-processing of the documents required prior to
-modeling: the pre-trained transformer model, sentence-BERT, takes care
-of identifying the meaningful parts of the text, which means that we
-don’t need to do it by hand. On top of that, the process is highly
-automated, so there are relatively few operative decisions that can
-influence the final result and that need to be accounted for.</p>
-<h3 id="what-do-you-need-to-do-to-get-started-with-this-method">What do
-you need to do to get started with this method?</h3>
-<p>To build a BERTopic model you need to have a collection of relatively
-short documents, for example paragraphs or abstracts. While you don’t
-need to be an expert, you do need some experience with Python
-programming, since you need to be able to load your documents into
-Python to run the modeling on them. If you are planning to use the
-method on Swedish data, then you may want to use the sentence
-transformer model we have released, which can be found on KBLab’s
-HuggingFace page (see link below).</p>
-<p>There are excellent tutorials available via the BERTopic repository
-on Github (link below), which provide the best starting point for
-testing out the method.</p>
-<h3 id="what-are-the-computational-requirements-of-this-approach">What
-are the computational requirements of this approach?</h3>
-<p>The powerful language model that BERTopic is based on needs to run on
-a GPU, which not everyone has at their disposal. There are two possible
-solutions if you do not have access to a GPU at your institution: either
-you can run BERTopic with less computation-intensive embedding models
-like Flair, spaCy or Gensim, or you can use Google Colab to have
-temporary free access to a GPU.</p>
-<p>Both options have pros and cons. Using a lighter model that runs on
-CPU means giving up some of the complex language understanding of a
-transformer model: BERT and similar models have consistently proven to
-be superior to other methods in many NLP tasks, and a BERTopic without
-an underlying BERT would be falling short of its full potential. Using
-Google Colab, on the other hand, means that you need to have a Google
-account, you need to have permission to load your documents online and
-you might not get enough GPU memory and/or time for your modelling
-needs. But having said that, experimenting with this latter option would
-certainly be a good place to start!</p>
+<p>and then pointing to that local folder when loading the model in:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="figure"><span id="fig:unnamed-chunk-3"></span>
-<img src="Bertopic2.png" alt="Hierarchical clustering of topics for a model of Swedish governmental reports (SOUs) on education between 1970-2021" width="180%" />
-<p class="caption">
-Figure 3: Hierarchical clustering of topics for a model of
-Swedish governmental reports (SOUs) on education between 1970-2021
-</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SentenceTransformer(<span class="st">&quot;path_to_model_folder/sentence-bert-swedish-cased&quot;</span>)</span></code></pre></div>
 </div>
-</div>
-<h3 id="links-about-bertopic">Links about BERTopic:</h3>
-<p>Tutorials on GitHub: <a href="https://github.com/MaartenGr/BERTopic"
-class="uri">https://github.com/MaartenGr/BERTopic</a><br />
-Complete documentation: <a href="https://maartengr.github.io/BERTopic/"
-class="uri">https://maartengr.github.io/BERTopic/</a><br />
-KBLab’s sentence BERT for Swedish: <a
-href="https://huggingface.co/KBLab/sentence-bert-swedish-cased"
-class="uri">https://huggingface.co/KBLab/sentence-bert-swedish-cased</a><br />
-Google Colab: <a href="https://colab.research.google.com/"
-class="uri">https://colab.research.google.com/</a></p>
-<h3 id="further-reading-on-topic-modeling-as-a-research-method">Further
-reading on topic modeling as a research method:</h3>
-<p>“Topic Modeling with BERT,” Medium article by Maarten Grootendorst:
-<a
-href="https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6"
-class="uri">https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6</a></p>
-<p>“Interactive Topic Modeling with BERT,” Medium article by Maarten
-Grootendorst <a
-href="https://towardsdatascience.com/interactive-topic-modeling-with-bertopic-1ea55e7d73d8"
-class="uri">https://towardsdatascience.com/interactive-topic-modeling-with-bertopic-1ea55e7d73d8</a></p>
-<p>“Probabilistic Topic Models,” David M. Blei article: <a
-href="https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf"
-class="uri">https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf</a></p>
-<p>“The Digital Humanities Contribution to Topic Modeling”, Journal of
-Digital Humanities special edition: <a
-href="http://journalofdigitalhumanities.org/2-1/"
-class="uri">http://journalofdigitalhumanities.org/2-1/</a></p>
-<p>“Topic Modeling: What Humanists Actually Do With It,” University of
-California blog post by Teddy Roland: <a
-href="https://digitalhumanities.berkeley.edu/blog/16/07/14/topic-modeling-what-humanists-actually-do-it-guest-post-teddy-roland-university"
-class="uri">https://digitalhumanities.berkeley.edu/blog/16/07/14/topic-modeling-what-humanists-actually-do-it-guest-post-teddy-roland-university</a></p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="training">Training</h2>
+<p>The published models <strong>v1.1</strong>, and <strong>v2.0</strong> were first trained on datasets without concatenations for about 380k steps, since this was 4 times faster than training with longer texts mixed in. After 48 hours (380k steps), they were trained for another ~100k steps (48 hours) with longer paragraphs mixed in.</p>
+<p>Initially, training and convergence was very slow when using <code>all-mpnet-base-v2</code> as a teacher model. Our student model had difficulties and took much longer to converge to the same evaluation results compared to when it was trained with <code>paraphrase-mpnet-base-v2</code>. After some troubleshooting involving ablations such as:</p>
+<ul>
+<li>Training only with parallel sentences.</li>
+<li>Training with only longer paragraphs.</li>
+<li>Training with a mix.</li>
+<li>Repeating training with all the above configurations using <code>paraphrase-mpnet-base-v2</code> as a comparison.</li>
+</ul>
+<p>eventually we turned to carefully comparing both of the above teacher models for differences. We discovered that <code>all-mpnet-base-v2</code> has an <a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2/blob/main/modules.json">L2-normalization layer at the end</a> after pooling the embeddings. This normalization layer doesn’t involve any model parameters, it simply rescales the output vector based on the magnitude of its own values. We suspected this layer was making it harder for our student model to learn to output similar embeddings to the teacher model, as the student model now had to learn how to normalize a vector (a process that doesn’t involve model paramters) in addition to emulating the teacher model.</p>
+<p>We removed this normalization layer and replaced it with an <code>Identity()</code>-layer (returns the input without any manipulation). After this, the model converged much faster and the evaluation results improved.</p>
+<h2 id="results-on-superlim">Results on SuperLim</h2>
+<p>To evaluate whether whether training with longer sequences improves model performance, we evaluated the model on two datasets using <a href="https://spraakbanken.gu.se/resurser/superlim">SuperLim</a>, a set of evaluation datasets for Swedish language models. An updated version <strong>v2.0</strong> of SuperLim is in the works, and will be released publicly once it is ready. We luckily had access to a development version of <strong>v2.0</strong>, and evaluated our models on both <strong>v1.0</strong> and <strong>v2.0</strong> of SuperLim.</p>
+<h3 id="sweparahrase-v1.0">SweParahrase v1.0</h3>
+<p>The models were evaluated on SweParahrase and SweFAQ. Results from <strong>SweParaphrase v1.0</strong> are displayed below.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Pearson</th>
+<th>Spearman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>0.9183</td>
+<td>0.9114</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>0.9183</td>
+<td>0.9114</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td><strong>0.9283</strong></td>
+<td><strong>0.9130</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>v2.0</strong> of our model inches out a slight win when evaluated on <strong>SweParaphrase v1.0</strong>. However, it should be noted the test set is quite small in this version of SuperLim.</p>
+<h3 id="sweparaphrase-v2.0">SweParaphrase v2.0</h3>
+<p>Below, we present zero-shot evaluation results on all data splits. They display the model’s performance out of the box, without any fine-tuning.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Data split</th>
+<th>Pearson</th>
+<th>Spearman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>train</td>
+<td>0.8355</td>
+<td>0.8256</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>train</td>
+<td><strong>0.8383</strong></td>
+<td><strong>0.8302</strong></td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>train</td>
+<td>0.8209</td>
+<td>0.8059</td>
+</tr>
+<tr class="even">
+<td>v1.0</td>
+<td>dev</td>
+<td>0.8682</td>
+<td>0.8774</td>
+</tr>
+<tr class="odd">
+<td>v1.1</td>
+<td>dev</td>
+<td><strong>0.8739</strong></td>
+<td><strong>0.8833</strong></td>
+</tr>
+<tr class="even">
+<td>v2.0</td>
+<td>dev</td>
+<td>0.8638</td>
+<td>0.8668</td>
+</tr>
+<tr class="odd">
+<td>v1.0</td>
+<td>test</td>
+<td>0.8356</td>
+<td>0.8476</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>test</td>
+<td><strong>0.8393</strong></td>
+<td><strong>0.8550</strong></td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>test</td>
+<td>0.8232</td>
+<td>0.8213</td>
+</tr>
+</tbody>
+</table>
+<p>In general, <strong>v1.1</strong>, the model trained using the same teacher model as the original model, but using longer texts, correlates the most with human assessment of text similarity on SweParaphrase v2.0.</p>
+<h3 id="swefaq-v2.0">SweFAQ v2.0</h3>
+<p>When it comes to retrieval tasks, <strong>v2.0</strong> performs the best by quite a substantial margin. It is better at matching the correct answer to a question compared to v1.1 and v1.0. Notably <strong>v1.1</strong> performs better than <strong>v1.0</strong>, with the only difference between the two models being that longer parallel texts were included in the training of <strong>v1.1</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Data split</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>train</td>
+<td>0.5262</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>train</td>
+<td>0.6236</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>train</td>
+<td><strong>0.7106</strong></td>
+</tr>
+<tr class="even">
+<td>v1.0</td>
+<td>dev</td>
+<td>0.4636</td>
+</tr>
+<tr class="odd">
+<td>v1.1</td>
+<td>dev</td>
+<td>0.5818</td>
+</tr>
+<tr class="even">
+<td>v2.0</td>
+<td>dev</td>
+<td><strong>0.6727</strong></td>
+</tr>
+<tr class="odd">
+<td>v1.0</td>
+<td>test</td>
+<td>0.4495</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>test</td>
+<td>0.5229</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>test</td>
+<td><strong>0.5871</strong></td>
+</tr>
+</tbody>
+</table>
+<aside>
+Examples how to evaluate the newer model on some of the test sets of SuperLim v2.0 can be found on the following links: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_faq.py">evaluate_faq.py</a> (Swedish FAQ), <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_sweparaphrase.py">evaluate_sweparaphrase.py</a>
+</aside>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>We gratefully acknowledge the HPC RIVR consortium (<a href="www.hpc-rivr.si">www.hpc-rivr.si</a>) and EuroHPC JU (<a href="eurohpc-ju.europa.eu">eurohpc-ju.europa.eu</a>) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (<a href="www.izum.si">www.izum.si</a>).</p>
+<h2 class="appendix" id="code-availability">Code availability</h2>
+<p>The code used to train and evaluate KBLab’s Swedish Sentence BERT is available at <a href="https://github.com/kb-labb/swedish-sbert" class="uri">https://github.com/kb-labb/swedish-sbert</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2853,6 +2982,15 @@ class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"><
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
@@ -2862,13 +3000,13 @@ class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"><
   <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kb-labb/kb-labb.github.io/issues/new">create an issue</a> on the source repository.</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Fano &amp; Haffenden (2022, June 14). The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT. Retrieved from https://kb-labb.github.io/posts/2022-06-14-bertopic/</pre>
+  <pre class="citation-appendix short">Rekathati (2023, Jan. 16). The KBLab Blog: Swedish Sentence Transformer 2.0. Retrieved from https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{fano2022bertopic,
-  author = {Fano, Elena and Haffenden, Chris},
-  title = {The KBLab Blog: BERTopic for Swedish: Topic modeling made easier via KB-BERT},
-  url = {https://kb-labb.github.io/posts/2022-06-14-bertopic/},
-  year = {2022}
+  <pre class="citation-appendix long">@misc{rekathati2023swedish,
+  author = {Rekathati, Faton},
+  title = {The KBLab Blog: Swedish Sentence Transformer 2.0},
+  url = {https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/},
+  year = {2023}
 }</pre>
 </div>
 <!--/radix_placeholder_appendices-->

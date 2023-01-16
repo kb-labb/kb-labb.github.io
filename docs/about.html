@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,9 +74,9 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
 code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
@@ -788,6 +789,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1029,10 +1031,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
-  }
-
-  .figure img {
-    width: 100%;
   }
 
   .figure .caption {
@@ -1864,9 +1862,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1878,6 +1888,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
 
       // clear polling timer
       clearInterval(tid);
@@ -1977,6 +2012,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -1999,7 +2036,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
 
@@ -2543,7 +2580,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2618,9 +2655,7 @@ API
 <h1>About KBLab</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>KBLab is a datalab at The National Library of Sweden. You can
-learn more about KBLab <a
-href="https://www.kb.se/in-english/research-collaboration/kblab.html">here</a>.</p></p>
+<p><p>KBLab is a datalab at The National Library of Sweden. You can learn more about KBLab <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">here</a>.</p></p>
 </div>
 
 
@@ -2629,176 +2664,78 @@ href="https://www.kb.se/in-english/research-collaboration/kblab.html">here</a>.<
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/love.png" width="25%" /></p>
 </div>
-<h3 id="love-börjeson-director">Love Börjeson, Director <a
-href="mailto:love.borjeson@kb.se">📧</a></h3>
-<p>I work as a director for KBLab. I’m also an adviser to AI Sweden for
-applied AI, specifically Data and Infrastructure Lead and Applied
-Language Technology. To a large extent, my job involves collocating
-data, competence, and computational resources.</p>
-<p>I have a PhD in Industrial Organization and Economics and I have been
-a Postdoctoral Fellow and Research Fellow in Computational Social
-Science at Stanford University (School of Ed.).
-Academically/intellectually I would perhaps prefer to label myself as
-“some kind of sociologist”.</p>
-<p><br /> <br /></p>
+<h3 id="love-börjeson-director">Love Börjeson, Director <a href="mailto:love.borjeson@kb.se">📧</a></h3>
+<p>I work as a director for KBLab. I’m also an adviser to AI Sweden for applied AI, specifically Data and Infrastructure Lead and Applied Language Technology. To a large extent, my job involves collocating data, competence, and computational resources.</p>
+<p>I have a PhD in Industrial Organization and Economics and I have been a Postdoctoral Fellow and Research Fellow in Computational Social Science at Stanford University (School of Ed.). Academically/intellectually I would perhaps prefer to label myself as “some kind of sociologist”.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/martin.jpeg" width="25%" /></p>
 </div>
-<h3 id="martin-malmsten-data-scientist-and-it-architect">Martin
-Malmsten, Data scientist and IT architect <a
-href="mailto:martin.malmsten@kb.se">📧</a></h3>
-<p>I work as a Data scientist at the lab and as an IT architect for the
-National Library. In these two roles I mainly focus on corpus creation,
-large transformer models, infrastructure design and prototyping. Having
-one foot in tech and data science and one in the library allows me to
-work strategically with larger questions such as where machine learning
-can be used to provide new insights into digital collections.</p>
-<p>My background is in computer science and software development. Having
-implemented and worked closely with numerous metadata standards and
-systems I am a strong supporter of Linked (Open) Data as a paradigm and
-a way to connect information. My main driver is getting as much
-information and tools into the hands of as many people as possible.</p>
-<p><br /> <br /></p>
+<h3 id="martin-malmsten-data-scientist-and-it-architect">Martin Malmsten, Data scientist and IT architect <a href="mailto:martin.malmsten@kb.se">📧</a></h3>
+<p>I work as a Data scientist at the lab and as an IT architect for the National Library. In these two roles I mainly focus on corpus creation, large transformer models, infrastructure design and prototyping. Having one foot in tech and data science and one in the library allows me to work strategically with larger questions such as where machine learning can be used to provide new insights into digital collections.</p>
+<p>My background is in computer science and software development. Having implemented and worked closely with numerous metadata standards and systems I am a strong supporter of Linked (Open) Data as a paradigm and a way to connect information. My main driver is getting as much information and tools into the hands of as many people as possible.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/robin.jpg" width="25%" /></p>
 </div>
-<h3 id="robin-kurtz-data-scientist">Robin Kurtz, Data scientist <a
-href="mailto:robin.kurtz@kb.se">📧</a></h3>
-<p>As one of the KBLab’s data scientists I work on developing models and
-datasets that are intended to be used not only internally at the
-National Library, but also for general use by industry, governmental
-agencies, and academia. With the recent rise of importance of
-transformer-based language models, we focus on making use of the
-library’s vast amounts of text data to train and publish these language
-models.</p>
-<p>I have a strong background in language technology, with degrees in
-natural language processing (NLP), computational linguistics and
-computer science. Before starting at the library in October 2020 I
-received my <a
-href="http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-167847">doctoral
-degree</a> in computer science (datalogi) from Linköping University,
-working on semantic dependency parsing, studying algorithms, machine
-learning methods, and potential applications.</p>
-<p><br /> <br /></p>
+<h3 id="robin-kurtz-data-scientist">Robin Kurtz, Data scientist <a href="mailto:robin.kurtz@kb.se">📧</a></h3>
+<p>As one of the KBLab’s data scientists I work on developing models and datasets
+that are intended to be used not only internally at the National Library, but
+also for general use by industry, governmental agencies, and academia.
+With the recent rise of importance of transformer-based language models, we
+focus on making use of the library’s vast amounts of text data to train and
+publish these language models.</p>
+<p>I have a strong background in language technology, with degrees in natural
+language processing (NLP), computational linguistics and computer science.
+Before starting at the library in October 2020 I received my
+<a href="http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-167847">doctoral degree</a>
+in computer science (datalogi) from Linköping University, working on semantic
+dependency parsing, studying algorithms, machine learning methods, and
+potential applications.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/elena.jpeg" width="25%" /></p>
 </div>
-<h3 id="elena-fano-data-scientist">Elena Fano, Data scientist <a
-href="mailto:elena.fano@kb.se">📧</a></h3>
-<p>I joined KBLab in September 2020 and I have been working with
-different projects in the field of NLP. One of my main tasks as a data
-scientist at the National Library is to make the digital collections
-available to researchers for quantitative study. I also work with
-language models - for example I trained a Swedish spaCy model. My other
-projects include producing annotated datasets in Swedish, building topic
-models on historical collections and holding reading groups to discuss
-recent developments in NLP technologies. Sometimes I also do demos and
-presentations to showcase KBLab’s work.</p>
-<p>My background before Natural Language Processing is in linguistics
-and cognitive science. I studied for many years how the human brain
-interacts with language, especially in bilingual subjects. Then I became
-interested in how a different type of computational entities, namely
-machines, can work with human language. I took a Master’s degree in
-Language Technology from Uppsala University in 2019 and I started
-working as a data scientist with NLP expertise. I particularly enjoy
-learning about new machine learning techniques and my programming
-language of choice is Python.</p>
-<p><br /> <br /></p>
+<h3 id="elena-fano-data-scientist">Elena Fano, Data scientist <a href="mailto:elena.fano@kb.se">📧</a></h3>
+<p>I joined KBLab in September 2020 and I have been working with different projects in the field of NLP. One of my main tasks as a data scientist at the National Library is to make the digital collections available to researchers for quantitative study. I also work with language models - for example I trained a Swedish spaCy model. My other projects include producing annotated datasets in Swedish, building topic models on historical collections and holding reading groups to discuss recent developments in NLP technologies. Sometimes I also do demos and presentations to showcase KBLab’s work.</p>
+<p>My background before Natural Language Processing is in linguistics and cognitive science. I studied for many years how the human brain interacts with language, especially in bilingual subjects. Then I became interested in how a different type of computational entities, namely machines, can work with human language. I took a Master’s degree in Language Technology from Uppsala University in 2019 and I started working as a data scientist with NLP expertise. I particularly enjoy learning about new machine learning techniques and my programming language of choice is Python.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/faton.jpg" width="25%" /></p>
 </div>
-<h3 id="faton-rekathati-data-scientist">Faton Rekathati, Data scientist
-<a href="mailto:faton.rekathati@kb.se">📧</a></h3>
-<p>My first contact with KBLab was as an external researcher. In the
-spring of 2020 I wrote a masters thesis on the subject of <a
-href="http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-166313">curating
-news sections in historical newspapers</a>. Over the summer I continued
-work on the same project as a research assistant for Linköping
-University, before eventually ending up as a Data scientist with KBLab
-in September 2020. At KBLab I mostly work with making the library’s
-collections of visual materials searchable and navigable. This includes
-image similarity search, free text search for images, along with adding
-metadata and tags to the materials by automatically detecting objects
-such as landmarks.</p>
-<p>My background is in statistics and machine Learning. At the lab I
-have come to specialize mainly on computer vision tasks. Lately, we have
-increasingly been experimenting with multimodal approaches in for
-example <a
-href="https://kb-labb.github.io/posts/2021-03-28-ad-classification/">classifying
-advertisements in newspapers</a>, and in implementing text search for
-images (using CLIP). As a statistician I of course love R 😄, though
-nowadays I spend most of my time working with Python.</p>
-<p><br /> <br /></p>
+<h3 id="faton-rekathati-data-scientist">Faton Rekathati, Data scientist <a href="mailto:faton.rekathati@kb.se">📧</a></h3>
+<p>My first contact with KBLab was as an external researcher. In the spring of 2020 I wrote a masters thesis on the subject of <a href="http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-166313">curating news sections in historical newspapers</a>. Over the summer I continued work on the same project as a research assistant for Linköping University, before eventually ending up as a Data scientist with KBLab in September 2020. At KBLab I mostly work with making the library’s collections of visual materials searchable and navigable. This includes image similarity search, free text search for images, along with adding metadata and tags to the materials by automatically detecting objects such as landmarks.</p>
+<p>My background is in statistics and machine Learning. At the lab I have come to specialize mainly on computer vision tasks. Lately, we have increasingly been experimenting with multimodal approaches in for example <a href="https://kb-labb.github.io/posts/2021-03-28-ad-classification/">classifying advertisements in newspapers</a>, and in implementing text search for images (using CLIP). As a statistician I of course love R 😄, though nowadays I spend most of my time working with Python.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/chris.jpg" width="25%" /></p>
 </div>
-<h3 id="chris-haffenden-research-co-ordinator-part-time">Chris
-Haffenden, Research co-ordinator (part-time) <a
-href="mailto:chris.haffenden@kb.se">📧</a></h3>
-<p>My position involves helping researchers use the lab’s resources and
-the library’s digital collections. I assist in dealing with applications
-for research collaboration, in getting research projects up and running
-at the lab, and in fixing problems that arise as part of the research
-process. I also work with communicating and writing articles about the
-lab’s development projects, as well as running workshops and organizing
-outreach events to inform the academic community about our tools and
-resources. I’m always open to new initiatives for collaboration and
-outreach, so please get in touch!</p>
-<p>My academic background is in the field of intellectual and cultural
-history. I have an MPhil in Political Thought and Intellectual history
-from Cambridge University, and a PhD in the History of Science and Ideas
-from Uppsala University. My doctoral thesis, <a
-href="http://uu.diva-portal.org/smash/record.jsf?pid=diva2%3A1250312&amp;dswid=4950">Every
-Man His Own Monument</a> (2018), examined novel practices of
-self-monumentalizing in nineteenth-century Britain to present a new
-argument about the interconnection of celebrity culture and posthumous
-fame in this period. Apart from working at KBLab, I have also begun work
-on a new, <a
-href="https://www.rj.se/en/grants/2020/self-erasure-and-practices-of-motivated-forgetting-in-nineteenth-century-britain/">RJ-financed
-project</a> that explores the emergence of self-erasure and the longer
-history of the right to be forgotten. My involvement with KBLab and my
-research interests are underpinned by a reflexive concern with the ways
-in which cultural heritage is produced and made use of.</p>
-<p><br /> <br /></p>
+<h3 id="chris-haffenden-research-co-ordinator-part-time">Chris Haffenden, Research co-ordinator (part-time) <a href="mailto:chris.haffenden@kb.se">📧</a></h3>
+<p>My position involves helping researchers use the lab’s resources and the library’s digital collections. I assist in dealing with applications for research collaboration, in getting research projects up and running at the lab, and in fixing problems that arise as part of the research process. I also work with communicating and writing articles about the lab’s development projects, as well as running workshops and organizing outreach events to inform the academic community about our tools and resources. I’m always open to new initiatives for collaboration and outreach, so please get in touch!</p>
+<p>My academic background is in the field of intellectual and cultural history. I have an MPhil in Political Thought and Intellectual history from Cambridge University, and a PhD in the History of Science and Ideas from Uppsala University. My doctoral thesis, <a href="http://uu.diva-portal.org/smash/record.jsf?pid=diva2%3A1250312&amp;dswid=4950">Every Man His Own Monument</a> (2018), examined novel practices of self-monumentalizing in nineteenth-century Britain to present a new argument about the interconnection of celebrity culture and posthumous fame in this period. Apart from working at KBLab, I have also begun work on a new, <a href="https://www.rj.se/en/grants/2020/self-erasure-and-practices-of-motivated-forgetting-in-nineteenth-century-britain/">RJ-financed project</a> that explores the emergence of self-erasure and the longer history of the right to be forgotten. My involvement with KBLab and my research interests are underpinned by a reflexive concern with the ways in which cultural heritage is produced and made use of.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/fredrik.jpg" width="25%" /></p>
 </div>
-<h3 id="fredrik-klingwall-developerdata-curator-part-time">Fredrik
-Klingwall, Developer/Data curator (part-time) <a
-href="mailto:fredrik.klingwall@kb.se">📧</a></h3>
-<p>I am a developer at the National Library nearing two decades of
-working with the national Libris systems. Joined the KBLab team
-part-time in 2019 and would describe myself as a Semantic information
-modeler thinking about “connectedness” and usefulness of data. RDF is
-the language of expression and my current role at KBLab is being a
-helping hand in this field and integration of our metadata
-infrastructure. Special interest as some may already have surmised is
-linking entities and identity disambiguation.</p>
-<p>My background is sprawling but started somewhere long ago in Computer
-Science classes at Stockholm University/DSV. Gravitated to musicology
-and sound engineering for a while but back hands on in the
-information/knowledge sphere again.</p>
-<p><br /> <br /></p>
+<h3 id="fredrik-klingwall-developerdata-curator-part-time">Fredrik Klingwall, Developer/Data curator (part-time) <a href="mailto:fredrik.klingwall@kb.se">📧</a></h3>
+<p>I am a developer at the National Library nearing two decades of working with the national Libris systems. Joined the KBLab team part-time in 2019 and would describe myself as a Semantic information modeler thinking about “connectedness” and usefulness of data. RDF is the language of expression and my current role at KBLab is being a helping hand in this field and integration of our metadata infrastructure. Special interest as some may already have surmised is linking entities and identity disambiguation.</p>
+<p>My background is sprawling but started somewhere long ago in Computer Science classes at Stockholm University/DSV. Gravitated to musicology and sound engineering for a while but back hands on in the information/knowledge sphere again.</p>
+<p><br />
+<br /></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/emma.jpeg" width="25%" /></p>
 </div>
-<h3 id="emma-rende-product-manager-part-time">Emma Rende, Product
-manager (part-time) <a href="mailto:emma.rende@kb.se">📧</a></h3>
-<p>My contribution to the lab is within overall strategy and usability.
-In my work I try to understand who our users are, what their needs are,
-and how to reach them in the best possible way. I have driven the
-process of mapping the lab user journey, which changes continuously as
-the lab develops. I´ve also had a leading part in identifying the core
-values for the lab. I only work part-time in the lab, but as a product
-manager I naturally take the lab’s questions into the various forums I
-participate in at KB.</p>
-<p>I have previously worked within the private sector as a business
-analyst and business developer in e-commerce. Throughout my career, I
-have always had a focus on the user experience, but with a commercial
-insight. I have a master’s degree in Computer and Systems Science from
-Stockholm University.</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="emma-rende-product-manager-part-time">Emma Rende, Product manager (part-time) <a href="mailto:emma.rende@kb.se">📧</a></h3>
+<p>My contribution to the lab is within overall strategy and usability. In my work I try to understand who our users are, what their needs are, and how to reach them in the best possible way.
+I have driven the process of mapping the lab user journey, which changes continuously as the lab develops. I´ve also had a leading part in identifying the core values for the lab. I only work part-time in the lab, but as a product manager I naturally take the lab’s questions into the various forums I participate in at KB.</p>
+<p>I have previously worked within the private sector as a business analyst and business developer in e-commerce. Throughout my career, I have always had a focus on the user experience, but with a commercial insight. I have a master’s degree in Computer and Systems Science from Stockholm University.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

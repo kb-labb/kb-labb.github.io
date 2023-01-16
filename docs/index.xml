@@ -13,7 +13,19 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Swedish Sentence Transformer 2.0</title>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <link>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20</link>
+      <description>KBLab's Swedish sentence transformer has been updated to a newer version. The
+new version features an increased maximum sequence length of 384 tokens, 
+allowing users to encode longer documents. It also performs better on retrieval
+tasks, such as matching questions and answers.</description>
+      <guid>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20</guid>
+      <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/images/sentence_transformer.svg" medium="image" type="image/svg+xml"/>
+    </item>
     <item>
       <title>BERTopic for Swedish: Topic modeling made easier via KB-BERT</title>
       <dc:creator>Elena Fano</dc:creator>
