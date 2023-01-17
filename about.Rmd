@@ -106,4 +106,14 @@ knitr::include_graphics("images/emma.jpeg")
 My contribution to the lab is within overall strategy and usability. In my work I try to understand who our users are, what their needs are, and how to reach them in the best possible way.
 I have driven the process of mapping the lab user journey, which changes continuously as the lab develops. I´ve also had a leading part in identifying the core values for the lab. I only work part-time in the lab, but as a product manager I naturally take the lab's questions into the various forums I participate in at KB.  
  
-I have previously worked within the private sector as a business analyst and business developer in e-commerce. Throughout my career, I have always had a focus on the user experience, but with a commercial insight. I have a master's degree in Computer and Systems Science from Stockholm University. 
+I have previously worked within the private sector as a business analyst and business developer in e-commerce. Throughout my career, I have always had a focus on the user experience, but with a commercial insight. I have a master's degree in Computer and Systems Science from Stockholm University.
+
+<br />
+<br />
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/hillevi.jpg")
+```
+### Hillevi Hägglöf, Data Scientist [`r emo::ji("e-mail")`](mailto:hillevi.hagglof@kb.se)
+
+I am a computational linguist and data scientist with a background in corporate research. I love data and I want to make the incredible collections of the National Library of Sweden easily available to all who wish to learn from them. My main focus as an NLP developer is to create and evaluate language models and their applications. Some of my interests include natural language generation, semantics and ethical AI. I sometimes give talks on language and machine learning."
