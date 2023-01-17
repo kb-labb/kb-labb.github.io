@@ -51,17 +51,6 @@ in computer science (datalogi) from Linköping University, working on semantic
 dependency parsing, studying algorithms, machine learning methods, and
 potential applications.
 
-<br />
-<br />
-
-```{r out.width = "25%"}
-knitr::include_graphics("images/elena.jpeg")
-```
-### Elena Fano, Data scientist [`r emo::ji("e-mail")`](mailto:elena.fano@kb.se)
-I joined KBLab in September 2020 and I have been working with different projects in the field of NLP. One of my main tasks as a data scientist at the National Library is to make the digital collections available to researchers for quantitative study. I also work with language models - for example I trained a Swedish spaCy model. My other projects include producing annotated datasets in Swedish, building topic models on historical collections and holding reading groups to discuss recent developments in NLP technologies. Sometimes I also do demos and presentations to showcase KBLab's work.  
-
-My background before Natural Language Processing is in linguistics and cognitive science. I studied for many years how the human brain interacts with language, especially in bilingual subjects. Then I became interested in how a different type of computational entities, namely machines, can work with human language. I took a Master's degree in Language Technology from Uppsala University in 2019 and I started working as a data scientist with NLP expertise. I particularly enjoy learning about new machine learning techniques and my programming language of choice is Python.
-
 
 <br />
 <br />
@@ -116,4 +105,13 @@ knitr::include_graphics("images/hillevi.jpg")
 ```
 ### Hillevi Hägglöf, Data Scientist [`r emo::ji("e-mail")`](mailto:hillevi.hagglof@kb.se)
 
-I am a computational linguist and data scientist with a background in corporate research. I love data and I want to make the incredible collections of the National Library of Sweden easily available to all who wish to learn from them. My main focus as an NLP developer is to create and evaluate language models and their applications. Some of my interests include natural language generation, semantics and ethical AI. I sometimes give talks on language and machine learning."
+I am a computational linguist and data scientist with a background in corporate research. I love data and I want to make the incredible collections of the National Library of Sweden easily available to all who wish to learn from them. My main focus as an NLP developer is to create and evaluate language models and their applications. Some of my interests include natural language generation, semantics and ethical AI. I sometimes give talks on language and machine learning.
+
+<br />
+<br />
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/justyna.jpg")
+```
+### Justyna Sikora, Data scientist [`r emo::ji("e-mail")`](mailto:justyna.sikora@kb.se)
+I have always been passionate about languages and linguistics. However, having studied philology and worked in the language industry for couple years, I had a chance to stumble upon many uses of what I, at the time, did not know was NLP. I became fascinated by the possibilities of combining linguistic knowledge with computational methods. This interest has led me into pursuing a Master’s degree in Language Technology at Uppsala University. I graduated in 2022 and started working as a data scientist at KBLab. 
