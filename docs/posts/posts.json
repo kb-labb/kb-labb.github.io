@@ -38,7 +38,7 @@
   {
     "path": "posts/2023-02-15-finding-speeches-in-the-riksdags-debates/",
     "title": "Finding Speeches in the Riksdag's Debates",
-    "description": "The Riksdag is the Parliament of Sweden. It has made available twenty \nyears of parliamentary debates through its website and its open data platform.\nEach speech is accompanied by rich metadata, including a transcript and \nmarkers indicating its start location and duration within the media file \nof the debate. We however find a not so insiginificant portion of the speeches \nhave been misaligned, with the metadata being particularly unreliable for \ndebates prior to 2012. In this work, we employ automatic speech recognition and \nspeaker diarization to devise a fully automated approach towards aligning \ntranscripts with their corresponding speech in audio files. The alignment is \nachieved using only an official transcript, without the reliance on any further \nmetadata.",
+    "description": "The Riksdag is the Parliament of Sweden. It has made available twenty \nyears of parliamentary debates through its website and open data platform.\nEach speech is accompanied by rich metadata, including a transcript and \nmarkers indicating its start location and duration within the media file \nof the debate. We however find a not so insiginificant portion of the speeches \nhave been misaligned, with the metadata being particularly unreliable for \ndebates prior to 2012. In this work, we employ automatic speech recognition and \nspeaker diarization to devise a fully automated approach towards aligning \ntranscripts with their corresponding speech in audio files. The alignment is \nachieved using only an official transcript, without the reliance on any further \nmetadata.",
     "author": [
       {
         "name": "Faton Rekathati",
@@ -47,9 +47,9 @@
     ],
     "date": "2023-01-16",
     "categories": [],
-    "contents": "\n\nContents\nVideos\n\nSome text above the debate.\nVideos\n\n\n  \n  \n    \n      \n    Adjusted metadata predictions\n    Text about right speech with some description.\n    \n  \n\n\n\n  \n  \n    \n      \n    Riksdagen's metadata\n    Text about right speech with some description.\n    \n  \n\n\n\nvar metadata = [\n    { transcript: \"Fru talman! Tack för...\", start: 100, duration: 98 },\n    { transcript: \"Herr talman! Det är inte mer än rätt att...\", start: 200, duration: 92 },\n    { transcript: \"Fru ålderspresident! Jag tackar för ministerns svar...\", start: 300, duration: 87 }\n];\n\nvar i = 0;\n\ntranscript1 = document.getElementById(\"speechtranscript\");\ntranscript2 = document.getElementById(\"speechtranscript2\");\n\n// Initialize transcripts\ntranscript1.textContent = metadata[i].transcript;\ntranscript2.textContent = metadata[i].transcript;\n\n//add event listener\nprevspeech.addEventListener('click', prevClickEvent);\nprevspeech2.addEventListener('click', prevClickEvent);\nnextspeech.addEventListener('click', nextClickEvent);\nnextspeech2.addEventListener('click', nextClickEvent);\n\nfunction prevClickEvent() {\n  if (i > 0) {\n    i--;\n  }\n  \n  transcript1.textContent = metadata[i].transcript;\n  transcript2.textContent = metadata[i].transcript;\n}\n\nfunction nextClickEvent() {\n  if (i < (metadata.length - 1)) {\n    i++;\n  }\n\n  transcript1.textContent = metadata[i].transcript;\n  transcript2.textContent = metadata[i].transcript;\n}\n\nTodo: Button to skip to previous/next location in the debate based on start/end metadata.\n\n\n\n\n\n",
+    "contents": "\n\nContents\nVideos\nEvaluation results\n\nSome text above the debate.\nVideos\n\n\n  \n  \n  \n    \n      \n    Adjusted metadata (KBLab)\n    Beginning of official transcript\n    \n    \n    Source: Sveriges riksdag.\n  \n\n\n\n  \n  \n    \n      \n    The Riksdag's metadata\n    Beginning of official transcript\n    \n    \n    Source: Sveriges riksdag.\n  \n\n\n\n\n\n\nEvaluation results\n\n\n\n\n\n\n\n\n",
     "preview": {},
-    "last_modified": "2023-02-15T14:01:38+01:00",
+    "last_modified": "2023-02-16T00:22:14+01:00",
     "input_file": "finding-speeches-in-the-riksdags-debates.knit.md"
   },
   {

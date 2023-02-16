@@ -2,7 +2,7 @@
 title: "Finding Speeches in the Riksdag's Debates"
 description: |
   The Riksdag is the Parliament of Sweden. It has made available twenty 
-  years of parliamentary debates through its website and its open data platform.
+  years of parliamentary debates through its website and open data platform.
   Each speech is accompanied by rich metadata, including a transcript and 
   markers indicating its start location and duration within the media file 
   of the debate. We however find a not so insiginificant portion of the speeches 
@@ -33,44 +33,52 @@ Some text above the debate.
 ::: l-page
 ```{=html}
 <div class="videobox">
-  <iframe src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 500px; height: 284px; border: 0; margin-bottom: 0em;"></iframe>
-  <div>
+  <iframe id="videokb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
+  </video>
+  <div class="metabox">
     <form action="">
       <input type="button" id="prevspeech" value="Previous speech"/>
       <input type="button" id="nextspeech" value="Next speech"/>
     </form>
-    <h3>Adjusted metadata predictions</h3>
-    <p>Text about right speech with some description.</p>
+    <h3>Adjusted metadata (KBLab)</h3>
+    <p><u>Beginning of official transcript</u></p>
     <p id="speechtranscript"></p>
+    <p id="metadatastart"></p>
+    <p><small><i>Source: Sveriges riksdag.</i></small></p>
   </div>
 </div>
 
 <div class="videobox">
-  <iframe src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 500px; height: 284px; border: 0; margin-bottom: 0em;"></iframe>
-  <div>
+  <iframe id="videoriks" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
+  <div class=metabox>
     <form action="">
       <input type="button" id="prevspeech2" value="Previous speech"/>
       <input type="button" id="nextspeech2" value="Next speech"/>
     </form>
-    <h3>Riksdagen's metadata</h3>
-    <p>Text about right speech with some description.</p>
+    <h3>The Riksdag's metadata</h3>
+    <p><u>Beginning of official transcript</u></p>
     <p id="speechtranscript2"></p>
+    <p id="metadatastart2"></p>
+    <p><small><i>Source: Sveriges riksdag.</i></small></p>
   </div>
 </div>
 ```
 :::
 
-```{js}
+```{js echo=FALSE}
 var metadata = [
-    { transcript: "Fru talman! Tack för...", start: 100, duration: 98 },
-    { transcript: "Herr talman! Det är inte mer än rätt att...", start: 200, duration: 92 },
-    { transcript: "Fru ålderspresident! Jag tackar för ministerns svar...", start: 300, duration: 87 }
+    { transcript: "Fru talman! Tack för...", start: 100, duration: 98, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=3600"},
+    { transcript: "Herr talman! Det är inte mer än rätt att...", start: 200, duration: 92, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=640" },
+    { transcript: "Fru ålderspresident! Jag tackar för ministerns svar...", start: 300, duration: 87, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=1500" },
+    {transcript: "Herr talman! Det är naturligtvis viktigt...", start: 400, duration: 82, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=GS01UU12&start=704"}
 ];
 
 var i = 0;
 
 transcript1 = document.getElementById("speechtranscript");
 transcript2 = document.getElementById("speechtranscript2");
+metadata1 = document.getElementById("metadatastart");
+metadata2 = document.getElementById("metadatastart2");
 
 // Initialize transcripts
 transcript1.textContent = metadata[i].transcript;
@@ -82,26 +90,44 @@ prevspeech2.addEventListener('click', prevClickEvent);
 nextspeech.addEventListener('click', nextClickEvent);
 nextspeech2.addEventListener('click', nextClickEvent);
 
+// Video
+
+var iframe = document.getElementById('videokb');
+
 function prevClickEvent() {
   if (i > 0) {
     i--;
+    document.getElementById('videokb').src = metadata[i].src;
+    document.getElementById('videoriks').src = metadata[i].src;
   }
   
   transcript1.textContent = metadata[i].transcript;
   transcript2.textContent = metadata[i].transcript;
+  metadata1.innerHTML = "<b>Start:</b> " + metadata[i].start;
+  metadata1.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration);
+  metadata2.innerHTML = "<b>Start:</b> " + metadata[i].start;
+  metadata2.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration); 
 }
 
 function nextClickEvent() {
   if (i < (metadata.length - 1)) {
     i++;
+    document.getElementById('videokb').src = metadata[i].src;
+    document.getElementById('videoriks').src = metadata[i].src;
   }
-
+  
   transcript1.textContent = metadata[i].transcript;
   transcript2.textContent = metadata[i].transcript;
+  metadata1.innerHTML = "<b>Start:</b> " + metadata[i].start;
+  metadata1.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration);
+  metadata2.innerHTML = "<b>Start:</b> " + metadata[i].start;
+  metadata2.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration); 
 }
 ```
 
-Todo: Button to skip to previous/next location in the debate based on start/end metadata.
+
+
+
 
 
 ```{css echo=FALSE}
@@ -109,13 +135,27 @@ Todo: Button to skip to previous/next location in the debate based on start/end 
     float:left;
     align-content: center;
     margin-right:20px;
+    border:2px;
 }
 .clear{
     clear:both;
 }
 
-.iframe {
-  margin-bottom:0px;
+.metabox{
+    background-color: #d1d1e0;
+    margin: 0px;
+}
+
+.metabox > * {
+  padding-left: 6px;
 }
 ```
 
+
+## Evaluation results
+
+::: l-page
+```{r fig.retina = 2, echo=FALSE}
+knitr::include_graphics("monthly_bleu.jpg")
+```
+:::
