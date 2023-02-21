@@ -9,31 +9,67 @@ description: |
   have been misaligned, with the metadata being particularly unreliable for 
   debates prior to 2012. In this work, we employ automatic speech recognition and 
   speaker diarization to devise a fully automated approach towards aligning 
-  transcripts with their corresponding speech in audio files. The alignment is 
-  achieved using only an official transcript, without the reliance on any further 
-  metadata.
+  transcripts with their corresponding speech in audio files. 
 author:
   - name: Faton Rekathati
     url: https://github.com/Lauler
     affiliation: KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
-date: 2023-01-16
-preview: images/sentence_transformer.svg
+date: 2023-02-17
+preview: monthly_bleu.jpg
 output:
   distill::distill_article:
     self_contained: false
     toc: true
     toc_depth: 3
+editor_options: 
+  chunk_output_type: console
 ---
 
-Some text above the debate.
+```{r echo=FALSE}
+library(dplyr)
 
-## Videos
+df_to_js <- function(x, var_name = "data", ...){
+  # Source: https://www.aliciaschep.com/blog/js-rmarkdown/#fnref1
+  json_data <- jsonlite::toJSON(x, ...)
+  
+  htmltools::tags$script(paste0("var ",var_name," = ", json_data, ";"))
+}
+
+df <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/data/df_inference_bleu_eval.parquet")
+
+df <- df %>%
+  mutate(debateurl_timestamp_riks = paste0("https://www.riksdagen.se/views/pages/embedpage.aspx?did=", dokid, "&start=", start, "&end=", end),
+         anftext_short = paste0(stringr::word(anftext, start=1, end=20, sep=" "), "..."))
+
+df_data <- df %>%
+  filter(dokid == "H9C120220512fs") %>%
+  select(dokid, start, end, start_adjusted, end_adjusted, text, anftext_short)
+
+# df_to_js(list("asdf" = df_data[1,], "asdf2" = df_data[1,]))
+df_to_js(df_data, var_name = "data_example")
+```
+
+The Riksdag is Sweden's legislature. The 349 members of the Riksdag regularly gather to debate in [the Chamber](https://www.riksdagen.se/en/how-the-riksdag-works/the-work-of-the-riksdag/debates-and-decisions-in-the-chamber/) of the [Parliament House](https://en.wikipedia.org/wiki/Parliament_House,_Stockholm). These debates are recorded and published to the Riksdag's Web TV. For the past 20 years the Riksdag's media recordings have been enriched with further metadata, including tags for the start and the duration of each speech, along with corresponding transcripts. Speaker lists are added to each debate, allowing viewers to navigate and jump between speeches easier ^[An example can be seen here: https://www.riksdagen.se/sv/webb-tv/video/partiledardebatt/partiledardebatt_HAC120230118pd]. This metadata also allows linking members of parliament and ministers with the debates they have participated in. 
+
+<aside>
+```{r out.width="360px", echo=FALSE}
+url <- "https://www.riksdagen.se/imagevault/publishedmedia/r75t6jvj5ecigmglskqg/kammaren-votering-0131-ok.jpg"
+knitr::include_graphics(url)
+```
+The Chamber.  
+
+<i>Photo: Melker Dahlstrand /The Swedish Parliament</i>
+</aside>
+
+Aside from Web TV, the Riksdag has also opened up most of its databases and made their data freely available through the Riksdag's open data platform ^[https://data.riksdagen.se/in-english/]. At KBLab we've made use of these resources by using texts of parliamentary motions to create seminars, workshops and tutorials ^[BERTopic workshop simplified version: https://colab.research.google.com/drive/10kB3wfoHSfZE48vEKmznIw-ff36uR8gs#scrollTo=Jd1gAoyslhuc] ^[BERTopic workshop: https://colab.research.google.com/drive/1VsTk2oSTrne4y2hllzM-iMHLd6endkfg?usp=sharing] ^[Document classification (given a parliamentary motion classify which party wrote it): https://colab.research.google.com/github/MansMeg/IntroML/blob/master/assignments/swedish_bert_classification.ipynb].
+
+When assessing the quality of the available metadata from the debates, we found most of the material from 2012 and forward was generally accurate and of high quality. However, the required degree of precision of metadata always depends on one's use case. And in our case it was important that only one speaker -- the one making the speech -- be present in the indicated window. With this in mind, it soon became evident that a certain level of adjustment of the existing metadata was required. Illustrating this with an example below, we see that the Riksdag's metadata (**right video**) tends to include parts where the speaker of the house talks. The **left video** shows the automatically generated metadata from the method we developed for locating and segmenting speeches.
 
 ::: l-page
 ```{=html}
 <div class="videobox">
-  <iframe id="videokb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
+  <iframe id="videokb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=97.5&end=154" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
   </video>
   <div class="metabox">
     <form action="">
@@ -42,36 +78,184 @@ Some text above the debate.
     </form>
     <h3>Adjusted metadata (KBLab)</h3>
     <p><u>Beginning of official transcript</u></p>
-    <p id="speechtranscript"></p>
-    <p id="metadatastart"></p>
+    <p id="speechtranscript">Fru talman! Njutningsäktenskap låter härligt. Men Uppdrag granskning visade att det är religiöst sanktionerat koppleri. Det är sexhandel, det är...</p>
+    <p id="metadatastart"><b>Start:</b> 00:01:37.5  <b>End:</b> 00:02:34.0</p>
     <p><small><i>Source: Sveriges riksdag.</i></small></p>
   </div>
 </div>
 
 <div class="videobox">
-  <iframe id="videoriks" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=2640" allowfullscreen="" scrolling="no" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
-  <div class=metabox>
+  <iframe id="videoriks" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=94&end=157" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
+  <div class="metabox">
     <form action="">
       <input type="button" id="prevspeech2" value="Previous speech"/>
       <input type="button" id="nextspeech2" value="Next speech"/>
     </form>
     <h3>The Riksdag's metadata</h3>
     <p><u>Beginning of official transcript</u></p>
-    <p id="speechtranscript2"></p>
-    <p id="metadatastart2"></p>
+    <p id="speechtranscript2">Fru talman! Njutningsäktenskap låter härligt. Men Uppdrag granskning visade att det är religiöst sanktionerat koppleri. Det är sexhandel, det är...</p>
+    <p id="metadatastart2">Start:</b> 00:01:34.0  <b>End:</b> 00:02:37.0</p>
     <p><small><i>Source: Sveriges riksdag.</i></small></p>
   </div>
 </div>
 ```
 :::
 
+Our primary use case is to create an Automatic Speech Recognition training dataset out of the debates. In order to align the text with the audio at a sentence, or word level, we need to do forced alignment ^[https://linguistics.berkeley.edu/plab/guestwiki/index.php?title=Forced_alignment]. 
+Modern Riksdag metadata, such as the debate above, serves as a good benchmark against which we can evaluate our own automated method. Should our method be able to match its alignment quality -- using only official transcripts and audio -- then we can be reasonably certain the method also perform well on older material.   
+
+## The importance of metadata
+
+Browsing the Web TV of the Riksdag and seeing how well structured the data appeared, at KBLab we naturally became curious to find out whether the Riksdag had made audio and media files available through its open data platform and APIs. We sent them an e-mail inquiring whether there was an audio API, to which they responded that such an API in fact did exist, only they had yet to settle on a good way of communicating this service to the public. 
+
+At KBLab, part of the work we do is use the library's collections to train Automatic Speech Recognition models for the Swedish language ^[See our Wav2vec2 model: https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish], which we then release freely. However, in contrast to high resource languages such as English, Swedish does not have much data in the way of spoken audio with corresponding annotated transcripts. When training our wav2vec2 model, we therefore first trained it unsupervised (without labeled transcripts) on over 10000 hours of radio broadcasts. After this unsupervised pre-training, we used the scarce, available annotated data, which numbers somewhere in the order of a couple hundreds of hours to finetune the model. 
+
+Ideally, however, we would like for a larger portion of the training to consist of supervised training (training with annotations/transcripts). 
+
+::: l-page
+```{=html}
+<div class="videobox">
+  <iframe id="videokb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=97.5&end=154" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
+  </video>
+  <div class="metabox_debate">
+    <form action="">
+      <input type="button" id="prevspeech_speech" value="Previous speech"/>
+      <input type="button" id="nextspeech_speech" value="Next speech"/>
+      <input type="button" id="prevdebate" value="Previous debate" style="margin-left: 80px;"/>
+      <input type="button" id="nextdebate" value="Next debate"/>
+    </form>
+    <h3>Adjusted metadata (KBLab)</h3>
+    <p><u>Beginning of official transcript</u></p>
+    <p id="speechtranscript_deb">Fru talman! Njutningsäktenskap låter härligt. Men Uppdrag granskning visade att det är religiöst sanktionerat koppleri. Det är sexhandel, det är...</p>
+    <p id="metadatastart_deb"><b>Start:</b> 00:01:37.5  <b>End:</b> 00:02:34.0</p>
+    <p><small><i>Source: Sveriges riksdag.</i></small></p>
+  </div>
+</div>
+
+<div class="videobox">
+  <iframe id="videoriks" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=94&end=157" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
+  <div class="metabox_debate">
+    <form action="">
+      <input type="button" id="prevspeech2" value="Previous speech"/>
+      <input type="button" id="nextspeech2" value="Next speech"/>
+      <input type="button" id="prevdebate2" value="Previous debate" style="margin-left: 80px;"/>
+      <input type="button" id="nextdebate2" value="Next debate"/>
+    </form>
+    <h3>The Riksdag's metadata</h3>
+    <p><u>Beginning of official transcript</u></p>
+    <p id="speechtranscript2_deb">Fru talman! Njutningsäktenskap låter härligt. Men Uppdrag granskning visade att det är religiöst sanktionerat koppleri. Det är sexhandel, det är...</p>
+    <p id="metadatastart2_deb">Start:</b> 00:01:34.0  <b>End:</b> 00:02:37.0</p>
+    <p><small><i>Source: Sveriges riksdag.</i></small></p>
+  </div>
+</div>
+```
+:::
+
+
+
+* The alignment is achieved using only an official transcript, without the reliance on any further metadata.
+
+Why is it important?
+
+## The Riksdag's speeches in numbers
+
+
+| Source                 |   Total duration of debates (hours) |
+|:-----------------------|------------------:|
+| The Riksdag's metadata |           6398.4  |
+| Audio files            |           6361.4  |
+
+
+| Source                    |   Total speech duration of debates |
+|:--------------------------|------------------:|
+| The Riksdag's metadata    |           6742.15 |
+| Adjusted metadata (KBLab) |           5858.36 |
+
+Our method for finding which debates had associated media files, was to first download the speeches in text form from ["Riksdagen's anföranden"](https://data.riksdagen.se/data/anforanden/). Out of more than 300000 available speeches from 1993/94 and onwards:
+
+* **133130** speeches belonged to debates that had downloadable audio files in the Riksdag's media API.
+* Of the above only **122525** speeches had valid audio files, or were found to be at all present in the audio files.
+* After applying additional quality filters **117725** speeches remained. These filters included removing for example: 
+  * duplicate transcripts attributed to different speakers. 
+  * debates starting and ending in the middle of speeches.
+  * sudden jumps/cuts/edits in the audio while a speech was in progress. 
+  * speeches shorter than 25 seconds in duration.
+
+
+::: l-body-outset
+```{r echo=FALSE}
+df %>%
+  mutate(year = lubridate::year(debatedate)) %>%
+  group_by(year) %>%
+  summarise("Total duration (hours)" = round(sum(duration_segment) / 3600, digits = 2),
+            "Median start difference (seconds)" = round(median(start_diff), digits=2),
+            "Median end difference (seconds)" = round(median(end_diff), digits=2)) %>%
+  rename(Year = year) %>%
+  rmarkdown::paged_table(options = list(cols.print=4, rows.print=8))
+```
+:::
+
+::: l-body-outset
+```{r echo=FALSE}
+df_bottom <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/bottom30_bleu.parquet")
+rmarkdown::paged_table(df_bottom)
+``` 
+:::
+
+::: l-body-outset
+```{r echo=FALSE}
+df_top <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/top30_bleu.parquet")
+rmarkdown::paged_table(df_top)
+```
+:::
+
+Some text above the debate.
+
+```{r fig.retina = 1, echo=FALSE, fig.alt="An illustrative sketch displaying how official metadata is not always aligned with the actual start of a speech in an audio file."}
+knitr::include_graphics("riksdag_speech_meta.png")
+```
+
+```{r fig.retina = 2, echo=FALSE, fig.alt="An illustrative sketch with text, describing in 5 steps how KBLab's method for finding speeches in audio files works. Step 1 is to use automatic speech recognition to transcribe an audio file. Step 2 is to fuzzy string match the ASR output against official transcripts to get approximate start and end locations for a speech. Step 3 is to perform speaker diarization to partition the audio file in to segments of different speakers. Step 4 is to assign speaker diarization segments with high degree of overlap with the speeches associated with the approximate start and end locations as predicted by fuzzy string match. Step 5 is to use start and end locations of the assigned segments as the new predictions of metadata for when a speech begins and ends."}
+knitr::include_graphics("speech_finder_method.png")
+```
+
+## Videos
+
+## Evaluation of metadata quality
+
+::: l-page
+```{r fig.retina = 2, echo=FALSE}
+knitr::include_graphics("monthly_bleu.jpg")
+```
+:::
+
+
+::: l-page
+```{r fig.show="hold", out.width="50%", fig.retina = 2, fig.cap="Caption.", fig.align="center", echo=FALSE}
+knitr::include_graphics(c("start_diff.jpg", "end_diff.jpg"))
+```
+:::
+
+## Suggested usage
+
+* Academic research
+* Automatic speech recognition.
+* Diarization.
+* Bias research.
+* The general "speech finding" method proposed here can be reused in other contexts.
+
+## Contribute to RixVox
+
+* Dialect tagging
+* Accent tagging
+* Create links of members of parliament and ministers to Wikidata.
+
+## RixVox in the future
+
+
+
 ```{js echo=FALSE}
-var metadata = [
-    { transcript: "Fru talman! Tack för...", start: 100, duration: 98, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=3600"},
-    { transcript: "Herr talman! Det är inte mer än rätt att...", start: 200, duration: 92, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=640" },
-    { transcript: "Fru ålderspresident! Jag tackar för ministerns svar...", start: 300, duration: 87, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=HAC120230118pd&start=1500" },
-    {transcript: "Herr talman! Det är naturligtvis viktigt...", start: 400, duration: 82, src: "https://www.riksdagen.se/views/pages/embedpage.aspx?did=GS01UU12&start=704"}
-];
+var metadata = data_example;
 
 var i = 0;
 
@@ -81,8 +265,8 @@ metadata1 = document.getElementById("metadatastart");
 metadata2 = document.getElementById("metadatastart2");
 
 // Initialize transcripts
-transcript1.textContent = metadata[i].transcript;
-transcript2.textContent = metadata[i].transcript;
+transcript1.textContent = metadata[i].anftext_short;
+transcript2.textContent = metadata[i].anftext_short;
 
 //add event listener
 prevspeech.addEventListener('click', prevClickEvent);
@@ -90,45 +274,46 @@ prevspeech2.addEventListener('click', prevClickEvent);
 nextspeech.addEventListener('click', nextClickEvent);
 nextspeech2.addEventListener('click', nextClickEvent);
 
-// Video
+function embedLinkGetter(dokid, start, end){
+  base_url = "https://www.riksdagen.se/views/pages/embedpage.aspx?did=";
+  embed_url = base_url + dokid + "&start=" + start + "&end=" + end;
+  return embed_url
+}
 
-var iframe = document.getElementById('videokb');
+function secondsToHourMinSec(seconds, begin=11, end=21){
+  return new Date(seconds * 1000).toISOString().slice(begin, end);
+}
 
 function prevClickEvent() {
   if (i > 0) {
     i--;
-    document.getElementById('videokb').src = metadata[i].src;
-    document.getElementById('videoriks').src = metadata[i].src;
+    document.getElementById('videokb').src = embedLinkGetter(metadata[i].dokid, metadata[i].start_adjusted, metadata[i].end_adjusted);
+    document.getElementById('videoriks').src = embedLinkGetter(metadata[i].dokid, metadata[i].start, metadata[i].end);
   }
-  
-  transcript1.textContent = metadata[i].transcript;
-  transcript2.textContent = metadata[i].transcript;
-  metadata1.innerHTML = "<b>Start:</b> " + metadata[i].start;
-  metadata1.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration);
-  metadata2.innerHTML = "<b>Start:</b> " + metadata[i].start;
-  metadata2.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration); 
+
+  transcript1.textContent = metadata[i].anftext_short;
+  transcript2.textContent = metadata[i].anftext_short;
+  metadata1.innerHTML = "<b>Start:</b> " + secondsToHourMinSec(metadata[i].start_adjusted);
+  metadata1.innerHTML += "<b>  End:</b> " + secondsToHourMinSec(metadata[i].end_adjusted);
+  metadata2.innerHTML = "<b>Start:</b> " + secondsToHourMinSec(metadata[i].start);
+  metadata2.innerHTML += "<b>  End:</b> " + secondsToHourMinSec(metadata[i].end); 
 }
 
 function nextClickEvent() {
   if (i < (metadata.length - 1)) {
     i++;
-    document.getElementById('videokb').src = metadata[i].src;
-    document.getElementById('videoriks').src = metadata[i].src;
+    document.getElementById('videokb').src = embedLinkGetter(metadata[i].dokid, metadata[i].start_adjusted, metadata[i].end_adjusted);
+    document.getElementById('videoriks').src = embedLinkGetter(metadata[i].dokid, metadata[i].start, metadata[i].end);
   }
   
-  transcript1.textContent = metadata[i].transcript;
-  transcript2.textContent = metadata[i].transcript;
-  metadata1.innerHTML = "<b>Start:</b> " + metadata[i].start;
-  metadata1.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration);
-  metadata2.innerHTML = "<b>Start:</b> " + metadata[i].start;
-  metadata2.innerHTML += "<b>  End:</b> " + (metadata[i].start + metadata[i].duration); 
+  transcript1.textContent = metadata[i].anftext_short;
+  transcript2.textContent = metadata[i].anftext_short;
+  metadata1.innerHTML = "<b>Start:</b> " + secondsToHourMinSec(metadata[i].start_adjusted);
+  metadata1.innerHTML += "<b>  End:</b> " + secondsToHourMinSec(metadata[i].end_adjusted);
+  metadata2.innerHTML = "<b>Start:</b> " + secondsToHourMinSec(metadata[i].start);
+  metadata2.innerHTML += "<b>  End:</b> " + secondsToHourMinSec(metadata[i].end); 
 }
 ```
-
-
-
-
-
 
 ```{css echo=FALSE}
 .videobox{
@@ -136,6 +321,8 @@ function nextClickEvent() {
     align-content: center;
     margin-right:20px;
     border:2px;
+    word-wrap: break-word;
+    max-width: 510px;
 }
 .clear{
     clear:both;
@@ -149,13 +336,14 @@ function nextClickEvent() {
 .metabox > * {
   padding-left: 6px;
 }
+
+.metabox_debate{
+    background-color: #ffdab3;
+    margin: 0px;
+}
+
+.metabox_debate > * {
+  padding-left: 6px;
+}
+
 ```
-
-
-## Evaluation results
-
-::: l-page
-```{r fig.retina = 2, echo=FALSE}
-knitr::include_graphics("monthly_bleu.jpg")
-```
-:::
