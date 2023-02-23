@@ -66,7 +66,7 @@ Happening upon these recordings and seeing them linked to such rich metadata, we
 
 Part of our work here at KBLab involves training Swedish *Automatic Speech Recognition* (ASR) models capable of transcribing speech to text ^[We release these models freely and openly. See our Wav2vec2 model: https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish]. Here, audio datasets with annotated transcriptions play an especially important part for quality. Unfortunately such datasets are hard to come by for Swedish. The combined total of current available datasets with annotated transcriptions number somewhere in the *hundreds* of hours. 
 
-Decades of debates from the Riksdag present a golden opportunity to increase this quantity by a factor of tenfold or more. The wealth of dialects and accents, along with the breadth of metadata covering electoral districts, birth year and the sex of members of parliament may serve to not only improve ASR systems, but also to enable research on the weaknesses and biases of both current and future models. 
+Decades of debates from the Riksdag present a golden opportunity to increase this quantity by a factor of tenfold or more. The wealth of dialects and accents, along with the breadth of metadata covering electoral districts, birth year and the gender of members of parliament may serve to not only improve ASR systems, but also to enable research on the weaknesses and biases of both current and future models. 
 
 However, in order to get the speeches and transcripts properly aligned so they can be brought to a suitable and workable format, we first need to ensure the region of audio within a debate representing a speech actually matches the written transcript. Additionally no other speakers should ideally be present in this window.
 
@@ -176,38 +176,38 @@ df_to_js(df_debatedata$data, var_name = "data_debate")
 ```
 :::
 
-
-
-* The alignment is achieved using only an official transcript, without the reliance on any further metadata.
-
-Why is it important?
+A higher fraction of the earlier debates from 2003-2006 tend to start and end in the middle of speeches, looking like they may possibly have been automatically edited and spliced based on misaligned metadata. Several of the debates have issues with skips and cuts in the media, possibly resulting from video encoding errors upon conversion to web formats. Hopefully, the full debates are still available in an unedited format somewhere in the Riksdag's archives. 
 
 ## The Riksdag's speeches in numbers
 
+The valid downloadable audio files from the Riksdag's debates have a total duration 6361 hours. There is a metadata field called `debateseconds` indicating the duration of each debate in seconds. If we sum the claimed duration of debates they amount to 6398 hours. 
 
 | Source                 |   Total duration of debates (hours) |
 |:-----------------------|------------------:|
 | The Riksdag's metadata |           6398.4  |
 | Audio files            |           6361.4  |
 
+How many of those 6360 hours are actually speeches though? According to our speech segmentation, the debate files consist of a total of 5858 hours of speeches. However, when looking at the metadata field `duration` (for individual speech durations), the total duration of speeches exceed the total duration of the audio files. We note the start and end indications of many speeches overlap with other speeches for metadata prior to 2012. 
 
 | Source                    |   Total speech duration of debates |
 |:--------------------------|------------------:|
 | The Riksdag's metadata    |           6742.15 |
 | Adjusted metadata (KBLab) |           5858.36 |
 
-Our method for finding which debates had associated media files, was to first download the speeches in text form from ["Riksdagen's anföranden"](https://data.riksdagen.se/data/anforanden/). Out of more than 300000 available speeches from 1993/94 and onwards:
+Our method for finding which debates had associated media files, was to first download the speeches in text form from ["Riksdagen's anföranden"](https://data.riksdagen.se/data/anforanden/). We then queried the Riksdag's media API, using the document ids of all those speeches.  Out of more than 300000 available speeches from 1993/94 and forward:
 
 * **133130** speeches belonged to debates that had downloadable audio files in the Riksdag's media API.
 * Of the above only **122525** speeches had valid audio files, or were found to be at all present in the audio files.
 * After applying additional quality filters **117725** speeches remained. These filters included removing: 
   * duplicate transcripts attributed to different speakers. 
-  * two or more speeches being attributed with the same starting or ending time.
+  * two or more separate speeches being attributed with the same starting or ending time (indicating the model had failed making a valid prediction).
   * debates starting and ending in the middle of speeches.
   * sudden jumps/cuts/edits in the audio while a speech was in progress. 
   * speeches shorter than 25 seconds in duration (the margins of error are narrower for shorter speeches).
 
 ### Metadata statistics grouped by year
+
+To get an overview of metadata quality over time, we calculated the difference between our adjusted "start" and "end" metadata, and the corresponding metadata from the Riksdag. The table below displays the total hours of audio per year, and the median of the difference between KBLab's adjusted metadata and the Riksdag's metadata. Negative **start** and **end** difference values reflect that KBLab's speech starts or ends *earlier* in the debate audio file, whereas positive difference values reflects KBLab's speech begins or ends *later* than the Riksdag's. 
 
 ::: l-body-outset
 ```{r echo=FALSE}
@@ -222,28 +222,58 @@ df %>%
 ```
 :::
 
+We note how, for several years between 2006 and 2011, the adjusted KBLab metadata palces the end of a speech about 85 seconds *earlier* than the Riksdag. The typical **end** indication from the Riksdag during these years appears to overshoot the speech by more than a minute. Looking at the same thing in graphical form below, where every point represents the mean difference within an entire debate, we see a systematic pattern of the "end" metadata marker from the Riksdag overshooting the end of speeches (**right hand side** plot). In contrast, most of the "start" metadata markings (**left** plot) are more accurate. Perhaps this was a conscious choice, as capturing the start of a speech might have been deemed more important than spending a lot of time and resources capturing the exact ending of the speech. 
+
+::: l-page
+```{r fig.show="hold", out.width="50%", fig.retina = 2, fig.cap="Mean difference between KBLab adjusted metadata and the Riksdag. **Left** plot shows the difference between 'start' metata, and the **right** plot the difference between 'end' metadata. In general the Riksdag's start markers tend to bias towards beginning a few seconds before the actual speech, and ending later than the actual ending.", fig.align="center", echo=FALSE}
+knitr::include_graphics(c("start_diff.jpg", "end_diff.jpg"))
+```
+:::
+
 ### Most and least intelligible speakers
+
+After adjusting the metadata, we used the new metadata to split the debate audio file in to speech segments. These speech files were machine transcribed and evaluated against the official transcript with the [BLEU](https://en.wikipedia.org/wiki/BLEU) score. High BLEU score generally indicate there's a high correspondence or overlap between the output of the machine transcription and the official transcript. 
+
+In the table below, we display the 30 speakers with the lowest mean BLEU score, among those speakers with more than $5$ speeches in the Riksdag's debates. A low BLEU score may not necessarily imply the speaker is less intelligible for speech-to-text models, but may be the result of a combination of different factors:
+
+1. The official transcription may have taken less or more liberties when transcribing the speech.
+2. The segmentation (adjusted metadata) may have been systematically off for a particular speaker.
+
+Interestingly, the vast majority of the bottom $30$ list are men ($28$ out of $30$). Many of the members of parliament on this list have thick accents, or speak in dialectal varieties of Swedish. The low BLEU scores either indicate that speech-to-text models perform worse for this subset, or that the official transcriptions tend to rephrase a lot of what was uttered. 
 
 ::: l-body-outset
 ```{r echo=FALSE}
 df_bottom <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/bottom30_bleu.parquet")
+df_bottom <- df_bottom %>%
+  rename(Speaker = speaker, Party = party, Gender = sex, "Electoral District"=electoral_district, "Mean BLEU Score"=bleu_score)
 rmarkdown::paged_table(df_bottom)
 ``` 
 :::
 
+The top $30$ list, in contrast, seems to skew towards high BLEU scores for women ($21$ out of $30$). An interesting research question to examine would be whether this to a higher degree can be attributed to the speech-to-text model, how transcriptions are written, or the degree to which speeches are prepared or improvised.
+
 ::: l-body-outset
 ```{r echo=FALSE}
 df_top <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/top30_bleu.parquet")
+df_top <- df_top %>%
+  rename(Speaker = speaker, Party = party, Gender = sex, "Electoral District"=electoral_district, "Mean BLEU Score"=bleu_score)
 rmarkdown::paged_table(df_top)
 ```
 :::
 
+You can use the search feature on the Riksdag's Web TV to [search for debates these speakers participated in](https://www.riksdagen.se/sv/webb-tv/?q=andrea+andersson+tay&p=1&st=3). 
 
 ## The speech finder method
 
-```{r fig.retina = 1, echo=FALSE, fig.alt="An illustrative sketch displaying how official metadata is not always aligned with the actual start of a speech in an audio file."}
-knitr::include_graphics("riksdag_speech_meta.png")
-```
+We'll provide a short summary of our method here, since the concept is likely better illustrated in graphical form. 
+
+1. We begin by using a speech-to-text model to transcribe an entire audio file. The speech-to-text model also outputs timestamps for when each of its output words were uttered.
+2. We use the official transcripts, and perform fuzzy string matching to locate what region of the automatic transcript they match against. The string matched region becomes an approximation of where the speech is located in the big audio file.
+3. We perform [speaker diarization](https://en.wikipedia.org/wiki/Speaker_diarisation). This gives us a more detailed view of when different speakers spoke during the debate.
+4. We now still need to connect the speaker segments from the speaker diarization output to the official transcripts and the metadata associated with the transcripts. We therefore use the approximate predictions from the string matching method, and calculate the degre of overlap between different diarization speaker segments and the fuzzy string matched region of a speech. 
+5. The dominant (most overlapping) speaker segment(s) becomes our prediction.
+
+The idea is that this method should be completely independent way to generate speech segments -- one that does not rely on the Riksdag's already existing metadata. The only necessary components are i) a transcript, and ii) an audio file. The objective is essentially to find the needle (speech) in the haystack (audio file).  
 
 ```{r fig.retina = 2, echo=FALSE, fig.alt="An illustrative sketch with text, describing in 5 steps how KBLab's method for finding speeches in audio files works. Step 1 is to use automatic speech recognition to transcribe an audio file. Step 2 is to fuzzy string match the ASR output against official transcripts to get approximate start and end locations for a speech. Step 3 is to perform speaker diarization to partition the audio file in to segments of different speakers. Step 4 is to assign speaker diarization segments with high degree of overlap with the speeches associated with the approximate start and end locations as predicted by fuzzy string match. Step 5 is to use start and end locations of the assigned segments as the new predictions of metadata for when a speech begins and ends."}
 knitr::include_graphics("speech_finder_method.png")
@@ -251,35 +281,35 @@ knitr::include_graphics("speech_finder_method.png")
 
 ## Evaluation of metadata quality
 
+How do we know whether our method works or not? The benefit of the "speech finder" method being independent of the Riksdag's official metadata, is that we can benchmark and compare against the portions of Riksdag data that maintain the best metadata quality. In general the best metadata quality is found in recent years, although most years since 2012 have had a fairly consistent and high quality.
+
+In the plot below, we plot the average monthly BLEU scores over time (higher is better). KBLab's adjusted metadata is of comparable quality the Riksdag's metadata for, 2012 and forward. However, whereas the Riksdag's BLEU scores drop for older debates, speech segmentations based on KBLabs adjusted metadata maintains an even and similar quality throughout the entire period. 
+
 ::: l-page
-```{r fig.retina = 2, echo=FALSE}
+```{r fig.retina = 2, echo=FALSE, fig.cap="BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on 'start' and 'end' metadata. We  then use the wav2vec2-voxrex speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of 'translation'. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript."}
 knitr::include_graphics("monthly_bleu.jpg")
 ```
 :::
 
+## The benefits of open data
 
-::: l-page
-```{r fig.show="hold", out.width="50%", fig.retina = 2, fig.cap="Caption.", fig.align="center", echo=FALSE}
-knitr::include_graphics(c("start_diff.jpg", "end_diff.jpg"))
-```
-:::
+We like open data at KBLab! The Riksdag's open data is a wonderful resource that we believe will benefit research for many years to come. Making it easy for many people to acccess and use the Riksdag's data creates positive spinoff effects. The [WeStAc](https://www.westac.se/en/) project with their curation of protocols from the Riksdag spanning back to the 1920s is one such example (see [riksdagen-corpus](https://github.com/welfare-state-analytics/riksdagen-corpus)). While KBLab's primary objective in doing speech segmentation was to create an ASR dataset, the method and metadata output can be shared and used by both the Riksdag and [other projects](https://www.vr.se/swecris.html#/project/IN22-0003_RJ) interested in curating Riksdag materials and possibly connecting curated protocols to audio and video recordings. 
 
-## Suggested usage
+The audiovisual materials currently exposed in the Riksdag's APIs has made it possible for us to create RixVox: a 5500 hour audio dataset with aligned text transcripts. From the point of view of KBLab, we benefit greatly from other organizations and research projects curating datasets, protocols and transcripts in this manner. We believe the method described in this article can likely successfully be applied to Riksdag debates from the 1960s to the 2000s. The prerequisite is simply having access to the audio, and a set of curated and well segmented textual transcripts from protocols. Luckily, since the Riksdag has done such a splendid job with their open data platform, there will be research projects to take on the challenge!
 
-* Academic research
-* Automatic speech recognition.
-* Diarization.
-* Bias research.
-* The general "speech finding" method proposed here can be reused in other contexts.
+## Code and data
 
-## Contribute to RixVox
+We plan on making RixVox, the 5500 hour speech-to-text dataset consisting of parliamentary speeches, freely and openly available on Huggingface. A new post will appear on this blog announcing the news when it is released!
 
-* Dialect tagging
-* Accent tagging
-* Create links of members of parliament and ministers to Wikidata.
+The code for reproducing the speech segmentations, the adjusted metdata, and RixVox is available. See the **Code** and **Data** sections below. 
 
-## RixVox in the future
+## Code {.appendix}
 
+The code for reproducing results in this article can be found on https://github.com/kb-labb/riksdagen_anforanden.
+
+## Data {.appendix}
+
+The resulting metadata can be downloaded, and has been shared with the Riksdag. You can find the metadata here: https://github.com/kb-labb/riksdagen_anforanden/tree/main/metadata. 
 
 
 ```{js speech, echo=FALSE}
