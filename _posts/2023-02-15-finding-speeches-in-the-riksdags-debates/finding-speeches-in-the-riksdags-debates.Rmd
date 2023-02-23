@@ -15,7 +15,8 @@ author:
     url: https://github.com/Lauler
     affiliation: KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
-date: 2023-02-17
+bibliography: references.bib
+date: 2023-02-23
 preview: monthly_bleu.jpg
 output:
   distill::distill_article:
@@ -64,7 +65,7 @@ The Chamber.
 
 Happening upon these recordings and seeing them linked to such rich metadata, we were curious to learn if the Riksdag had planned to make them available through its [open data platform](https://data.riksdagen.se/) and APIs. We e-mailed them to inquire whether an audio/media file API was in the plans, to which they responded that such an API in fact already did and does exist, although they had yet to settle on a good way of communicating this service to the public. 
 
-Part of our work here at KBLab involves training Swedish *Automatic Speech Recognition* (ASR) models capable of transcribing speech to text ^[We release these models freely and openly. See our Wav2vec2 model: https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish]. Here, audio datasets with annotated transcriptions play an especially important part for quality. Unfortunately such datasets are hard to come by for Swedish. The combined total of current available datasets with annotated transcriptions number somewhere in the *hundreds* of hours. 
+Part of our work here at KBLab involves training Swedish *Automatic Speech Recognition* (ASR) models capable of transcribing speech to text. We release these models freely and openly, see for example our [wav2vec2-large-voxrex-swedish](https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish) model [@wav2vec2]. Here, audio datasets with annotated transcriptions play an especially important part for quality. Unfortunately such datasets are hard to come by for Swedish. The combined total of current available datasets with annotated transcriptions number somewhere in the *hundreds* of hours. 
 
 Decades of debates from the Riksdag present a golden opportunity to increase this quantity by a factor of tenfold or more. The wealth of dialects and accents, along with the breadth of metadata covering electoral districts, birth year and the gender of members of parliament may serve to not only improve ASR systems, but also to enable research on the weaknesses and biases of both current and future models. 
 
@@ -267,9 +268,9 @@ You can use the search feature on the Riksdag's Web TV to [search for debates th
 
 We'll provide a short summary of our method here, since the concept is likely better illustrated in graphical form. 
 
-1. We begin by using a speech-to-text model to transcribe an entire audio file. The speech-to-text model also outputs timestamps for when each of its output words were uttered.
+1. We begin by using a speech-to-text model to transcribe an entire audio file. The speech-to-text model also outputs timestamps for when each of its output words were uttered. We use the model wav2vec2-large-voxrex-swedish [@wav2vec2]. 
 2. We use the official transcripts, and perform fuzzy string matching to locate what region of the automatic transcript they match against. The string matched region becomes an approximation of where the speech is located in the big audio file.
-3. We perform [speaker diarization](https://en.wikipedia.org/wiki/Speaker_diarisation). This gives us a more detailed view of when different speakers spoke during the debate.
+3. We perform [speaker diarization](https://en.wikipedia.org/wiki/Speaker_diarisation). This gives us a more detailed view of when different speakers spoke during the debate. We use the tool pyannote.audio [@Bredin2020] [@Bredin2021] for speaker diarization.
 4. We now still need to connect the speaker segments from the speaker diarization output to the official transcripts and the metadata associated with the transcripts. We therefore use the approximate predictions from the string matching method, and calculate the degre of overlap between different diarization speaker segments and the fuzzy string matched region of a speech. 
 5. The dominant (most overlapping) speaker segment(s) becomes our prediction.
 
