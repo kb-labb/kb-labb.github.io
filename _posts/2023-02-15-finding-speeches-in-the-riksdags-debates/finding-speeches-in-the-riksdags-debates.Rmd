@@ -223,17 +223,18 @@ df %>%
 ```
 :::
 
-We note how, for several years between 2006 and 2011, the adjusted KBLab metadata palces the end of a speech about 85 seconds *earlier* than the Riksdag. The typical **end** indication from the Riksdag during these years appears to overshoot the speech by more than a minute. Looking at the same thing in graphical form below, where every point represents the mean difference within an entire debate, we see a systematic pattern of the "end" metadata marker from the Riksdag overshooting the end of speeches (**right hand side** plot). In contrast, most of the "start" metadata markings (**left** plot) are more accurate. Perhaps this was a conscious choice, as capturing the start of a speech might have been deemed more important than spending a lot of time and resources capturing the exact ending of the speech. 
+We note how, for several years between 2006 and 2011, the adjusted KBLab metadata places the end of a speech about 85 seconds *earlier* than the Riksdag. The typical **end** indication from the Riksdag during these years appears to overshoot the speech by more than a minute. Looking at the same thing in graphical form below, where every point represents the mean difference within an entire debate, we see a systematic pattern of the "end" metadata marker from the Riksdag overshooting the end of speeches (**right hand side** plot). In contrast, most of the "start" metadata markings (**left** plot) are more accurate. Perhaps this was a conscious choice, as capturing the start of a speech might have been deemed more important than spending a lot of time and resources capturing the exact ending of the speech. 
 
 ::: l-page
-```{r fig.show="hold", out.width="50%", fig.retina = 2, fig.cap="Mean difference between KBLab adjusted metadata and the Riksdag. **Left** plot shows the difference between 'start' metata, and the **right** plot the difference between 'end' metadata. In general the Riksdag's start markers tend to bias towards beginning a few seconds before the actual speech, and ending later than the actual ending.", fig.align="center", echo=FALSE}
+```{r fig.show="hold", out.width="50%", fig.retina = 2, fig.cap="Mean difference between KBLab adjusted metadata and the Riksdag. **Left** plot shows the difference between 'start' metata, and the **right** plot the difference between 'end' metadata. In general the Riksdag's start markers tend to bias towards beginning a few seconds before the actual speech, and ending later than the actual ending. The plot shows a zoomed in view between -200 and +200 seconds to emphasize general trends. There also exist debates for which the metadata is off by thousands of seconds.", fig.align="center", echo=FALSE}
 knitr::include_graphics(c("start_diff.jpg", "end_diff.jpg"))
 ```
 :::
 
+
 ### Most and least intelligible speakers
 
-After adjusting the metadata, we used the new metadata to split the debate audio file in to speech segments. These speech files were machine transcribed and evaluated against the official transcript with the [BLEU](https://en.wikipedia.org/wiki/BLEU) score. High BLEU score generally indicate there's a high correspondence or overlap between the output of the machine transcription and the official transcript. 
+After adjusting the metadata, we used the new metadata to split the debate audio file in to speech segments. These speech files were machine transcribed and evaluated against the official transcript using the [BLEU](https://en.wikipedia.org/wiki/BLEU) score. High BLEU score generally indicate there's a high correspondence or overlap between the output of the machine transcription and the official transcript. 
 
 In the table below, we display the 30 speakers with the lowest mean BLEU score, among those speakers with more than $5$ speeches in the Riksdag's debates. A low BLEU score may not necessarily imply the speaker is less intelligible for speech-to-text models, but may be the result of a combination of different factors:
 
@@ -296,13 +297,13 @@ knitr::include_graphics("monthly_bleu.jpg")
 
 We like open data at KBLab! The Riksdag's open data is a wonderful resource that we believe will benefit research for many years to come. Making it easy for many people to acccess and use the Riksdag's data creates positive spinoff effects. The [WeStAc](https://www.westac.se/en/) project with their curation of protocols from the Riksdag spanning back to the 1920s is one such example (see [riksdagen-corpus](https://github.com/welfare-state-analytics/riksdagen-corpus)). While KBLab's primary objective in doing speech segmentation was to create an ASR dataset, the method and metadata output can be shared and used by both the Riksdag and [other projects](https://www.vr.se/swecris.html#/project/IN22-0003_RJ) interested in curating Riksdag materials and possibly connecting curated protocols to audio and video recordings. 
 
-The audiovisual materials currently exposed in the Riksdag's APIs has made it possible for us to create RixVox: a 5500 hour audio dataset with aligned text transcripts. From the point of view of KBLab, we benefit greatly from other organizations and research projects curating datasets, protocols and transcripts in this manner. We believe the method described in this article can likely successfully be applied to Riksdag debates from the 1960s to the 2000s. The prerequisite is simply having access to the audio, and a set of curated and well segmented textual transcripts from protocols. Luckily, since the Riksdag has done such a splendid job with their open data platform, there will be research projects to take on the challenge!
+The audiovisual materials currently exposed in the Riksdag's APIs has made it possible for us to create RixVox: a 5500 hour audio dataset with aligned text transcripts. From the point of view of KBLab, we benefit greatly from other organizations and research projects curating datasets, protocols and transcripts in this manner. We believe the method described in this article can likely successfully be applied to Riksdag debates from the 1960s to the 2000s. The prerequisite is simply having access to the audio, and a set of curated and well segmented textual transcripts from protocols. Luckily, since the Riksdag has done such a splendid job with their open data platform, there are research projects that have taken on the challenge!
 
 ## Code and data
 
 We plan on making RixVox, the 5500 hour speech-to-text dataset consisting of parliamentary speeches, freely and openly available on Huggingface. A new post will appear on this blog announcing the news when it is released!
 
-The code for reproducing the speech segmentations, the adjusted metdata, and RixVox is available. See the **Code** and **Data** sections below. 
+The code for reproducing the speech segmentations, the adjusted metadata, and RixVox is available. See the **Code** and **Data** sections below. 
 
 ## Acknowledgements
 
