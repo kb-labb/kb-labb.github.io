@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["end_diff.jpg","finding-speeches-in-the-riksdags-debates_files/anchor-4.2.2/anchor.min.js","finding-speeches-in-the-riksdags-debates_files/bowser-1.9.3/bowser.min.js","finding-speeches-in-the-riksdags-debates_files/distill-2.2.21/template.v2.js","finding-speeches-in-the-riksdags-debates_files/header-attrs-2.20/header-attrs.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.min.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.min.map","finding-speeches-in-the-riksdags-debates_files/pagedtable-1.1/css/pagedtable.css","finding-speeches-in-the-riksdags-debates_files/pagedtable-1.1/js/pagedtable.js","finding-speeches-in-the-riksdags-debates_files/popper-2.6.0/popper.min.js","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy-bundle.umd.min.js","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy-light-border.css","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy.css","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy.umd.min.js","finding-speeches-in-the-riksdags-debates_files/webcomponents-2.0.0/webcomponents.js","monthly_bleu.jpg","riksdag_speech_meta.png","riksdag_speech_meta(2).png","speech_finder_method.png","start_diff.jpg"]}
+  {"type":"character","attributes":{},"value":["end_diff.jpg","finding-speeches-in-the-riksdags-debates_files/anchor-4.2.2/anchor.min.js","finding-speeches-in-the-riksdags-debates_files/bowser-1.9.3/bowser.min.js","finding-speeches-in-the-riksdags-debates_files/distill-2.2.21/template.v2.js","finding-speeches-in-the-riksdags-debates_files/header-attrs-2.20/header-attrs.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.min.js","finding-speeches-in-the-riksdags-debates_files/jquery-3.6.0/jquery-3.6.0.min.map","finding-speeches-in-the-riksdags-debates_files/pagedtable-1.1/css/pagedtable.css","finding-speeches-in-the-riksdags-debates_files/pagedtable-1.1/js/pagedtable.js","finding-speeches-in-the-riksdags-debates_files/popper-2.6.0/popper.min.js","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy-bundle.umd.min.js","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy-light-border.css","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy.css","finding-speeches-in-the-riksdags-debates_files/tippy-6.2.7/tippy.umd.min.js","finding-speeches-in-the-riksdags-debates_files/webcomponents-2.0.0/webcomponents.js","huminfra.svg","monthly_bleu.jpg","riksdag_speech_meta.png","speech_finder_method.png","start_diff.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1543,6 +1543,7 @@ transcripts with their corresponding speech in audio files.</p></p>
 <li><a href="#evaluation-of-metadata-quality" id="toc-evaluation-of-metadata-quality">Evaluation of metadata quality</a></li>
 <li><a href="#the-benefits-of-open-data" id="toc-the-benefits-of-open-data">The benefits of open data</a></li>
 <li><a href="#code-and-data" id="toc-code-and-data">Code and data</a></li>
+<li><a href="#acknowledgements" id="toc-acknowledgements">Acknowledgements</a></li>
 <li><a href="#code" id="toc-code">Code</a></li>
 <li><a href="#data" id="toc-data">Data</a></li>
 </ul>
@@ -1768,9 +1769,9 @@ Figure 1: Mean difference between KBLab adjusted metadata and the Riksdag. <stro
 <div class="l-page">
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
-<img src="monthly_bleu.jpg" alt="BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on 'start' and 'end' metadata. We  then use the wav2vec2-voxrex speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of 'translation'. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript."  />
+<img src="monthly_bleu.jpg" alt="BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on 'start' and 'end' metadata. We  then use the wav2vec2-voxrex-swedish speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of 'translation'. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript."  />
 <p class="caption">
-Figure 2: BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on ‘start’ and ‘end’ metadata. We then use the wav2vec2-voxrex speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of ‘translation’. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript.
+Figure 2: BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on ‘start’ and ‘end’ metadata. We then use the wav2vec2-voxrex-swedish speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of ‘translation’. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript.
 </p>
 </div>
 </div>
@@ -1781,6 +1782,13 @@ Figure 2: BLEU score is often used as a scoring metric for determining how well 
 <h2 id="code-and-data">Code and data</h2>
 <p>We plan on making RixVox, the 5500 hour speech-to-text dataset consisting of parliamentary speeches, freely and openly available on Huggingface. A new post will appear on this blog announcing the news when it is released!</p>
 <p>The code for reproducing the speech segmentations, the adjusted metdata, and RixVox is available. See the <strong>Code</strong> and <strong>Data</strong> sections below.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Part of this development work was carried out within the frame of the infrastructural project <a href="https://www.huminfra.se/">HUMINFRA</a>.</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="huminfra.svg" width="50%" /></p>
+</div>
+</aside>
 <h2 class="appendix" id="code">Code</h2>
 <p>The code for reproducing results in this article can be found on <a href="https://github.com/kb-labb/riksdagen_anforanden" class="uri">https://github.com/kb-labb/riksdagen_anforanden</a>.</p>
 <h2 class="appendix" id="data">Data</h2>

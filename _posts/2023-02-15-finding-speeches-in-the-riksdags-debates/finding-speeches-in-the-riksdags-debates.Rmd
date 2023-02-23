@@ -286,7 +286,7 @@ How do we know whether our method works or not? The benefit of the "speech finde
 In the plot below, we plot the average monthly BLEU scores over time (higher is better). KBLab's adjusted metadata is of comparable quality the Riksdag's metadata for, 2012 and forward. However, whereas the Riksdag's BLEU scores drop for older debates, speech segmentations based on KBLabs adjusted metadata maintains an even and similar quality throughout the entire period. 
 
 ::: l-page
-```{r fig.retina = 2, echo=FALSE, fig.cap="BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on 'start' and 'end' metadata. We  then use the wav2vec2-voxrex speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of 'translation'. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript."}
+```{r fig.retina = 2, echo=FALSE, fig.cap="BLEU score is often used as a scoring metric for determining how well a translation overlaps with a reference, source or ground truth text. In our case we split the debate audio file in to speeches based on 'start' and 'end' metadata. We  then use the wav2vec2-voxrex-swedish speech-to-text model to automatically transcribe any speech within the split speeches. The automatic model transcription can be seen as a form of 'translation'. Finally, we compare the automated transcription against the official transcript. A high BLEU score indicates what was spoken within the segmented region overlaps to a high degree with the official transcript."}
 knitr::include_graphics("monthly_bleu.jpg")
 ```
 :::
@@ -302,6 +302,16 @@ The audiovisual materials currently exposed in the Riksdag's APIs has made it po
 We plan on making RixVox, the 5500 hour speech-to-text dataset consisting of parliamentary speeches, freely and openly available on Huggingface. A new post will appear on this blog announcing the news when it is released!
 
 The code for reproducing the speech segmentations, the adjusted metdata, and RixVox is available. See the **Code** and **Data** sections below. 
+
+## Acknowledgements
+
+Part of this development work was carried out within the frame of the infrastructural project [HUMINFRA](https://www.huminfra.se/).
+
+<aside>
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("huminfra.svg")
+```
+</aside>
 
 ## Code {.appendix}
 
