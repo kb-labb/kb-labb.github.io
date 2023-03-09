@@ -95,6 +95,8 @@ df_bleu %>%
 ```
 ::: 
 
+The speakers with the highest score are for those whom thedistrict is missing (`NA`). These are mostly government ministers who have never been members of parliament. The least intelligible electoral districts are southern Skåne, Gotland, and Malmö municipality (also southern Skåne). 
+
 ### Longest total duration speaker
 
 Which speakers have spent the most time on the Riksdag Chamber's podium? The table below shows that Morgan Johansson is the undisputed $\#1$ debater in terms of total duration of speech.
