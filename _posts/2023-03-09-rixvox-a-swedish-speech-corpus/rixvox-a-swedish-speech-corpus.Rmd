@@ -1,0 +1,162 @@
+---
+title: "RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"
+description: |
+  RixVox consists of 5500 hours of speech from parliamentary debates that have been 
+  aligned with transcripts from written protocols. RixVox is open and free for 
+  everyone to download and use.
+  KBLab releases RixVox: a new Swedish Speech Corpus for Automatic Speech Recognition. 
+author:
+  - name: Faton Rekathati
+    url: https://github.com/Lauler
+    affiliation: KBLab
+    affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2023-03-09
+bibliography: references.bib
+preview: rixvox_bg.png
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+Automatic Speech Recognition (ASR) systems that convert spoken language to text rely heavily on annotated data to produce the best possible results. Such datasets are unfortunately not widely available for Swedish. The combined total of currently available audio datasets with annotated transcripts for the Swedish language number somewhere in the hundreds of hours. 
+
+To this end, KBLab releases Rixvox, a new Swedish ASR dataset consisting of $5500$ hours of speech. The data originates from parliamentary debates between the years of $2003$ to $2023$, which were made available via the Swedish Parliament's open data initiative. KBLab used written protocols to segment speeches from the debates, and to subsequently force align the the written transcripts with audio from the speeches. In addition to audio and transcripts, metadata such as the name, gender, birth year, political party, and electoral district of speakers is also available. 
+
+RixVox is free and open for anyone to download and use. The dataset can be reached on the following link: https://huggingface.co/datasets/KBLab/rixvox .
+
+## RixVox dataset statistics 
+
+The RixVox dataset was constructed from parliamentary debates. You can read more about how we segmented speeches from debates and determined their precise start and end location within a debate in a previous article on this blog: "Finding Speeches in the Riksdag's debates" [@rekathati2023finding].
+
+The dataset has chunked the audio from speeches in to smaller snippets suitable for training ASR models. Each observation is *up to* 30 seconds in length, and consists of either a single or several sentences from the written transcript of a speech, along with the corresponding audio. The dataset consists of a total of $5493.6$ hours of speech. There are $1194$ different speakers represented in the data. The average duration of an observation is $23.68$ seconds. In the table below, we present the distribution of observations of the different train, validation and test split of RixVox, along with some summary statistics for each split. 
+
+::: l-page
+| Dataset Split | Observations      | Total duration of speech (hours) | Average duration obs. (seconds) | Number of speakers |
+| ------------- | ----------------: | -------------------------------: | ------------------------------: | -----------------: |
+| Train         | 818227            | 5383                             | 23.69                           | 1165               |
+| Validation    | 7933              | 52                               | 23.50                           | 18                 |
+| Test          | 8884              | 59                               | 23.74                           | 11                 |
+:::
+
+The dataset splits were created by sampling speakers until a threshold reaching a certain total duration of speech was reached. For the training set, we randomly sampled speakers until $98\%$ of the total duration of the RixVox dataset was reached ($5384$ hours). For the test and validation set, we randomly sampled speakers until each filled up to a bucket of $1\%$ of the total duration of the entire dataset. 
+
+Let's also take a look at the gender distribution of speakers. We have $602$ men, $519$ women, and $73$ speakers for whom this metadata is missing.
+
+```{r, echo=FALSE}
+library(dplyr)
+df <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/data/df_train_v2.parquet")
+
+df$party[df$party == "FP"] <- "L"
+df_speaker <- df %>% group_by(speaker, party) %>% filter(row_number() == 1)
+
+df_speaker %>%
+  group_by(sex) %>%
+  count() %>%
+  rename(Gender = sex, "Number" = n) %>%
+  rmarkdown::paged_table()
+```
+
+Looking at the total duration of speech for each gender, we have a similar distribution to above. $46.3\%$ of the individual speakers were women, and $44.3\%$ of the total duration of speeches in RixVox is made up of women speaking.
+
+```{r, echo=FALSE}
+df %>%
+  group_by(sex) %>%
+  summarize(total_duration = sum(duration) / 3600) %>%
+  mutate(total_duration = round(total_duration, digits=2)) %>%
+  rename(Gender = sex, "Total duration (hours)" = total_duration) %>%
+  rmarkdown::paged_table()
+```
+
+### Most and least intelligible electoral districts
+
+Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab's  [wav2vec2-large-voxrex-swedish](https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish) model [@wav2vec2]. We then calculated the [BLEU score](https://en.wikipedia.org/wiki/BLEU) to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there's a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts. 
+
+::: l-body-outset
+```{r, echo=FALSE}
+df_bleu <- df %>%
+  group_by(electoral_district) %>%
+  summarize(mean_bleu = mean(bleu_score),
+            sd_bleu = sd(bleu_score),
+            nr_speakers = n_distinct(speaker)) %>% 
+  arrange(-mean_bleu)
+
+df_bleu$nr_speakers[is.na(df_bleu$electoral_district)] <- NA
+
+df_bleu %>%
+  rename("Electoral district" = electoral_district,
+         "Mean BLEU score" = mean_bleu,
+         "Std. dev. BLEU" = sd_bleu, 
+         "Number of speakers" = nr_speakers) %>%
+  rmarkdown::paged_table()
+```
+::: 
+
+### Longest total duration speaker
+
+Which speakers have spent the most time on the Riksdag Chamber's podium? The table below shows that Morgan Johansson is the undisputed $\#1$ debater in terms of total duration of speech.
+
+```{r, echo=FALSE}
+df %>%
+  group_by(speaker, party) %>%
+  summarize(total_duration = round(sum(duration) / 3600, digits=2)) %>%
+  arrange(-total_duration) %>% 
+  rename(Speaker = speaker, 
+         Party = party,
+         "Total duration (hours)" = total_duration) %>%
+  head(50) %>%
+  rmarkdown::paged_table()
+  
+```
+
+## Method of creation
+
+Before RixVox could be created, we needed to accurately segment speeches from debates. In other words: locate where the speech started and ended within the debate audio file. The most cumbersome parts of the preliminary work undertaken to segment speeches from debates is described in our previous article "Finding Speeches in the Riksdag's Debates" [@rekathati2023finding]. We recommend reading this article for background on the speech segmentation. 
+
+
+### Quality filtering 
+
+Once the speeches were segmented, the remaining work consisted of performing some quality filtering based on simple heuristics, aligning the written transcripts with the audio on a sentence level, adding metadata about the speakers, and finally converting the alignments to short snippets up to 30 seconds in length (a suitable format for training ASR models). 
+
+The first round of quality filters applied on speeches can be found in the [following lines of code](https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/heuristic_filter.py#L21-L45). These include:
+
+* We keep only speeches $> 25$ seconds in duration as predicted by speaker diarization (see the linked article for context). The reliability of our speech segmentation method improves with speech length. 
+* We keep only speeches $> 15$ seconds in duration as predicted by fuzzy string matching between machine transcription and official transcripts.
+* We calculate a "length ratio", which is the predicted duration of the speech by speaker diarization, divided by the predicted duration of the speech by fuzzy string matching. We only keep the speech if this length ratio is between $0.8$ and $1.5$. Otherwise, we deem our two methods to be in too much of a disagreement. 
+* We calculate an "overlap ratio", which is the "duration where speaker diarization and fuzzy string matching predictions overlap" divided by the total predicted duration of the fuzzy string matching method. If this ratio is $>0.8$ we keep the speech. 
+* We only keep speeches where $1$ single speaker was identified as speaking within the predicted regions.
+* We only keep speeches where the difference in predicted start time between a future and previous speech is $>5$ seconds. 
+
+The second round of quality filters were applied after another fuzzy string matching sanity check was performed. This time, instead of fuzzy string matching the text of a written transcript against the machine transcription of an entire debate, we fuzzy string match the text of the written transcript against the machine transcription of the segmented speech, as predicted by our speaker diarization. A short summary of the second round of quality filters follows:
+
+* Removing speeches where the official written protocol starts matching the machine transcription only after a threshold of $X$ words in the machine transcribed version. This was a possible indication that the speech segmentation had predicted a **too early** start location for the speech, erroneously including parts of other speakers.  
+* Removing speeches where the official written protocol stops matching hte machine transcription too early. 
+* We adjust the $X$ threshold based on different dates the debates were held on, and whether the debate was the first and/or the last speech of the debate (the first and last speeches of debates were more likely to be cut off in the middle of the speech before the year $2012$). 
+
+See the [following lines of code](https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/rixvox_filter.py#L28-L51) for a full list of the filtering conditions. 
+
+The above filtering procedures reduced the number of speeches to be included in RixVox from about 122k speeches to 115k speeches. 
+
+### Forced alignment
+
+Once we had high confidence in the remaining set of predictions, we proceeded to align the written protocols with the audio. This was done by:
+
+1. Sentence tokenizing the written transcripts. 
+2. Using the [`aeneas` library](https://www.readbeyond.it/aeneas/) to force align the audio with the text on the sentence level. 
+
+The `aeneas` library gives an output in the form of predicing the `start` and `end` location of the sentence within the speech. 
+
+We can recommend reading the masters thesis **"Automatic Annotation of Speech: Exploring Boundaries within Forced Alignment for Swedish and Norwegian"** [@Biczysko1674281] for an excellent review of available forced alignment tools for Swedish and Norwegian.
+
+### Creating 30s observation snippets. 
+
+In the final step, we concatenate sentences from the same speech that follow one another up to a maximum length of $30$ seconds per observation. The observations in RixVox are thus composed of either a single sentence, or several sentences in order within a speech up until the "bucket" fills up to the threshold of $30$ seconds. 
+
+We remove the first sentence of each speech, as transcriptions tend to add a "Fru talman!" or "Herr Talman" here as a matter of formality, regardless of whether this was uttered by the speaker or not. 
+
+### Dataset card
+
+RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to doqnload and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
