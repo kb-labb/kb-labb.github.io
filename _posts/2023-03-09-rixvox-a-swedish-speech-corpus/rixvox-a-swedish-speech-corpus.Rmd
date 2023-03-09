@@ -160,3 +160,7 @@ We remove the first sentence of each speech, as transcriptions tend to add a "Fr
 ### Dataset card
 
 RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to doqnload and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
+
+## Code {.appendix}
+
+The code for reproducing results in this article can be found on https://github.com/kb-labb/riksdagen_anforanden.
