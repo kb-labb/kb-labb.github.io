@@ -1,10 +1,11 @@
 ---
 title: "RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"
 description: |
-  RixVox consists of 5500 hours of speech from parliamentary debates that have been 
-  aligned with transcripts from written protocols. RixVox is open and free for 
-  everyone to download and use.
-  KBLab releases RixVox: a new Swedish Speech Corpus for Automatic Speech Recognition. 
+  KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from 
+  parliamentary debates. The speeches have been aligned with transcripts from 
+  written protocols, and contain additional metadata such as the speaker's gender, 
+  electoral district and birth year. RixVox is open and free for everyone 
+  to download and use.  
 author:
   - name: Faton Rekathati
     url: https://github.com/Lauler
@@ -42,7 +43,7 @@ The dataset has chunked the audio from speeches in to smaller snippets suitable 
 | Test          | 8884              | 59                               | 23.74                           | 11                 |
 :::
 
-The dataset splits were created by sampling speakers until a threshold reaching a certain total duration of speech was reached. For the training set, we randomly sampled speakers until $98\%$ of the total duration of the RixVox dataset was reached ($5384$ hours). For the test and validation set, we randomly sampled speakers until each filled up to a bucket of $1\%$ of the total duration of the entire dataset. 
+The dataset splits were created by sampling speakers until a threshold was reached in terms of total duration of speech. For the training set, we randomly sampled speakers until $98\%$ of the total duration of the RixVox dataset was reached ($5384$ hours). For the test and validation set, we randomly sampled speakers until each filled up to a bucket of $1\%$ of the total duration of the entire dataset. 
 
 Let's also take a look at the gender distribution of speakers. We have $602$ men, $519$ women, and $73$ speakers for whom this metadata is missing.
 
@@ -161,7 +162,7 @@ We remove the first sentence of each speech, as transcriptions tend to add a "Fr
 
 ### Dataset card
 
-RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to doqnload and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
+RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to download and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
 
 ## Code {.appendix}
 
