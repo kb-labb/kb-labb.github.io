@@ -83,8 +83,8 @@ In this post, we have revisited BERTopic and provided some useful tools to mitig
 
 ## Acknowledgements
 
-Part of this development work was carried out within the frame of the infrastruc
-tural project [HUMINFRA](https://www.huminfra.se/).
+Part of this development work was carried out within [HUMINFRA](https://www.huminfra.se/) infrastructure project.
+
 
 <aside>
 ```{r echo=FALSE, out.width="50%"}
