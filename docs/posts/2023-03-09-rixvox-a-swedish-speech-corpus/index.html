@@ -2725,19 +2725,20 @@ to download and use.</p></p>
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#rixvox-dataset-statistics" id="toc-rixvox-dataset-statistics">RixVox dataset statistics</a>
+<li><a href="#rixvox-dataset-statistics">RixVox dataset statistics</a>
 <ul>
-<li><a href="#most-and-least-intelligible-electoral-districts" id="toc-most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</a></li>
-<li><a href="#longest-total-duration-speaker" id="toc-longest-total-duration-speaker">Longest total duration speaker</a></li>
+<li><a href="#most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</a></li>
+<li><a href="#longest-total-duration-speaker">Longest total duration speaker</a></li>
 </ul></li>
-<li><a href="#method-of-creation" id="toc-method-of-creation">Method of creation</a>
+<li><a href="#method-of-creation">Method of creation</a>
 <ul>
-<li><a href="#quality-filtering" id="toc-quality-filtering">Quality filtering</a></li>
-<li><a href="#forced-alignment" id="toc-forced-alignment">Forced alignment</a></li>
-<li><a href="#creating-30s-observation-snippets." id="toc-creating-30s-observation-snippets.">Creating 30s observation snippets.</a></li>
-<li><a href="#dataset-card" id="toc-dataset-card">Dataset card</a></li>
+<li><a href="#quality-filtering">Quality filtering</a></li>
+<li><a href="#forced-alignment">Forced alignment</a></li>
+<li><a href="#creating-30s-observation-snippets.">Creating 30s observation snippets.</a></li>
+<li><a href="#dataset-card">Dataset card</a></li>
 </ul></li>
-<li><a href="#code" id="toc-code">Code</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#code">Code</a></li>
 </ul>
 </nav>
 </div>
@@ -2863,6 +2864,13 @@ to download and use.</p></p>
 <p>We remove the first sentence of each speech, as transcriptions tend to add a “Fru talman!” or “Herr Talman” here as a matter of formality, regardless of whether this was uttered by the speaker or not.</p>
 <h3 id="dataset-card">Dataset card</h3>
 <p>RixVox has <a href="https://huggingface.co/datasets/KBLab/rixvox">a dataset card</a> on Huggingface, where you can find more details about the dataset, its features, and how to download and use it. You can also preview the first 100 observations of the train, validation and test sets in <a href="https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train">the dataset viewer</a>.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Part of this development work was carried out within the frame of the infrastructural project <a href="https://www.huminfra.se/">HUMINFRA</a>.</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="../2023-02-15-finding-speeches-in-the-riksdags-debates/huminfra.svg" width="50%" /></p>
+</div>
+</aside>
 <h2 class="appendix" id="code">Code</h2>
 <p>The code for reproducing results in this article can be found on <a href="https://github.com/kb-labb/riksdagen_anforanden" class="uri">https://github.com/kb-labb/riksdagen_anforanden</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>

@@ -49,7 +49,7 @@ Let's also take a look at the gender distribution of speakers. We have $602$ men
 
 ```{r, echo=FALSE}
 library(dplyr)
-df <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/data/df_train_v2.parquet")
+df <- arrow::read_parquet("/home/fatrek/projects/audio/riksdagen_anforanden/data/df_train_v2.parquet")
 
 df$party[df$party == "FP"] <- "L"
 df_speaker <- df %>% group_by(speaker, party) %>% filter(row_number() == 1)
@@ -163,6 +163,16 @@ We remove the first sentence of each speech, as transcriptions tend to add a "Fr
 ### Dataset card
 
 RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to download and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
+
+## Acknowledgements
+
+Part of this development work was carried out within the frame of the infrastructural project [HUMINFRA](https://www.huminfra.se/).
+
+<aside>
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("../2023-02-15-finding-speeches-in-the-riksdags-debates/huminfra.svg")
+```
+</aside>
 
 ## Code {.appendix}
 

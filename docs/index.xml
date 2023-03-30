@@ -13,7 +13,7 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 16 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Mar 2023 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Scientific discourse with BERTopic</title>
       <dc:creator>Hillevi Hägglöf</dc:creator>
@@ -21,7 +21,7 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic</link>
       <description>We describe a typical topic modeling use case where BERTopic is applied to scientific abstracts in the research field of education. We discuss the limitations of BERTopic and potential ways to overcome them. Some further exploratory data analysis is performed using the topic model as a base.</description>
       <guid>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic</guid>
-      <pubDate>Thu, 16 Mar 2023 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 17 Mar 2023 00:00:00 +0000</pubDate>
       <media:content url="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/Forskarsalen_1920-talet.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -34,7 +34,7 @@ written protocols, and contain additional metadata such as the speaker's gender,
 electoral district and birth year. RixVox is open and free for everyone 
 to download and use.</description>
       <guid>https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus</guid>
-      <pubDate>Thu, 09 Mar 2023 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 Mar 2023 00:00:00 +0000</pubDate>
       <media:content url="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/rixvox_bg.png" medium="image" type="image/png" width="766" height="765"/>
     </item>
     <item>
