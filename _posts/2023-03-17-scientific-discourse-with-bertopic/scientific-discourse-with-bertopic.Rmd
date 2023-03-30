@@ -80,3 +80,14 @@ In the left-lower quadrant, we can see that China is closely related to the covi
 ## Conclusions
 
 In this post, we have revisited BERTopic and provided some useful tools to mitigate the limitations of the method. Demonstrated here is a non-exhaustive list of ways to validate your topic model, as well as examples on how to perform further explorative data analysis using BERTopic as a base.
+
+## Acknowledgements
+
+Part of this development work was carried out within the frame of the infrastruc
+tural project [HUMINFRA](https://www.huminfra.se/).
+
+<aside>
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("huminfra.svg")
+```
+</aside>
