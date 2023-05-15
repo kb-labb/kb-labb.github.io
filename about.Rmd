@@ -115,3 +115,16 @@ knitr::include_graphics("images/justyna.jpg")
 ```
 ### Justyna Sikora, Data scientist [`r emo::ji("e-mail")`](mailto:justyna.sikora@kb.se)
 I have always been passionate about languages and linguistics. However, having studied philology and worked in the language industry for couple years, I had a chance to stumble upon many uses of what I, at the time, did not know was NLP. I became fascinated by the possibilities of combining linguistic knowledge with computational methods. This interest has led me into pursuing a Master’s degree in Language Technology at Uppsala University. I graduated in 2022 and started working as a data scientist at KBLab. 
+
+<br />
+<br />
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/patrik.jpg")
+```
+
+### Patrik Granholm, Researcher [`r emo::ji("e-mail")`](mailto:patrik.granholm@kb.se)
+
+I work as a researcher at the KBLab and as curator of the medieval and early modern manuscript collection at the National Library. I am the creator of [manuscripta.se](https://www.manuscripta.se), a research infrastructure for the study of medieval and early modern manuscripts preserved in Swedish libraries. My role at the lab is mainly focused on maintaining and developing this infrastructure.
+
+My background is in Classics and I have a [PhD in Greek from Uppsala University (2012)](https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-183681). My main areas of expertise are textual criticism, manuscript studies, and digital manuscript cataloguing in TEI and IIIF. Since 2012 I have worked in several externally funded projects to catalogue and digitise [Greek manuscripts](https://www.rj.se/en/anslag/2011/greek-manuscripts-in-sweden---a-digitization-and-cataloguing-project/), [medieval Old Swedish manuscripts](https://portal.research.lu.se/en/projects/ttt-text-till-tiden-medeltida-texter-i-kontext-d%C3%A5-och-nu), and [post-medieval Old Swedish manuscripts](https://www.rj.se/en/grants/2018/swedish-post-medieval-manuscripts-at-the-national-library-of-sweden-and-uppsala-university-library--a-catalouging-and-digitization-project/). Currently, I am working, part-time, in two large scale cataloguing and digitisation projects, one involving the [medieval Latin theological manuscripts](https://www.rj.se/en/grants/2021/medieval-latin-manuscripts-in-the-national-library-cataloguing-and-digitization/) at the National Library, another the [West Norse manuscripts](https://www.rj.se/en/grants/2021/digitization-of-the-west-norse-manuscripts-in-swedish-collections/) at the National Library and Uppsala University Library.
