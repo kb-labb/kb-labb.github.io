@@ -13,7 +13,21 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-03-30</lastBuildDate>
+    <lastBuildDate>2023-05-24</lastBuildDate>
+    <item>
+      <title>Swedish speech synthesis</title>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <link>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech</link>
+      <description>KBLab releases a neural network based text-to-speech model for Swedish. The model
+was trained on an open Swedish speech synthesis dataset from NST. We make our 
+latest training checkpoint available for for anyone wishing to finetune on a new voice.
+We also contribute the model weights to the open source project Piper, where users 
+can deploy a light weight optimized version of the model on their own computers 
+or on their Raspberry Pis.</description>
+      <guid>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech</guid>
+      <pubDate>2023-05-24</pubDate>
+      <media:content url="https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/tts_banner.png" medium="image" type="image/png" width="812" height="760"/>
+    </item>
     <item>
       <title>Scientific discourse with BERTopic</title>
       <dc:creator>Hillevi Hägglöf</dc:creator>
