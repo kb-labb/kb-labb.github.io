@@ -13,7 +13,16 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-05-24</lastBuildDate>
+    <lastBuildDate>2023-06-15</lastBuildDate>
+    <item>
+      <title>A robust, multi-label sentiment classifier for Swedish</title>
+      <dc:creator>Hillevi Hägglöf</dc:creator>
+      <link>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish</link>
+      <description>KBLab presents a robust, multi-label sentiment classifier trained on Swedish texts. The model is robust in the sense that it is trained on multiple datasets of different text types and allows labeling of neutral as well positive and negative texts. It is available under Apache 2.0 license on the Hugging Face Hub.</description>
+      <guid>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish</guid>
+      <pubDate>2023-06-15</pubDate>
+      <media:content url="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/Wingard_Bo_Dagen_H_3_KoB_F_Saml_36.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Swedish speech synthesis</title>
       <dc:creator>Faton Rekathati</dc:creator>
