@@ -346,7 +346,7 @@ nextspeech2.addEventListener('click', nextClickEvent);
 
 function embedLinkGetter(debateurl, start, end){
   base_url = "https://www.riksdagen.se";
-  embed_url = base_url + debateurl + "&start=" + start + "&end=" + end;
+  embed_url = base_url + debateurl + "/embed/?start=" + start + "&end=" + end;
   return embed_url
 }
 
@@ -438,7 +438,7 @@ nextdebate2.addEventListener('click', nextDebateEvent);
 function embedLinkGetter(debateurl, start, end){
   // debateurl example: /sv/webb-tv/video/fragestund/fragestund_H9C120220512fs
   base_url = "https://www.riksdagen.se";
-  embed_url = base_url + debateurl + "&start=" + start + "&end=" + end;
+  embed_url = base_url + debateurl + "/embed/?start=" + start + "&end=" + end;
   return embed_url
 }
 
