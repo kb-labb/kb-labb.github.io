@@ -40,12 +40,11 @@ df_to_js <- function(x, var_name = "data", ...){
 df <- arrow::read_parquet("/home/faton/projects/audio/riksdagen_anforanden/data/df_final_metadata.parquet")
 
 df <- df %>%
-  mutate(debateurl_timestamp_riks = paste0("https://www.riksdagen.se/views/pages/embedpage.aspx?did=", dokid, "&start=", start, "&end=", end),
-         anftext_short = paste0(stringr::word(anftext, start=1, end=20, sep=" "), "..."))
+  mutate(anftext_short = paste0(stringr::word(anftext, start=1, end=20, sep=" "), "..."))
 
 df_data <- df %>%
   filter(dokid == "H9C120220512fs") %>%
-  select(dokid, start, end, start_adjusted, end_adjusted, speaker, party, speaker_audio_meta, anftext_short)
+  select(dokid, start, end, start_adjusted, end_adjusted, speaker, party, speaker_audio_meta, anftext_short, debateurl)
 
 # df_to_js(list("asdf" = df_data[1,], "asdf2" = df_data[1,]))
 df_to_js(df_data, var_name = "data_example")
@@ -55,8 +54,7 @@ The Riksdag is Sweden's legislature. The 349 members of the Riksdag regularly ga
 
 <aside>
 ```{r out.width="360px", echo=FALSE}
-url <- "https://www.riksdagen.se/imagevault/publishedmedia/r75t6jvj5ecigmglskqg/kammaren-votering-0131-ok.jpg"
-knitr::include_graphics(url)
+knitr::include_graphics("riksmotets-oppnande-2022_kammaren2.jpg")
 ```
 The Chamber.  
 
@@ -83,7 +81,7 @@ Both videos below will update at the same time when pressing "Next debate"/"Prev
 ::: l-page
 ```{=html}
 <div class="videobox">
-  <iframe id="videokb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=97.5&end=154" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
+  <iframe id="videokb" src="https://www.riksdagen.se/sv/webb-tv/video/fragestund/fragestund_h9c120220512fs/embed/?start=97.5&end=154" allowfullscreen="" scrolling="no" title="Frågestund (Frågestund 12 maj 2022)" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
   </video>
   <div class="metabox">
     <form action="">
@@ -100,7 +98,7 @@ Both videos below will update at the same time when pressing "Next debate"/"Prev
 </div>
 
 <div class="videobox">
-  <iframe id="videoriks" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=H9C120220512fs&start=94&end=157" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
+  <iframe id="videoriks" src="https://www.riksdagen.se/sv/webb-tv/video/fragestund/fragestund_h9c120220512fs/embed/?start=94&end=157" allowfullscreen="" scrolling="no" title="Frågestund (Frågestund 12 maj 2022)" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
   <div class="metabox">
     <form action="">
       <input type="button" id="prevspeech2" value="Previous speech"/>
@@ -128,7 +126,7 @@ set.seed(1341)
 df_debatedata <- df %>%
   filter(debatedate < "2012-01-01") %>% 
   filter(dokid %in% sample(dokid, size = 10)) %>%
-  select(dokid, start, end, start_adjusted, end_adjusted, speaker, party, speaker_audio_meta, anftext_short, start_diff, end_diff) %>%
+  select(dokid, start, end, start_adjusted, end_adjusted, speaker, party, speaker_audio_meta, anftext_short, start_diff, end_diff, debateurl) %>%
   group_by(dokid) %>%
   tidyr::nest()
 
@@ -139,7 +137,7 @@ df_to_js(df_debatedata$data, var_name = "data_debate")
 ::: l-page
 ```{=html}
 <div class="videobox">
-  <iframe id="videokb_deb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=GR10298&start=755.4&end=1001.9" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
+  <iframe id="videokb_deb" src="https://www.riksdagen.se/sv/webb-tv/video/interpellationsdebatt/regeringens-skarpning-av-migrationspolitiken_gr10298/embed/?start=755.4&end=1001.9" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0´; margin-bottom: 0em;"></iframe>
   </video>
   <div class="metabox_debate">
     <form action="">
@@ -158,7 +156,7 @@ df_to_js(df_debatedata$data, var_name = "data_debate")
 </div>
 
 <div class="videobox">
-  <iframe id="videoriks_deb" src="https://www.riksdagen.se/views/pages/embedpage.aspx?did=GR10298&start=0&end=312" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
+  <iframe id="videoriks_deb" src="https://www.riksdagen.se/sv/webb-tv/video/interpellationsdebatt/regeringens-skarpning-av-migrationspolitiken_gr10298/embed/?start=0&end=312" allowfullscreen="" scrolling="yes" title="Partiledardebatt 18 januari 2023 från Riksdagen om Partiledardebatt" style="width: 510px; height: 288px; border: 0; margin-bottom: 0em;"></iframe>
   <div class="metabox_debate">
     <form action="">
       <input type="button" id="prevspeech4" value="Previous speech"/>
@@ -346,19 +344,19 @@ prevspeech2.addEventListener('click', prevClickEvent);
 nextspeech.addEventListener('click', nextClickEvent);
 nextspeech2.addEventListener('click', nextClickEvent);
 
-function embedLinkGetter(dokid, start, end){
-  base_url = "https://www.riksdagen.se/views/pages/embedpage.aspx?did=";
-  embed_url = base_url + dokid + "&start=" + start + "&end=" + end;
+function embedLinkGetter(debateurl, start, end){
+  base_url = "https://www.riksdagen.se";
+  embed_url = base_url + debateurl + "&start=" + start + "&end=" + end;
   return embed_url
 }
 
 function changeVideo(video1_id, video2_id, is_debate=false){
   if (is_debate) {
-    document.getElementById(video1_id).src = embedLinkGetter(debate_ids[k], metadata_debate[j].start_adjusted, metadata_debate[j].end_adjusted);
-    document.getElementById(video2_id).src = embedLinkGetter(debate_ids[k], metadata_debate[j].start, metadata_debate[j].end);
+    document.getElementById(video1_id).src = embedLinkGetter(metadata_debate[j].debateurl, metadata_debate[j].start_adjusted, metadata_debate[j].end_adjusted);
+    document.getElementById(video2_id).src = embedLinkGetter(metadata_debate[j].debateurl, metadata_debate[j].start, metadata_debate[j].end);
   } else {
-    document.getElementById(video1_id).src = embedLinkGetter(metadata[i].dokid, metadata[i].start_adjusted, metadata[i].end_adjusted);
-    document.getElementById(video2_id).src = embedLinkGetter(metadata[i].dokid, metadata[i].start, metadata[i].end);
+    document.getElementById(video1_id).src = embedLinkGetter(metadata[i].debateurl, metadata[i].start_adjusted, metadata[i].end_adjusted);
+    document.getElementById(video2_id).src = embedLinkGetter(metadata[i].debateurl, metadata[i].start, metadata[i].end);
   }
 }
 
@@ -437,9 +435,10 @@ prevdebate2.addEventListener('click', prevDebateEvent);
 nextdebate1.addEventListener('click', nextDebateEvent);
 nextdebate2.addEventListener('click', nextDebateEvent);
 
-function embedLinkGetter(dokid, start, end){
-  base_url = "https://www.riksdagen.se/views/pages/embedpage.aspx?did=";
-  embed_url = base_url + dokid + "&start=" + start + "&end=" + end;
+function embedLinkGetter(debateurl, start, end){
+  // debateurl example: /sv/webb-tv/video/fragestund/fragestund_H9C120220512fs
+  base_url = "https://www.riksdagen.se";
+  embed_url = base_url + debateurl + "&start=" + start + "&end=" + end;
   return embed_url
 }
 
