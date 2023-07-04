@@ -2,11 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://kb-labb.github.io/about.html</loc>
-    <lastmod>2023-05-15T10:57:10+02:00</lastmod>
+    <lastmod>2023-07-04T13:21:48+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/</loc>
-    <lastmod>2021-07-01T02:15:55+02:00</lastmod>
+    <lastmod>2023-03-30T10:58:07+02:00</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</loc>
+    <lastmod>2023-07-04T16:33:06+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</loc>

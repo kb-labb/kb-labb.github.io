@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>For how long is a person recognisable by their voice?</title>
+
+  <meta property="description" itemprop="description" content="Searching a database of speakers by their voice presents a unique challenge, as speakers&#39; voices change as they age. We can represent a speaker&#39;s voice computationally with what we call &quot;voiceprints&quot;. We can compare pairs of them to decide if they belong to the same speaker or not, or &quot;verify&quot; their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2023-07-04"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-07-04"/>
+  <meta name="article:author" content="Maya Nachesa"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="For how long is a person recognisable by their voice?"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Searching a database of speakers by their voice presents a unique challenge, as speakers&#39; voices change as they age. We can represent a speaker&#39;s voice computationally with what we call &quot;voiceprints&quot;. We can compare pairs of them to decide if they belong to the same speaker or not, or &quot;verify&quot; their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="For how long is a person recognisable by their voice?"/>
+  <meta property="twitter:description" content="Searching a database of speakers by their voice presents a unique challenge, as speakers&#39; voices change as they age. We can represent a speaker&#39;s voice computationally with what we call &quot;voiceprints&quot;. We can compare pairs of them to decide if they belong to the same speaker or not, or &quot;verify&quot; their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=TitaNet: Neural model for speaker representation with 1D depth-wise separable convolutions and global context;citation_publisher=IEEE;citation_author=Nithin Rao Koluguri;citation_author=Taejin Park;citation_author=Boris Ginsburg"/>
+  <meta name="citation_reference" content="citation_title=The KBLab blog: Finding speeches in the riksdag’s debates;citation_author=Faton Rekathati"/>
+  <meta name="citation_reference" content="citation_title=The KBLab blog: RixVox: A swedish speech corpus with 5500 hours of speech from parliamentary debates;citation_author=Faton Rekathati"/>
+  <meta name="citation_reference" content="citation_title=How do voiceprints age?;citation_publisher=Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology;citation_author=Maya Konstantinovna Nachesa"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["For how long is a person recognisable by their voice?"]},{"type":"character","attributes":{},"value":["Searching a database of speakers by their voice presents a unique challenge, as speakers' voices change as they age. We can represent a speaker's voice computationally with what we call \"voiceprints\". We can compare pairs of them to decide if they belong to the same speaker or not, or \"verify\" their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Maya Nachesa"]},{"type":"character","attributes":{},"value":["https://github.com/MKNachesa"]},{"type":"character","attributes":{},"value":["Uppsala University"]}]}]},{"type":"character","attributes":{},"value":["2023-07-04"]},{"type":"character","attributes":{},"value":["images/tsne2.jpg"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["blog_references.bib"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["blog_references.bib","for-how-long-is-a-person-recognisable-by-their-voice_files/anchor-4.2.2/anchor.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/bowser-1.9.3/bowser.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/distill-2.2.21/template.v2.js","for-how-long-is-a-person-recognisable-by-their-voice_files/header-attrs-2.20/header-attrs.js","for-how-long-is-a-person-recognisable-by-their-voice_files/jquery-3.6.0/jquery-3.6.0.js","for-how-long-is-a-person-recognisable-by-their-voice_files/jquery-3.6.0/jquery-3.6.0.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/jquery-3.6.0/jquery-3.6.0.min.map","for-how-long-is-a-person-recognisable-by-their-voice_files/popper-2.6.0/popper.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy-bundle.umd.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy-light-border.css","for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy.css","for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy.umd.min.js","for-how-long-is-a-person-recognisable-by-their-voice_files/webcomponents-2.0.0/webcomponents.js","images/T-SNE for all speeches at all speech lengths.png","images/test_acc_n_thresholds_per_speech_length.svg","images/test_acc_vs_fnr_n_fpr_across_age_VS_across_speaker_all_speech_lengths.svg","images/test_accuracy_heatmap.svg","images/test_bucket_acc_vs_fnr_n_fpr_across_across_age_VS_across_speaker_all_speech_lengths.svg","images/test_bucket_acc_vs_fnr_n_fpr_within_within_age_VS_across_speaker_all_speech_lengths.svg","images/test_fnr_heatmap.svg","images/test_fpr_heatmap.svg","images/test_gender_acc_across_across_age_VS_across_speaker_all_speech_lengths.svg","images/test_within_speaker_across_age_all_speech_lengths_means_cossim_score.svg","images/test_within_speaker_across_age_VS_across_speaker_all_speech_lengths_cossim_score.svg","images/train_acc_vs_fnr_n_fpr_within_age_within_age_VS_across_speaker_all.svg","images/train_across_speaker_within_age_same_VS_diff_gender_all_speech_lengths_cossim_score.svg","images/train_all_cossim_score.svg","images/train_VS_dev_acc_within_age_VS_across_speaker_all_speech_lengths.svg","images/tsne2.jpg"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/header-attrs-2.20/header-attrs.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/popper-2.6.0/popper.min.js"></script>
+  <link href="for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="for-how-long-is-a-person-recognisable-by-their-voice_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"For how long is a person recognisable by their voice?","description":"Searching a database of speakers by their voice presents a unique challenge, as speakers' voices change as they age. We can represent a speaker's voice computationally with what we call \"voiceprints\". We can compare pairs of them to decide if they belong to the same speaker or not, or \"verify\" their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen.","authors":[{"author":"Maya Nachesa","authorURL":"https://github.com/MKNachesa","affiliation":"Uppsala University","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-07-04T00:00:00.000+02:00","citationText":"Nachesa, 2023"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>For how long is a person recognisable by their voice?</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Searching a database of speakers by their voice presents a unique challenge, as speakers’ voices change as they age. We can represent a speaker’s voice computationally with what we call “voiceprints”. We can compare pairs of them to decide if they belong to the same speaker or not, or “verify” their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen.</p></p>
+</div>
+
+<div class="d-byline">
+  Maya Nachesa <a href="https://github.com/MKNachesa" class="uri">https://github.com/MKNachesa</a> (Uppsala University)
+  
+<br/>2023-07-04
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#objective">Objective</a></li>
+<li><a href="#data">Data</a>
+<ul>
+<li><a href="#extracting-speeches">Extracting speeches</a></li>
+<li><a href="#filtering-the-data">Filtering the data</a></li>
+<li><a href="#converting-to-voiceprints">Converting to voiceprints</a></li>
+<li><a href="#division-of-data">Division of data</a></li>
+</ul></li>
+<li><a href="#method">Method</a>
+<ul>
+<li><a href="#voiceprint-separability">Voiceprint separability</a></li>
+<li><a href="#setting-a-threshold">Setting a threshold</a></li>
+<li><a href="#investigating-the-effects-of-age-segment-length-and-gender">Investigating the effects of age, segment length, and gender</a></li>
+</ul></li>
+<li><a href="#results-and-discussion">Results and discussion</a></li>
+<li><a href="#conclusion-and-future-research">Conclusion and future research</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</nav>
+</div>
+<p>Speaker verification is the computational task of indicating whether two audio recordings (each containing only one person’s speech) come from the same person or not. This comparison is done by converting the audio recordings to voiceprints, an abstract representation of someone’s voice. Recent approaches have used deep-learning models to create these voiceprints. TitaNet has been a particularly successful model, which was trained on the speaker identification task (who is speaking), and, once it achieved satisfactory results, used to create voiceprints.</p>
+<aside>
+<strong>Editor’s note:</strong> This is a blog post summarizing a master’s thesis project. A part of this project was carried out at KBLab. Maya’s full thesis can be reached at <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-503403">the following link</a> <span class="citation" data-cites="Nachesa1762445">(<a href="#ref-Nachesa1762445" role="doc-biblioref">Nachesa 2023</a>)</span>.
+</aside>
+<p>Riksdagen has released a public database with all of its speeches, who was speaking when, and what they said. However, this data is not always accurate. Thus, it can be interesting to use the identity of the speakers where the data is accurate to identify them where it’s less accurate. But people are members of parliament for years. The speaker verification and identification tasks are usually performed in a smaller time-frame, and so it is unclear how the results will extend to when there are larger age-gaps between two voiceprints. Besides searching a database, this is also important when using someone’s voice to unlock, for instance, a device. It is important to know what the range is, so the user can be warned in due time when it is time to record a new voiceprint.</p>
+<h2 id="objective">Objective</h2>
+<p>The main objective of this project was to investigate to what extent speakers remain recognisable by their voice as the age-gap of the speaker between the current and comparison recording increases. Further goals were to examine the effect of the age at which the comparison recording was made, the length of the recordings used for the comparisons, and the gender of the speakers.</p>
+<h2 id="data">Data</h2>
+<p>The data for this project consisted of Riksdagen’s parliamentary speeches. In the blog “Finding Speeches in the Riksdag’s debates” <span class="citation" data-cites="rekathati2023finding">(<a href="#ref-rekathati2023finding" role="doc-biblioref">Rekathati 2023a</a>)</span> you can read about how the speeches were segmented and their precise timestamps were determined, and in the blog “RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates” <span class="citation" data-cites="rekathati2023rixvox">(<a href="#ref-rekathati2023rixvox" role="doc-biblioref">Rekathati 2023b</a>)</span> you can read about the resulting dataset.</p>
+<h3 id="extracting-speeches">Extracting speeches</h3>
+<p>Sometimes speeches contained speakers other than the main one at the beginning and at the end of the audio file. Because of this, the first and last 10 seconds of each speech were excluded. Then, for each speech, the audio was extracted at 7 different lengths, namely at 1, 3, 5, 10, 30 and 60 seconds, and also at the full speech length. To ensure that it was possible to extract 60 seconds from each speech, only those speeches with a length of at least 80 seconds (to account for excluding the first and last 10 seconds) were used. Each of the segments was extracted from a random point, and only once for each speech.</p>
+<h3 id="filtering-the-data">Filtering the data</h3>
+<!-- rewrite the sentence about exclusing speeches because of speakers not mentioning themselves -->
+<p>The data was also filtered for other characteristics. First, I excluded speeches containing speakers that did not have a birthyear or speaker ID associated with them. For some speeches, it seemed to be the case that a speaker mentioned themselves in a speech. However, manual inspection of the recordings revealed that the speeches had simply been assigned the wrong speaker ID, and that it was another speaker mentioning the speaker in question. These speeches were also removed Additionally, I excluded speeches that were doubled, and where the content and speech ID was swapped, but not the speaker ID. This latter case otherwise often resulted in an audio segment being attributed to the wrong person.</p>
+<p>Finally, the speeches were only included if they met the following criteria: First, their <code>length_ratio</code> and <code>overlap_ratio</code> was between 0.7 and 1.3. The <code>length_ratio</code> indicates how much longer the segment predicted by diarisation was compared to its length as predicted by ASR, and the <code>overlap_ratio</code> indicates how much overlap there is in terms of time between the segment predicted by diarisation and ASR. In addition to this, a speech was only included if it was associated with one segment as per the diarisation. Finally, for each speaker, I only included them and their speeches if they had at least 3 speeches in a year (that could potentially all be from the same debate).</p>
+<h3 id="converting-to-voiceprints">Converting to voiceprints</h3>
+<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(<a href="#ref-koluguri2022titanet" role="doc-biblioref">Koluguri, Park, and Ginsburg 2022</a>)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
+<h3 id="division-of-data">Division of data</h3>
+<p>The data was further divided into train, dev, and test. The test data is created first. I tested how voiceprints age for a total age-gap of 9 years, and so only kept those speakers that were active in each of those years from the start of their presence in parliament. After this, I bucketed the speakers into age-ranges of 5 years. Each bucket contained a maximum of 4 speakers (balanced for gender, unless not possible). After this, I paired up the voiceprints in 4 different manners. They can be first distinguished by whether they compare the same or a different speaker, and then by whether they compare them at the same age or different age. The table below shows what the age-gaps are for each of the combinations.</p>
+<table>
+<caption>Age-gaps for the 4 data groups</caption>
+<thead>
+<tr class="header">
+<th>pairs \ age</th>
+<th>same age</th>
+<th>different age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>same speaker</strong></td>
+<td>same age</td>
+<td>0-9 years difference</td>
+</tr>
+<tr class="even">
+<td><strong>different speaker</strong></td>
+<td>max 5 years difference</td>
+<td>random age-gap</td>
+</tr>
+</tbody>
+</table>
+<p>The train and dev data were created by first excluding the speakers already included in the test. Then, they were also bucketed in age-ranges of 5 years, but I put no requirements on for how long they had to be active in parliament. The data between train and dev had an approximate 80:20 ratio. However, where a bucket in the dev data contained fewer than 4 speakers, those speakers were instead added to the train, and the dev bucket remained empty. Then, the same 4 pairings as for the test were made for the train and dev data. See the below table for a full description of the data for train, dev, and test.</p>
+<table style="width:100%;">
+<caption>Data distribution and characteristics per split</caption>
+<colgroup>
+<col style="width: 57%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Train</th>
+<th>Dev</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First debate</td>
+<td>2003-11-11</td>
+<td>2004-01-23</td>
+<td>2006-01-25</td>
+</tr>
+<tr class="even">
+<td>Last debate</td>
+<td>2023-02-03</td>
+<td>2023-01-31</td>
+<td>2021-12-08</td>
+</tr>
+<tr class="odd">
+<td>Number of debates</td>
+<td>3156</td>
+<td>743</td>
+<td>1191</td>
+</tr>
+<tr class="even">
+<td>Number of speeches</td>
+<td>7422</td>
+<td>1363</td>
+<td>2310</td>
+</tr>
+<tr class="odd">
+<td>Number of speakers</td>
+<td>177</td>
+<td>36</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Youngest age</td>
+<td>19</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>Oldest age</td>
+<td>78</td>
+<td>68</td>
+<td>58</td>
+</tr>
+<tr class="even">
+<td>Debates per year, mean (std.)</td>
+<td>353 (222)</td>
+<td>68 (32)</td>
+<td>144 (75)</td>
+</tr>
+<tr class="odd">
+<td>Lowest number of debates (year)</td>
+<td>6 (2003)</td>
+<td>7 (2023)</td>
+<td>15 (2021)</td>
+</tr>
+<tr class="even">
+<td>Highest number of debates (year)</td>
+<td>694 (2016)</td>
+<td>123 (2015)</td>
+<td>238 (2016)</td>
+</tr>
+<tr class="odd">
+<td>Number of speeches per speaker, mean (std.)</td>
+<td>42 (44)</td>
+<td>38 (32)</td>
+<td>116 (36)</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, I grouped the data along the length of the audio used to create the voiceprints. I created 8 groups in total. 7 of the groups paired up voiceprints extracted from pairs with the same source audio length. In other words, the group of length 1 only contained pairs where both source audios were 1 second long. The final group contained pairs comparing all source audio length combinations. This meant it compared pairs of voiceprints coming from 1 and 3 second long audio, 30 and 10, two full speeches, and so forth. The first 7 groups are referred to by their length, while this last group is referred to as “all”.</p>
+<h2 id="method">Method</h2>
+<h3 id="voiceprint-separability">Voiceprint separability</h3>
+<p>The first thing I examined, was whether the voiceprints were separable at all. That is, can they be grouped by different speakers? For this, I used T-SNE to create a graph of all the voiceprints used. If speeches cluster together by speaker, this indicates that there are likely many similarities between them. One drawback is that if some speeches end up behind another group, we will not be able to see this.</p>
+<h3 id="setting-a-threshold">Setting a threshold</h3>
+<p>To perform speaker verification, we need some way to compare two voiceprints to each other. For voiceprints from TitaNet, this is done by computing the cosine similarity between two voiceprints. A score closer to 1 indicates that the voiceprints are very similar, and likely belong to the same person, while a score closer to -1 (or 0 depending on how it’s calculated) indicates they are very dissimilar, and likely belong to different people. However, only having this score is not enough for us to know whether two voiceprints belong to the same speaker or not. To this end, we can set a threshold: For every score above or equal to this threshold we say that the two voiceprints come from the same speaker, and otherwise they come from two different speakers. This threshold however, needs to be determined. This is where the training and dev data comes in. If we set the threshold on the same data we are testing on, we cannot be sure that the results we get are due to this threshold and the resulting aging of the voiceprints is generalisable. Because of this, I set the threshold on the training data. I use the dev data to verify that, no matter where I set the threshold, the accuracy scores between the training and dev scores are going to be similar.</p>
+<p>To set a threshold, we need to know what the scores for the same speaker group and different speaker group look like, to be able to distinguish them. For the same-speaker group, I used the same-age division of data. This is for two reasons. First: in real-world applications, speaker recordings are likely to be made in a short period of time, thereby not varying greatly in age. Second, I am testing what the effect is of testing voiceprints against different ages, meaning we cannot already include the effect of the aging voice when setting the threshold. For the different-speaker group, I used the different-age division, as we do not care to distinguish between different speakers of the same age, but about being able to tell the difference between different speakers at all. The threshold is set using <code>sklearn</code>’s <code>roc_curve</code>, and <code>scipy</code>’s <code>interp1d</code> and <code>brentq</code>.</p>
+<h3 id="investigating-the-effects-of-age-segment-length-and-gender">Investigating the effects of age, segment length, and gender</h3>
+<p>Thresholds are set and tested using the “all” speech lengths group, unless stated otherwise.</p>
+<h4 id="age">Age</h4>
+<p>I investigated the effects of age in two ways. First, I tested the effect of an increase in the age-gap on the accuracy, False Positive Rate (FPR), and False Negative Rate (FNR). In addition to this, I also investigated the effect of when the first voiceprint was recorded. In other words, if a voiceprint is recorded for someone at 29 years of age and then used for the next 9 years, how does this compare to when it is, for instance, recorded at 39 years of age and used for the next 9? Do we have a more stable voice in certain spans of life than others?</p>
+<h4 id="segment-length">Segment length</h4>
+<p>To test the effect of segment length, I split the “all” speech lengths group among the comparisons, to investigate the effect of each individual speech length on the accuracy, FPR, and FNR. In addition to this, I also set the threshold for each of the 8 speech length groups, to investigate how this affects the height of the threshold set, and in turn how that affects the accuracy.</p>
+<h4 id="gender">Gender</h4>
+<p>I investigated the effect of gender on how the voiceprint ages. In other words, do voices age differently for men and women?</p>
+<h2 id="results-and-discussion">Results and discussion</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:figtsne"></span>
+<img src="images/T-SNE%20for%20all%20speeches%20at%20all%20speech%20lengths.png" alt="T-SNE plot of test speakers at all lengths" width="1132" />
+<p class="caption">
+Figure 1: T-SNE plot of test speakers at all lengths
+</p>
+</div>
+</div>
+<p>Figure <a href="#fig:figtsne">1</a> shows the T-SNE graph for all the test speakers. As we can see, the speakers generally group together among themselves, indicating that, despite age differences and varying lengths of the speech data used to create the voiceprints, they are still globally recognisable as belonging to the same person. Nevertheless, we see that there are also a few speeches that end up in vastly different places, suggesting that their representation was not as robust as the rest of the group.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figtrainacc"></span>
+<img src="images/train_acc_vs_fnr_n_fpr_within_age_within_age_VS_across_speaker_all.svg" alt="Accuracy, FPR, and FNR at different thresholds. **Left plot**: Training accuracy, FNR, and FPR. **Right plot**: Comparison of train and dev accuracy" width="50%" /><img src="images/train_VS_dev_acc_within_age_VS_across_speaker_all_speech_lengths.svg" alt="Accuracy, FPR, and FNR at different thresholds. **Left plot**: Training accuracy, FNR, and FPR. **Right plot**: Comparison of train and dev accuracy" width="50%" />
+<p class="caption">
+Figure 2: Accuracy, FPR, and FNR at different thresholds. <strong>Left plot</strong>: Training accuracy, FNR, and FPR. <strong>Right plot</strong>: Comparison of train and dev accuracy
+</p>
+</div>
+</div>
+</div>
+<p>Figure <a href="#fig:figtrainacc">2</a> shows the training accuracy, FNR, and FPR (<strong>left plot</strong>), and compares the training and dev accuracy (<strong>right plot</strong>). The vertical dashed line indicates the threshold. The threshold is set at 0.463, and we can see that there is no large difference in accuracy between the train and dev. This gives us confidence that the threshold we set is generalisable.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:fig-cossims-all"></span>
+<img src="images/train_all_cossim_score.svg" alt="Cosine similarity scores for 3 groups: same-speaker same-age, same-speaker different-age, and different-speaker different-age."  />
+<p class="caption">
+Figure 3: Cosine similarity scores for 3 groups: same-speaker same-age, same-speaker different-age, and different-speaker different-age.
+</p>
+</div>
+</div>
+<p>Figure <a href="#fig:fig-cossims-all">3</a> shows the cosine similarity scores for the two same-speaker groups and the different-speaker different-age group. As we can see, the cosine similarity scores are generally higher when comparing the voiceprints of one speaker against each other. What we also see, however, is that when we introduce an age-gap between the voiceprints, that the cosine similarity scores drop slightly. This suggests that the voice aging does become slightly more dissimilar compared to the first recording.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figtestacc"></span>
+<img src="images/test_within_speaker_across_age_VS_across_speaker_all_speech_lengths_cossim_score.svg" alt="Effect of age-gap on cosine similarity, accuracy, FNR, and FPR scores. **Left plot**: Percentiles (at intervals of 10\%) of cosine similarities for each age-gap, and comparing two different speakers. **Right plot**: Test accuracy, FNR, and FPR for each age-gap." width="50%" /><img src="images/test_acc_vs_fnr_n_fpr_across_age_VS_across_speaker_all_speech_lengths.svg" alt="Effect of age-gap on cosine similarity, accuracy, FNR, and FPR scores. **Left plot**: Percentiles (at intervals of 10\%) of cosine similarities for each age-gap, and comparing two different speakers. **Right plot**: Test accuracy, FNR, and FPR for each age-gap." width="50%" />
+<p class="caption">
+Figure 4: Effect of age-gap on cosine similarity, accuracy, FNR, and FPR scores. <strong>Left plot</strong>: Percentiles (at intervals of 10%) of cosine similarities for each age-gap, and comparing two different speakers. <strong>Right plot</strong>: Test accuracy, FNR, and FPR for each age-gap.
+</p>
+</div>
+</div>
+</div>
+<p>Figure <a href="#fig:figtestacc">4</a> shows how the cosine similarity scores develop as the age-gap between two voiceprints increases (<strong>left plot</strong>), and also when comparing the voiceprints of two different speakers. In general, the cosine similarity seems to drop as the age-gap increases, but the cosine similarity is much lower when comparing two different speakers. The <strong>right hand side plot</strong> in the same figure shows how, as the age-gap between two voiceprints increases, the accuracy drops slightly, and experiences an even sharper drop around the 5-year age-gap. This is characterised by an increase in FNR as the age-gap increases.</p>
+<p>In general, it seems to be the case that increasing the age-gap between two voiceprints does affect our ability to recognise that they come from the same speaker, and so some caution needs to be exercised when using someone’s voiceprint to recognise them at a very different point in time.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figstartageacc"></span>
+<img src="images/test_bucket_acc_vs_fnr_n_fpr_within_within_age_VS_across_speaker_all_speech_lengths.svg" alt="Effect of starting age on same-age and different-age scores. **Left plot**: Effect of starting age on same-age accuracy. **Right plot**: Effect of starting age on accuracy for a 9 year age-span." width="50%" /><img src="images/test_bucket_acc_vs_fnr_n_fpr_across_across_age_VS_across_speaker_all_speech_lengths.svg" alt="Effect of starting age on same-age and different-age scores. **Left plot**: Effect of starting age on same-age accuracy. **Right plot**: Effect of starting age on accuracy for a 9 year age-span." width="50%" />
+<p class="caption">
+Figure 5: Effect of starting age on same-age and different-age scores. <strong>Left plot</strong>: Effect of starting age on same-age accuracy. <strong>Right plot</strong>: Effect of starting age on accuracy for a 9 year age-span.
+</p>
+</div>
+</div>
+</div>
+<p>Figure <a href="#fig:figstartageacc">5</a> shows that speakers in the 29-33 age-range are the easiest to recognise, and older and younger speakers are harder to recognise (<strong>left plot</strong>). However, the difference is not large. The <strong>right hand side plot</strong> uses different-age group for the same-speaker group. That is, the speaker verification is tested for this entire 9-year age-range for each speaker. We see that accuracy is highest when someone’s voiceprint is recorded in the 29-33 age-range and used for the next 9 years, and that it is lower for other age groups. Presumably this could be the case due to younger speakers’ voices still changing too much, and older speakers’ having begun to change again.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:fig-heatmap-acc"></span>
+<img src="images/test_accuracy_heatmap.svg" alt="Heatmap of accuracy scores for all speech length comparisons."  />
+<p class="caption">
+Figure 6: Heatmap of accuracy scores for all speech length comparisons.
+</p>
+</div>
+</div>
+<p>Figure <a href="#fig:fig-heatmap-acc">6</a> shows that accuracy is very low when at least one of the two voiceprints in a pair comes from a 1-second long audio. It also shows that accuracy is slightly diminished when the pairs use longer audio.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figheatmap"></span>
+<img src="images/test_fnr_heatmap.svg" alt="Heatmap of FNR and FPR scores for all speech length comparisons. **Left plot**: Heatmap of FNR for all speech length comparisons. **Right plot**: Heatmap of FPR for all speech length comparisons." width="50%" /><img src="images/test_fpr_heatmap.svg" alt="Heatmap of FNR and FPR scores for all speech length comparisons. **Left plot**: Heatmap of FNR for all speech length comparisons. **Right plot**: Heatmap of FPR for all speech length comparisons." width="50%" />
+<p class="caption">
+Figure 7: Heatmap of FNR and FPR scores for all speech length comparisons. <strong>Left plot</strong>: Heatmap of FNR for all speech length comparisons. <strong>Right plot</strong>: Heatmap of FPR for all speech length comparisons.
+</p>
+</div>
+</div>
+</div>
+<p>Figure <a href="#fig:figheatmap">7</a> sheds some light on the accuracy scores. The very low performance of the short speeches seems to be attributable to a high FNR (<strong>left plot</strong>), meaning that we were much more likely to miss when two voiceprints belonged to the same person. The lower performance for longer audio lengths is attributable to a reduction in FPR (<strong>right plot</strong>): we were more likely to accidentally mark two unrelated speakers as being the same person.</p>
+<p>Given all this, it might seem best to use speeches at around 3 seconds long: after all, these gave the best results, right? But that does not paint the whole story.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figthreshold"></span>
+<img src="images/test_acc_n_thresholds_per_speech_length.svg" alt="The effect of speech length on the threshold and cosine similarity. **Left plot**: The effect of speech length on threshold and the subsequent accuracy. **Right plot**: The effect of speech length and the age-gap on cosine similarity. Ranges represent 95\% confidence intervals." width="50%" /><img src="images/test_within_speaker_across_age_all_speech_lengths_means_cossim_score.svg" alt="The effect of speech length on the threshold and cosine similarity. **Left plot**: The effect of speech length on threshold and the subsequent accuracy. **Right plot**: The effect of speech length and the age-gap on cosine similarity. Ranges represent 95\% confidence intervals." width="50%" />
+<p class="caption">
+Figure 8: The effect of speech length on the threshold and cosine similarity. <strong>Left plot</strong>: The effect of speech length on threshold and the subsequent accuracy. <strong>Right plot</strong>: The effect of speech length and the age-gap on cosine similarity. Ranges represent 95% confidence intervals.
+</p>
+</div>
+</div>
+</div>
+<p>Figure <a href="#fig:figthreshold">8</a> shows how, as we increase the audio length from which the voiceprints were extracted, the threshold is set higher as well (<strong>left plot</strong>). However, the corresponding accuracy is quite high, especially for voiceprint pairs extracted from speeches ranging from 5 seconds long to full-length speeches. The biggest dip in performance can be seen for voiceprint pairs extracted from 1-second long audio, and for “all” speech-length comparisons. When looking at the <strong>right hand side plot</strong>, we see that the cosine similarity increases for both the same-speaker and different-speaker voiceprint pairs, although moreso for the former group. It seems that voiceprint quality increases as the audio length from which they were extracted increases, resulting in the need to set a higher threshold to distinguish between the two groups. This also explains the reduced performance for the shortest audio lengths and for the mixed audio-length comparisons. For the short audio, the cosine similarities between the same- and different-speaker groups are considerably closer to each other, resulting in a larger overlap, and thereby worse performance. For the “all” group, the low threshold is still too high to correctly classify the voiceprints coming from 1-second long audio, but too low to correctly distinguish voiceprint pairs coming from longer audio. The overall impression these two graphs seem to give is that it is not necessarily that one needs longer audio for more accurate speaker verification, but rather that the threshold should be set and tested on voiceprints coming from audio of the same length.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:figgender"></span>
+<img src="images/test_gender_acc_across_across_age_VS_across_speaker_all_speech_lengths.svg" alt="The effect of gender on speaker verification."  />
+<p class="caption">
+Figure 9: The effect of gender on speaker verification.
+</p>
+</div>
+</div>
+<p>Figure <a href="#fig:figgender">9</a> shows that as the age-gap between two voiceprints for the same speaker increases, the speaker verification drops at different rates for men and women after roughly 5 years, suggesting that it decreases more strongly for men.</p>
+<h2 id="conclusion-and-future-research">Conclusion and future research</h2>
+<p>All in all, the results from this research suggests that voiceprints do age, and experience a sharper drop after the age-gap between two voiceprints reaches about 5 years. If a voiceprint is recorded between 29-33 years of age and used for the next 9, speaker verification retains a higher accuracy than if it is recorded at a different age. Using longer audio results in higher quality voiceprints, but it is also important to simply use and set thresholds on audio coming from the same length. However, mixing audio-length combinations still yields strong accuracy scores. Using very short audio yielded poor results, possibly due to the audio being extracted at random points from the speeches. Finally, male voiceprints might age faster than female voiceprints.</p>
+<p>One thing that should be highlighted in this investigation, is that each age group was very small. Future research should endeavour to use larger groups to solidify the results obtained. Additionally, future research could increase the age-gap investigated, to see whether the general trend continues beyond this range. It would also be good to investigate both younger and older speakers. Additionally, we saw that voiceprints remain stable at different rates when recorded at different starting ages. It would be interesting to investigate what this range looks like for these age groups. Finally, given that speaker verification is quite accurate for shorter age-ranges, it would be interesting to combine the voiceprint from multiple ages to see whether that extends the number of years for which speaker verification remains accurate.</p>
+<h2 class="appendix" id="code">Code</h2>
+<p>The code for this project can be found at <a href="https://github.com/MKNachesa/masters_thesis">https://github.com/MKNachesa/masters_thesis</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-koluguri2022titanet" class="csl-entry" role="doc-biblioentry">
+Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1d Depth-Wise Separable Convolutions and Global Context.”</span> In <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6. IEEE.
+</div>
+<div id="ref-Nachesa1762445" class="csl-entry" role="doc-biblioentry">
+Nachesa, Maya Konstantinovna. 2023. <span>“How Do Voiceprints Age?”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology. <a href="https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445">https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445</a>.
+</div>
+<div id="ref-rekathati2023finding" class="csl-entry" role="doc-biblioentry">
+Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+</div>
+<div id="ref-rekathati2023rixvox" class="csl-entry" role="doc-biblioentry">
+———. 2023b. <span>“The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
