@@ -113,3 +113,14 @@ Kubord offers intriguing material for humanistic research, which would otherwise
 **With this in mind, there is a wealth of data waiting to be explored. Feel free to dive in and explore it yourself!**
 
 
+### Acknowledgements
+Part of this development work was carried out within [HUMINFRA](https://www.humi
+nfra.se/) infrastructure project.
+
+<aside>
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("huminfra.svg")
+```
+</aside>
+
+
