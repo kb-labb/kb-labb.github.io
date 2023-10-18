@@ -2,23 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://kb-labb.github.io/about.html</loc>
-    <lastmod>2023-08-29T09:18:06+02:00</lastmod>
+    <lastmod>2023-10-18T12:07:57+02:00</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/cite.html</loc>
+    <lastmod>2023-10-18T12:01:55+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/</loc>
-    <lastmod>2023-08-29T09:18:06+02:00</lastmod>
+    <lastmod>2021-07-01T02:15:55+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-08-29-kubord/</loc>
-    <lastmod>2023-08-31T16:30:15+02:00</lastmod>
+    <lastmod>2023-10-18T11:49:18+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</loc>
-    <lastmod>2023-07-04T16:33:06+02:00</lastmod>
+    <lastmod>2023-10-18T11:49:18+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</loc>
-    <lastmod>2023-06-21T13:25:46+02:00</lastmod>
+    <lastmod>2023-06-21T14:38:40+02:00</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/</loc>

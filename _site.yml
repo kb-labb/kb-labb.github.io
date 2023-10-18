@@ -21,6 +21,8 @@ navbar:
           href: https://github.com/Kungbib/swedish-spacy
     - text: "About"
       href: about.html
+    - text: "How to cite"
+      href: cite.html
     - icon: fab fa-github
       href: https://github.com/kb-labb
 output: 

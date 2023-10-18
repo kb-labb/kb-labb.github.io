@@ -1,0 +1,61 @@
+---
+title: "How to cite KBLab"
+---
+
+If you have used the Lab’s resources or need to refer to the Lab in your research, please use the following reference:
+
+https://osf.io/preprints/socarxiv/w48rf/
+
+ 
+```
+@misc{börjeson_haffenden_malmsten_klingwall_rende_kurtz_rekathati_hägglöf_sikora_2023,
+  title={Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden},
+  url={osf.io/preprints/socarxiv/w48rf},
+  DOI={10.31235/osf.io/w48rf},
+  publisher={SocArXiv},
+  author={Börjeson, Love and Haffenden, Chris and Malmsten, Martin and Klingwall, Fredrik and Rende, Emma and Kurtz, Robin and Rekathati, Faton and Hägglöf, Hillevi and Sikora, Justyna},
+  year={2023},
+  month={Mar}
+}
+```
+ 
+
+## Acknowledgements:
+
+If your project has been based at the Lab, please use the following formulation in any related publications:
+
+> ”Computational resources and support for this research was provided by KBLab at the National Library of Sweden.”
+
+## Citing specific models
+
+If you have used our models and need to cite the documentation we have produced for them, please use the following references:
+
+### KB-BERT
+
+```
+@misc{malmsten2020playing,
+  title={Playing with Words at the National Library of Sweden -- Making a Swedish BERT},
+  author={Martin Malmsten and Love Börjeson and Chris Haffenden},
+  year={2020},
+  eprint={2007.01658},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL}
+}
+```
+
+### Wav2vec2
+
+```
+@misc{malmsten2022hearing,
+      title={Hearing voices at the National Library -- a speech corpus and acoustic model for the Swedish language}, 
+      author={Martin Malmsten and Chris Haffenden and Love Börjeson},
+      year={2022},
+      eprint={2205.03026},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+### Other models
+
+If there is a post on this blog about the model you can find a BibTeX reference in the specific post. 
