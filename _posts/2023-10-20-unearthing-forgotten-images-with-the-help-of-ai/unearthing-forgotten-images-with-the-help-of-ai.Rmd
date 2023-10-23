@@ -98,3 +98,7 @@ knitr::include_graphics("images/katt.png")
 With this postcard demo project, we have illustrated the capacity for multimodal AI and vector databases to improve the searchability and accessibility of cultural heritage collections. As our specific case has shown, these techniques are particularly relevant as a means of transforming access to heritage material lacking metadata, with the multimodal dimension especially pertinent for visual heritage. 
 
 There are certain practical preconditions for the adoption of such technology in a heritage setting, most of which can be related to questions of funding: that the material has been digitized, that there are sufficient resources available for computation, data science and developer expertise, and that there are licensing agreements in place. But in broad brushstrokes, our pilot project still suggests a captivating vision of what the future of an AI-underpinned memory institution might look like with a little help from machine learning. 
+
+## Acknowledgements
+
+A major part of the development and design of the postcard demo was carred out by KB's developers, without whose efforts it would look nowhere near as pretty and be nowhere near as efficient. We would like to thank Matthias Nilsson, Krzysztof Bergendahl and Ebrima Faye for their work on the project!
