@@ -13,7 +13,7 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-10-19</lastBuildDate>
+    <lastBuildDate>2023-10-20</lastBuildDate>
     <item>
       <title>Unearthing forgotten images with the help of AI</title>
       <dc:creator>Chris Haffenden</dc:creator>
@@ -26,7 +26,7 @@ opened up by multimodal AI models to produce a demo showcasing these capabilitie
 via the example of postcards. Here we explain something about the project behind 
 this and encourage you to explore our image search demo! https://lab.kb.se/bildsok</description>
       <guid>https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai</guid>
-      <pubDate>2023-10-19</pubDate>
+      <pubDate>2023-10-20</pubDate>
       <media:content url="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/bildsok.png" medium="image" type="image/png" width="600" height="315"/>
     </item>
     <item>
@@ -55,7 +55,7 @@ this and encourage you to explore our image search demo! https://lab.kb.se/bilds
       <link>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish</link>
       <description>KBLab presents a robust, multi-label sentiment classifier trained on Swedish texts. The model is robust in the sense that it is trained on multiple datasets of different text types and allows labeling of neutral as well positive and negative texts. It is available under Apache 2.0 license on the Hugging Face Hub.</description>
       <guid>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish</guid>
-      <pubDate>2023-06-16</pubDate>
+      <pubDate>2023-06-15</pubDate>
       <media:content url="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/Wingard_Bo_Dagen_H_3_KoB_F_Saml_36.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
