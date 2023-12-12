@@ -830,9 +830,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -927,6 +939,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1688,6 +1705,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1765,8 +1788,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1792,12 +1816,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2641,6 +2666,7 @@ Models
 
 <div class="d-title">
 <h1>About KBLab</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>KBLab is a datalab at The National Library of Sweden. You can learn more about KBLab <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">here</a>.</p>
@@ -2719,13 +2745,6 @@ I have driven the process of mapping the lab user journey, which changes continu
 <p><br />
 <br /></p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="images/hillevi.jpg" width="25%" /></p>
-</div>
-<h3 id="hillevi-hägglöf-data-scientist">Hillevi Hägglöf, Data Scientist <a href="mailto:hillevi.hagglof@kb.se">📧</a></h3>
-<p>I am a computational linguist and data scientist with a background in corporate research. I love data and I want to make the incredible collections of the National Library of Sweden easily available to all who wish to learn from them. My main focus as an NLP developer is to create and evaluate language models and their applications. Some of my interests include natural language generation, semantics and ethical AI. I sometimes give talks on language and machine learning.</p>
-<p><br />
-<br /></p>
-<div class="layout-chunk" data-layout="l-body">
 <p><img src="images/justyna.jpg" width="25%" /></p>
 </div>
 <h3 id="justyna-sikora-data-scientist">Justyna Sikora, Data scientist <a href="mailto:justyna.sikora@kb.se">📧</a></h3>
@@ -2738,6 +2757,11 @@ I have driven the process of mapping the lab user journey, which changes continu
 <h3 id="patrik-granholm-researcher">Patrik Granholm, Researcher <a href="mailto:patrik.granholm@kb.se">📧</a></h3>
 <p>I work as a researcher at the KBLab and as curator of the medieval and early modern manuscript collection at the National Library. I am the creator of <a href="https://www.manuscripta.se">manuscripta.se</a>, a research infrastructure for the study of medieval and early modern manuscripts preserved in Swedish libraries. My role at the lab is mainly focused on maintaining and developing this infrastructure.</p>
 <p>My background is in Classics and I have a <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-183681">PhD in Greek from Uppsala University (2012)</a>. My main areas of expertise are textual criticism, manuscript studies, and digital manuscript cataloguing in TEI and IIIF. Since 2012 I have worked in several externally funded projects to catalogue and digitise <a href="https://www.rj.se/en/anslag/2011/greek-manuscripts-in-sweden---a-digitization-and-cataloguing-project/">Greek manuscripts</a>, <a href="https://portal.research.lu.se/en/projects/ttt-text-till-tiden-medeltida-texter-i-kontext-d%C3%A5-och-nu">medieval Old Swedish manuscripts</a>, and <a href="https://www.rj.se/en/grants/2018/swedish-post-medieval-manuscripts-at-the-national-library-of-sweden-and-uppsala-university-library--a-catalouging-and-digitization-project/">post-medieval Old Swedish manuscripts</a>. Currently, I am working, part-time, in two large scale cataloguing and digitisation projects, one involving the <a href="https://www.rj.se/en/grants/2021/medieval-latin-manuscripts-in-the-national-library-cataloguing-and-digitization/">medieval Latin theological manuscripts</a> at the National Library, another the <a href="https://www.rj.se/en/grants/2021/digitization-of-the-west-norse-manuscripts-in-swedish-collections/">West Norse manuscripts</a> at the National Library and Uppsala University Library.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="images/leoves.jpg" width="25%" /></p>
+</div>
+<h3 id="leonora-vesterbacka-olsson-data-scientist">Leonora Vesterbacka Olsson, Data scientist <a href="mailto:leonora.vesterbackaolsson@kb.se">📧</a></h3>
+<p>I work as a data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

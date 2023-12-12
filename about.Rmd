@@ -103,16 +103,6 @@ I have previously worked within the private sector as a business analyst and bus
 <br />
 
 ```{r out.width = "25%"}
-knitr::include_graphics("images/hillevi.jpg")
-```
-### Hillevi Hägglöf, Data Scientist [`r emo::ji("e-mail")`](mailto:hillevi.hagglof@kb.se)
-
-I am a computational linguist and data scientist with a background in corporate research. I love data and I want to make the incredible collections of the National Library of Sweden easily available to all who wish to learn from them. My main focus as an NLP developer is to create and evaluate language models and their applications. Some of my interests include natural language generation, semantics and ethical AI. I sometimes give talks on language and machine learning.
-
-<br />
-<br />
-
-```{r out.width = "25%"}
 knitr::include_graphics("images/justyna.jpg")
 ```
 ### Justyna Sikora, Data scientist [`r emo::ji("e-mail")`](mailto:justyna.sikora@kb.se)
@@ -130,3 +120,11 @@ knitr::include_graphics("images/patrik.jpg")
 I work as a researcher at the KBLab and as curator of the medieval and early modern manuscript collection at the National Library. I am the creator of [manuscripta.se](https://www.manuscripta.se), a research infrastructure for the study of medieval and early modern manuscripts preserved in Swedish libraries. My role at the lab is mainly focused on maintaining and developing this infrastructure.
 
 My background is in Classics and I have a [PhD in Greek from Uppsala University (2012)](https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-183681). My main areas of expertise are textual criticism, manuscript studies, and digital manuscript cataloguing in TEI and IIIF. Since 2012 I have worked in several externally funded projects to catalogue and digitise [Greek manuscripts](https://www.rj.se/en/anslag/2011/greek-manuscripts-in-sweden---a-digitization-and-cataloguing-project/), [medieval Old Swedish manuscripts](https://portal.research.lu.se/en/projects/ttt-text-till-tiden-medeltida-texter-i-kontext-d%C3%A5-och-nu), and [post-medieval Old Swedish manuscripts](https://www.rj.se/en/grants/2018/swedish-post-medieval-manuscripts-at-the-national-library-of-sweden-and-uppsala-university-library--a-catalouging-and-digitization-project/). Currently, I am working, part-time, in two large scale cataloguing and digitisation projects, one involving the [medieval Latin theological manuscripts](https://www.rj.se/en/grants/2021/medieval-latin-manuscripts-in-the-national-library-cataloguing-and-digitization/) at the National Library, another the [West Norse manuscripts](https://www.rj.se/en/grants/2021/digitization-of-the-west-norse-manuscripts-in-swedish-collections/) at the National Library and Uppsala University Library.
+
+```{r out.width = "25%"}
+knitr::include_graphics("images/leoves.jpg")
+```
+
+### Leonora Vesterbacka Olsson, Data scientist [`r emo::ji("e-mail")`](mailto:leonora.vesterbackaolsson@kb.se)
+
+I work as a data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.
