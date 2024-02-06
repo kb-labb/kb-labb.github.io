@@ -13,7 +13,8 @@ https://osf.io/preprints/socarxiv/w48rf/
   url={osf.io/preprints/socarxiv/w48rf},
   DOI={10.31235/osf.io/w48rf},
   publisher={SocArXiv},
-  author={Börjeson, Love and Haffenden, Chris and Malmsten, Martin and Klingwall, Fredrik and Rende, Emma and Kurtz, Robin and Rekathati, Faton and Hägglöf, Hillevi and Sikora, Justyna},
+  author={Börjeson, Love and Haffenden, Chris and Malmsten, Martin and Klingwall, Fredrik 
+  and Rende, Emma and Kurtz, Robin and Rekathati, Faton and Hägglöf, Hillevi and Sikora, Justyna},
   year={2023},
   month={Mar}
 }
