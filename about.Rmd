@@ -16,9 +16,9 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::include_graphics("images/love.png")
 ```
 ### Love Börjeson, Director [`r emo::ji("e-mail")`](mailto:love.borjeson@kb.se)
-I work as a director for KBLab. I'm also an adviser to AI Sweden for applied AI, specifically Data and Infrastructure Lead and Applied Language Technology. To a large extent, my job involves collocating data, competence, and computational resources.   
+I work as a director for KBLab. I’m also a Research Fellow at the Stockholm School of Economics, Center for Educational Leadership and Excellence (CELE). To a large extent, my job involves collocating data, competence, and computational resources.
 
-I have a PhD in Industrial Organization and Economics and I have been a Postdoctoral Fellow and Research Fellow in Computational Social Science at Stanford University (School of Ed.). Academically/intellectually I would perhaps prefer to label myself as "some kind of sociologist".
+I have a PhD in Industrial Organization and Economics and I have been a Postdoctoral Fellow and Research Fellow at the Computational Social Science Lab at Stanford University (School of Ed.). Academically/intellectually I would perhaps prefer to label myself as “some kind of sociologist”.
 
 <br />
 <br />
