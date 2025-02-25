@@ -125,6 +125,6 @@ My background is in Classics and I have a [PhD in Greek from Uppsala University 
 knitr::include_graphics("images/leoves.jpg")
 ```
 
-### Leonora Vesterbacka Olsson, Data scientist [`r emo::ji("e-mail")`](mailto:leonora.vesterbackaolsson@kb.se)
+### Leonora Vesterbacka Olsson, Senior data scientist [`r emo::ji("e-mail")`](mailto:leonora.vesterbackaolsson@kb.se)
 
-I work as a data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.
+I work as a senior data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.
