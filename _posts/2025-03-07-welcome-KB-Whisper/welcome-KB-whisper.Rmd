@@ -57,7 +57,7 @@ For languages with fewer speakers, this type of data is less represented on the 
 In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models. 
 
 ```{r dsf, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
-knitr::include_graphics("images/_DSF2695_edit.jpg")
+knitr::include_graphics("images/KBLab-team.jpg")
 ```
 
 ## Subtitles, Parliament recordings and dialect archives
@@ -81,7 +81,7 @@ Subtitles are also extracted from youtube channels with Swedish content.
 Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.  
 
 ```{r edit, echo=FALSE, out.width="300%", fig.cap="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB"}
-knitr::include_graphics("images/_DSF2645_edit.jpg")
+knitr::include_graphics("images/bandrulle.jpg")
 ```
 
 ## Two stages of data quality 
