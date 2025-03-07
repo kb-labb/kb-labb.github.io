@@ -2769,14 +2769,9 @@ Figure 1: The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Ju
 </div>
 </div>
 <h2 id="improving-swedish-speech-recognition">Improving Swedish speech recognition</h2>
-<p>KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech.</p>
-<p>Traditionally, Automatic Speech Recognition (ASR) systems have been based on models that either require an extensive unsupervised pretraining or supervised training that demands very high-quality orthographic transcripts, which are rare and expensive to produce.</p>
-<p>The Whisper model<span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">(<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">Radford et al. 2022</a>)</span>, originally released by OpenAI has revolutionized automatic speech recognition, by showing that high performance could be achieved with a slight decrease in quality of the transcript, thus unlocking large amounts of training data that has hitherto not been used.</p>
-<p>Subtitles for TV often use abbreviations to fit the text on the screen, and are not considered a gold standard transcription.</p>
-<p>However, <span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">(<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">Radford et al. 2022</a>)</span> et al. showed that this training data, extracted from the web, was still good enough for Whisper to learn.</p>
-<p>The massive improvement gain with Whisper has been shown for English, and this result is directly proportional to the amount of English training data available on the web.</p>
-<p>For languages with fewer speakers, this type of data is less represented on the web and leads to poorer performance.</p>
-<p>In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models.</p>
+<p>KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech. Traditionally, Automatic Speech Recognition (ASR) systems have been based on models that either require an extensive unsupervised pretraining or supervised training that demands very high-quality orthographic transcripts, which are rare and expensive to produce.</p>
+<p>The Whisper model <span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">(<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">Radford et al. 2022</a>)</span>, originally released by OpenAI has revolutionized automatic speech recognition, by showing that high performance could be achieved with a slight decrease in quality of the transcript, thus unlocking large amounts of training data that has hitherto not been used. Subtitles for TV often use abbreviations to fit the text on the screen, and are not considered a gold standard transcription. However, <span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">Radford et al. (<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">2022</a>)</span> et al. showed that this training data, extracted from the web, was still good enough for Whisper to learn.</p>
+<p>The massive improvement gain with Whisper has been shown for English, and this result is directly proportional to the amount of English training data available on the web. For languages with fewer speakers, this type of data is less represented on the web and leads to poorer performance. In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span style="display:block;" id="fig:dsf"></span>
 <img src="images/KBLab-team.jpg" alt="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB" width="300%" />
@@ -2786,15 +2781,9 @@ Figure 2: The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Ju
 </div>
 </div>
 <h2 id="subtitles-parliament-recordings-and-dialect-archives">Subtitles, Parliament recordings and dialect archives</h2>
-<p>The National Library of Sweden is responsible for collecting, preserving and giving access to everything that is published in Sweden.</p>
-<p>The collections include the audiovisual archives that hold TV broadcasted in Sweden.</p>
-<p>Swedish subtitles paired with spoken Swedish from TV broadcasts constitute a large portion of the training data.</p>
-<p>Parliament recordings paired with high quality transcripts in the form of protocols provide the second largest source of the training data.</p>
-<p>This dataset is made publicly available on Huggingface, and constitute 23,000 hours of transcribed Swedish speech <a href="https://huggingface.co/datasets/KBLab/rixvox-v2" class="uri">https://huggingface.co/datasets/KBLab/rixvox-v2</a>.</p>
-<p>Both of these data sources have the advantage of covering wide variations of spoken Swedish.</p>
-<p>In order to enhance KB-Whisper’s performance in transcribing rare variations of Swedish, dialect recordings from The Institute for language and folklore (Isof) are included.</p>
-<p>Subtitles are also extracted from youtube channels with Swedish content.</p>
-<p>Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.</p>
+<p>The National Library of Sweden is responsible for collecting, preserving and giving access to everything that is published in Sweden. The collections include the audiovisual archives that hold TV broadcasted in Sweden. Swedish subtitles paired with spoken Swedish from TV broadcasts constitute a large portion of the training data. Parliament recordings paired with high quality transcripts in the form of protocols provide the second largest source of the training data.
+<a href="https://huggingface.co/datasets/KBLab/rixvox-v2">This dataset</a> is made publicly available on Huggingface, and constitute 23,000 hours of transcribed Swedish speech.</p>
+<p>Both of these data sources have the advantage of covering wide variations of spoken Swedish. In order to enhance KB-Whisper’s performance in transcribing rare variations of Swedish, dialect recordings from The Institute for language and folklore (Isof) are included. Subtitles are also extracted from YouTube channels with Swedish content. Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span style="display:block;" id="fig:edit"></span>
 <img src="images/bandrulle.jpg" alt="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB" width="300%" />
@@ -2804,12 +2793,8 @@ Figure 3: From the audiovisual archives of the National Library of Sweden. Photo
 </div>
 </div>
 <h2 id="two-stages-of-data-quality">Two stages of data quality</h2>
-<p>To assess the quality of transcriptions, i.e. how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline.</p>
-<p>The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>.</p>
-<p>Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
-<p>The first quality assessment catches examples with low or no overlap, but still of sufficient quality for the model to learn from, yielding a large training dataset with an increased probability of covering rare Swedish words and names, denoted below as the Stage 1 data.</p>
-<p>The second quality assessment focuses on defining the style of transcription, aiming to teach the model how to transcribe rather than providing a large number of examples.</p>
-<p>Two styles of transcriptions are defined: one more subtitle-like (Stage 2-subtitle), and one more orthographic (Stage 2-standard) for more precise transcription.</p>
+<p>To assess the quality of transcriptions, i.e. how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
+<p>The first quality assessment catches examples with low or no overlap, but still of sufficient quality for the model to learn from, yielding a large training dataset with an increased probability of covering rare Swedish words and names, denoted below as the Stage 1 data. The second quality assessment focuses on defining the style of transcription, aiming to teach the model how to transcribe rather than providing a large number of examples. Two styles of transcriptions are defined: one more subtitle-like (Stage 2-subtitle), and one more orthographic (Stage 2-standard) for more precise transcription.</p>
 <p>Each stage is defined by a set of criteria on CER, BLEU and ROUGE, which are outlined in Table 1.</p>
 <div class="l-page">
 <table>
@@ -2899,8 +2884,7 @@ Figure 3: From the audiovisual archives of the National Library of Sweden. Photo
 </table>
 </div>
 <h2 id="based-on-open-weights-from-openais-whisper">Based on open weights from OpenAI’s Whisper</h2>
-<p>Following the excellent Whisper fine-tuning tutorial from <a href="https://github.com/huggingface/community-events/tree/main/whisper-fine-tuning-event">Huggingface</a> we fine-tune all sizes of Whisper models on our Swedish training dataset of unprecedented size.</p>
-<p>The training is performed in a two-stage approach, where the first stage leverages the large Stage 1 dataset, followed by two parallel training stages where the model is either trained on the Stage 2-subtitle data or the Stage 2-standard data.</p>
+<p>Following the excellent Whisper fine-tuning tutorial from <a href="https://github.com/huggingface/community-events/tree/main/whisper-fine-tuning-event">Huggingface</a> we fine-tune all sizes of Whisper models on our Swedish training dataset of unprecedented size. The training is performed in a two-stage approach, where the first stage leverages the large Stage 1 dataset, followed by two parallel training stages where the model is either trained on the Stage 2-subtitle data or the Stage 2-standard data.</p>
 <p>The training is executed on the Leonardo Supercomputer hosted by CINECA (Italy), that we were granted access to through a <a href="https://eurohpc-ju.europa.eu/index_en">EuroHPC JU</a> AI and data-intensive applications call.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure"><span style="display:block;" id="fig:leonardo"></span>
@@ -2911,10 +2895,8 @@ Figure 4: The Leonardo Supercomputer. Source <a href="https://leonardo-supercomp
 </div>
 </div>
 <h2 id="a-great-improvement-in-swedish-asr">A great improvement in Swedish ASR</h2>
-<p>We have evaluated the models on three datasets: FLEURS (train and test set), NST (test set), and Common Voice 16.0 (train, validation, and test set).</p>
-<p>The CommonVoice and FLEURS data has not been part of the training set and can therefore serve as a benchmark for the models’ out-of-domain performance.</p>
-<p>To compare our newly trained models with OpenAI’s models, we calculate Word Error Rate (WER) and BLEU scores for each of the mentioned datasets.</p>
-<p>WER measures transcription accuracy by calculating the percentage of words that are substituted, deleted, or inserted, while the BLEU score evaluates how well a transcription matches the reference text.</p>
+<p>We have evaluated the models on three datasets: FLEURS (train and test set), NST (test set), and Common Voice 16.0 (train, validation, and test set). The CommonVoice and FLEURS data has not been part of the training set and can therefore serve as a benchmark for the models’ out-of-domain performance.</p>
+<p>To compare our newly trained models with OpenAI’s models, we calculate Word Error Rate (WER) and BLEU scores for each of the mentioned datasets. WER measures transcription accuracy by calculating the percentage of words that are substituted, deleted, or inserted, while the BLEU score evaluates how well a transcription matches the reference text.</p>
 <p>The results evaluated in terms of WER is presented in the table below.</p>
 <div class="l-page">
 <table>
@@ -3095,9 +3077,7 @@ Figure 4: The Leonardo Supercomputer. Source <a href="https://leonardo-supercomp
 </tbody>
 </table>
 </div>
-<p>The most significant improvements are observed in smaller models, demonstrating that high-quality transcriptions can be achieved with fewer computational resources.</p>
-<p>The KB-whisper-small model outperforms OpenAI’s whisper-large-v3, a model six times its size.</p>
-<p>This means that similar transcription quality can be obtained using a smaller model, making speech-to-text more accessible and less costly.</p>
+<p>The most significant improvements are observed in smaller models, demonstrating that high-quality transcriptions can be achieved with fewer computational resources.The KB-whisper-small model outperforms OpenAI’s whisper-large-v3, a model six times its size. ´This means that similar transcription quality can be obtained using a smaller model, making speech-to-text more accessible and less costly.</p>
 <h2 id="where-to-find-the-models">Where to find the models?</h2>
 <p>All models are freely available for download from KBLab’s page on <a href="https://huggingface.co/KBLab">HuggingFace</a>.</p>
 <p>For more information on ASR models and how to use KBLab’s Whisper models programmatically, we recommend exploring this <a href="https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842#scrollTo=I8h0gJYN8jQg">notebook</a>.</p>
