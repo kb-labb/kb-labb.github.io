@@ -8,10 +8,16 @@ author:
   - name: Leonora Vesterbacka 
     affiliation: KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
+  - name: Faton Rekathati
+    affiliation: KBLab
+    affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
+  - name: Robin Kurtz
+    affiliation: KBLab
+    affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
   - name: Justyna Sikora
     affiliation: KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
-  - name: Faton Rekathati
+  - name: Agnes Toftgård
     affiliation: KBLab
     affiliation_url: https://www.kb.se/in-english/research-collaboration/kblab.html
 date: 2025-03-07
@@ -27,7 +33,7 @@ editor_options:
 ---
 
 
-```{r KBLab, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
+```{r KBLab-whisper, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
 knitr::include_graphics("images/KBLab-whisper.jpg")
 ```
 
@@ -50,7 +56,7 @@ For languages with fewer speakers, this type of data is less represented on the 
 
 In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models. 
 
-```{r KBLab, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
+```{r dsf, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
 knitr::include_graphics("images/_DSF2695_edit.jpg")
 ```
 
@@ -74,7 +80,7 @@ Subtitles are also extracted from youtube channels with Swedish content.
 
 Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.  
 
-```{r AV, echo=FALSE, out.width="300%", fig.cap="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB"}
+```{r edit, echo=FALSE, out.width="300%", fig.cap="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB"}
 knitr::include_graphics("images/_DSF2645_edit.jpg")
 ```
 
@@ -131,7 +137,7 @@ knitr::include_graphics("images/leonardo.png")
 
 We have evaluated the models on three datasets: FLEURS (train and test set), NST (test set), and Common Voice 16.0 (train, validation, and test set). 
 
-The CommonVoice data has not been part of the training set and can therefore serve as a benchmark for the models' out-of-domain performance.
+The CommonVoice and FLEURS data has not been part of the training set and can therefore serve as a benchmark for the models' out-of-domain performance.
 
 To compare our newly trained models with OpenAI's models, we calculate Word Error Rate (WER) and BLEU scores for each of the mentioned datasets. 
 
@@ -151,11 +157,12 @@ The results evaluated in terms of WER is presented in the table below.
 | [medium](https://huggingface.co/KBLab/kb-whisper-medium)    | **KBLab**   | **6.6**   | **5.4**   | **5.8**   |
 |            | OpenAI  | 12.1   | 15.8   | 17.1   |
 | [large-v3](https://huggingface.co/KBLab/kb-whisper-large)   | **KBLab**   | **5.4**   | **4.1**   | **5.2**   |
+|            | OpenAI  | 7.8    | 9.5    | 11.3   |
 :::
 
 Our evaluations show that the best-performing model reduces the WER by an average of 47% compared to Whisper-large-v3.
 
-The results evaluated in terms of WER is presented in the table below. 
+The results evaluated in terms of BLEU is presented in the table below. 
 
 ::: l-page
 | Model size  |   | FLEURS | CommonVoice | NST  |
@@ -180,7 +187,7 @@ This means that similar transcription quality can be obtained using a smaller mo
 
 ## Where to find the models?
 
-All models are freely available for download from KBLab's page on the [HuggingFace](https://huggingface.co/KBLab).
+All models are freely available for download from KBLab's page on [HuggingFace](https://huggingface.co/KBLab).
 
 For more information on ASR models and how to use KBLab's Whisper models programmatically, we recommend exploring this [notebook](https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842#scrollTo=I8h0gJYN8jQg).
 

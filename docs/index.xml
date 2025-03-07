@@ -13,7 +13,22 @@ at the National Library of Sweden.
       <link>https://kb-labb.github.io</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 30 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome KB-Whisper, a new fine-tuned Swedish Whisper model!</title>
+      <dc:creator>Leonora Vesterbacka</dc:creator>
+      <dc:creator>Faton Rekathati</dc:creator>
+      <dc:creator>Robin Kurtz</dc:creator>
+      <dc:creator>Justyna Sikora</dc:creator>
+      <dc:creator>Agnes Toftgård</dc:creator>
+      <link>https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper</link>
+      <description>KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech. 
+This work reports an overall improvement across model sizes compared to OpenAI's Whisper evaluated on Swedish.
+Most notably, we report an average 47% reduction in WER comparing our best performing model to OpenAI's Whisper-large-v3, in evaluations across FLEURS, Common Voice, and NST.</description>
+      <guid>https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper</guid>
+      <pubDate>Thu, 06 Mar 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/images/KBLab-whisper.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Preserving the history of cultural heritage conservation</title>
       <dc:creator>Chris Haffenden</dc:creator>
@@ -26,7 +41,7 @@ Heritage Board is digitizing and making accessible the earliest history of Swedi
 cultural heritage conservation. What preservation measures are necessary to safeguard 
 these collections for the future, and what challenges and discoveries await in engaging with the material?</description>
       <guid>https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation</guid>
-      <pubDate>Thu, 30 Jan 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 31 Jan 2025 00:00:00 +0000</pubDate>
       <media:content url="https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/images/1.png" medium="image" type="image/png" width="512" height="407"/>
     </item>
     <item>
