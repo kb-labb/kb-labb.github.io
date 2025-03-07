@@ -148,7 +148,7 @@ The most significant improvements are observed in smaller models, demonstrating 
 
 All models are freely available for download from KBLab's page on [HuggingFace](https://huggingface.co/KBLab).
 
-For more information on ASR models and how to use KBLab's Whisper models programmatically, we recommend exploring this [notebook](https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842#scrollTo=I8h0gJYN8jQg).
+For more information on ASR models and how to use KBLab's Whisper models programmatically, we recommend exploring this [notebook](https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842?usp=sharing).
 
 ## Acknowledgments 
 
@@ -157,5 +157,14 @@ We acknowledge the EuroHPC Joint Undertaking for awarding this project access to
 <aside>
 ```{r echo=FALSE, out.width="50%"}
 knitr::include_graphics("images/eurohpc.png")
+```
+</aside>
+
+
+The development work to produce the notebook mentioned above was carried out within the  [HUMINFRA](https://www.huminfra.se/) infrastructure project.
+
+<aside>
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("images/huminfra.svg")
 ```
 </aside>
