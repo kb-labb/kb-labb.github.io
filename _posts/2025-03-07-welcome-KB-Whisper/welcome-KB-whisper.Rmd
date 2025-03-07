@@ -27,7 +27,7 @@ editor_options:
 ---
 
 
-```{r runstones, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Photography: Lina Löfström Baker/KB"}
+```{r KBLab, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
 knitr::include_graphics("images/KBLab-whisper.jpg")
 ```
 
@@ -50,6 +50,10 @@ For languages with fewer speakers, this type of data is less represented on the 
 
 In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models. 
 
+```{r KBLab, echo=FALSE, out.width="300%", fig.cap="The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB"}
+knitr::include_graphics("images/_DSF2695_edit.jpg")
+```
+
 ## Subtitles, Parliament recordings and dialect archives
 
 The National Library of Sweden is responsible for collecting, preserving and giving access to everything that is published in Sweden. 
@@ -70,7 +74,7 @@ Subtitles are also extracted from youtube channels with Swedish content.
 
 Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.  
 
-```{r capsules, echo=FALSE, out.width="300%", fig.cap="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB"}
+```{r AV, echo=FALSE, out.width="300%", fig.cap="From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB"}
 knitr::include_graphics("images/_DSF2645_edit.jpg")
 ```
 
