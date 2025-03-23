@@ -1,0 +1,66 @@
+---
+title: "Swedish Bootleg model"
+description: |
+  We at KBLab have trained a Swedish version of an entity disambiguation model called Bootleg, developed by the Hazy Research Lab at Stanford. 
+  The model is trained on Swedish Wikipedia and can be used to disambiguate named entities based on their context.
+author:
+  - name: Elena Fano
+    affiliation: KBLab
+image: bootleg_architecture.png
+date: 03-03-2022
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+lightbox: true
+---
+
+## What is Bootleg?
+Named Entity Disambiguation (NED) is the task to determine which specific entity in a knowledge base a detected named entity refers to. For example, take the sentence "I bought a new Lincoln": given Wikipedia as a knowledge base, the task of the NED system is to link the named entity "Lincoln" to the page "Lincoln Motor Company" and not to "Lincoln, Nebraska" or "Abraham Lincoln". This is a rather complex task, because there is very little context to base the disambiguation on, and nowhere in the sentence there is any reference to cars. It is especially tricky to disambiguate rare entities, i.e. entities that appear very few times in the data or not at all.  
+  
+Yet there is very little doubt in any human mind that I didn't buy an American president or a city in Nebraska. So how do humans do it? We base our disambiguation on the fact that you don't buy people or cities, you buy objects. In more abstract terms, we base our decision on the type of the entity, and other similar reasoning patterns.  
+  
+Bootleg is NED system that aims to improve disambiguation on rare entities, so-called "tail" entities (because they constitute the long tail of the frequency distribution). Developed by researchers at Hazy Research Lab, Bootleg is a transformer-based system that introduces reasoning patterns based on entity type and relations in the disambiguation process. Even if an entity is rare, its type probably isn't; for example names of different car brands tend to be used much the same way in natural language. Similarly, some adjectives only refer to specific types of entities: you wouldn't say that a person is long, but you can say that they are tall.  
+
+![Bootleg architecture](bootleg_architecture.png){#fig-bootleg-architecture}
+
+Bootleg is trained on Wikidata and Wikipedia, that exist for a variety of the world's languages, and achieves much better results on tail entities compared to a vanilla BERT-based entity disambiguation system (see @fig-bootleg-architecture). It is an end-to-end system that can detect named entities in running text and disambiguate them, giving as output the unique identifiers of the candidate entities in the knowledge base.  
+  
+The original Bootleg paper can be found [here](https://arxiv.org/pdf/2010.10363.pdf), as well the official [repository](https://github.com/HazyResearch/bootleg) and the [blog post](http://ai.stanford.edu/blog/bootleg/) from the Stanford AI Lab.
+
+## Training and evaluating the Swedish model
+Since the only pre-trained Bootleg model available from Hazy Research is an English model, we decided to train a Swedish Bootleg on the Swedish part of Wikipedia. The authors of the paper provided us with data pre-processing and training scripts, and the system is also well documented [here](https://bootleg.readthedocs.io/en/latest/index.html). Since Swedish Wikipedia is much smaller than the English (1.5 GB versus 20 GB compressed size), we were able to train the Swedish Bootleg on a single GPU in about two to three days, but we also expected to get a worse model.  
+  
+For evaluation we also used the scripts provided by the authors and a test set consisting of Wikipedia articles that the model had never seen before. We obtained the following results:  
+
+precision = 2024911 / 2052099 = 0.987  
+recall = 2024911 / 2067105 = 0.979  
+f1 = 0.983  
+
+These results might seem very good but they are somewhat misleading for a couple of reasons. First, this is exactly the same type of material that the model was trained on, so of course the style and register are very similar and this makes the inference task easier. Second, for any entity linking system there is a fair share of entities that only have one possible candidate in the knowledge base, which means that the model will be right every time on these entities regardless of how good it actually is.  
+
+A more accurate sense of how well the model performs can be gained by manually testing it on different kinds of material and observing the resulting mistakes. The first step in predicting new data is isolating the mentions to be linked, and this is done through the mention extraction pipeline. This finds entities in the text that correspond to candidate entities in the knowledge base, and ensures that every entity selected for linking has at least one candidate to link to. We substituted the default English spaCy model with our own Swedish model and ran the inference on some test sentences. We observed that the model can indeed perform type disambiguation, as in the following example:
+
+![Bootleg predictions for the sentence "I bought a new Lincoln"](lincoln.png){#fig-bootleg-lincoln}
+
+The model understands that the first sentence must be about a person and links to "Abraham Lincoln", whereas the second is probably about an object and picks the automobile brand "Lincoln", which is correct. We report some more examples of sentences and the predicted entities to show the model's behavior and follow up with some comments.  
+
+**Sentence**: "Duplantis belönades med Svenska Dagbladets bragdguld 2020 för sina dubbla världsrekord och för att dessutom ha noterat det högsta hoppet någonsin utomhus, 6,15."  
+**Entities**: ['Andreas Duplantis', 'Svenska Dagbladets guldmedalj', 'Friidrottsrekord', 'Hopp (dygd)']  
+  
+**Sentence**: "Ekonomer vid internationella valutafonden IMF har räknat ut att varje storvuxen bardval enbart genom sin förmåga att binda kol utför en nytta värd minst 20 miljoner kronor."  
+**Entities**: ['Internationella valutafonden', 'Internationella valutafonden', 'Bardvalar', 'Kol (bränsle)', 'Svensk krona']  
+
+**Sentence**: "Elhandelsbolagen i Norden köper sin el på den nordiska elhandelsbörsen Nord Pool och vad det kostar beror på en mängd olika faktorer."  
+**Entities**: ['Norden', 'Nord Pool']  
+
+Clearly the main problem is that as long as there is an entry for it in Wikidata, anything is considered an entity. Depending on the application, we might not want everyday objects and concepts like "kol" and "friidrottsrekord" to be treated as name entities. We have already applied a filter that removes from the entity database those aliases that appear very often in Wikipedia texts without being marked as mentions, the reasoning being that these aliases point to common words that are not named entities. Still, the results are a bit noisy. This issue could be probably solved by running a Named Entity Recognition model on the same data, for example kb-bert-ner, and ignoring all the entities in the Bootleg output that the NER model doesn't recognize as such.  
+
+There are also some actual mistakes, for example predicting "Andreas Duplantis" instead of his brother Armand Duplantis, but it would require too much world knowledge for the model to know which one of the two pole-vaulting brothers recently set a world record. In the same sentence, "hopp" is identified as the Christian virtue of "hope", which is incorrect, but maybe justified by the fact that "högsta hoppet" (highest hope/jump) can be a good collocation for both senses of the word. 
+
+## Usage and examples
+We are working on making the Swedish model and the entity database available for download, as well as providing ready-made scripts for inference in multilingual settings. Stay tuned for more information!
+
+## Acknowledgements
+Many thanks to [Laurel Orr](https://cs.stanford.edu/people/lorr1/) at the [Hazy Research Lab](https://hazyresearch.stanford.edu/) for assisting in every step of the data processing and training, both with scripts and insightful tips.

@@ -1,0 +1,5 @@
+*.feather
+*.parquet
+/.quarto/
+.vscode/
+.quarto/

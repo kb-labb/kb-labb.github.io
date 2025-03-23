@@ -1,0 +1,223 @@
+---
+title: "RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"
+description: |
+  KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from 
+  parliamentary debates. The speeches have been aligned with transcripts from 
+  written protocols, and contain additional metadata such as the speaker's gender, 
+  electoral district and birth year. RixVox is open and free for everyone 
+  to download and use.  
+author:
+  - name: Faton Rekathati
+    url: https://github.com/Lauler
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2023-03-09
+bibliography: references.bib
+image: rixvox_bg.png
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+    css: rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/css/pagedtable.css
+include-in-header: 
+  - file: pagedtable.html
+citation: true
+---
+
+Automatic Speech Recognition (ASR) systems that convert spoken language to text rely heavily on annotated data to produce the best possible results. Such datasets are unfortunately not widely available for Swedish. The combined total of currently available audio datasets with annotated transcripts for the Swedish language number somewhere in the hundreds of hours. 
+
+To this end, KBLab releases Rixvox, a new Swedish ASR dataset consisting of $5500$ hours of speech. The data originates from parliamentary debates between the years of $2003$ to $2023$, which were made available via the Swedish Parliament's open data initiative. KBLab used written protocols to segment speeches from the debates, and to subsequently force align the the written transcripts with audio from the speeches. In addition to audio and transcripts, metadata such as the name, gender, birth year, political party, and electoral district of speakers is also available. 
+
+RixVox is free and open for anyone to download and use. The dataset can be reached on the following link: https://huggingface.co/datasets/KBLab/rixvox .
+
+## RixVox dataset statistics 
+
+The RixVox dataset was constructed from parliamentary debates. You can read more about how we segmented speeches from debates and determined their precise start and end location within a debate in a previous article on this blog: "Finding Speeches in the Riksdag's debates" [@rekathati2023finding].
+
+The dataset has chunked the audio from speeches in to smaller snippets suitable for training ASR models. Each observation is *up to* 30 seconds in length, and consists of either a single or several sentences from the written transcript of a speech, along with the corresponding audio. The dataset consists of a total of $5493.6$ hours of speech. There are $1194$ different speakers represented in the data. The average duration of an observation is $23.68$ seconds. In the table below, we present the distribution of observations of the different train, validation and test split of RixVox, along with some summary statistics for each split. 
+
+::: {.column-body}
+| Dataset Split | Observations      | Total duration of speech (hours) | Average duration obs. (seconds) | Number of speakers |
+| ------------- | ----------------: | -------------------------------: | ------------------------------: | -----------------: |
+| Train         | 818227            | 5383                             | 23.69                           | 1165               |
+| Validation    | 7933              | 52                               | 23.50                           | 18                 |
+| Test          | 8884              | 59                               | 23.74                           | 11                 |
+:::
+
+The dataset splits were created by sampling speakers until a threshold was reached in terms of total duration of speech. For the training set, we randomly sampled speakers until $98\%$ of the total duration of the RixVox dataset was reached ($5384$ hours). For the test and validation set, we randomly sampled speakers until each filled up to a bucket of $1\%$ of the total duration of the entire dataset. 
+
+Let's also take a look at the gender distribution of speakers. We have $602$ men, $519$ women, and $73$ speakers for whom this metadata is missing.
+
+```{r}
+#| echo: false
+#| eval: false
+library(dplyr)
+df <- arrow::read_parquet("/home/fatrek/projects/audio/riksdagen_anforanden/data/df_train_v2.parquet")
+
+df$party[df$party == "FP"] <- "L"
+df_speaker <- df %>% group_by(speaker, party) %>% filter(row_number() == 1)
+
+df_speaker %>%
+  group_by(sex) %>%
+  count() %>%
+  rename(Gender = sex, "Number" = n) %>%
+  rmarkdown::paged_table()
+```
+
+```{=html}
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Number"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"female","2":"519"},{"1":"male","2":"602"},{"1":"NA","2":"73"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+```
+
+Looking at the total duration of speech for each gender, we have a similar distribution to above. $46.3\%$ of the individual speakers were women, and $44.3\%$ of the total duration of speeches in RixVox is made up of women speaking.
+
+```{r}
+#| echo: false
+#| eval: false
+df %>%
+  group_by(sex) %>%
+  summarize(total_duration = sum(duration) / 3600) %>%
+  mutate(total_duration = round(total_duration, digits=2)) %>%
+  rename(Gender = sex, "Total duration (hours)" = total_duration) %>%
+  rmarkdown::paged_table()
+```
+
+::: {.column-body}
+```{=html}
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Total duration (hours)"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"2361.15"},{"1":"male","2":"2967.57"},{"1":"NA","2":"164.92"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+```
+:::
+
+### Most and least intelligible electoral districts
+
+Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab's  [wav2vec2-large-voxrex-swedish](https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish) model [@wav2vec2]. We then calculated the [BLEU score](https://en.wikipedia.org/wiki/BLEU) to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there's a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts. 
+
+```{r}
+#| eval: false
+#| echo: false
+df_bleu <- df %>%
+  group_by(electoral_district) %>%
+  summarize(mean_bleu = mean(bleu_score),
+            sd_bleu = sd(bleu_score),
+            nr_speakers = n_distinct(speaker)) %>% 
+  arrange(-mean_bleu)
+
+df_bleu$nr_speakers[is.na(df_bleu$electoral_district)] <- NA
+
+df_bleu %>%
+  rename("Electoral district" = electoral_district,
+         "Mean BLEU score" = mean_bleu,
+         "Std. dev. BLEU" = sd_bleu, 
+         "Number of speakers" = nr_speakers) %>%
+  rmarkdown::paged_table()
+```
+::: {.column-body-outset}
+```{=html}
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Electoral district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean BLEU score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Std. dev. BLEU"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Number of speakers"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"NA","2":"0.6000797","3":"0.1252977","4":"NA"},{"1":"Jönköpings län","2":"0.5940009","3":"0.1277287","4":"37"},{"1":"Södermanlands län","2":"0.5935326","3":"0.1206110","4":"38"},{"1":"Uppsala län","2":"0.5929714","3":"0.1270916","4":"43"},{"1":"Västra Götalands läns södra","2":"0.5898193","3":"0.1230608","4":"20"},{"1":"Stockholms län","2":"0.5854009","3":"0.1268066","4":"137"},{"1":"Skåne läns norra och östra","2":"0.5853696","3":"0.1305330","4":"32"},{"1":"Jämtlands län","2":"0.5826683","3":"0.1252455","4":"17"},{"1":"Hallands län","2":"0.5820507","3":"0.1225573","4":"38"},{"1":"Kronobergs län","2":"0.5816702","3":"0.1067194","4":"20"},{"1":"Östergötlands län","2":"0.5810539","3":"0.1335815","4":"45"},{"1":"Göteborgs kommun","2":"0.5796593","3":"0.1256837","4":"60"},{"1":"Västra Götalands läns norra","2":"0.5787399","3":"0.1258094","4":"29"},{"1":"Stockholms kommun","2":"0.5767339","3":"0.1243611","4":"126"},{"1":"Västerbottens län","2":"0.5724071","3":"0.1149559","4":"36"},{"1":"Blekinge län","2":"0.5721980","3":"0.1351392","4":"15"},{"1":"Örebro län","2":"0.5699883","3":"0.1232872","4":"33"},{"1":"Kalmar län","2":"0.5664890","3":"0.1302711","4":"28"},{"1":"Skåne läns västra","2":"0.5648055","3":"0.1237373","4":"30"},{"1":"Västmanlands län","2":"0.5628068","3":"0.1415991","4":"30"},{"1":"Norrbottens län","2":"0.5624232","3":"0.1463259","4":"26"},{"1":"Dalarnas län","2":"0.5617315","3":"0.1218160","4":"41"},{"1":"Västra Götalands läns östra","2":"0.5575997","3":"0.1214828","4":"25"},{"1":"Värmlands län","2":"0.5571123","3":"0.1232013","4":"35"},{"1":"Västra Götalands läns västra","2":"0.5566830","3":"0.1549344","4":"38"},{"1":"Västernorrlands län","2":"0.5565349","3":"0.1585068","4":"27"},{"1":"Gävleborgs län","2":"0.5548522","3":"0.1156745","4":"30"},{"1":"Skåne läns södra","2":"0.5393078","3":"0.1289290","4":"49"},{"1":"Gotlands län","2":"0.5383960","3":"0.1534656","4":"7"},{"1":"Malmö kommun","2":"0.5338347","3":"0.1100739","4":"30"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+```
+:::
+
+The speakers with the highest score are for those whom thedistrict is missing (`NA`). These are mostly government ministers who have never been members of parliament. The least intelligible electoral districts are southern Skåne, Gotland, and Malmö municipality (also southern Skåne). 
+
+### Longest total duration speaker
+
+Which speakers have spent the most time on the Riksdag Chamber's podium? The table below shows that Morgan Johansson is the undisputed $\#1$ debater in terms of total duration of speech.
+
+```{r}
+#| eval: false
+#| echo: false
+df %>%
+  group_by(speaker, party) %>%
+  summarize(total_duration = round(sum(duration) / 3600, digits=2)) %>%
+  arrange(-total_duration) %>% 
+  rename(Speaker = speaker, 
+         Party = party,
+         "Total duration (hours)" = total_duration) %>%
+  head(50) %>%
+  rmarkdown::paged_table()
+  
+```
+
+::: {.column-body-outset}
+```{=html}
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Party"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Total duration (hours)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Morgan Johansson","2":"S","3":"72.72"},{"1":"Jens Holm","2":"V","3":"61.79"},{"1":"Beatrice Ask","2":"M","3":"48.50"},{"1":"Anders Borg","2":"M","3":"47.91"},{"1":"Mikael Damberg","2":"S","3":"46.83"},{"1":"Tomas Eneroth","2":"S","3":"44.82"},{"1":"Magdalena Andersson","2":"S","3":"39.60"},{"1":"Peter Hultqvist","2":"S","3":"38.23"},{"1":"Per Bolund","2":"MP","3":"33.94"},{"1":"Monica Green","2":"S","3":"32.60"},{"1":"Anders Ygeman","2":"S","3":"31.61"},{"1":"Hillevi Larsson","2":"S","3":"31.57"},{"1":"Lena Hallengren","2":"S","3":"30.92"},{"1":"Göran Hägglund","2":"KD","3":"30.62"},{"1":"Ylva Johansson","2":"S","3":"30.36"},{"1":"Annika Strandhäll","2":"S","3":"29.15"},{"1":"Maud Olofsson","2":"C","3":"27.86"},{"1":"Ibrahim Baylan","2":"S","3":"27.51"},{"1":"Jan Björklund","2":"L","3":"27.14"},{"1":"Eva-Lena Jansson","2":"S","3":"26.82"},{"1":"Lars Tysklind","2":"L","3":"26.79"},{"1":"Sven Otto Littorin","2":"M","3":"26.61"},{"1":"Catharina Elmsäter-Svärd","2":"M","3":"26.59"},{"1":"Maria Larsson","2":"KD","3":"26.59"},{"1":"Roger Haddad","2":"L","3":"25.15"},{"1":"Börje Vestlund","2":"S","3":"24.95"},{"1":"Håkan Svenneling","2":"V","3":"24.10"},{"1":"Ulla Andersson","2":"V","3":"23.87"},{"1":"Jan Lindholm","2":"MP","3":"23.77"},{"1":"Ann Linde","2":"S","3":"23.46"},{"1":"Ola Johansson","2":"C","3":"23.44"},{"1":"Kerstin Lundgren","2":"C","3":"22.89"},{"1":"Gunnar Andrén","2":"L","3":"22.60"},{"1":"Margot Wallström","2":"S","3":"22.55"},{"1":"Patrik Björck","2":"S","3":"22.51"},{"1":"Sven-Erik Bucht","2":"S","3":"22.24"},{"1":"Eskil Erlandsson","2":"C","3":"22.04"},{"1":"Johan Hultberg","2":"M","3":"21.73"},{"1":"Isak From","2":"S","3":"21.68"},{"1":"Karin Rågsjö","2":"V","3":"21.42"},{"1":"Fredrik Malm","2":"L","3":"21.30"},{"1":"Thomas Morell","2":"SD","3":"20.81"},{"1":"Lars Beckman","2":"M","3":"20.57"},{"1":"Anna Johansson","2":"S","3":"20.34"},{"1":"Mats Odell","2":"KD","3":"20.21"},{"1":"Hillevi Engström","2":"M","3":"20.18"},{"1":"Finn Bengtsson","2":"M","3":"19.87"},{"1":"Isabella Lövin","2":"MP","3":"19.44"},{"1":"Nina Lundström","2":"L","3":"19.43"},{"1":"Ali Esbati","2":"V","3":"19.22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+```
+:::
+
+## Method of creation
+
+Before RixVox could be created, we needed to accurately segment speeches from debates. In other words: locate where the speech started and ended within the debate audio file. The most cumbersome parts of the preliminary work undertaken to segment speeches from debates is described in our previous article "Finding Speeches in the Riksdag's Debates" [@rekathati2023finding]. We recommend reading this article for background on the speech segmentation. 
+
+
+### Quality filtering 
+
+Once the speeches were segmented, the remaining work consisted of performing some quality filtering based on simple heuristics, aligning the written transcripts with the audio on a sentence level, adding metadata about the speakers, and finally converting the alignments to short snippets up to 30 seconds in length (a suitable format for training ASR models). 
+
+The first round of quality filters applied on speeches can be found in the [following lines of code](https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/heuristic_filter.py#L21-L45). These include:
+
+* We keep only speeches $> 25$ seconds in duration as predicted by speaker diarization (see the linked article for context). The reliability of our speech segmentation method improves with speech length. 
+* We keep only speeches $> 15$ seconds in duration as predicted by fuzzy string matching between machine transcription and official transcripts.
+* We calculate a "length ratio", which is the predicted duration of the speech by speaker diarization, divided by the predicted duration of the speech by fuzzy string matching. We only keep the speech if this length ratio is between $0.8$ and $1.5$. Otherwise, we deem our two methods to be in too much of a disagreement. 
+* We calculate an "overlap ratio", which is the "duration where speaker diarization and fuzzy string matching predictions overlap" divided by the total predicted duration of the fuzzy string matching method. If this ratio is $>0.8$ we keep the speech. 
+* We only keep speeches where $1$ single speaker was identified as speaking within the predicted regions.
+* We only keep speeches where the difference in predicted start time between a future and previous speech is $>5$ seconds. 
+
+The second round of quality filters were applied after another fuzzy string matching sanity check was performed. This time, instead of fuzzy string matching the text of a written transcript against the machine transcription of an entire debate, we fuzzy string match the text of the written transcript against the machine transcription of the segmented speech, as predicted by our speaker diarization. A short summary of the second round of quality filters follows:
+
+* Removing speeches where the official written protocol starts matching the machine transcription only after a threshold of $X$ words in the machine transcribed version. This was a possible indication that the speech segmentation had predicted a **too early** start location for the speech, erroneously including parts of other speakers.  
+* Removing speeches where the official written protocol stops matching hte machine transcription too early. 
+* We adjust the $X$ threshold based on different dates the debates were held on, and whether the debate was the first and/or the last speech of the debate (the first and last speeches of debates were more likely to be cut off in the middle of the speech before the year $2012$). 
+
+See the [following lines of code](https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/rixvox_filter.py#L28-L51) for a full list of the filtering conditions. 
+
+The above filtering procedures reduced the number of speeches to be included in RixVox from about 122k speeches to 115k speeches. 
+
+### Forced alignment
+
+Once we had high confidence in the remaining set of predictions, we proceeded to align the written protocols with the audio. This was done by:
+
+1. Sentence tokenizing the written transcripts. 
+2. Using the [`aeneas` library](https://www.readbeyond.it/aeneas/) to force align the audio with the text on the sentence level. 
+
+The `aeneas` library gives an output in the form of predicing the `start` and `end` location of the sentence within the speech. 
+
+We can recommend reading the masters thesis **"Automatic Annotation of Speech: Exploring Boundaries within Forced Alignment for Swedish and Norwegian"** [@Biczysko1674281] for an excellent review of available forced alignment tools for Swedish and Norwegian.
+
+### Creating 30s observation snippets. 
+
+In the final step, we concatenate sentences from the same speech that follow one another up to a maximum length of $30$ seconds per observation. The observations in RixVox are thus composed of either a single sentence, or several sentences in order within a speech up until the "bucket" fills up to the threshold of $30$ seconds. 
+
+We remove the first sentence of each speech, as transcriptions tend to add a "Fru talman!" or "Herr Talman" here as a matter of formality, regardless of whether this was uttered by the speaker or not. 
+
+### Dataset card
+
+RixVox has [a dataset card](https://huggingface.co/datasets/KBLab/rixvox) on Huggingface, where you can find more details about the dataset, its features, and how to download and use it. You can also preview the first 100 observations of the train, validation and test sets in [the dataset viewer](https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train).
+
+## Acknowledgements
+
+Part of this development work was carried out within the frame of the infrastructural project [HUMINFRA](https://www.huminfra.se/).
+
+::: {.column-margin}
+![](../2023-02-15-finding-speeches-in-the-riksdags-debates/huminfra.svg){width=35%}
+:::
+
+## Code {.appendix}
+
+The code for reproducing results in this article can be found on https://github.com/kb-labb/riksdagen_anforanden.

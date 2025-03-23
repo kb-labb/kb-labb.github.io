@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Maya Nachesa">
+<meta name="dcterms.date" content="2023-07-04">
+<meta name="description" content="Searching a database of speakers by their voice presents a unique challenge, as speakers’ voices change as they age. We can represent a speaker’s voice computationally with what we call “voiceprints”. We can compare pairs of them to decide if they belong to the same speaker or not, or “verify” their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen.">
+
+<title>For how long is a person recognisable by their voice? – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">For how long is a person recognisable by their voice?</h1>
+                  <div>
+        <div class="description">
+          <p>Searching a database of speakers by their voice presents a unique challenge, as speakers’ voices change as they age. We can represent a speaker’s voice computationally with what we call “voiceprints”. We can compare pairs of them to decide if they belong to the same speaker or not, or “verify” their identity. But how do we know that their voiceprints are still similar enough to each other when recorded at two different ages, for example 40 and 45? In this project, I investigated how voiceprints age over a 9-year age-range, how they age depending on when the first voiceprint was recorded, as well as the effect of the audio length used to create the voiceprints, and the effect of gender. For this I used debate speeches from Riksdagen.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/MKNachesa">Maya Nachesa</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              Uppsala University
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 4, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#extracting-speeches" id="toc-extracting-speeches" class="nav-link" data-scroll-target="#extracting-speeches">Extracting speeches</a></li>
+  <li><a href="#filtering-the-data" id="toc-filtering-the-data" class="nav-link" data-scroll-target="#filtering-the-data">Filtering the data</a></li>
+  <li><a href="#converting-to-voiceprints" id="toc-converting-to-voiceprints" class="nav-link" data-scroll-target="#converting-to-voiceprints">Converting to voiceprints</a></li>
+  <li><a href="#division-of-data" id="toc-division-of-data" class="nav-link" data-scroll-target="#division-of-data">Division of data</a></li>
+  </ul></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method</a>
+  <ul class="collapse">
+  <li><a href="#voiceprint-separability" id="toc-voiceprint-separability" class="nav-link" data-scroll-target="#voiceprint-separability">Voiceprint separability</a></li>
+  <li><a href="#setting-a-threshold" id="toc-setting-a-threshold" class="nav-link" data-scroll-target="#setting-a-threshold">Setting a threshold</a></li>
+  <li><a href="#investigating-the-effects-of-age-segment-length-and-gender" id="toc-investigating-the-effects-of-age-segment-length-and-gender" class="nav-link" data-scroll-target="#investigating-the-effects-of-age-segment-length-and-gender">Investigating the effects of age, segment length, and gender</a></li>
+  </ul></li>
+  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and discussion</a></li>
+  <li><a href="#conclusion-and-future-research" id="toc-conclusion-and-future-research" class="nav-link" data-scroll-target="#conclusion-and-future-research">Conclusion and future research</a></li>
+  
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>Speaker verification is the computational task of indicating whether two audio recordings (each containing only one person’s speech) come from the same person or not. This comparison is done by converting the audio recordings to voiceprints, an abstract representation of someone’s voice. Recent approaches have used deep-learning models to create these voiceprints. TitaNet has been a particularly successful model, which was trained on the speaker identification task (who is speaking), and, once it achieved satisfactory results, used to create voiceprints.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Editor’s note:</strong> This is a blog post summarizing a master’s thesis project. A part of this project was carried out at KBLab. Maya’s full thesis can be reached at <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-503403">the following link</a> <span class="citation" data-cites="Nachesa1762445">(<a href="#ref-Nachesa1762445" role="doc-biblioref">Nachesa 2023</a>)</span>.</p>
+</div></div><p>Riksdagen has released a public database with all of its speeches, who was speaking when, and what they said. However, this data is not always accurate. Thus, it can be interesting to use the identity of the speakers where the data is accurate to identify them where it’s less accurate. But people are members of parliament for years. The speaker verification and identification tasks are usually performed in a smaller time-frame, and so it is unclear how the results will extend to when there are larger age-gaps between two voiceprints. Besides searching a database, this is also important when using someone’s voice to unlock, for instance, a device. It is important to know what the range is, so the user can be warned in due time when it is time to record a new voiceprint.</p>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective">Objective</h2>
+<p>The main objective of this project was to investigate to what extent speakers remain recognisable by their voice as the age-gap of the speaker between the current and comparison recording increases. Further goals were to examine the effect of the age at which the comparison recording was made, the length of the recordings used for the comparisons, and the gender of the speakers.</p>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The data for this project consisted of Riksdagen’s parliamentary speeches. In the blog “Finding Speeches in the Riksdag’s debates” <span class="citation" data-cites="rekathati2023finding">(<a href="#ref-rekathati2023finding" role="doc-biblioref">Rekathati 2023a</a>)</span> you can read about how the speeches were segmented and their precise timestamps were determined, and in the blog “RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates” <span class="citation" data-cites="rekathati2023rixvox">(<a href="#ref-rekathati2023rixvox" role="doc-biblioref">Rekathati 2023b</a>)</span> you can read about the resulting dataset.</p>
+<section id="extracting-speeches" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-speeches">Extracting speeches</h3>
+<p>Sometimes speeches contained speakers other than the main one at the beginning and at the end of the audio file. Because of this, the first and last 10 seconds of each speech were excluded. Then, for each speech, the audio was extracted at 7 different lengths, namely at 1, 3, 5, 10, 30 and 60 seconds, and also at the full speech length. To ensure that it was possible to extract 60 seconds from each speech, only those speeches with a length of at least 80 seconds (to account for excluding the first and last 10 seconds) were used. Each of the segments was extracted from a random point, and only once for each speech.</p>
+</section>
+<section id="filtering-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-the-data">Filtering the data</h3>
+<!-- rewrite the sentence about exclusing speeches because of speakers not mentioning themselves -->
+<p>The data was also filtered for other characteristics. First, I excluded speeches containing speakers that did not have a birthyear or speaker ID associated with them. For some speeches, it seemed to be the case that a speaker mentioned themselves in a speech. However, manual inspection of the recordings revealed that the speeches had simply been assigned the wrong speaker ID, and that it was another speaker mentioning the speaker in question. These speeches were also removed Additionally, I excluded speeches that were doubled, and where the content and speech ID was swapped, but not the speaker ID. This latter case otherwise often resulted in an audio segment being attributed to the wrong person.</p>
+<p>Finally, the speeches were only included if they met the following criteria: First, their <code>length_ratio</code> and <code>overlap_ratio</code> was between 0.7 and 1.3. The <code>length_ratio</code> indicates how much longer the segment predicted by diarisation was compared to its length as predicted by ASR, and the <code>overlap_ratio</code> indicates how much overlap there is in terms of time between the segment predicted by diarisation and ASR. In addition to this, a speech was only included if it was associated with one segment as per the diarisation. Finally, for each speaker, I only included them and their speeches if they had at least 3 speeches in a year (that could potentially all be from the same debate).</p>
+</section>
+<section id="converting-to-voiceprints" class="level3">
+<h3 class="anchored" data-anchor-id="converting-to-voiceprints">Converting to voiceprints</h3>
+<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(<a href="#ref-koluguri2022titanet" role="doc-biblioref">Koluguri, Park, and Ginsburg 2022</a>)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
+</section>
+<section id="division-of-data" class="level3">
+<h3 class="anchored" data-anchor-id="division-of-data">Division of data</h3>
+<p>The data was further divided into train, dev, and test. The test data is created first. I tested how voiceprints age for a total age-gap of 9 years, and so only kept those speakers that were active in each of those years from the start of their presence in parliament. After this, I bucketed the speakers into age-ranges of 5 years. Each bucket contained a maximum of 4 speakers (balanced for gender, unless not possible). After this, I paired up the voiceprints in 4 different manners. They can be first distinguished by whether they compare the same or a different speaker, and then by whether they compare them at the same age or different age. The table below shows what the age-gaps are for each of the combinations.</p>
+<table class="caption-top table">
+<caption>Age-gaps for the 4 data groups</caption>
+<thead>
+<tr class="header">
+<th>pairs \ age</th>
+<th>same age</th>
+<th>different age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>same speaker</strong></td>
+<td>same age</td>
+<td>0-9 years difference</td>
+</tr>
+<tr class="even">
+<td><strong>different speaker</strong></td>
+<td>max 5 years difference</td>
+<td>random age-gap</td>
+</tr>
+</tbody>
+</table>
+<p>The train and dev data were created by first excluding the speakers already included in the test. Then, they were also bucketed in age-ranges of 5 years, but I put no requirements on for how long they had to be active in parliament. The data between train and dev had an approximate 80:20 ratio. However, where a bucket in the dev data contained fewer than 4 speakers, those speakers were instead added to the train, and the dev bucket remained empty. Then, the same 4 pairings as for the test were made for the train and dev data. See the below table for a full description of the data for train, dev, and test.</p>
+<table class="caption-top table">
+<caption>Data distribution and characteristics per split</caption>
+<colgroup>
+<col style="width: 57%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Train</th>
+<th>Dev</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First debate</td>
+<td>2003-11-11</td>
+<td>2004-01-23</td>
+<td>2006-01-25</td>
+</tr>
+<tr class="even">
+<td>Last debate</td>
+<td>2023-02-03</td>
+<td>2023-01-31</td>
+<td>2021-12-08</td>
+</tr>
+<tr class="odd">
+<td>Number of debates</td>
+<td>3156</td>
+<td>743</td>
+<td>1191</td>
+</tr>
+<tr class="even">
+<td>Number of speeches</td>
+<td>7422</td>
+<td>1363</td>
+<td>2310</td>
+</tr>
+<tr class="odd">
+<td>Number of speakers</td>
+<td>177</td>
+<td>36</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Youngest age</td>
+<td>19</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>Oldest age</td>
+<td>78</td>
+<td>68</td>
+<td>58</td>
+</tr>
+<tr class="even">
+<td>Debates per year, mean (std.)</td>
+<td>353 (222)</td>
+<td>68 (32)</td>
+<td>144 (75)</td>
+</tr>
+<tr class="odd">
+<td>Lowest number of debates (year)</td>
+<td>6 (2003)</td>
+<td>7 (2023)</td>
+<td>15 (2021)</td>
+</tr>
+<tr class="even">
+<td>Highest number of debates (year)</td>
+<td>694 (2016)</td>
+<td>123 (2015)</td>
+<td>238 (2016)</td>
+</tr>
+<tr class="odd">
+<td>Number of speeches per speaker, mean (std.)</td>
+<td>42 (44)</td>
+<td>38 (32)</td>
+<td>116 (36)</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, I grouped the data along the length of the audio used to create the voiceprints. I created 8 groups in total. 7 of the groups paired up voiceprints extracted from pairs with the same source audio length. In other words, the group of length 1 only contained pairs where both source audios were 1 second long. The final group contained pairs comparing all source audio length combinations. This meant it compared pairs of voiceprints coming from 1 and 3 second long audio, 30 and 10, two full speeches, and so forth. The first 7 groups are referred to by their length, while this last group is referred to as “all”.</p>
+</section>
+</section>
+<section id="method" class="level2">
+<h2 class="anchored" data-anchor-id="method">Method</h2>
+<section id="voiceprint-separability" class="level3">
+<h3 class="anchored" data-anchor-id="voiceprint-separability">Voiceprint separability</h3>
+<p>The first thing I examined, was whether the voiceprints were separable at all. That is, can they be grouped by different speakers? For this, I used T-SNE to create a graph of all the voiceprints used. If speeches cluster together by speaker, this indicates that there are likely many similarities between them. One drawback is that if some speeches end up behind another group, we will not be able to see this.</p>
+</section>
+<section id="setting-a-threshold" class="level3">
+<h3 class="anchored" data-anchor-id="setting-a-threshold">Setting a threshold</h3>
+<p>To perform speaker verification, we need some way to compare two voiceprints to each other. For voiceprints from TitaNet, this is done by computing the cosine similarity between two voiceprints. A score closer to 1 indicates that the voiceprints are very similar, and likely belong to the same person, while a score closer to -1 (or 0 depending on how it’s calculated) indicates they are very dissimilar, and likely belong to different people. However, only having this score is not enough for us to know whether two voiceprints belong to the same speaker or not. To this end, we can set a threshold: For every score above or equal to this threshold we say that the two voiceprints come from the same speaker, and otherwise they come from two different speakers. This threshold however, needs to be determined. This is where the training and dev data comes in. If we set the threshold on the same data we are testing on, we cannot be sure that the results we get are due to this threshold and the resulting aging of the voiceprints is generalisable. Because of this, I set the threshold on the training data. I use the dev data to verify that, no matter where I set the threshold, the accuracy scores between the training and dev scores are going to be similar.</p>
+<p>To set a threshold, we need to know what the scores for the same speaker group and different speaker group look like, to be able to distinguish them. For the same-speaker group, I used the same-age division of data. This is for two reasons. First: in real-world applications, speaker recordings are likely to be made in a short period of time, thereby not varying greatly in age. Second, I am testing what the effect is of testing voiceprints against different ages, meaning we cannot already include the effect of the aging voice when setting the threshold. For the different-speaker group, I used the different-age division, as we do not care to distinguish between different speakers of the same age, but about being able to tell the difference between different speakers at all. The threshold is set using <code>sklearn</code>’s <code>roc_curve</code>, and <code>scipy</code>’s <code>interp1d</code> and <code>brentq</code>.</p>
+</section>
+<section id="investigating-the-effects-of-age-segment-length-and-gender" class="level3">
+<h3 class="anchored" data-anchor-id="investigating-the-effects-of-age-segment-length-and-gender">Investigating the effects of age, segment length, and gender</h3>
+<p>Thresholds are set and tested using the “all” speech lengths group, unless stated otherwise.</p>
+<section id="age" class="level4">
+<h4 class="anchored" data-anchor-id="age">Age</h4>
+<p>I investigated the effects of age in two ways. First, I tested the effect of an increase in the age-gap on the accuracy, False Positive Rate (FPR), and False Negative Rate (FNR). In addition to this, I also investigated the effect of when the first voiceprint was recorded. In other words, if a voiceprint is recorded for someone at 29 years of age and then used for the next 9 years, how does this compare to when it is, for instance, recorded at 39 years of age and used for the next 9? Do we have a more stable voice in certain spans of life than others?</p>
+</section>
+<section id="segment-length" class="level4">
+<h4 class="anchored" data-anchor-id="segment-length">Segment length</h4>
+<p>To test the effect of segment length, I split the “all” speech lengths group among the comparisons, to investigate the effect of each individual speech length on the accuracy, FPR, and FNR. In addition to this, I also set the threshold for each of the 8 speech length groups, to investigate how this affects the height of the threshold set, and in turn how that affects the accuracy.</p>
+</section>
+<section id="gender" class="level4">
+<h4 class="anchored" data-anchor-id="gender">Gender</h4>
+<p>I investigated the effect of gender on how the voiceprint ages. In other words, do voices age differently for men and women?</p>
+</section>
+</section>
+</section>
+<section id="results-and-discussion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and discussion</h2>
+<div id="fig-tsne" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tsne-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/T-SNE_for_all_speeches_at_all_speech_lengths.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: T-SNE plot of test speakers at all lengths"><img src="images/T-SNE_for_all_speeches_at_all_speech_lengths.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tsne-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: T-SNE plot of test speakers at all lengths
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-tsne" class="quarto-xref">Figure&nbsp;1</a> shows the T-SNE graph for all the test speakers. As we can see, the speakers generally group together among themselves, indicating that, despite age differences and varying lengths of the speech data used to create the voiceprints, they are still globally recognisable as belonging to the same person. Nevertheless, we see that there are also a few speeches that end up in vastly different places, suggesting that their representation was not as robust as the rest of the group.</p>
+<div class="page-columns page-full">
+<div id="fig-trainacc" class="quarto-layout-panel page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-trainacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="quarto-layout-row column-body-outset">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-trainacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-trainaccleft" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-trainaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/train_acc_vs_fnr_n_fpr_within_age_within_age_VS_across_speaker_all.svg" class="lightbox" data-gallery="fig-trainacc" title="Figure&nbsp;2&nbsp;(a): Accuracy, FPR, and FNR at different thresholds"><img src="images/train_acc_vs_fnr_n_fpr_within_age_within_age_VS_across_speaker_all.svg" class="img-fluid figure-img" data-ref-parent="fig-trainacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-trainaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Accuracy, FPR, and FNR at different thresholds
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-trainacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-trainaccright" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-trainaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/train_VS_dev_acc_within_age_VS_across_speaker_all_speech_lengths.svg" class="lightbox" data-gallery="fig-trainacc" title="Figure&nbsp;2&nbsp;(b): Comparison of train and dev accuracy"><img src="images/train_VS_dev_acc_within_age_VS_across_speaker_all_speech_lengths.svg" class="img-fluid figure-img" style="width:91.0%" data-ref-parent="fig-trainacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-trainaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Comparison of train and dev accuracy
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trainacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Accuracy, FPR, and FNR at different thresholds.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-trainacc" class="quarto-xref">Figure&nbsp;2</a> shows the training accuracy, FNR, and FPR (<strong>left plot</strong>), and compares the training and dev accuracy (<strong>right plot</strong>). The vertical dashed line indicates the threshold. The threshold is set at 0.463, and we can see that there is no large difference in accuracy between the train and dev. This gives us confidence that the threshold we set is generalisable.</p>
+<div id="fig-cossims-all" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cossims-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/train_all_cossim_score.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: Cosine similarity scores for 3 groups: same-speaker same-age, same-speaker different-age, and different-speaker different-age."><img src="images/train_all_cossim_score.svg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cossims-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: Cosine similarity scores for 3 groups: same-speaker same-age, same-speaker different-age, and different-speaker different-age.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-cossims-all" class="quarto-xref">Figure&nbsp;3</a> shows the cosine similarity scores for the two same-speaker groups and the different-speaker different-age group. As we can see, the cosine similarity scores are generally higher when comparing the voiceprints of one speaker against each other. What we also see, however, is that when we introduce an age-gap between the voiceprints, that the cosine similarity scores drop slightly. This suggests that the voice aging does become slightly more dissimilar compared to the first recording.</p>
+<div class="page-columns page-full">
+<div id="fig-testacc" class="quarto-layout-panel page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-testacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="quarto-layout-row column-body-outset">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-testacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-testaccleft" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-testaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_within_speaker_across_age_VS_across_speaker_all_speech_lengths_cossim_score.svg" class="lightbox" data-gallery="fig-testacc" title="Figure&nbsp;4&nbsp;(a): Percentiles (at intervals of 10%) of cosine similarities for each age-gap, and comparing two different speakers."><img src="images/test_within_speaker_across_age_VS_across_speaker_all_speech_lengths_cossim_score.svg" class="img-fluid figure-img" data-ref-parent="fig-testacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-testaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Percentiles (at intervals of 10%) of cosine similarities for each age-gap, and comparing two different speakers.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-testacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-testaccright" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-testaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_acc_vs_fnr_n_fpr_across_age_VS_across_speaker_all_speech_lengths.svg" class="lightbox" data-gallery="fig-testacc" title="Figure&nbsp;4&nbsp;(b): Test accuracy, FNR, and FPR for each age-gap."><img src="images/test_acc_vs_fnr_n_fpr_across_age_VS_across_speaker_all_speech_lengths.svg" class="img-fluid figure-img" data-ref-parent="fig-testacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-testaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Test accuracy, FNR, and FPR for each age-gap.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-testacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;4: Effect of age-gap on cosine similarity, accuracy, FNR, and FPR scores.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-testacc" class="quarto-xref">Figure&nbsp;4</a> shows how the cosine similarity scores develop as the age-gap between two voiceprints increases (<a href="#fig-testaccleft" class="quarto-xref">Figure&nbsp;4 (a)</a>), and also when comparing the voiceprints of two different speakers. In general, the cosine similarity seems to drop as the age-gap increases, but the cosine similarity is much lower when comparing two different speakers. The <a href="#fig-testaccright" class="quarto-xref">Figure&nbsp;4 (b)</a> in the same figure shows how, as the age-gap between two voiceprints increases, the accuracy drops slightly, and experiences an even sharper drop around the 5-year age-gap. This is characterised by an increase in FNR as the age-gap increases.</p>
+<p>In general, it seems to be the case that increasing the age-gap between two voiceprints does affect our ability to recognise that they come from the same speaker, and so some caution needs to be exercised when using someone’s voiceprint to recognise them at a very different point in time.</p>
+<div class="page-columns page-full">
+<div id="fig-startageacc" class="quarto-layout-panel page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-startageacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="quarto-layout-row column-body-outset">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-startageacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-startageaccleft" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-startageaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_bucket_acc_vs_fnr_n_fpr_within_within_age_VS_across_speaker_all_speech_lengths.svg" class="lightbox" data-gallery="fig-startageacc" title="Figure&nbsp;5&nbsp;(a): Effect of starting age on same-age accuracy."><img src="images/test_bucket_acc_vs_fnr_n_fpr_within_within_age_VS_across_speaker_all_speech_lengths.svg" class="img-fluid figure-img" data-ref-parent="fig-startageacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-startageaccleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Effect of starting age on same-age accuracy.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-startageacc" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-startageaccright" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-startageaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_bucket_acc_vs_fnr_n_fpr_across_across_age_VS_across_speaker_all_speech_lengths.svg" class="lightbox" data-gallery="fig-startageacc" title="Figure&nbsp;5&nbsp;(b): Effect of starting age on accuracy for a 9 year age-span."><img src="images/test_bucket_acc_vs_fnr_n_fpr_across_across_age_VS_across_speaker_all_speech_lengths.svg" class="img-fluid figure-img" data-ref-parent="fig-startageacc"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-startageaccright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Effect of starting age on accuracy for a 9 year age-span.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-startageacc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5: Effect of starting age on same-age and different-age scores.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-startageacc" class="quarto-xref">Figure&nbsp;5</a> shows that speakers in the 29-33 age-range are the easiest to recognise, and older and younger speakers are harder to recognise (<a href="#fig-startageaccleft" class="quarto-xref">Figure&nbsp;5 (a)</a>). However, the difference is not large. The <a href="#fig-startageaccright" class="quarto-xref">Figure&nbsp;5 (b)</a> uses different-age group for the same-speaker group. That is, the speaker verification is tested for this entire 9-year age-range for each speaker. We see that accuracy is highest when someone’s voiceprint is recorded in the 29-33 age-range and used for the next 9 years, and that it is lower for other age groups. Presumably this could be the case due to younger speakers’ voices still changing too much, and older speakers’ having begun to change again.</p>
+<div id="fig-heatmap-acc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-acc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_accuracy_heatmap.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;6: Heatmap of FNR and FPR scores for all speech length comparisons. Left plot: Heatmap of FNR for all speech length comparisons. Right plot: Heatmap of FPR for all speech length comparisons."><img src="images/test_accuracy_heatmap.svg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-acc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;6: Heatmap of FNR and FPR scores for all speech length comparisons. <strong>Left plot</strong>: Heatmap of FNR for all speech length comparisons. <strong>Right plot</strong>: Heatmap of FPR for all speech length comparisons.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-heatmap-acc" class="quarto-xref">Figure&nbsp;6</a> shows that accuracy is very low when at least one of the two voiceprints in a pair comes from a 1-second long audio. It also shows that accuracy is slightly diminished when the pairs use longer audio.</p>
+<div class="page-columns page-full">
+<div id="fig-heatmap" class="quarto-layout-panel page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="quarto-layout-row column-body-outset">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-heatmap" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fnr-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fnr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_fnr_heatmap.svg" class="lightbox" data-gallery="fig-heatmap" title="Figure&nbsp;7&nbsp;(a): Heatmap of FNR for all speech length comparisons."><img src="images/test_fnr_heatmap.svg" class="img-fluid figure-img" data-ref-parent="fig-heatmap"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fnr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Heatmap of FNR for all speech length comparisons.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-heatmap" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fpr-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fpr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_fpr_heatmap.svg" class="lightbox" data-gallery="fig-heatmap" title="Figure&nbsp;7&nbsp;(b): Heatmap of FPR for all speech length comparisons."><img src="images/test_fpr_heatmap.svg" class="img-fluid figure-img" data-ref-parent="fig-heatmap"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fpr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Heatmap of FPR for all speech length comparisons.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;7: Heatmap of FNR and FPR scores for all speech length comparisons.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-heatmap" class="quarto-xref">Figure&nbsp;7</a> sheds some light on the accuracy scores. The very low performance of the short speeches seems to be attributable to a high FNR (<a href="#fig-fnr-heatmap" class="quarto-xref">Figure&nbsp;7 (a)</a>), meaning that we were much more likely to miss when two voiceprints belonged to the same person. The lower performance for longer audio lengths is attributable to a reduction in FPR (<a href="#fig-fpr-heatmap" class="quarto-xref">Figure&nbsp;7 (b)</a>): we were more likely to accidentally mark two unrelated speakers as being the same person.</p>
+<p>Given all this, it might seem best to use speeches at around 3 seconds long: after all, these gave the best results, right? But that does not paint the whole story.</p>
+<div class="page-columns page-full">
+<div id="fig-threshold" class="quarto-layout-panel page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-threshold-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="quarto-layout-row column-page-inset">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-threshold" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-thresholdleft" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-thresholdleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_acc_n_thresholds_per_speech_length.svg" class="lightbox" data-gallery="fig-threshold" title="Figure&nbsp;8&nbsp;(a): The effect of speech length on threshold and the subsequent accuracy."><img src="images/test_acc_n_thresholds_per_speech_length.svg" class="img-fluid figure-img" style="width:85.0%" data-ref-parent="fig-threshold"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-thresholdleft-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) The effect of speech length on threshold and the subsequent accuracy.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-threshold" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-thresholdright" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-thresholdright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_within_speaker_across_age_all_speech_lengths_means_cossim_score.svg" class="lightbox" data-gallery="fig-threshold" title="Figure&nbsp;8&nbsp;(b): The effect of speech length and the age-gap on cosine similarity. Ranges represent 95% confidence intervals."><img src="images/test_within_speaker_across_age_all_speech_lengths_means_cossim_score.svg" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-threshold"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-thresholdright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) The effect of speech length and the age-gap on cosine similarity. Ranges represent 95% confidence intervals.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-threshold-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;8: The effect of speech length on the threshold and cosine similarity.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-threshold" class="quarto-xref">Figure&nbsp;8</a> shows how, as we increase the audio length from which the voiceprints were extracted, the threshold is set higher as well (<a href="#fig-thresholdleft" class="quarto-xref">Figure&nbsp;8 (a)</a>). However, the corresponding accuracy is quite high, especially for voiceprint pairs extracted from speeches ranging from 5 seconds long to full-length speeches. The biggest dip in performance can be seen for voiceprint pairs extracted from 1-second long audio, and for “all” speech-length comparisons. When looking at <a href="#fig-thresholdright" class="quarto-xref">Figure&nbsp;8 (b)</a>, we see that the cosine similarity increases for both the same-speaker and different-speaker voiceprint pairs, although moreso for the former group. It seems that voiceprint quality increases as the audio length from which they were extracted increases, resulting in the need to set a higher threshold to distinguish between the two groups. This also explains the reduced performance for the shortest audio lengths and for the mixed audio-length comparisons. For the short audio, the cosine similarities between the same- and different-speaker groups are considerably closer to each other, resulting in a larger overlap, and thereby worse performance. For the “all” group, the low threshold is still too high to correctly classify the voiceprints coming from 1-second long audio, but too low to correctly distinguish voiceprint pairs coming from longer audio. The overall impression these two graphs seem to give is that it is not necessarily that one needs longer audio for more accurate speaker verification, but rather that the threshold should be set and tested on voiceprints coming from audio of the same length.</p>
+<div id="fig-gender" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/test_gender_acc_across_across_age_VS_across_speaker_all_speech_lengths.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;9: The effect of gender on speaker verification."><img src="images/test_gender_acc_across_across_age_VS_across_speaker_all_speech_lengths.svg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;9: The effect of gender on speaker verification.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-gender" class="quarto-xref">Figure&nbsp;9</a> shows that as the age-gap between two voiceprints for the same speaker increases, the speaker verification drops at different rates for men and women after roughly 5 years, suggesting that it decreases more strongly for men.</p>
+</section>
+<section id="conclusion-and-future-research" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-and-future-research">Conclusion and future research</h2>
+<p>All in all, the results from this research suggests that voiceprints do age, and experience a sharper drop after the age-gap between two voiceprints reaches about 5 years. If a voiceprint is recorded between 29-33 years of age and used for the next 9, speaker verification retains a higher accuracy than if it is recorded at a different age. Using longer audio results in higher quality voiceprints, but it is also important to simply use and set thresholds on audio coming from the same length. However, mixing audio-length combinations still yields strong accuracy scores. Using very short audio yielded poor results, possibly due to the audio being extracted at random points from the speeches. Finally, male voiceprints might age faster than female voiceprints.</p>
+<p>One thing that should be highlighted in this investigation, is that each age group was very small. Future research should endeavour to use larger groups to solidify the results obtained. Additionally, future research could increase the age-gap investigated, to see whether the general trend continues beyond this range. It would also be good to investigate both younger and older speakers. Additionally, we saw that voiceprints remain stable at different rates when recorded at different starting ages. It would be interesting to investigate what this range looks like for these age groups. Finally, given that speaker verification is quite accurate for shorter age-ranges, it would be interesting to combine the voiceprint from multiple ages to see whether that extends the number of years for which speaker verification remains accurate.</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="code" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Code</h2><div class="quarto-appendix-contents">
+
+<p>The code for this project can be found at <a href="https://github.com/MKNachesa/masters_thesis">https://github.com/MKNachesa/masters_thesis</a>.</p>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-koluguri2022titanet" class="csl-entry" role="listitem">
+Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1D Depth-Wise Separable Convolutions and Global Context.”</span> In <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6. IEEE.
+</div>
+<div id="ref-Nachesa1762445" class="csl-entry" role="listitem">
+Nachesa, Maya Konstantinovna. 2023. <span>“How Do Voiceprints Age?”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology. <a href="https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445">https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445</a>.
+</div>
+<div id="ref-rekathati2023finding" class="csl-entry" role="listitem">
+Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+</div>
+<div id="ref-rekathati2023rixvox" class="csl-entry" role="listitem">
+———. 2023b. <span>“The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{nachesa2023,
+  author = {Nachesa, Maya},
+  title = {For How Long Is a Person Recognisable by Their Voice?},
+  date = {2023-07-04},
+  url = {https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-nachesa2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+Nachesa, Maya. 2023. <span>“For How Long Is a Person Recognisable by
+Their Voice?”</span> July 4, 2023. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../images/kb_logo_text_black.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Contact: kblabb@kb.se"><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%" alt="Contact: kblabb@kb.se"></a></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Faton Rekathati">
+<meta name="dcterms.date" content="2023-01-16">
+<meta name="description" content="KBLab’s Swedish sentence transformer has been updated to a newer version. The new version features an increased maximum sequence length of 384 tokens, allowing users to encode longer documents. It also performs better on retrieval tasks, such as matching questions and answers.">
+
+<title>Swedish Sentence Transformer 2.0 – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Swedish Sentence Transformer 2.0</h1>
+                  <div>
+        <div class="description">
+          <p>KBLab’s Swedish sentence transformer has been updated to a newer version. The new version features an increased maximum sequence length of 384 tokens, allowing users to encode longer documents. It also performs better on retrieval tasks, such as matching questions and answers.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/Lauler">Faton Rekathati</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 16, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-sequence-length-problem" id="toc-the-sequence-length-problem" class="nav-link active" data-scroll-target="#the-sequence-length-problem">The sequence length problem</a></li>
+  <li><a href="#longer-parallel-texts" id="toc-longer-parallel-texts" class="nav-link" data-scroll-target="#longer-parallel-texts">Longer parallel texts</a></li>
+  <li><a href="#new-models" id="toc-new-models" class="nav-link" data-scroll-target="#new-models">New models</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a></li>
+  <li><a href="#results-on-superlim" id="toc-results-on-superlim" class="nav-link" data-scroll-target="#results-on-superlim">Results on SuperLim</a>
+  <ul class="collapse">
+  <li><a href="#sweparahrase-v1.0" id="toc-sweparahrase-v1.0" class="nav-link" data-scroll-target="#sweparahrase-v1.0">SweParahrase v1.0</a></li>
+  <li><a href="#sweparaphrase-v2.0" id="toc-sweparaphrase-v2.0" class="nav-link" data-scroll-target="#sweparaphrase-v2.0">SweParaphrase v2.0</a></li>
+  <li><a href="#swefaq-v2.0" id="toc-swefaq-v2.0" class="nav-link" data-scroll-target="#swefaq-v2.0">SweFAQ v2.0</a></li>
+  </ul></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2023-01-16-sentence-transformer-20/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>We release an updated Swedish sentence transformer model. In addition to training the model on parallel sentences, we concatenate sentences from those parallel text corpora whose sentence orderings are sequential, training our model on longer text paragraphs. The new <strong>KB-SBERT v2.0</strong> has an increased maximum sequence length of 384, up from the 256 maximum tokens of the previous model. The model performs only marginally worse on SuperLim’s SweParaphrase benchmark, while performing significantly better on SweFaQ.</p>
+<section id="the-sequence-length-problem" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-sequence-length-problem">The sequence length problem</h2>
+<p>The training of the vast majority of available non-English sentence transformer models involves the use of so called <em>parallel corpora</em>. These are text translations of the same source documents in two or more languages. Typically these datasets come in the form of sentence-aligned observations. As a result, the context of any single given observation is quite small.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can read more about the first version of the model in another article on our blog: <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/">Introducing a Swedish Sentence Transformer</a>.</p>
+</div></div><p>The setup for training the first version of KB-SBERT involved parallel corpora and using <em>knowledge distillation</em> to transfer the knowledge of an English sentence transformer to a Swedish student BERT model. The library <a href="https://github.com/UKPLab/sentence-transformers"><code>sentence-transformers</code></a> provides a template for training models in this manner. Its default setting however recommends a maximum sequence length of <span class="math inline">\(128\)</span> for knowledge distilled bi- or multilingual models. This is due to most training examples in parallel corpora being rather short. It is unclear whether models trained on only short inputs can perform well on longer inputs.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The limited maximum sequence length of multilingual models is discussed in a <a href="https://github.com/UKPLab/sentence-transformers/issues/1476">Github issue</a>.</p>
+</div></div><p>In this article, we set out to train a new model where we investigate and try to address the sequence length problem.</p>
+</section>
+<section id="longer-parallel-texts" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="longer-parallel-texts">Longer parallel texts</h2>
+<p>The new model is trained on a similar set of source datasets as the old one, assembled mostly from the <a href="https://opus.nlpl.eu/">Open Parallel Corpus (OPUS)</a>. We use <code>JW300</code>, <code>Europarl</code>, <code>DGT-TM</code>, <code>EMEA</code>, <code>ELITR-ECA</code>, <code>TED2020</code>, <code>Tatoeba</code> and <code>OpenSubtitles</code>. We discovered issues in alignments in the published files from OPUS for the DGT dataset. For this reason we downloaded all the raw DGT-TM data files from EU’s data portal and processed them ourselves (<a href="https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_dgt.py">code</a>). Some of the datasets have quality filters indicating the confidence of the alignments. You can see which thresholds we used in the following <a href="https://github.com/kb-labb/swedish-sbert/blob/fb829a2ce3832a24912f29b1dc20c7f4878bc44e/get_parallel_data_opus.py#L57-L67">highlighted lines</a>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Read more about the datasets in <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/#data-parallel-corpus-training-data">the original article</a>.</p>
+</div></div><p>The main difference when it comes to training data comes from</p>
+<ol type="1">
+<li>identifying the datasets where sentences are ordered consecutively.</li>
+<li>concatenating consecutive sentences in both English and Swedish to longer parallel texts.</li>
+</ol>
+<p>A dataset with longer texts was created using <code>DGT-TM</code>, <code>Europarl</code>, <code>EMEA</code>, <code>ELITR-ECA</code>, <code>JW300</code> and <code>TED2020</code>. Word counts were calculated for all sentences. Consecutive sentences were then concatenated until the cumulative number of words exceeded a maximum word limit determined by sampling from a truncated normal distribution:</p>
+<p><span class="math display">\[
+\mathcal{TN}(\mu, \sigma, a, b)
+\]</span></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><span class="math inline">\(\mu\)</span> – mean.<br>
+<span class="math inline">\(\sigma\)</span> – standard deviation.<br>
+<span class="math inline">\(a\)</span> – minimum nr of words.<br>
+<span class="math inline">\(b\)</span> – maximum nr of words.</p>
+</div></div><p>where <span class="math inline">\(\mu=270\)</span>, <span class="math inline">\(\sigma=110\)</span>, <span class="math inline">\(a=60\)</span>, <span class="math inline">\(b=330\)</span>. Generally each word is represented by an average of <span class="math inline">\(1.3\)</span> to <span class="math inline">\(1.4\)</span> tokens. Some of the concatenated texts will thus exceed the <span class="math inline">\(384\)</span> max sequence length of the model and be truncated. We imagine truncation will be common in real world usage as well, and the pretraining schemes of some language models such as BERT even included too long sequences for this very reason. Therefore we don’t regard the occasional truncation as an issue.</p>
+</section>
+<section id="new-models" class="level2">
+<h2 class="anchored" data-anchor-id="new-models">New models</h2>
+<p>We train two new models with <span class="math inline">\(384\)</span> max sequence length. The one called <strong>v1.1</strong> is trained with the same teacher model as our original <strong>v1.0</strong> model. The new default model called <strong>v2.0</strong> is trained with a more recently released teacher model <code>all-mpnet-base-v2</code> that is <a href="https://www.sbert.net/docs/pretrained_models.html">supposedly better</a>. An overview of available models and their differences are listed below.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th style="text-align: left;">Teacher Model</th>
+<th>Max Sequence Length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2">paraphrase-mpnet-base-v2</a></td>
+<td>256</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2">paraphrase-mpnet-base-v2</a></td>
+<td>384</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td style="text-align: left;"><a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2">all-mpnet-base-v2</a></td>
+<td>384</td>
+</tr>
+</tbody>
+</table>
+<style>
+table th:first-of-type {
+    width: 32%;
+}
+table th:nth-of-type(2) {
+    width: 36%;
+}
+table th:nth-of-type(3) {
+    width: 32%;
+}
+</style>
+<p>You can still access and use older version of the model with Huggingface via</p>
+<div id="4bb61f8d" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>AutoModel.from_pretrained(<span class="st">'KBLab/sentence-bert-swedish-cased'</span>, revision<span class="op">=</span><span class="st">"v1.0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>or with <code>sentence-transformers</code> by cloning the repository to your computer with</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="at">--depth</span> 1 <span class="at">--branch</span> v1.0 https://huggingface.co/KBLab/sentence-bert-swedish-cased</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and then pointing to that local folder when loading the model in:</p>
+<div id="1c183c59" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SentenceTransformer(<span class="st">"path_to_model_folder/sentence-bert-swedish-cased"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="training" class="level2">
+<h2 class="anchored" data-anchor-id="training">Training</h2>
+<p>The published models <strong>v1.1</strong>, and <strong>v2.0</strong> were first trained on datasets without concatenations for about 380k steps, since this was 4 times faster than training with longer texts mixed in. After 48 hours (380k steps), they were trained for another ~100k steps (48 hours) with longer paragraphs mixed in.</p>
+<p>Initially, training and convergence was very slow when using <code>all-mpnet-base-v2</code> as a teacher model. Our student model had difficulties and took much longer to converge to the same evaluation results compared to when it was trained with <code>paraphrase-mpnet-base-v2</code>. After some troubleshooting involving ablations such as:</p>
+<ul>
+<li>Training only with parallel sentences.</li>
+<li>Training with only longer paragraphs.</li>
+<li>Training with a mix.</li>
+<li>Repeating training with all the above configurations using <code>paraphrase-mpnet-base-v2</code> as a comparison.</li>
+</ul>
+<p>eventually we turned to carefully comparing both of the above teacher models for differences. We discovered that <code>all-mpnet-base-v2</code> has an <a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2/blob/main/modules.json">L2-normalization layer at the end</a> after pooling the embeddings. This normalization layer doesn’t involve any model parameters, it simply rescales the output vector based on the magnitude of its own values. We suspected this layer was making it harder for our student model to learn to output similar embeddings to the teacher model, as the student model now had to learn how to normalize a vector (a process that doesn’t involve model paramters) in addition to emulating the teacher model.</p>
+<p>We removed this normalization layer and replaced it with an <code>Identity()</code>-layer (returns the input without any manipulation). After this, the model converged much faster and the evaluation results improved.</p>
+</section>
+<section id="results-on-superlim" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="results-on-superlim">Results on SuperLim</h2>
+<p>To evaluate whether whether training with longer sequences improves model performance, we evaluated the model on two datasets using <a href="https://spraakbanken.gu.se/resurser/superlim">SuperLim</a>, a set of evaluation datasets for Swedish language models. An updated version <strong>v2.0</strong> of SuperLim is in the works, and will be released publicly once it is ready. We luckily had access to a development version of <strong>v2.0</strong>, and evaluated our models on both <strong>v1.0</strong> and <strong>v2.0</strong> of SuperLim.</p>
+<section id="sweparahrase-v1.0" class="level3">
+<h3 class="anchored" data-anchor-id="sweparahrase-v1.0">SweParahrase v1.0</h3>
+<p>The models were evaluated on SweParahrase and SweFAQ. Results from <strong>SweParaphrase v1.0</strong> are displayed below.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Pearson</th>
+<th>Spearman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>0.9183</td>
+<td>0.9114</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>0.9183</td>
+<td>0.9114</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td><strong>0.9283</strong></td>
+<td><strong>0.9130</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>v2.0</strong> of our model inches out a slight win when evaluated on <strong>SweParaphrase v1.0</strong>. However, it should be noted the test set is quite small in this version of SuperLim.</p>
+</section>
+<section id="sweparaphrase-v2.0" class="level3">
+<h3 class="anchored" data-anchor-id="sweparaphrase-v2.0">SweParaphrase v2.0</h3>
+<p>Below, we present zero-shot evaluation results on all data splits. They display the model’s performance out of the box, without any fine-tuning.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Data split</th>
+<th>Pearson</th>
+<th>Spearman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>train</td>
+<td>0.8355</td>
+<td>0.8256</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>train</td>
+<td><strong>0.8383</strong></td>
+<td><strong>0.8302</strong></td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>train</td>
+<td>0.8209</td>
+<td>0.8059</td>
+</tr>
+<tr class="even">
+<td>v1.0</td>
+<td>dev</td>
+<td>0.8682</td>
+<td>0.8774</td>
+</tr>
+<tr class="odd">
+<td>v1.1</td>
+<td>dev</td>
+<td><strong>0.8739</strong></td>
+<td><strong>0.8833</strong></td>
+</tr>
+<tr class="even">
+<td>v2.0</td>
+<td>dev</td>
+<td>0.8638</td>
+<td>0.8668</td>
+</tr>
+<tr class="odd">
+<td>v1.0</td>
+<td>test</td>
+<td>0.8356</td>
+<td>0.8476</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>test</td>
+<td><strong>0.8393</strong></td>
+<td><strong>0.8550</strong></td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>test</td>
+<td>0.8232</td>
+<td>0.8213</td>
+</tr>
+</tbody>
+</table>
+<p>In general, <strong>v1.1</strong>, the model trained using the same teacher model as the original model, but using longer texts, correlates the most with human assessment of text similarity on SweParaphrase v2.0.</p>
+</section>
+<section id="swefaq-v2.0" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="swefaq-v2.0">SweFAQ v2.0</h3>
+<p>When it comes to retrieval tasks, <strong>v2.0</strong> performs the best by quite a substantial margin. It is better at matching the correct answer to a question compared to v1.1 and v1.0. Notably <strong>v1.1</strong> performs better than <strong>v1.0</strong>, with the only difference between the two models being that longer parallel texts were included in the training of <strong>v1.1</strong>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model version</th>
+<th>Data split</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>v1.0</td>
+<td>train</td>
+<td>0.5262</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>train</td>
+<td>0.6236</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>train</td>
+<td><strong>0.7106</strong></td>
+</tr>
+<tr class="even">
+<td>v1.0</td>
+<td>dev</td>
+<td>0.4636</td>
+</tr>
+<tr class="odd">
+<td>v1.1</td>
+<td>dev</td>
+<td>0.5818</td>
+</tr>
+<tr class="even">
+<td>v2.0</td>
+<td>dev</td>
+<td><strong>0.6727</strong></td>
+</tr>
+<tr class="odd">
+<td>v1.0</td>
+<td>test</td>
+<td>0.4495</td>
+</tr>
+<tr class="even">
+<td>v1.1</td>
+<td>test</td>
+<td>0.5229</td>
+</tr>
+<tr class="odd">
+<td>v2.0</td>
+<td>test</td>
+<td><strong>0.5871</strong></td>
+</tr>
+</tbody>
+</table>
+<aside>
+Examples how to evaluate the newer model on some of the test sets of SuperLim v2.0 can be found on the following links: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_faq.py">evaluate_faq.py</a> (Swedish FAQ), <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_sweparaphrase.py">evaluate_sweparaphrase.py</a>
+</aside>
+</section>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>We gratefully acknowledge the HPC RIVR consortium (<a href="www.hpc-rivr.si">www.hpc-rivr.si</a>) and EuroHPC JU (<a href="eurohpc-ju.europa.eu">eurohpc-ju.europa.eu</a>) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (<a href="www.izum.si">www.izum.si</a>).</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="code-availability" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Code availability</h2><div class="quarto-appendix-contents">
+
+<p>The code used to train and evaluate KBLab’s Swedish Sentence BERT is available at https://github.com/kb-labb/swedish-sbert.</p>
+
+
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
+  author = {Rekathati, Faton},
+  title = {Swedish {Sentence} {Transformer} 2.0},
+  date = {2023-01-16},
+  url = {https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+Rekathati, Faton. 2023. <span>“Swedish Sentence Transformer 2.0.”</span>
+January 16, 2023. <a href="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/">https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2023-01-16-sentence-transformer-20/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Robin Kurtz">
+<meta name="author" content="Joey Öhman">
+<meta name="dcterms.date" content="2022-02-07">
+<meta name="description" content="We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT. We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner.">
+
+<title>SUCX 3.0 - NER – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">SUCX 3.0 - NER</h1>
+                  <div>
+        <div class="description">
+          <p>We present a remix of the venerable SUC 3.0 dataset for Swedish Named Entity Recognition (NER), and explore the effect of Hyper Parameter Optimization (HPO) for this task and dataset using our Swedish BERT model KB-BERT. We publish the data with a balanced train-development-test split using both manually and automatically annotated tags as a huggingface 🤗 dataset at https://huggingface.co/datasets/KBLab/sucx3_ner.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Affiliations</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/RobinQrtz">Robin Kurtz</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/JoeyOhman">Joey Öhman</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              AISweden, KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 7, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#data-splits" id="toc-data-splits" class="nav-link" data-scroll-target="#data-splits">Data Splits</a></li>
+  <li><a href="#variations" id="toc-variations" class="nav-link" data-scroll-target="#variations">Variations</a></li>
+  </ul></li>
+  <li><a href="#hyper-parameter-optimization" id="toc-hyper-parameter-optimization" class="nav-link" data-scroll-target="#hyper-parameter-optimization">Hyper-Parameter Optimization</a>
+  <ul class="collapse">
+  <li><a href="#baselines" id="toc-baselines" class="nav-link" data-scroll-target="#baselines">Baselines</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2022-02-07-sucx3_ner/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<div id="fig-ner" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ner-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ner.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A simple NER example with three entities of two types."><img src="images/ner.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ner-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: A simple NER example with three entities of two types.
+</figcaption>
+</figure>
+</div>
+<p>Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the <a href="https://spraakbanken.gu.se/en/resources/suc3">Stockholm Umeå Corpus (SUC)</a> has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. This enhanced version of the corpus is called <em>SUCX 3.0</em>. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a <a href="https://aclanthology.org/L14-1339/">rule-based NER system</a>, creating regular and predictable annotations. A comparison of the entity categories is given below.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Manually Annotated</th>
+<th>Automatically Annotated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>person</td>
+<td>PRS</td>
+</tr>
+<tr class="even">
+<td>place</td>
+<td>LOC</td>
+</tr>
+<tr class="odd">
+<td>inst</td>
+<td>ORG</td>
+</tr>
+<tr class="even">
+<td>work</td>
+<td>WRK</td>
+</tr>
+<tr class="odd">
+<td>product</td>
+<td>OBJ</td>
+</tr>
+<tr class="even">
+<td>animal</td>
+<td>PRS</td>
+</tr>
+<tr class="odd">
+<td>event</td>
+<td>EVN</td>
+</tr>
+<tr class="even">
+<td>myth</td>
+<td>PRS</td>
+</tr>
+<tr class="odd">
+<td>-</td>
+<td>MSR</td>
+</tr>
+<tr class="even">
+<td>-</td>
+<td>TME</td>
+</tr>
+<tr class="odd">
+<td>other</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>With large transformer language models (LM) such as <a href="https://arxiv.org/abs/1810.04805">BERT</a> becoming the de-facto standard for most NLP tasks, they have also shown their worth for somewhat simpler tasks such as NER.</p>
+<section id="data-splits" class="level3">
+<h3 class="anchored" data-anchor-id="data-splits">Data Splits</h3>
+<p>In order to compare the performance of various models, it is common in NLP practice to create a canonical split of the training data into training-, development-, and test-data, that everyone uses to train and evaluate their models to provide a fair comparison. While this practice comes with a <a href="https://aclanthology.org/P19-1267/">heap of problems</a>, it is nonetheless an easy way to quickly compare models with the same setup to give an intuition about their performance. We therefore split the SUC 3.0 corpus into these three parts at random, while keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.</p>
+<p>The original SUC 3.0 corpus uses XML to structure its various types of annotations. We use a much friendlier <code>json</code>-based format that only contains the sentence split into tokens, the POS annotations, and the NER annotations in the BIO format.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">e245ac6c-e24b4fe4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"I"</span><span class="ot">,</span> <span class="st">"dag"</span><span class="ot">,</span> <span class="st">"är"</span><span class="ot">,</span> <span class="st">"han"</span><span class="ot">,</span> <span class="st">"ingenjör"</span><span class="ot">,</span> <span class="st">"på"</span><span class="ot">,</span> <span class="st">"vetenskapsakademins"</span><span class="ot">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"kemisk-tekniska"</span><span class="ot">,</span> <span class="st">"institution"</span><span class="ot">,</span> <span class="st">"i"</span><span class="ot">,</span> <span class="st">"Vilnius"</span><span class="ot">,</span> <span class="st">"."</span> <span class="ot">]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"VB"</span><span class="ot">,</span> <span class="st">"PN"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"JJ"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"PM"</span><span class="ot">,</span> <span class="st">"MAD"</span> <span class="ot">]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"B-TME"</span><span class="ot">,</span> <span class="st">"I-TME"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"B-LOC"</span><span class="ot">,</span> <span class="st">"O"</span> <span class="ot">]</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The data and its variations can be downloaded either with <code>git</code> or directly as a huggingface 🤗 <code>dataset</code> here https://huggingface.co/datasets/KBLab/sucx3_ner.</p>
+</section>
+<section id="variations" class="level3">
+<h3 class="anchored" data-anchor-id="variations">Variations</h3>
+<p>The original annotations of SUC are sometimes criticized to be somewhat inconsistent compared with other datasets (should titles be included in the named entity: <em>kungen [Waldemar Atterdag]</em> vs.&nbsp;<em>[kung Carl Gustaf]</em>), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) <em>other</em> category. In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.</p>
+<p>In our first dataset variation we only take sentences with annotations, which do not contain the <em>other</em> category, and where the manual and automatic annotations match according to the mapping above. The new <em>measurement</em> (MSR) and <em>time</em> (TME) annotations are included as well. This means that this new dataset is somewhat smaller, as all sentences where the annotations did not match for each token are removed.</p>
+<section id="cased-and-uncased" class="level4">
+<h4 class="anchored" data-anchor-id="cased-and-uncased">Cased and Uncased</h4>
+<p>Due to the custom in Swedish (and a lot of other European languages), to write named entities with a leading capital letter, NER systems quickly learn to rely on this simple feature. This improves performance as it is a clear indicator, when the data consists of properly formatted text, but leads systems to near absolute failure, when the data does not use case, as is often the case in web-text resources or chat.</p>
+<p>We therefore also add a completely lower-cased (uncased) version of the dataset, and a cased-uncased-mixed version, that can be used to train and evaluate systems that are supposed to handle more noisy data. The new dataset variations uses the suffix “_lower” at the sentence-id, to indicate that the sentence has been lower-cased. This allows users that wish to train and/or evaluate a model on a dataset where each sentence exists twice, cased and uncased, by simply combining the instances of each dataset into a new one.</p>
+</section>
+</section>
+</section>
+<section id="hyper-parameter-optimization" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="hyper-parameter-optimization">Hyper-Parameter Optimization</h2>
+<p>While we already achieve good performance with our KB-BERT model finetuned to do NER, we want to see if this can be improved by choosing a different set of hyper-parameters. With Hyper-Parameter Optimization (HPO) methods we can test combinations of different values for a chosen set of hyper-parameters that we believe can impact the performance of our final NER system.</p>
+<section id="baselines" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="baselines">Baselines</h3>
+<p>First we use the standard set of parameters of the huggingface 🤗 training API to create our baselines. We refer to the manually annotated tags as <code>original</code> (<code>org</code>) and the automatically annotated ones as <code>simple</code>. The measurement used for NER is F1-score, a measure that combines (for each tag) both the precision (to annotate only when it truly is of some type) and recall (to annotate all instances of some type).</p>
+<p>Each column illustrates one setting of NER tag &amp; case type with batch size 64 and standard hyperparameters.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>org/cased</th>
+<th>org/uncased</th>
+<th>org/mixed</th>
+<th>simple/cased</th>
+<th>simple/uncased</th>
+<th>simple/mixed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F1-Dev</td>
+<td>0.8901</td>
+<td>0.8683</td>
+<td>0.866</td>
+<td>0.9359</td>
+<td>0.912</td>
+<td>0.9111</td>
+</tr>
+<tr class="even">
+<td>F1-Test</td>
+<td>0.8901</td>
+<td>0.867</td>
+<td>0.8687</td>
+<td>0.9346</td>
+<td>0.9017</td>
+<td>0.9118</td>
+</tr>
+</tbody>
+</table>
+<aside>
+Note that these experiments use a version for the <em>simple</em> tags that does not use BIO-encoding in combination with the NE-tags. The dataset we publish uses BIO-tags, which can be removed if necessary.
+</aside>
+<p>While there are many hyperparameters that one can vary, we only vary the learning rate, the weight decay, and the warmup ratio, three closely interconnected training parameters. The hyperparameter space that is shown below, was initially determined through inspiration from published related work and adapted after initial experiments.</p>
+<p>The <em>learning rate</em> controls how much parameters are changed at every optimization step. <em>Weight decay</em> denotes a parameter that controls the impact of the regularizing L<sub>2</sub>-norm, favouring models with weights closer to zero. Finally, the <em>warmup ratio</em> controls the length of a warmup period during training in which the learning rate is increased to its initial maximum, aiming to avoid instability during early updates when the model weights are not yet aligned and the learning rate is too large.</p>
+<p><strong>Original Hyperparameters:</strong></p>
+<pre class="text"><code>Learning Rate: 5e-5
+Weight Decay:  0.0
+Warmup Ratio:  0.0</code></pre>
+<p><strong>Hyperparameter Search Space:</strong></p>
+<pre class="text"><code>Learning Rate: [2e-5, 3e-5, ..., 8e-5]
+Weight Decay:  [0.00, 0.05, 0.10, 0.15]
+Warmup Ratio:  [0.00, 0.04, 0.08, 0.12]</code></pre>
+</section>
+<section id="methods" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="methods">Methods</h3>
+<p>Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other. Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way. For the HPO experiments we used the <a href="https://docs.ray.io/en/latest/tune/index.html"><code>ray tune</code></a> library, which is <a href="https://huggingface.co/blog/ray-tune">easily integrated</a> within the huggingface 🤗 ecosystem.</p>
+<p>But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search. The following figure illustrates some ways of visualizing the results of hyperparameter optimization, which is useful to gain intuition of the hyperparameter behaviors.</p>
+<div class="page-columns page-full">
+<div id="fig-hpo-overview" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-hpo-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/RS_simple_lowermix_overall.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset."><img src="images/RS_simple_lowermix_overall.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hpo-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>While more advanced methods such as <a href="https://arxiv.org/abs/1810.05934">ASHA</a>, <a href="https://arxiv.org/abs/1807.01774">BOHB</a>, and <a href="https://arxiv.org/abs/1711.09846">PBT</a> are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when choosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.</p>
+<section id="advanced-hpo-methods" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="advanced-hpo-methods">Advanced HPO Methods</h4>
+<p>The more advanced HPO algorithms excel in different settings and can provide more efficient optimization. For example, ASHA and BOHB are both scalable and robust and can rapidly search through a large hyperparameter space by heavily utilizing early termination of non-promising runs. Furthermore, Bayesian Optimization (BO) models estimate the objective function and can draw informed samples of hyperparameter configurations, yielding successively better samples throughout the HPO session. While BO and early stopping sound promising, they possess the most value with a large number of runs and when early iterations of training consistently indicate end-of-run performance. In our case, we used a limited number of runs and searched for hyperparameters that clearly do not benefit from early stopping. For instance, a low learning rate with a large warmup ratio might perform poorly after training only for an epoch but may result in good performance after the full run.</p>
+<p>The figure below demonstrates the early stopping behavior used in ASHA, terminating the lowest performing runs after roughly 2 epochs. Note that mechanisms as early stopping makes it difficult to visualize results and gain intuition about hyperparameters, as the final F1-scores become strongly biased towards runs that make it through the early phases of training.</p>
+<div class="page-columns page-full">
+<div id="fig-asha-original-lower" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-asha-original-lower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/ASHA_original_lower_f1.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset."><img src="images/ASHA_original_lower_f1.png" class="img-fluid figure-img column-body-outset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-asha-original-lower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>DeepMind’s PBT proved highly resource-demanding in our experiments and showed little to no performance gain. Increasing the population size and tweaking with other settings may yield a strong hyperparameter schedule if one has access to compute and wants to push the most out of a model/dataset. We did not investigate this further. Our experiments showed no significant advantage to using these advanced methods over random search.</p>
+<p>We also conducted some modest experiments tuning the attention dropout rate, hidden dropout rate, and random seed as well, together with the more advanced HPO methods. Those results indicated that we can squeeze out a small amount of performance through more intricate HPO, but the procedure becomes expensive and prone to overfitting on the validation set without observing any performance gains on the test set.</p>
+</section>
+</section>
+<section id="results" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<p>We report our results using random search with 30 trials training on both the <em>original</em> and <em>simple</em> tags. For each tag-family we train the taggers on cased, uncased, and a mixed data set, while evaluating on all three development and test sets plus an additional set where only the named entity has been lower-cased. The columns labelled <em>uncased-cased-both</em> and <em>ne-lower-cased-both</em> denote data sets, in which every sentence appears both cased and uncased.</p>
+<p>Most notably in these results is the performance of a system trained on regular <em>cased</em> data, when evaluated on <em>uncased</em> or partially lowercased data. At the same time we see that the system trained on a mix of cased and uncased data performs only slightly worse than their pure counterparts on the pure evaluation sets, while clearly outperforming them on the mixed evaluation sets.</p>
+<section id="development" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="development">Development</h4>
+<div class="column-body-outset">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 6%">
+<col style="width: 14%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag Family</th>
+<th>Trained on</th>
+<th>HPO Alg</th>
+<th>cased</th>
+<th>uncased</th>
+<th>uncased-cased-mix</th>
+<th>uncased-cased-both</th>
+<th>ne-lower</th>
+<th>ne-lower-cased-mix</th>
+<th>ne-lower-cased-both</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original</td>
+<td>cased</td>
+<td>RS</td>
+<td>0.8951</td>
+<td>0.4067</td>
+<td>0.7054</td>
+<td>0.6987</td>
+<td>0.4110</td>
+<td>0.7045</td>
+<td>0.6985</td>
+</tr>
+<tr class="even">
+<td>Original</td>
+<td>uncased</td>
+<td>RS</td>
+<td>0.7847</td>
+<td>0.8713</td>
+<td>0.8278</td>
+<td>0.8293</td>
+<td>0.8695</td>
+<td>0.8263</td>
+<td>0.8285</td>
+</tr>
+<tr class="odd">
+<td>Original</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>0.8821</td>
+<td>0.8573</td>
+<td>0.8702</td>
+<td>0.8698</td>
+<td>0.8504</td>
+<td>0.8671</td>
+<td>0.866</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>cased</td>
+<td>RS</td>
+<td>0.9345</td>
+<td>0.3037</td>
+<td>0.7035</td>
+<td>0.6974</td>
+<td>0.3038</td>
+<td>0.6995</td>
+<td>0.6941</td>
+</tr>
+<tr class="odd">
+<td>Simple</td>
+<td>uncased</td>
+<td>RS</td>
+<td>0.8361</td>
+<td>0.9157</td>
+<td>0.8753</td>
+<td>0.8774</td>
+<td>0.9154</td>
+<td>0.8754</td>
+<td>0.8773</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>0.9275</td>
+<td>0.9078</td>
+<td>0.9185</td>
+<td>0.9177</td>
+<td>0.9029</td>
+<td>0.9155</td>
+<td>0.9153</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="test" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="test">Test</h4>
+<div class="column-body-outset">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 6%">
+<col style="width: 14%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag Family</th>
+<th>Trained on</th>
+<th>HPO Alg</th>
+<th>cased</th>
+<th>uncased</th>
+<th>uncased-cased-mix</th>
+<th>uncased-cased-both</th>
+<th>ne-lower</th>
+<th>ne-lower-cased-mix</th>
+<th>ne-lower-cased-both</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original</td>
+<td>cased</td>
+<td>RS</td>
+<td>0.8978</td>
+<td>0.4053</td>
+<td>0.6940</td>
+<td>0.7000</td>
+<td>0.4103</td>
+<td>0.6924</td>
+<td>0.6998</td>
+</tr>
+<tr class="even">
+<td>Original</td>
+<td>uncased</td>
+<td>RS</td>
+<td>0.7811</td>
+<td>0.8656</td>
+<td>0.8248</td>
+<td>0.8245</td>
+<td>0.8649</td>
+<td>0.8245</td>
+<td>0.8242</td>
+</tr>
+<tr class="odd">
+<td>Original</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>0.8833</td>
+<td>0.8523</td>
+<td>0.8661</td>
+<td>0.8680</td>
+<td>0.8489</td>
+<td>0.8650</td>
+<td>0.8663</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>cased</td>
+<td>RS</td>
+<td>0.9304</td>
+<td>0.2963</td>
+<td>0.6940</td>
+<td>0.6929</td>
+<td>0.2902</td>
+<td>0.6879</td>
+<td>0.6861</td>
+</tr>
+<tr class="odd">
+<td>Simple</td>
+<td>uncased</td>
+<td>RS</td>
+<td>0.8299</td>
+<td>0.9075</td>
+<td>0.8687</td>
+<td>0.8702</td>
+<td>0.9074</td>
+<td>0.8685</td>
+<td>0.8702</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>0.9219</td>
+<td>0.8988</td>
+<td>0.9083</td>
+<td>0.9104</td>
+<td>0.8950</td>
+<td>0.9064</td>
+<td>0.9085</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="baselines-comparison" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="baselines-comparison">Baselines Comparison</h4>
+<p>In order to see how much HPO actually helps for this task we compare with our unoptimized baseline systems. Each column illustrates one setting of tag &amp; case type with the performance difference after HPO: <code>F1(HPO) - F1(baseline)</code></p>
+<div class="column-body-outset">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>org/cased</th>
+<th>org/uncased</th>
+<th>org/mixed</th>
+<th>simple/cased</th>
+<th>simple/uncased</th>
+<th>simple/mixed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F1-Dev</td>
+<td>+0.005</td>
+<td>+0.003</td>
+<td>+0.0042</td>
+<td>-0.0014</td>
+<td>+0.0037</td>
+<td>+0.0074</td>
+</tr>
+<tr class="even">
+<td>F1-Test</td>
+<td>+0.0077</td>
+<td>-0.0014</td>
+<td>-0.0026</td>
+<td>-0.0042</td>
+<td>+0.0058</td>
+<td>-0.0035</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values). One such hyperparameter might be the <em>warmup ratio</em>, given that the model is already stable and is only being finetuned to a relatively simple task. We speculate that a more consistent gain in validation set performance could be achieved by taking the stochastic elements into account, i.e.&nbsp;running each experiment with multiple seeds, which argues for the insignificance of the HPO results.</p>
+</section>
+<section id="successful-hyperparameters" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="successful-hyperparameters">Successful Hyperparameters</h4>
+<div class="column-body-outset">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 23%">
+<col style="width: 9%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag Family</th>
+<th>Trained on</th>
+<th>HPO Alg</th>
+<th>learning rate</th>
+<th>weight decay</th>
+<th>warmup ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original</td>
+<td>cased</td>
+<td>RS</td>
+<td>7e-05</td>
+<td>0.15</td>
+<td>0.04</td>
+</tr>
+<tr class="even">
+<td>Original</td>
+<td>uncased</td>
+<td>RS</td>
+<td>5e-05</td>
+<td>0.10</td>
+<td>0.08</td>
+</tr>
+<tr class="odd">
+<td>Original</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>8e-05</td>
+<td>0.15</td>
+<td>0.12</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>cased</td>
+<td>RS</td>
+<td>5e-05</td>
+<td>0.05</td>
+<td>0.04</td>
+</tr>
+<tr class="odd">
+<td>Simple</td>
+<td>uncased</td>
+<td>RS</td>
+<td>8e-05</td>
+<td>0.05</td>
+<td>0.04</td>
+</tr>
+<tr class="even">
+<td>Simple</td>
+<td>uncased-cased-mix</td>
+<td>RS</td>
+<td>6e-05</td>
+<td>0.05</td>
+<td>0.12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="models" class="level3">
+<h3 class="anchored" data-anchor-id="models">Models</h3>
+<p>We publish two models for our <em>simple</em> tags without BIO-encoding, trained on <a href="https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner">cased data</a> and <a href="https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner">mixed cased-uncased data</a> data for anyone to try, with more models to follow. If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data. Let us know how the models perform in your projects and how you improved them.</p>
+</section>
+</section>
+<section id="conclusion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.</p>
+<aside>
+The scripts to generate the <em>SUCX 3.0 - NER</em> data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/sucx3_ner.
+</aside>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>We gratefully acknowledge the HPC RIVR consortium (https://www.hpc-rivr.si) and EuroHPC JU (https://eurohpc-ju.europa.eu) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (https://www.izum.si).</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{kurtz2022,
+  author = {Kurtz, Robin and Öhman, Joey},
+  title = {SUCX 3.0 - {NER}},
+  date = {2022-02-07},
+  url = {https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kurtz2022" class="csl-entry quarto-appendix-citeas" role="listitem">
+Kurtz, Robin, and Joey Öhman. 2022. <span>“SUCX 3.0 - NER.”</span>
+February 7, 2022. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/">https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../images/kb_logo_text_black.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Contact: kblabb@kb.se"><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%" alt="Contact: kblabb@kb.se"></a></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2022-02-07-sucx3_ner/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

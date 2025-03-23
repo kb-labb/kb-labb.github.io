@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</title>
+
+  <meta property="description" itemprop="description" content="KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from &#10;parliamentary debates. The speeches have been aligned with transcripts from &#10;written protocols, and contain additional metadata such as the speaker&#39;s gender, &#10;electoral district and birth year. RixVox is open and free for everyone &#10;to download and use."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2023-03-09"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-03-09"/>
+  <meta name="article:author" content="Faton Rekathati"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from &#10;parliamentary debates. The speeches have been aligned with transcripts from &#10;written protocols, and contain additional metadata such as the speaker&#39;s gender, &#10;electoral district and birth year. RixVox is open and free for everyone &#10;to download and use."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"/>
+  <meta property="twitter:description" content="KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from &#10;parliamentary debates. The speeches have been aligned with transcripts from &#10;written protocols, and contain additional metadata such as the speaker&#39;s gender, &#10;electoral district and birth year. RixVox is open and free for everyone &#10;to download and use."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=The KBLab blog: Finding speeches in the riksdag’s debates;citation_author=Faton Rekathati"/>
+  <meta name="citation_reference" content="citation_title=Hearing voices at the national library – a speech corpus and acoustic model for the swedish language;citation_author=Martin Malmsten;citation_author=Chris Haffenden;citation_author=Love Börjeson"/>
+  <meta name="citation_reference" content="citation_title=Automatic annotation of speech: Exploring boundaries within forced alignment for swedish and norwegian;citation_publisher=Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology;citation_author=Klaudia Biczysko"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","bibliography","preview","output","editor_options"]}},"value":[{"type":"character","attributes":{},"value":["RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates"]},{"type":"character","attributes":{},"value":["KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from \nparliamentary debates. The speeches have been aligned with transcripts from \nwritten protocols, and contain additional metadata such as the speaker's gender, \nelectoral district and birth year. RixVox is open and free for everyone \nto download and use.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Faton Rekathati"]},{"type":"character","attributes":{},"value":["https://github.com/Lauler"]},{"type":"character","attributes":{},"value":["KBLab"]},{"type":"character","attributes":{},"value":["https://www.kb.se/in-english/research-collaboration/kblab.html"]}]}]},{"type":"character","attributes":{},"value":["2023-03-09"]},{"type":"character","attributes":{},"value":["references.bib"]},{"type":"character","attributes":{},"value":["rixvox_bg.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["chunk_output_type"]}},"value":[{"type":"character","attributes":{},"value":["console"]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["references.bib","rixvox_bg.png","rixvox-a-swedish-speech-corpus_files/anchor-4.2.2/anchor.min.js","rixvox-a-swedish-speech-corpus_files/bowser-1.9.3/bowser.min.js","rixvox-a-swedish-speech-corpus_files/distill-2.2.21/template.v2.js","rixvox-a-swedish-speech-corpus_files/header-attrs-2.20/header-attrs.js","rixvox-a-swedish-speech-corpus_files/jquery-3.6.0/jquery-3.6.0.js","rixvox-a-swedish-speech-corpus_files/jquery-3.6.0/jquery-3.6.0.min.js","rixvox-a-swedish-speech-corpus_files/jquery-3.6.0/jquery-3.6.0.min.map","rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/css/pagedtable.css","rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/js/pagedtable.js","rixvox-a-swedish-speech-corpus_files/popper-2.6.0/popper.min.js","rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy-bundle.umd.min.js","rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy-light-border.css","rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy.css","rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy.umd.min.js","rixvox-a-swedish-speech-corpus_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="rixvox-a-swedish-speech-corpus_files/header-attrs-2.20/header-attrs.js"></script>
+  <link href="rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/popper-2.6.0/popper.min.js"></script>
+  <link href="rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="rixvox-a-swedish-speech-corpus_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="rixvox-a-swedish-speech-corpus_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates","description":"KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from \nparliamentary debates. The speeches have been aligned with transcripts from \nwritten protocols, and contain additional metadata such as the speaker's gender, \nelectoral district and birth year. RixVox is open and free for everyone \nto download and use.","authors":[{"author":"Faton Rekathati","authorURL":"https://github.com/Lauler","affiliation":"KBLab","affiliationURL":"https://www.kb.se/in-english/research-collaboration/kblab.html","orcidID":""}],"publishedDate":"2023-03-09T00:00:00.000+01:00","citationText":"Rekathati, 2023"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>KBLab releases RixVox, a speech dataset comprised of 5500 hours of speech from
+parliamentary debates. The speeches have been aligned with transcripts from
+written protocols, and contain additional metadata such as the speaker’s gender,
+electoral district and birth year. RixVox is open and free for everyone
+to download and use.</p></p>
+</div>
+
+<div class="d-byline">
+  Faton Rekathati <a href="https://github.com/Lauler" class="uri">https://github.com/Lauler</a> (KBLab)<a href="https://www.kb.se/in-english/research-collaboration/kblab.html" class="uri">https://www.kb.se/in-english/research-collaboration/kblab.html</a>
+  
+<br/>2023-03-09
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#rixvox-dataset-statistics">RixVox dataset statistics</a>
+<ul>
+<li><a href="#most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</a></li>
+<li><a href="#longest-total-duration-speaker">Longest total duration speaker</a></li>
+</ul></li>
+<li><a href="#method-of-creation">Method of creation</a>
+<ul>
+<li><a href="#quality-filtering">Quality filtering</a></li>
+<li><a href="#forced-alignment">Forced alignment</a></li>
+<li><a href="#creating-30s-observation-snippets.">Creating 30s observation snippets.</a></li>
+<li><a href="#dataset-card">Dataset card</a></li>
+</ul></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</nav>
+</div>
+<p>Automatic Speech Recognition (ASR) systems that convert spoken language to text rely heavily on annotated data to produce the best possible results. Such datasets are unfortunately not widely available for Swedish. The combined total of currently available audio datasets with annotated transcripts for the Swedish language number somewhere in the hundreds of hours.</p>
+<p>To this end, KBLab releases Rixvox, a new Swedish ASR dataset consisting of <span class="math inline">\(5500\)</span> hours of speech. The data originates from parliamentary debates between the years of <span class="math inline">\(2003\)</span> to <span class="math inline">\(2023\)</span>, which were made available via the Swedish Parliament’s open data initiative. KBLab used written protocols to segment speeches from the debates, and to subsequently force align the the written transcripts with audio from the speeches. In addition to audio and transcripts, metadata such as the name, gender, birth year, political party, and electoral district of speakers is also available.</p>
+<p>RixVox is free and open for anyone to download and use. The dataset can be reached on the following link: <a href="https://huggingface.co/datasets/KBLab/rixvox" class="uri">https://huggingface.co/datasets/KBLab/rixvox</a> .</p>
+<h2 id="rixvox-dataset-statistics">RixVox dataset statistics</h2>
+<p>The RixVox dataset was constructed from parliamentary debates. You can read more about how we segmented speeches from debates and determined their precise start and end location within a debate in a previous article on this blog: “Finding Speeches in the Riksdag’s debates” <span class="citation" data-cites="rekathati2023finding">(<a href="#ref-rekathati2023finding" role="doc-biblioref">Rekathati 2023</a>)</span>.</p>
+<p>The dataset has chunked the audio from speeches in to smaller snippets suitable for training ASR models. Each observation is <em>up to</em> 30 seconds in length, and consists of either a single or several sentences from the written transcript of a speech, along with the corresponding audio. The dataset consists of a total of <span class="math inline">\(5493.6\)</span> hours of speech. There are <span class="math inline">\(1194\)</span> different speakers represented in the data. The average duration of an observation is <span class="math inline">\(23.68\)</span> seconds. In the table below, we present the distribution of observations of the different train, validation and test split of RixVox, along with some summary statistics for each split.</p>
+<div class="l-page">
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 15%" />
+<col style="width: 28%" />
+<col style="width: 27%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset Split</th>
+<th style="text-align: right;">Observations</th>
+<th style="text-align: right;">Total duration of speech (hours)</th>
+<th style="text-align: right;">Average duration obs. (seconds)</th>
+<th style="text-align: right;">Number of speakers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Train</td>
+<td style="text-align: right;">818227</td>
+<td style="text-align: right;">5383</td>
+<td style="text-align: right;">23.69</td>
+<td style="text-align: right;">1165</td>
+</tr>
+<tr class="even">
+<td>Validation</td>
+<td style="text-align: right;">7933</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">23.50</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td>Test</td>
+<td style="text-align: right;">8884</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">23.74</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The dataset splits were created by sampling speakers until a threshold was reached in terms of total duration of speech. For the training set, we randomly sampled speakers until <span class="math inline">\(98\%\)</span> of the total duration of the RixVox dataset was reached (<span class="math inline">\(5384\)</span> hours). For the test and validation set, we randomly sampled speakers until each filled up to a bucket of <span class="math inline">\(1\%\)</span> of the total duration of the entire dataset.</p>
+<p>Let’s also take a look at the gender distribution of speakers. We have <span class="math inline">\(602\)</span> men, <span class="math inline">\(519\)</span> women, and <span class="math inline">\(73\)</span> speakers for whom this metadata is missing.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Number"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"female","2":"519"},{"1":"male","2":"602"},{"1":"NA","2":"73"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Looking at the total duration of speech for each gender, we have a similar distribution to above. <span class="math inline">\(46.3\%\)</span> of the individual speakers were women, and <span class="math inline">\(44.3\%\)</span> of the total duration of speeches in RixVox is made up of women speaking.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Total duration (hours)"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"2361.15"},{"1":"male","2":"2967.57"},{"1":"NA","2":"164.92"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</h3>
+<p>Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab’s <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>. We then calculated the <a href="https://en.wikipedia.org/wiki/BLEU">BLEU score</a> to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there’s a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts.</p>
+<div class="l-body-outset">
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Electoral district"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Mean BLEU score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Std. dev. BLEU"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Number of speakers"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"NA","2":"0.6000797","3":"0.1252977","4":"NA"},{"1":"Jönköpings län","2":"0.5940009","3":"0.1277287","4":"37"},{"1":"Södermanlands län","2":"0.5935326","3":"0.1206110","4":"38"},{"1":"Uppsala län","2":"0.5929714","3":"0.1270916","4":"43"},{"1":"Västra Götalands läns södra","2":"0.5898193","3":"0.1230608","4":"20"},{"1":"Stockholms län","2":"0.5854009","3":"0.1268066","4":"137"},{"1":"Skåne läns norra och östra","2":"0.5853696","3":"0.1305330","4":"32"},{"1":"Jämtlands län","2":"0.5826683","3":"0.1252455","4":"17"},{"1":"Hallands län","2":"0.5820507","3":"0.1225573","4":"38"},{"1":"Kronobergs län","2":"0.5816702","3":"0.1067194","4":"20"},{"1":"Östergötlands län","2":"0.5810539","3":"0.1335815","4":"45"},{"1":"Göteborgs kommun","2":"0.5796593","3":"0.1256837","4":"60"},{"1":"Västra Götalands läns norra","2":"0.5787399","3":"0.1258094","4":"29"},{"1":"Stockholms kommun","2":"0.5767339","3":"0.1243611","4":"126"},{"1":"Västerbottens län","2":"0.5724071","3":"0.1149559","4":"36"},{"1":"Blekinge län","2":"0.5721980","3":"0.1351392","4":"15"},{"1":"Örebro län","2":"0.5699883","3":"0.1232872","4":"33"},{"1":"Kalmar län","2":"0.5664890","3":"0.1302711","4":"28"},{"1":"Skåne läns västra","2":"0.5648055","3":"0.1237373","4":"30"},{"1":"Västmanlands län","2":"0.5628068","3":"0.1415991","4":"30"},{"1":"Norrbottens län","2":"0.5624232","3":"0.1463259","4":"26"},{"1":"Dalarnas län","2":"0.5617315","3":"0.1218160","4":"41"},{"1":"Västra Götalands läns östra","2":"0.5575997","3":"0.1214828","4":"25"},{"1":"Värmlands län","2":"0.5571123","3":"0.1232013","4":"35"},{"1":"Västra Götalands läns västra","2":"0.5566830","3":"0.1549344","4":"38"},{"1":"Västernorrlands län","2":"0.5565349","3":"0.1585068","4":"27"},{"1":"Gävleborgs län","2":"0.5548522","3":"0.1156745","4":"30"},{"1":"Skåne läns södra","2":"0.5393078","3":"0.1289290","4":"49"},{"1":"Gotlands län","2":"0.5383960","3":"0.1534656","4":"7"},{"1":"Malmö kommun","2":"0.5338347","3":"0.1100739","4":"30"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>The speakers with the highest score are for those whom thedistrict is missing (<code>NA</code>). These are mostly government ministers who have never been members of parliament. The least intelligible electoral districts are southern Skåne, Gotland, and Malmö municipality (also southern Skåne).</p>
+<h3 id="longest-total-duration-speaker">Longest total duration speaker</h3>
+<p>Which speakers have spent the most time on the Riksdag Chamber’s podium? The table below shows that Morgan Johansson is the undisputed <span class="math inline">\(\#1\)</span> debater in terms of total duration of speech.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Party"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Total duration (hours)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Morgan Johansson","2":"S","3":"72.72"},{"1":"Jens Holm","2":"V","3":"61.79"},{"1":"Beatrice Ask","2":"M","3":"48.50"},{"1":"Anders Borg","2":"M","3":"47.91"},{"1":"Mikael Damberg","2":"S","3":"46.83"},{"1":"Tomas Eneroth","2":"S","3":"44.82"},{"1":"Magdalena Andersson","2":"S","3":"39.60"},{"1":"Peter Hultqvist","2":"S","3":"38.23"},{"1":"Per Bolund","2":"MP","3":"33.94"},{"1":"Monica Green","2":"S","3":"32.60"},{"1":"Anders Ygeman","2":"S","3":"31.61"},{"1":"Hillevi Larsson","2":"S","3":"31.57"},{"1":"Lena Hallengren","2":"S","3":"30.92"},{"1":"Göran Hägglund","2":"KD","3":"30.62"},{"1":"Ylva Johansson","2":"S","3":"30.36"},{"1":"Annika Strandhäll","2":"S","3":"29.15"},{"1":"Maud Olofsson","2":"C","3":"27.86"},{"1":"Ibrahim Baylan","2":"S","3":"27.51"},{"1":"Jan Björklund","2":"L","3":"27.14"},{"1":"Eva-Lena Jansson","2":"S","3":"26.82"},{"1":"Lars Tysklind","2":"L","3":"26.79"},{"1":"Sven Otto Littorin","2":"M","3":"26.61"},{"1":"Catharina Elmsäter-Svärd","2":"M","3":"26.59"},{"1":"Maria Larsson","2":"KD","3":"26.59"},{"1":"Roger Haddad","2":"L","3":"25.15"},{"1":"Börje Vestlund","2":"S","3":"24.95"},{"1":"Håkan Svenneling","2":"V","3":"24.10"},{"1":"Ulla Andersson","2":"V","3":"23.87"},{"1":"Jan Lindholm","2":"MP","3":"23.77"},{"1":"Ann Linde","2":"S","3":"23.46"},{"1":"Ola Johansson","2":"C","3":"23.44"},{"1":"Kerstin Lundgren","2":"C","3":"22.89"},{"1":"Gunnar Andrén","2":"L","3":"22.60"},{"1":"Margot Wallström","2":"S","3":"22.55"},{"1":"Patrik Björck","2":"S","3":"22.51"},{"1":"Sven-Erik Bucht","2":"S","3":"22.24"},{"1":"Eskil Erlandsson","2":"C","3":"22.04"},{"1":"Johan Hultberg","2":"M","3":"21.73"},{"1":"Isak From","2":"S","3":"21.68"},{"1":"Karin Rågsjö","2":"V","3":"21.42"},{"1":"Fredrik Malm","2":"L","3":"21.30"},{"1":"Thomas Morell","2":"SD","3":"20.81"},{"1":"Lars Beckman","2":"M","3":"20.57"},{"1":"Anna Johansson","2":"S","3":"20.34"},{"1":"Mats Odell","2":"KD","3":"20.21"},{"1":"Hillevi Engström","2":"M","3":"20.18"},{"1":"Finn Bengtsson","2":"M","3":"19.87"},{"1":"Isabella Lövin","2":"MP","3":"19.44"},{"1":"Nina Lundström","2":"L","3":"19.43"},{"1":"Ali Esbati","2":"V","3":"19.22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h2 id="method-of-creation">Method of creation</h2>
+<p>Before RixVox could be created, we needed to accurately segment speeches from debates. In other words: locate where the speech started and ended within the debate audio file. The most cumbersome parts of the preliminary work undertaken to segment speeches from debates is described in our previous article “Finding Speeches in the Riksdag’s Debates” <span class="citation" data-cites="rekathati2023finding">(<a href="#ref-rekathati2023finding" role="doc-biblioref">Rekathati 2023</a>)</span>. We recommend reading this article for background on the speech segmentation.</p>
+<h3 id="quality-filtering">Quality filtering</h3>
+<p>Once the speeches were segmented, the remaining work consisted of performing some quality filtering based on simple heuristics, aligning the written transcripts with the audio on a sentence level, adding metadata about the speakers, and finally converting the alignments to short snippets up to 30 seconds in length (a suitable format for training ASR models).</p>
+<p>The first round of quality filters applied on speeches can be found in the <a href="https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/heuristic_filter.py#L21-L45">following lines of code</a>. These include:</p>
+<ul>
+<li>We keep only speeches <span class="math inline">\(&gt; 25\)</span> seconds in duration as predicted by speaker diarization (see the linked article for context). The reliability of our speech segmentation method improves with speech length.</li>
+<li>We keep only speeches <span class="math inline">\(&gt; 15\)</span> seconds in duration as predicted by fuzzy string matching between machine transcription and official transcripts.</li>
+<li>We calculate a “length ratio”, which is the predicted duration of the speech by speaker diarization, divided by the predicted duration of the speech by fuzzy string matching. We only keep the speech if this length ratio is between <span class="math inline">\(0.8\)</span> and <span class="math inline">\(1.5\)</span>. Otherwise, we deem our two methods to be in too much of a disagreement.</li>
+<li>We calculate an “overlap ratio”, which is the “duration where speaker diarization and fuzzy string matching predictions overlap” divided by the total predicted duration of the fuzzy string matching method. If this ratio is <span class="math inline">\(&gt;0.8\)</span> we keep the speech.</li>
+<li>We only keep speeches where <span class="math inline">\(1\)</span> single speaker was identified as speaking within the predicted regions.</li>
+<li>We only keep speeches where the difference in predicted start time between a future and previous speech is <span class="math inline">\(&gt;5\)</span> seconds.</li>
+</ul>
+<p>The second round of quality filters were applied after another fuzzy string matching sanity check was performed. This time, instead of fuzzy string matching the text of a written transcript against the machine transcription of an entire debate, we fuzzy string match the text of the written transcript against the machine transcription of the segmented speech, as predicted by our speaker diarization. A short summary of the second round of quality filters follows:</p>
+<ul>
+<li>Removing speeches where the official written protocol starts matching the machine transcription only after a threshold of <span class="math inline">\(X\)</span> words in the machine transcribed version. This was a possible indication that the speech segmentation had predicted a <strong>too early</strong> start location for the speech, erroneously including parts of other speakers.<br />
+</li>
+<li>Removing speeches where the official written protocol stops matching hte machine transcription too early.</li>
+<li>We adjust the <span class="math inline">\(X\)</span> threshold based on different dates the debates were held on, and whether the debate was the first and/or the last speech of the debate (the first and last speeches of debates were more likely to be cut off in the middle of the speech before the year <span class="math inline">\(2012\)</span>).</li>
+</ul>
+<p>See the <a href="https://github.com/kb-labb/riksdagen_anforanden/blob/d0f066ed23b66eba55cc01c0b7cb5393db94e914/scripts/rixvox_filter.py#L28-L51">following lines of code</a> for a full list of the filtering conditions.</p>
+<p>The above filtering procedures reduced the number of speeches to be included in RixVox from about 122k speeches to 115k speeches.</p>
+<h3 id="forced-alignment">Forced alignment</h3>
+<p>Once we had high confidence in the remaining set of predictions, we proceeded to align the written protocols with the audio. This was done by:</p>
+<ol type="1">
+<li>Sentence tokenizing the written transcripts.</li>
+<li>Using the <a href="https://www.readbeyond.it/aeneas/"><code>aeneas</code> library</a> to force align the audio with the text on the sentence level.</li>
+</ol>
+<p>The <code>aeneas</code> library gives an output in the form of predicing the <code>start</code> and <code>end</code> location of the sentence within the speech.</p>
+<p>We can recommend reading the masters thesis <strong>“Automatic Annotation of Speech: Exploring Boundaries within Forced Alignment for Swedish and Norwegian”</strong> <span class="citation" data-cites="Biczysko1674281">(<a href="#ref-Biczysko1674281" role="doc-biblioref">Biczysko 2022</a>)</span> for an excellent review of available forced alignment tools for Swedish and Norwegian.</p>
+<h3 id="creating-30s-observation-snippets.">Creating 30s observation snippets.</h3>
+<p>In the final step, we concatenate sentences from the same speech that follow one another up to a maximum length of <span class="math inline">\(30\)</span> seconds per observation. The observations in RixVox are thus composed of either a single sentence, or several sentences in order within a speech up until the “bucket” fills up to the threshold of <span class="math inline">\(30\)</span> seconds.</p>
+<p>We remove the first sentence of each speech, as transcriptions tend to add a “Fru talman!” or “Herr Talman” here as a matter of formality, regardless of whether this was uttered by the speaker or not.</p>
+<h3 id="dataset-card">Dataset card</h3>
+<p>RixVox has <a href="https://huggingface.co/datasets/KBLab/rixvox">a dataset card</a> on Huggingface, where you can find more details about the dataset, its features, and how to download and use it. You can also preview the first 100 observations of the train, validation and test sets in <a href="https://huggingface.co/datasets/KBLab/rixvox/viewer/default/train">the dataset viewer</a>.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Part of this development work was carried out within the frame of the infrastructural project <a href="https://www.huminfra.se/">HUMINFRA</a>.</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="../2023-02-15-finding-speeches-in-the-riksdags-debates/huminfra.svg" width="50%" /></p>
+</div>
+</aside>
+<h2 class="appendix" id="code">Code</h2>
+<p>The code for reproducing results in this article can be found on <a href="https://github.com/kb-labb/riksdagen_anforanden" class="uri">https://github.com/kb-labb/riksdagen_anforanden</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Biczysko1674281" class="csl-entry" role="doc-biblioentry">
+Biczysko, Klaudia. 2022. <span>“Automatic Annotation of Speech: Exploring Boundaries Within Forced Alignment for Swedish and Norwegian.”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology.
+</div>
+<div id="ref-wav2vec2" class="csl-entry" role="doc-biblioentry">
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+</div>
+<div id="ref-rekathati2023finding" class="csl-entry" role="doc-biblioentry">
+Rekathati, Faton. 2023. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

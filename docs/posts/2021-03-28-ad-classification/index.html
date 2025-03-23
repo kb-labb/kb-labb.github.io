@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Faton Rekathati">
+<meta name="dcterms.date" content="2021-03-28">
+<meta name="description" content="The process of digitizing historical newspapers at the National Library of Sweden involves scanning physical copies of newspapers and storing them as images. In order to make the scanned contents machine readable and searchable, OCR (optical character recognition) procedures are applied. This results in a wealth of information being generated from different data modalities (images, text and OCR metadata). In this article we explore how features from multiple modalities can be integrated into a unified advertisement classifier model.">
+
+<title>A multimodal approach to advertisement classification in digitized newspapers – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="../../site_libs/react-18.2.0/react.min.js"></script>
+<script src="../../site_libs/react-18.2.0/react-dom.min.js"></script>
+<script src="../../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../../site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="../../site_libs/reactable-binding-0.4.4/reactable.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A multimodal approach to advertisement classification in digitized newspapers</h1>
+                  <div>
+        <div class="description">
+          <p>The process of digitizing historical newspapers at the National Library of Sweden involves scanning physical copies of newspapers and storing them as images. In order to make the scanned contents machine readable and searchable, OCR (optical character recognition) procedures are applied. This results in a wealth of information being generated from different data modalities (images, text and OCR metadata). In this article we explore how features from multiple modalities can be integrated into a unified advertisement classifier model.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/Lauler">Faton Rekathati</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 28, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#annotation-of-training-and-evaluation-sets" id="toc-annotation-of-training-and-evaluation-sets" class="nav-link" data-scroll-target="#annotation-of-training-and-evaluation-sets">Annotation of training and evaluation sets</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive statistics</a></li>
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features">Features</a></li>
+  </ul></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method</a>
+  <ul class="collapse">
+  <li><a href="#cnn-models" id="toc-cnn-models" class="nav-link" data-scroll-target="#cnn-models">CNN models</a></li>
+  <li><a href="#kb-bert" id="toc-kb-bert" class="nav-link" data-scroll-target="#kb-bert">KB-BERT</a></li>
+  <li><a href="#training-and-validation-split" id="toc-training-and-validation-split" class="nav-link" data-scroll-target="#training-and-validation-split">Training and validation split</a></li>
+  <li><a href="#metadata-features" id="toc-metadata-features" class="nav-link" data-scroll-target="#metadata-features">Metadata features</a></li>
+  <li><a href="#fc-classifier" id="toc-fc-classifier" class="nav-link" data-scroll-target="#fc-classifier">FC classifier</a></li>
+  <li><a href="#hyperparameters-optimizer-and-hardware" id="toc-hyperparameters-optimizer-and-hardware" class="nav-link" data-scroll-target="#hyperparameters-optimizer-and-hardware">Hyperparameters, optimizer and hardware</a></li>
+  </ul></li>
+  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and discussion</a>
+  <ul class="collapse">
+  <li><a href="#a-closer-look-at-predictions" id="toc-a-closer-look-at-predictions" class="nav-link" data-scroll-target="#a-closer-look-at-predictions">A closer look at predictions</a></li>
+  <li><a href="#models-without-positional-metadata-variables" id="toc-models-without-positional-metadata-variables" class="nav-link" data-scroll-target="#models-without-positional-metadata-variables">Models without positional metadata variables</a></li>
+  </ul></li>
+  <li><a href="#future-improvements" id="toc-future-improvements" class="nav-link" data-scroll-target="#future-improvements">Future improvements</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2021-03-28-ad-classification/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>The digital archives at The National Library of Sweden hold millions digitized of historical newspaper pages. Researchers accessing these collections for quantitative research purposes commonly inquire whether it is possible to search or filter the contents based on their research needs. One such request is to filter out all advertisement content in a query and select <em>only</em> the editorial content.</p>
+<p>While OCR digitizes the text in scanned images of newspaper pages, it is unfortunately not able to determine whether the text it has digitized is an article title, the body text of an article or an advertisement. Such contextual information is lost in the process of digitization. An important aspect of our work at KBLab is thus to develop automated methods to recover the information that is implicitly present in the structure and layout of newspaper pages, but cannot as of yet adequately be captured by digitization tools.</p>
+<p>A human reader looking at a newspaper page is generally able to distinguish advertisements from editorial content quickly and accurately at a glance. Advertisements tend to be visually distinct, featuring bright colorful designs, all capitalized text, large and distinctive fonts, and inverted text colors (light color text against dark backgrounds). A quick visual pass is therefore more often than not all that is required. Wherever any ambiguity persists, it can be resolved by reading a portion of the text. The presence of named commercial entities and logos along with advertisement-specific language tends to clear up any lingering uncertainty.</p>
+<p>Ideally, a machine learning model built to classify advertisements should be able to incorporate information from an array of <em>senses</em> similar to the ones we are using when making a determination. And since the way we classify content is through a combination of visual and contextual language clues, we aim for our model to do the same.</p>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective">Objective</h2>
+<p>Our objective with this article is to propose and evaluate an advertisement classifier trained as a single joint model using three diverse set of features: images, text and metadata. In order to further investigate the contribution of each component part of this model, ablation studies are performed where selected model components are omitted in the training.</p>
+</section>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The dataset consists of 35 sampled editions of the newspaper Svenska Dagbladet from 2017-03-29 to 2019-05-25 previously used for newspaper section classification <span class="citation" data-cites="rekathati">(<a href="#ref-rekathati" role="doc-biblioref">Rekathati, Hurtado Bodell, and Magnusson n.d.</a>)</span>. Stratified sampling was performed based on weekday, meaning 7 editions were randomly sampled for each day of the week (Monday, Tuesday, …) during the period.</p>
+<p>When OCR procedures are applied to newspaper page images they perform a segmentation of the contents of the page. <a href="#fig-subzone" class="quarto-xref">Figure&nbsp;1</a> below illustrates how the procedure may look like. The segmentation process first attempts to detect article zones (orange). The key word here is <em>attempts</em>, as it seldom is completely successful. Within the detected article zones it performs another pass to detect text blocks (blue) and image blocks (green). The unit of observation, i.e.&nbsp;the data we are going to train and predict on in this work, consists of the text and image blocks (blue and green boxes).</p>
+<div class="page-columns page-full">
+<div id="fig-subzone" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-subzone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/subzone.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: OCR segmentation of newspaper content results in identified blocks of text (blue) and images (green). These are the observational unit we are trying to classify as either editorial or advertisement content."><img src="images/subzone.png" class="img-fluid figure-img column-body-outset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-subzone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: OCR segmentation of newspaper content results in identified blocks of text (blue) and images (green). These are the observational unit we are trying to classify as either editorial or advertisement content.
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="annotation-of-training-and-evaluation-sets" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="annotation-of-training-and-evaluation-sets">Annotation of training and evaluation sets</h3>
+<p>The 35 sampled editions were manually annotated. Every observation (segmented text or image box) was assigned a label of either <code>ad</code> or <code>editorial</code>. Ads include sponsored, paid for and commercial content including advertisements for charity organizations and including the newspaper’s own campaigns for subscription services, wine tastings, workshops, etc. However, links and information referring readers to extra coverage of news stories online were annotated as <code>editorial</code>.</p>
+<p>A visual annotation tool was used to label the observations. This tool highlighted existing observations when the annotator hovered over them in an image. A label was assigned by clicking over the highlighted area. In order to annotate the data as efficiently as possible, the annotation task was divided in the following steps:</p>
+<ol type="1">
+<li>Perform a first pass over all pages in the sampled editions. If the whole page consists of editorial content, mark the entire page to be annotated as <code>editorial</code>. If the page consists of a full page ad, mark all the observations to be annotated as <code>ad</code>. If the page contains a mix of editorial and commercial content, mark the page as <code>mixed</code>.</li>
+<li>Perform a second pass over the pages tagged as <code>mixed</code>. In these pages all segmented boxes containing commercial content are annotated as <code>ad</code> using a visual annotation tool (see Figure <a href="#fig-annotation" class="quarto-xref">Figure&nbsp;2</a>) to the right.</li>
+<li>Programmatically assign all the remaining observations which are yet to receive a label to the class <code>editorial</code>.</li>
+</ol>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div id="fig-annotation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ad_annotationb.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Segmented boxes containing ads highlighted in red."><img src="images/ad_annotationb.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Segmented boxes containing <code>ads</code> highlighted in <strong>red</strong>.
+</figcaption>
+</figure>
+</div>
+</div></div><p>As a general rule this process was quick and yielded mostly accurate results. However, since the annotator was required to hover over an area of the picture for the segmented box to be highlighted, it was possible for some segmented boxes to go undetected and unlabeled in step 2 of the annotation procedure. A future more flexible and fool proof method of annotating would be to select the the entire area covered by ads and then later – if necessary – assign all segmented boxes which fall into that area to the corresponding class. We will likely switch to this annotation strategy in the future, as it works independently of whatever OCR software was used. That is, even if the OCR and its segmentation were to change, the annotations would still be valid. Labeling the area as opposed to the OCR boxes would further allow us to train object detection and semantic segmentation models.</p>
+</section>
+<section id="descriptive-statistics" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive statistics</h3>
+<p>The dataset was divided into a train and validation set using a time series split. The training set consisted of editions from <code>2017-04-08</code> to <code>2018-10-16</code>, and the validation set editions from <code>2019-01-08</code> to <code>2019-04-05</code>.</p>
+<p><a href="images/trainval_table.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/trainval_table.png" class="img-fluid"></a></p>
+<p>Most of the segmented boxes were identified as text boxes (around <span class="math inline">\(88\%\)</span>), whereas only roughly <span class="math inline">\(12\%\)</span> were detected as images by the OCR software. A quarter to a third of the content in the newspaper is ads.</p>
+<div class="page-columns page-full">
+<div id="fig-boxhist" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-boxhist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/boxes_hist.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: Histograms over the distribution of segmented boxes (i.e.&nbsp;observations) per newspaper page (Fig. 3a), and the distribution of character lengths over observations (Fig. 3b)"><img src="images/boxes_hist.jpg" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxhist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: Histograms over the distribution of segmented boxes (i.e.&nbsp;observations) per newspaper page (Fig. 3a), and the distribution of character lengths over observations (Fig. 3b)
+</figcaption>
+</figure>
+</div>
+</div>
+<p>The mean number of segmented boxer per newspaper page in the samples was 44. The majority of these boxes contained less than 50 characters of text all in all.</p>
+</section>
+<section id="features" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="features">Features</h3>
+<p>The majority of features used for classification were extracted from pretrained vision and language models. This feature extraction process is described in the method. Regular tabular features consisted of metadata relating to the segmented boxes. The OCR process logs positional information of each segmented box. In other words the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of the upper leftmost corner of the segmented box in terms of pixel position, as well as <code>width</code> extending rightwards from <span class="math inline">\((x, y)\)</span> as well as <code>height</code> extending downwards from <span class="math inline">\((x,y)\)</span>. Additionally, <code>weekday</code> (Monday, Tuesdary, …) was used as a categorical feature.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div id="fig-boxcoords" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxcoords-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/boxcoords.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;4: Metadata associated with a segmented box."><img src="images/boxcoords.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxcoords-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;4: Metadata associated with a segmented box.
+</figcaption>
+</figure>
+</div>
+</div></div></section>
+</section>
+<section id="method" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="method">Method</h2>
+<p>Three different neural networks are used to extract useful features from images and text. Their respective outputs are concatenated and connected in a fully connected (FC) classifier. Additional metadata features from the OCR process are also concatenated to the feature vector fed as input to this FC classifier. In particular, positional information is added, since CNNs are designed to be (approximately) invariant against translations (movement) of objects within an image. That is, they are designed to output similar activations regardless of where an object happens to appear in an image. However, for our advertisement model, we want it to be able to reason spatially.</p>
+<div id="fig-fullmodel" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fullmodel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ad_model.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5: The full advertisement classifier model. In the results section we remove and isolate certain components of the model to investigate the contribution of each part."><img src="images/ad_model.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fullmodel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5: The full advertisement classifier model. In the results section we remove and isolate certain components of the model to investigate the contribution of each part.
+</figcaption>
+</figure>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Model code can be found <a href="https://github.com/kb-labb/ad_classification/blob/8ab8c2d324c92650dc5baf9a592799f52ca98c52/src/models.py#L194-L248">here</a>.</p>
+</div></div><p>All model parameters in the above model are set to be trainable in each of the models. Thus, they are all jointly “fine tuned” for the classification task of detecting advertisements.</p>
+<section id="cnn-models" class="level3">
+<h3 class="anchored" data-anchor-id="cnn-models">CNN models</h3>
+<p>Two, initially identical, CNN models are trained side by side. One to extract features from a zoomed out “global” level, and the other to focus on learning “local” zoomed in features. The <strong>local</strong> CNN model takes as input images of the cropped segmentation boxes depicted in <a href="#fig-boxcoords" class="quarto-xref">Figure&nbsp;4</a> and <a href="#fig-subzone" class="quarto-xref">Figure&nbsp;1</a>. We crop the segmented boxes by using the available positional information: <span class="math inline">\((x, y)\)</span>, <code>width</code> and <code>height</code>. Thus, one such cropped image box exists for every observation in our dataset.</p>
+<p>The second CNN model, in contrast, receives an image of the entire newspaper page where the observation in question is located. Here, the rationale being that the context surrounding an observation is important in determining whether the observation is an or not. A consequence of this is that the same newspaper page image is passed as input to the model for however many segmented boxes exist on said page. Recall from the histograms in Figure <a href="#fig-boxhist" class="quarto-xref">Figure&nbsp;3</a>, that a mean of 44 segmented boxes (observations) exist for each newspaper page. Each time the <strong>global</strong> image is fed to the model, it is therefore paired with a different <strong>local</strong> segmented box however.</p>
+<p>The backbone model used for both CNNs is an Efficientnet-B2 <span class="citation" data-cites="Tan2019EfficientNetRM">(<a href="#ref-Tan2019EfficientNetRM" role="doc-biblioref">Tan and Le 2019</a>)</span> with pretrained Imagenet weights. The classification head is discarded and instead the output of the convolutional layers are captured. This output is a 1408-dimensional vector.</p>
+</section>
+<section id="kb-bert" class="level3">
+<h3 class="anchored" data-anchor-id="kb-bert">KB-BERT</h3>
+<p>Swedish BERT base <span class="citation" data-cites="swedish-bert">(<a href="#ref-swedish-bert" role="doc-biblioref">Malmsten, Börjeson, and Haffenden 2020</a>)</span> is applied as a feature extractor for any text associated with the segmented boxes. Commonly the embedding of the <code>[CLS]</code> token is extracted and used to fine tune models for downstream classification tasks <span class="citation" data-cites="bert">(<a href="#ref-bert" role="doc-biblioref">Devlin et al. 2018</a>)</span>. Here, we follow this procedure and extract the 768-dimensional embedding corresponding to the <code>[CLS]</code> token and concatenate it to the previously extracted image features.</p>
+<p>The observations in our data do not always have text content associated with them. Images, for example, have no OCR text fields. Segmented text detected in observations also vary in length all the way from single characters to series of paragraphs. In this work the maximum sequence length is set to 64. Padding is applied to the sequences of all observations whose number of tokens do not reach 64. This means that <code>[PAD]</code> tokens are added until we reach a sequence length of 64. Conversely, we truncate all observations exceeding a sequence length of 64 tokens.</p>
+<p>No preprocessing or cleaning of the text is performed. KB-BERT is a cased model. However, “cased” does not take into account all caps text as well as it does uncased text. In advertisements all caps text occur fairly common. The unrecognized tokens then often gets split up in many subtoken components or tokenized as <code>[UNK]</code> (unknown).</p>
+</section>
+<section id="training-and-validation-split" class="level3">
+<h3 class="anchored" data-anchor-id="training-and-validation-split">Training and validation split</h3>
+<p>A time series split was chosen for the train and validation sets. This decision was informed by two main reasons:</p>
+<ol type="1">
+<li>A simple random sample (SRS) of observations risked introducing test set leakage into the model. Since the global CNN model took the same image of the entire newspaper page as input multiple times, a SRS would have resulted in the same input data being exposed both to the train and validation sets.</li>
+<li>A time series split increases the difficulty of the prediction task. The model has to predict future data as opposed to data for which it has seem recent examples.</li>
+</ol>
+</section>
+<section id="metadata-features" class="level3">
+<h3 class="anchored" data-anchor-id="metadata-features">Metadata features</h3>
+<p>Only five variables were added from OCR metadata. Positional information: <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>; and the <code>weekday</code> which was treated as a categorical variable for which a separate embedding layer was created. Categorical variables can be treated similar to word/token embeddings in language models. We ask our model to learn useful embeddings for the weekdays, just like BERT learns token embeddings for its vocabulary.</p>
+<p>In the end a metadata feature vector of 7 dimensions was concatenated to the BERT and image features.</p>
+</section>
+<section id="fc-classifier" class="level3">
+<h3 class="anchored" data-anchor-id="fc-classifier">FC classifier</h3>
+<p>A fully connected classifier was built on top of the previously mentioned methods. The FC classifier consisted of a single hidden layer with 512 neurons. As input it took the <span class="math inline">\(1408+1408+768+7\)</span> features from images, text and metadata respectively. The hidden layer applied a ReLU activation and a dropout layer with a dropout fraction of <span class="math inline">\(0.3\)</span>. The last output layer was a single neuron with sigmoid activation and binary cross entropy loss.</p>
+</section>
+<section id="hyperparameters-optimizer-and-hardware" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameters-optimizer-and-hardware">Hyperparameters, optimizer and hardware</h3>
+<p>The Adam optimizer was used with an initial learning rate of 0.00002. This learning rate was decreased by a factor of 0.65 every epoch. Models were trained 2 to 8 epochs, depending on when validation performance was observed to level off. A batch size of 16 was used for the full model. The smaller models were trained with larger batch sizes, and in general the learning rate was adjusted higher with increasing batch size.</p>
+<p>All models were trained on a GeForce RTX 2080 TI. Total training time varied from circa 15 minutes for the smaller models to about 2 hours for the largest model.</p>
+</section>
+</section>
+<section id="results-and-discussion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and discussion</h2>
+<p>Results seem to indicate that all component models are useful. Some (global image features) provide a bigger boost than others, but all of them do contribute to a better overall performance of the full prediction model. The results displayed in the table below show that the full model reaches an accuracy of <span class="math inline">\(97.2\%\)</span>. The model’s sensitivity, the proportion of actual ads it detects and labels as <code>ad</code> is <span class="math inline">\(94.9\%\)</span>, whereas its specificity (proportion of actual editorial content it detects as <code>editorial</code>) reaches <span class="math inline">\(98.4\%\)</span>. We have used a decision threshold of <span class="math inline">\(0.5\)</span> to decide whether an observation should be classified as <code>ad</code> (<span class="math inline">\(&gt;0.5\)</span> gets classified as <code>ad</code>). Researchers using these results can themselves adjust the decision threshold to boost either specificity or sensitivity depending on what is most important to them. Most researchers likely want a high specificity, i.e.&nbsp;for the model to retain as much of the actual editorial content as possible.</p>
+<p>The <strong>CNN Global</strong> model was a particularly strong feature extractor. It seemingly was succesful in incorporating spatial information when generating predictions. Since this model only saw the entirety of the newspaper page as input, it should not be able to reason very well about the spatial position of ads. Its performance seems to suggest that either i) the metadata features allow the model to combine image features with spatial information, or ii) the CNN architecture is not entirely invariant to objects being appearing at different locations of an image (translation invariance).</p>
+<div class="column-page">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_feather</span>(<span class="st">"df_preds.feather"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>metrics_by_txtlength <span class="ot">&lt;-</span> <span class="cf">function</span>(txt_len,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                                 df, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                 preds_col, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                                 probs_col,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">decision_threshold =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">observation_type =</span> <span class="cn">NA</span>){</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(text_length <span class="sc">&gt;=</span> txt_len)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(observation_type)){</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(type <span class="sc">==</span> observation_type)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    observation_type <span class="ot">=</span> <span class="st">"All"</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  df[, preds_col] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  df[df[, probs_col] <span class="sc">&gt;</span> decision_threshold, preds_col] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  conf_mat <span class="ot">&lt;-</span> <span class="fu">table</span>(df <span class="sc">%&gt;%</span> <span class="fu">pull</span>(preds_col), df <span class="sc">%&gt;%</span> <span class="fu">pull</span>(label))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  conf_mat <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">confusionMatrix</span>(conf_mat, <span class="at">positive=</span><span class="st">"1"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">tibble</span>(<span class="at">accuracy =</span> conf_mat<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">sensitivity =</span> conf_mat<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">specificity =</span> conf_mat<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                <span class="at">threshold =</span> decision_threshold,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                <span class="at">text_length =</span> txt_len,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                <span class="at">model =</span> preds_col,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> observation_type))</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>preds_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"preds_bertgloballocal"</span>, <span class="st">"preds_bertglobal"</span>, <span class="st">"preds_global"</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"preds_local"</span>, <span class="st">"preds_bertlocal"</span>, <span class="st">"preds_bert"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>probs_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"probs_bertgloballocal"</span>, <span class="st">"probs_bertglobal"</span>, <span class="st">"probs_global"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                <span class="st">"probs_local"</span>, <span class="st">"probs_bertlocal"</span>, <span class="st">"probs_bert"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>observation_type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">"Image"</span>, <span class="st">"Text"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(observation_type) <span class="sc">*</span> <span class="fu">length</span>(preds_col))</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (type <span class="cf">in</span> observation_type){</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    res[[i]] <span class="ot">&lt;-</span> <span class="fu">metrics_by_txtlength</span>(<span class="at">txt_len=</span><span class="dv">0</span>,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                                   df, </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">preds_col =</span> preds_col[j], </span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">probs_col =</span> probs_col[j],</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">decision_threshold =</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">observation_type =</span> type)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>df_table <span class="ot">&lt;-</span> <span class="fu">do.call</span>(bind_rows, res)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>df_table[<span class="st">"model"</span>] <span class="ot">&lt;-</span> <span class="fu">recode</span>(df_table<span class="sc">$</span>model, </span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_bertgloballocal =</span> <span class="st">"Full model"</span>,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_bertglobal =</span> <span class="st">"Bert + Global"</span>,</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_global =</span> <span class="st">"Global"</span>,</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_local =</span> <span class="st">"Local"</span>,</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_bertlocal =</span> <span class="st">"Bert + Local"</span>,</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>                             <span class="at">preds_bert =</span> <span class="st">"Bert"</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">reactable</span>(df_table <span class="sc">%&gt;%</span> <span class="fu">select</span>(model, accuracy, sensitivity, specificity, type),</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>          <span class="at">defaultSorted =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"accuracy"</span>),</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>          <span class="at">highlight =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>          <span class="at">defaultPageSize =</span> <span class="dv">9</span>,</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>          <span class="co"># searchable = TRUE,</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>          <span class="at">columns =</span> <span class="fu">list</span>(</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>            <span class="at">model =</span> <span class="fu">colDef</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"Model"</span>),</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>            <span class="at">accuracy =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Accuracy"</span>,</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>                             <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>                             <span class="at">defaultSortOrder =</span> <span class="st">"desc"</span>),</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>            <span class="at">sensitivity =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Sensitivity"</span>,</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>                             <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">digits =</span> <span class="dv">3</span>)),</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>            <span class="at">specificity =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Specificity"</span>,</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>                             <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">digits =</span> <span class="dv">3</span>)),</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>            <span class="at">type =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Data subset"</span>,</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>                             <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">digits =</span> <span class="dv">3</span>))</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>          <span class="at">rowStyle =</span> <span class="fu">JS</span>(<span class="st">"function(rowInfo) {</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="st">                            if (rowInfo.row['model'] == 'Full model') {</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="st">                              return { background: 'rgba(0, 0, 0, 0.05)' }</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="st">                            }</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="st">                          }"</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>           ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-cc480f5e820a6436fddb" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cc480f5e820a6436fddb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"model":["Full model","Full model","Full model","Bert + Global","Bert + Global","Bert + Global","Global","Global","Global","Local","Local","Local","Bert + Local","Bert + Local","Bert + Local","Bert","Bert","Bert"],"accuracy":[0.972276523902612,0.949012402388608,0.975720892274211,0.965582607665423,0.930179145613229,0.970824265505985,0.946981813873586,0.90767110702802,0.952801958650707,0.903145548249511,0.7859439595774,0.920497823721436,0.899532018245365,0.78961874138723,0.915805223068553,0.857176707541022,0.62379421221865,0.891730141458107],"sensitivity":[0.949216732656223,0.943022295623452,0.950848194867334,0.941297985883973,0.930635838150289,0.944106133101348,0.871922878292305,0.85962014863749,0.875163114397564,0.798588397314512,0.761354252683732,0.808394954327969,0.821483904286452,0.783649876135425,0.83144845585037,0.703907729385436,0.528488852188274,0.750108742931709],"specificity":[0.984375,0.956521739130435,0.98703740352266,0.978323699421965,0.929606625258799,0.982980407678607,0.986361994219653,0.967908902691511,0.988125865822284,0.958002167630058,0.816770186335404,0.971502077973481,0.94048049132948,0.797101449275362,0.954185632297645,0.937590317919075,0.743271221532091,0.956164654660598],"type":["All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text","All","Image","Text"]},"columns":[{"id":"model","name":"Model","type":"character"},{"id":"accuracy","name":"Accuracy","type":"numeric","defaultSortDesc":true,"format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"sensitivity","name":"Sensitivity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"specificity","name":"Specificity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"type","name":"Data subset","type":"character","format":{"cell":{"digits":3},"aggregated":{"digits":3}}}],"defaultSorted":[{"id":"type","desc":false},{"id":"accuracy","desc":true}],"defaultPageSize":9,"highlight":true,"rowStyle":"function(rowInfo) {\n                            if (rowInfo.row['model'] == 'Full model') {\n                              return { background: 'rgba(0, 0, 0, 0.05)' }\n                            }\n                          }","dataKey":"8b5fcd38f5139ab28690ef6b1a72e68a"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.rowStyle"],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<p>In general specificity is higher than sensitivity. This can be seen as a positive trait of all models as researchers tend to care more about the model retaining as much editorial content as possible (even if this means some ads slip through). Specificity also tends to increase with when more text is available in the segmented OCR box. Most long text sequences tend to be paragraphs from editorial content. It is comparatively rare for ads to feature long cohesive text paragraphs. The models also generally perform better on text data as opposed to image data.</p>
+<p>Upon further inspection of the model predictions, it became apparent that about one third to one half of the faulty predictions were in fact cases where the annotator had mislabeled examples. Most annotation mistakes occurred as a result of not finding all segmented advertisement boxes on a given page. This was in part due to annotator error, but in part – we discovered – also because it was not possible to highlight some of the smaller segmented boxes with the annotation tool.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>metrics_list <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">6</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(metrics_list)){</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  metrics_list[[i]] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="at">.x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">500</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">df =</span> df,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">.f =</span> metrics_by_txtlength,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">preds_col =</span> preds_col[j], </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">probs_col =</span> probs_col[j],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">decision_threshold =</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">observation_type =</span> <span class="cn">NA</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>df_metrics <span class="ot">&lt;-</span> <span class="fu">do.call</span>(bind_rows, metrics_list)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>df_metrics <span class="ot">&lt;-</span> df_metrics <span class="sc">%&gt;%</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(model, <span class="st">"preds_"</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">model =</span> <span class="fu">recode</span>(model,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"bertgloballocal"</span> <span class="ot">=</span> <span class="st">"full_model"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"bertglobal"</span> <span class="ot">=</span> <span class="st">"bert + global"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"bertlocal"</span> <span class="ot">=</span> <span class="st">"bert + local"</span>))</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_metrics, <span class="fu">aes</span>(<span class="at">x =</span> text_length, </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> sensitivity, </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                             <span class="at">color =</span> model,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                             <span class="at">linetype =</span> model,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> model)) <span class="sc">+</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_metrics[df_metrics<span class="sc">$</span>text_length <span class="sc">==</span> <span class="dv">0</span>, ],</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.7</span>, </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"full_model"</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"bert + global"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"global"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"bert + local"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"local"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"bert"</span> <span class="ot">=</span> <span class="dv">1</span>),</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span> </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"full_model"</span> <span class="ot">=</span> <span class="st">"grey10"</span>, <span class="st">"bert + global"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"global"</span> <span class="ot">=</span> <span class="st">"steelblue2"</span>, <span class="st">"bert + local"</span> <span class="ot">=</span> <span class="st">"firebrick"</span>, </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"local"</span> <span class="ot">=</span> <span class="st">"firebrick2"</span>, <span class="st">"bert"</span> <span class="ot">=</span> <span class="st">"orange"</span>),</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_manual</span>(<span class="at">values =</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, <span class="dv">6</span>),</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span> </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"&gt;= Character Length"</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Sensitivity"</span>, </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Proportion of actual advertisement content detected (sensitivity) </span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="st">evaluated on all observations equal to or greater than the character length"</span>,</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Model"</span>,</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">linetype =</span> <span class="st">"Model"</span>) <span class="sc">+</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size=</span><span class="fl">0.3</span>))) <span class="sc">+</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_metrics, <span class="fu">aes</span>(<span class="at">x =</span> text_length, </span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> specificity, </span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>                             <span class="at">color =</span> model,</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>                             <span class="at">linetype =</span> model,</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> model)) <span class="sc">+</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_metrics[df_metrics<span class="sc">$</span>text_length <span class="sc">==</span> <span class="dv">0</span>, ],</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.7</span>, </span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"full_model"</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"bert + global"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"global"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"bert + local"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"local"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"bert"</span> <span class="ot">=</span> <span class="dv">1</span>),</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>                        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span> </span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"full_model"</span> <span class="ot">=</span> <span class="st">"grey10"</span>, <span class="st">"bert + global"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, </span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"global"</span> <span class="ot">=</span> <span class="st">"steelblue2"</span>, <span class="st">"bert + local"</span> <span class="ot">=</span> <span class="st">"firebrick"</span>, </span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"local"</span> <span class="ot">=</span> <span class="st">"firebrick2"</span>, <span class="st">"bert"</span> <span class="ot">=</span> <span class="st">"orange"</span>),</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_manual</span>(<span class="at">values =</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, <span class="dv">6</span>),</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"full_model"</span>, <span class="st">"bert + global"</span>, <span class="st">"global"</span>, <span class="st">"bert + local"</span>,</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"local"</span>, <span class="st">"bert"</span>)) <span class="sc">+</span> </span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"&gt;= Character Length"</span>,</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Specificity"</span>, </span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Proportion of actual editorial content detected (specificity) </span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="st">evaluated on all observations equal to or greater than the character length"</span>,</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Model"</span>,</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>       <span class="at">linetype =</span> <span class="st">"Model"</span>) <span class="sc">+</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size=</span><span class="fl">0.3</span>))) <span class="sc">+</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="page-columns page-full">
+<div id="fig-charlength" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-charlength-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/charlength-1.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;6: The plots above display the sensitivity and specificity respectively for all observations of equal or greater length than the specified character length on the x-axis. In general researchers tend to be interested in conducting research on editorial content. Detecting and assigning correct labels to actual editorial content (specificity) is therefore of importance."><img src="images/charlength-1.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-charlength-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;6: The plots above display the sensitivity and specificity respectively for all observations of equal or greater length than the specified character length on the x-axis. In general researchers tend to be interested in conducting research on editorial content. Detecting and assigning correct labels to actual editorial content (specificity) is therefore of importance.
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="a-closer-look-at-predictions" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="a-closer-look-at-predictions">A closer look at predictions</h3>
+<p>The majority of predictions made by the <strong>full model</strong> are accurate. Below is an example where ads and editorial content are mixed on the same newspaper page.</p>
+<div style="width: 230px;">
+<img src="images/pred_good_pageb.jpg" onmouseover="this.src='images/pred_goodb.jpg'" onmouseout="this.src='images/pred_good_pageb.jpg'">
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Tip:</strong> Hover over the image with your mouse to view the model’s predictions.</p>
+<p><code>Ad</code> (<strong>red</strong>)</p>
+<p><code>Editorial</code> (<strong>yellow</strong>)</p>
+</div></div><p>Our multimodal advertisment classifier did not have much trouble separating the ads on the right side from the editorial content on the left. It made only a handful of small mistakes.</p>
+<p>Next, we chose to display predictions on a page where our <strong>full model</strong> performed uncharacteristically poorly. These predictions can be seen in Figure <a href="#fig-predictions" class="quarto-xref">Figure&nbsp;7</a> below. The example also works great to display how the global image features model manages to spatially reason about the location of advertisements on a page.</p>
+<div class="page-columns page-full">
+<div id="fig-predictions" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/predictionsb.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;7: The predictions of three different models. Ad (red) and editorial (yellow). The global image features model seems to be able to incorporate spatial information in its predictions. Possibly from the metadata features that were added, but possibly also from learning specific ads-on-the-right-side or ads-on-the-left-side type of neuron signals whenever certain parts of the image has lots of color and images."><img src="images/predictionsb.jpg" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;7: The predictions of three different models. <code>Ad</code> (<strong>red</strong>) and <code>editorial</code> (<strong>yellow</strong>). The global image features model seems to be able to incorporate spatial information in its predictions. Possibly from the metadata features that were added, but possibly also from learning specific <strong>ads-on-the-right-side</strong> or <strong>ads-on-the-left-side</strong> type of neuron signals whenever certain parts of the image has lots of color and images.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>The Global image features model occasionally displays problematic behavior when paired up with the BERT model. We haven’t been able to figure out exactly why, but the combination of these two models occasionally seems to cause confusion in spatial reasoning. From all of the individual component models, we see that the Global image feature model is the one most unsure in its predictions about whether the editorial article paragraphs are actually editorial content. This uncertainty gets magnified for some reason when it is paired up with Bert. Further studies would be useful to investigate what causes this behavior. An especially interesting approach would be to feed parts of pages as input to the network as opposed to the entire page (expanding the area around the existing observation and cropping more of it).</p>
+<p>Advertisement observations generally exhibit strong spatial correlation, as do editorial content. <code>Ad</code> observations tend to be found close to other <code>ad</code> observations, and vice versa. Thus we want to incorporate information from the area surrounding any given observation, while at the same time potentially tempering any potential problematic behavior from including an entire newspaper page. Either case, the occasional spatial confusion of the <strong>global</strong> model warrants further study.</p>
+<div class="page-columns page-full">
+<div id="fig-predexample1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-predexample1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/pred_example1.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;8: Example of output confidence score of the different component models in classifying a given observation to the class ad."><img src="images/pred_example1.jpg" class="img-fluid figure-img column-body-outset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predexample1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;8: Example of output confidence score of the different component models in classifying a given observation to the class <code>ad</code>.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>We can see that the combination of <strong>BERT+Global</strong> sometimes causes inconsistent and problematic predictions. All predictions displayed in <a href="#fig-predexample1" class="quarto-xref">Figure&nbsp;8</a> and <a href="#fig-predexample2" class="quarto-xref">Figure&nbsp;9</a> belong to the <code>editorial</code> class. However, the BERT+Global model confidently predicts them all as <code>ad</code> despite its two component models’ scores being below 0.5 for all observations.</p>
+<div class="page-columns page-full">
+<div id="fig-predexample2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-predexample2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/pred_example2.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;9: Model score for predicting ad."><img src="images/pred_example2.jpg" class="img-fluid figure-img column-body-outset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predexample2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;9: Model score for predicting <code>ad</code>.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="models-without-positional-metadata-variables" class="level3">
+<h3 class="anchored" data-anchor-id="models-without-positional-metadata-variables">Models without positional metadata variables</h3>
+<p>Were the positional metadata features at all useful for model prediction? An easy way to investigate is by checking the BERT model’s predictions on images. BERT should not be able to predict images without metadata features. In fact, we can see in the table below that BERT without positional metadata features resorts to predicting <code>editorial</code> for every single image it encounters. This makes sense as <code>editorial</code> is the majority class. When faced with a complete absence of useful information, the model defaults to guessing the most frequently occurring outcome. The distribution of predictions of the BERT model with and without metadata features is as follows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-d4766a735493d7969da6" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d4766a735493d7969da6">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Type":["Image","Image","Text","Text"],"Bert":[1289,888,10812,3892],"Bert_no_pos":[2177,0,10694,4010],"Prediction":["Editorial","Advertisment","Editorial","Advertisement"]},"columns":[{"id":"Type","name":"Type","type":"character"},{"id":"Bert","name":"Bert","type":"numeric"},{"id":"Bert_no_pos","name":"Bert_no_pos","type":"numeric"},{"id":"Prediction","name":"Prediction","type":"character"}],"dataKey":"6bb38ac85edd26415ac2729ddf180127"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Similarly, the <em>global</em> CNN model should have trouble knowing what to predict when it is fed the same image of the entire newspaper page as input for every observation within a page. The performance does deteriorate somewhat, but it still performs surprisingly well in away that is quite difficult to explain.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-9d9f9ba2689184054327" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9d9f9ba2689184054327">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"model":["global","global_nm"],"accuracy":[0.946981813873586,0.924708251880813],"sensitivity":[0.871922878292305,0.84592873127905],"specificity":[0.986361994219653,0.966040462427746],"type":["All","All"]},"columns":[{"id":"model","name":"Model","type":"character"},{"id":"accuracy","name":"Accuracy","type":"numeric","defaultSortDesc":true,"format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"sensitivity","name":"Sensitivity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"specificity","name":"Specificity","type":"numeric","format":{"cell":{"digits":3},"aggregated":{"digits":3}}},{"id":"type","name":"Data subset","type":"character","format":{"cell":{"digits":3},"aggregated":{"digits":3}}}],"dataKey":"062ded35810846d69c8e181c3f562a89"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="future-improvements" class="level2">
+<h2 class="anchored" data-anchor-id="future-improvements">Future improvements</h2>
+<p>The most obvious avenue for improvement is switching over to an alternate annotation method where we label the <em>area</em> covered by ads as opposed to explicitly labeling the OCR segmentation boxes. First and foremost because it is quicker and less error prone, but also because the OCR segmentation boxes can indirectly be annotated once we have <em>area</em> annotations. We can check whether the area of the OCR segmentation intersects with the labeled advertisement area beyond some threshold. Furthermore, a changed annotation approach allows for more flexibility in model choice. It opens up opportunities for applying object detection and semantic segmentation models.</p>
+<p>Another easy way to boost the score of the model is to perform some post processing of the predictions. If an <code>editorial</code> prediction is completely surrounded by advertisement predictions, it is quite likely that the <code>editorial</code> prediction label was mistaken. Same goes for <code>ad</code> predictions surrounded on all sides by <code>editorials</code>. Simple postprocessing of can probably yield a boost in predictive performance.</p>
+<p>Finally, the ultimate advertisement model should be context aware, much like modern transformer-based language models. Currently, we crudely incorporate the context by supplying an image of the entire page as input to one of the CNN models. This can most likely be improved via some kind of a self-attention approach applied on the image embeddings of observations within a newspaper page.</p>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<p>Code (without data) can be found at https://github.com/kb-labb/ad_classification .</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bert" class="csl-entry" role="listitem">
+Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. <span>“<span>BERT:</span> Pre-Training of Deep Bidirectional Transformers for Language Understanding.”</span> <em>CoRR</em> abs/1810.04805. <a href="http://arxiv.org/abs/1810.04805">http://arxiv.org/abs/1810.04805</a>.
+</div>
+<div id="ref-swedish-bert" class="csl-entry" role="listitem">
+Malmsten, Martin, Love Börjeson, and Chris Haffenden. 2020. <span>“Playing with Words at the National Library of Sweden – Making a Swedish BERT.”</span> <a href="https://arxiv.org/abs/2007.01658">https://arxiv.org/abs/2007.01658</a>.
+</div>
+<div id="ref-rekathati" class="csl-entry" role="listitem">
+Rekathati, Faton, Miriam Hurtado Bodell, and Måns Magnusson. n.d. <span>“Efficient Annotation of Newspaper Sections.”</span>
+</div>
+<div id="ref-Tan2019EfficientNetRM" class="csl-entry" role="listitem">
+Tan, Mingxing, and Quoc V. Le. 2019. <span>“EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks.”</span> In <em>ICML</em>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2021,
+  author = {Rekathati, Faton},
+  title = {A Multimodal Approach to Advertisement Classification in
+    Digitized Newspapers},
+  date = {2021-03-28},
+  url = {https://kb-labb.github.io/posts/2021-03-28-ad-classification/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2021" class="csl-entry quarto-appendix-citeas" role="listitem">
+Rekathati, Faton. 2021. <span>“A Multimodal Approach to Advertisement
+Classification in Digitized Newspapers.”</span> March 28, 2021. <a href="https://kb-labb.github.io/posts/2021-03-28-ad-classification/">https://kb-labb.github.io/posts/2021-03-28-ad-classification/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../images/kb_logo_text_black.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Contact: kblabb@kb.se"><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%" alt="Contact: kblabb@kb.se"></a></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2021-03-28-ad-classification/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

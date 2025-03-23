@@ -1,0 +1,31 @@
+---
+title: "KBLab's director Love Börjeson nominated as AI Swede of the year 2021"
+description: |
+  We are very pleased to announce that our director Love Börjeson has been nominated for the prestigious prize Årets AI Svensk 2021 (AI Swede of the year 2021) which is awarded by TechSverige.
+author:
+  - name: Elena Fano
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+image: ai_swede.jpg
+date: 2021-11-15
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+### About TechSverige
+From their own [website](https://www.techsverige.se/):  
+"TechSverige is a member organization for companies of all sizes within the tech sector, that wish to join the largest industry network in Sweden in order to promote and further develop the tech market and conditions for tech enterprises. We represent about 1 400 member companies that between them have nearly 100 000 employees."
+
+### About the prize
+Årets AI Svensk 2021 (AI Swede of the year 2021) is a prize awarded by TechSverige. The prize aims to promote efforts and achievements that lead to an advancement in Swedish AI. That is done by way of bringing forward and honoring people who have contributed to the development and visibility of Swedish AI. 
+
+### Motivation
+"Love Börjeson leads KBLab at the National Library of Sweden with great patience and engagement. Among other things, the lab builds large AI language models for Swedish and has a huge impact in the application of AI in the Swedish public sector. KBLab is considered to be a unique resource in the development of Swedish AI and thanks to Love's leadership and willpower it even has the potential to position Sweden on the international AI map."  
+
+Read more in the official announcement [here](https://www.techsverige.se/2021/11/har-ar-finalisterna-i-arets-ai-svensk-2021/) (in Swedish).
+
+
+

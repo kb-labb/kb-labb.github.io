@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Faton Rekathati">
+<meta name="dcterms.date" content="2021-08-23">
+<meta name="description" content="While language models such as BERT are effective at many tasks, they have limited use when it comes to information retrieval and large scale similarity comparisons. In this post we introduce a Swedish sentence transformer which produces semantically meaningful sentence embeddings suitable for use in semantic search applications. We evaluate the model on SuperLim (Swedish SuperGLUE), where it achieves the highest published scores on SweParaphrase (a test set to evaluate sentence similarity). The model is publicly available on Huggingface.">
+
+<title>Introducing a Swedish Sentence Transformer – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="../../site_libs/react-18.2.0/react.min.js"></script>
+<script src="../../site_libs/react-18.2.0/react-dom.min.js"></script>
+<script src="../../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../../site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="../../site_libs/reactable-binding-0.4.4/reactable.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Introducing a Swedish Sentence Transformer</h1>
+                  <div>
+        <div class="description">
+          <p>While language models such as BERT are effective at many tasks, they have limited use when it comes to information retrieval and large scale similarity comparisons. In this post we introduce a Swedish sentence transformer which produces semantically meaningful sentence embeddings suitable for use in semantic search applications. We evaluate the model on SuperLim (Swedish SuperGLUE), where it achieves the highest published scores on SweParaphrase (a test set to evaluate sentence similarity). The model is publicly available on Huggingface.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://github.com/Lauler">Faton Rekathati</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 23, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#meaningful-sentence-embeddings" id="toc-meaningful-sentence-embeddings" class="nav-link active" data-scroll-target="#meaningful-sentence-embeddings">Meaningful sentence embeddings</a></li>
+  <li><a href="#swedish-training-data" id="toc-swedish-training-data" class="nav-link" data-scroll-target="#swedish-training-data">Swedish training data?</a>
+  <ul class="collapse">
+  <li><a href="#machine-translation" id="toc-machine-translation" class="nav-link" data-scroll-target="#machine-translation">Machine translation</a></li>
+  <li><a href="#self-supervised" id="toc-self-supervised" class="nav-link" data-scroll-target="#self-supervised">Self-supervised</a></li>
+  </ul></li>
+  <li><a href="#data-parallel-corpus-training-data" id="toc-data-parallel-corpus-training-data" class="nav-link" data-scroll-target="#data-parallel-corpus-training-data">Data: Parallel corpus training data</a>
+  <ul class="collapse">
+  <li><a href="#dev-set-validation-during-training" id="toc-dev-set-validation-during-training" class="nav-link" data-scroll-target="#dev-set-validation-during-training">Dev set validation during training</a></li>
+  </ul></li>
+  <li><a href="#method-translating-models-via-knowledge-distillation" id="toc-method-translating-models-via-knowledge-distillation" class="nav-link" data-scroll-target="#method-translating-models-via-knowledge-distillation">Method: Translating models via knowledge distillation</a>
+  <ul class="collapse">
+  <li><a href="#teacher-model" id="toc-teacher-model" class="nav-link" data-scroll-target="#teacher-model">Teacher model</a></li>
+  <li><a href="#student-model" id="toc-student-model" class="nav-link" data-scroll-target="#student-model">Student model</a></li>
+  </ul></li>
+  <li><a href="#evaluations-on-superlim" id="toc-evaluations-on-superlim" class="nav-link" data-scroll-target="#evaluations-on-superlim">Evaluations on SuperLim</a>
+  <ul class="collapse">
+  <li><a href="#sweparaphrase-results" id="toc-sweparaphrase-results" class="nav-link" data-scroll-target="#sweparaphrase-results">SweParaphrase results</a></li>
+  <li><a href="#swedish-faq-results" id="toc-swedish-faq-results" class="nav-link" data-scroll-target="#swedish-faq-results">Swedish FAQ results</a></li>
+  <li><a href="#swesat-synonyms" id="toc-swesat-synonyms" class="nav-link" data-scroll-target="#swesat-synonyms">SweSAT synonyms</a></li>
+  <li><a href="#supersim" id="toc-supersim" class="nav-link" data-scroll-target="#supersim">SuperSim</a></li>
+  </ul></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#closing-words" id="toc-closing-words" class="nav-link" data-scroll-target="#closing-words">Closing words</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2021-08-23-a-swedish-sentence-transformer/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>Sentence transformers are a useful class of models that make it easier to implement efficient textual search applications. In this article we explain how KBLab’s Swedish Sentence-BERT was trained, providing some motivations on the methods used and the training process.</p>
+<p>The published model can be found on Huggingface via the following link: <a href="https://huggingface.co/KBLab/sentence-bert-swedish-cased">https://huggingface.co/KBLab/sentence-bert-swedish-cased</a> .</p>
+<section id="meaningful-sentence-embeddings" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="meaningful-sentence-embeddings">Meaningful sentence embeddings</h2>
+<p>Pre-trained transformer language models trained at scale on large amounts of data have shown great success when fine-tuned on tasks such as text classification, named entity recognition and question answering. They can in fact also be successfully fine-tuned to compare the similarity between <em>two</em> sentences. However, when trained on semantic textual similarity (STS) tasks, these models typically require that two sentences be passed together as one input sequence to the network. This convention of passing sentence pairs as single input sequences is also present in the pre-training of said models, where one of the network’s pre-training tasks commonly includes “next sentence prediction” .</p>
+<p>While this convention produces strong results because the model can draw and combine information from both sentences in solving a task, it unfortunately also leads to practical issues when a particular dataset does not come nicely arranged in the form of sentence pairs, but rather instead as an unordered set of sentences. Finding the top <span class="math inline">\(k\)</span> most similar sentences in a set of <span class="math inline">\(N\)</span> sentences requires <span class="math inline">\(\sum^N_{i=1} i = \frac{N \cdot (N-1)}{2}\)</span> similarity computations <span class="citation" data-cites="sentence-bert">(<a href="#ref-sentence-bert" role="doc-biblioref">Reimers and Gurevych 2019</a>)</span>. In the case of BERT, every single one of these computations come with an additional overhead – since in order to obtain a similarity score one must first pass every sentence pair through the neural network. A BERT base model consists of <span class="math inline">\(110\)</span> million parameters. These parameters are all involved in the transformation of the input to obtain a single similarity score.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br> <br> <br> <br> A list of 2000 sentences requires almost 1 million similarity computations.</p>
+</div></div><div id="fig-sbert" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sbert-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/Bi_vs_Cross-Encoder.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sbert-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: Sentence similarity models were traditionally trained as cross-encoders (<strong>right figure</strong>). Information from Sentence A and Sentence B became "cross-encoded" , since both were passed as input together to the model. While effective at producing a similarity score, this setup would not yield meaningful sentence embeddings for the respective sentences A or B in isolation. This "cross-contamination" was addressed by <span class="citation" data-cites="sentence-bert">Reimers and Gurevych (<a href="#ref-sentence-bert" role="doc-biblioref">2019</a>)</span> using two BERT models in the training process, passing only one sentence each to the models (<strong>left figure</strong>), producing unique embeddings <strong>u</strong> and <strong>v</strong> for the respective sentences. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+</figcaption>
+</figure>
+</div>
+<p><span class="citation" data-cites="sentence-bert">Reimers and Gurevych (<a href="#ref-sentence-bert" role="doc-biblioref">2019</a>)</span> estimated it would take approximately 65 hours to perform the required 50 million similarity inference computations for a set of 10000 sentences with a V100 GPU. As an alternative they proposed Sentence-BERT, which they gave the moniker a “bi-encoder” . In the training process each sentence was passed independently to the model. The resulting sentence embeddings <strong>u</strong> and <strong>v</strong> were then used for different down stream tasks such as classification. Trained in this manner, BERT models are successfully able to produce meaningful semantic sentence embeddings for single sentences.</p>
+<p>Once the embeddings are obtained, we can perform the <span class="math inline">\(\frac{N \cdot (N-1)}{2}\)</span> similarity computations using only the embeddings and consequently avoid the overhead of involving the neural network in each of the computations. In this scenario we only need <span class="math inline">\(N\)</span> inference passes through the network to obtain sentence embeddings for every sentence. As a result our inference time can be reduced from 65 hours to mere seconds.</p>
+</section>
+<section id="swedish-training-data" class="level2">
+<h2 class="anchored" data-anchor-id="swedish-training-data">Swedish training data?</h2>
+<p>An ever-present concern when training Swedish language models tends to be the lack of training data for fine-tuning. The situation is no different in the area of semantic textual similarity, where training data is plentiful in English, but sorely lacking in Swedish. Below is an example of data sources used to train many of the English sentence transformers models in the <a href="https://www.sbert.net/docs/installation.html"><code>sentence-transformers</code></a> package <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> . The evaluation dataset most often used is STSb: the Semantic Textual Similarity benchmark <span class="citation" data-cites="stsb">(<a href="#ref-stsb" role="doc-biblioref">Cer et al. 2017</a>)</span>. A subset of the STSb’s test set was translated into Swedish and included as part of SuperLim <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam, Berdicevskis, and Morger 2020</a>)</span> under the name of <a href="https://spraakbanken.gu.se/en/resources/sweparaphrase">SweParaphrase</a>.</p>
+<table class="docutils" border="1">
+<thead>
+<tr>
+<th>
+Name
+</th>
+<th>
+Source
+</th>
+<th align="center">
+#Sentence-Pairs
+</th>
+<th align="center">
+STSb-dev
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/AllNLI.tsv.gz">AllNLI.tsv.gz</a>
+</td>
+<td>
+<a href="https://nlp.stanford.edu/projects/snli/">SNLI</a> + <a href="https://cims.nyu.edu/~sbowman/multinli/">MultiNLI</a>
+</td>
+<td align="center">
+277,230
+</td>
+<td align="center">
+86.54
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/sentence-compression.tsv.gz">sentence-compression.tsv.gz</a>
+</td>
+<td>
+<a href="https://github.com/google-research-datasets/sentence-compression">sentence-compression</a>
+</td>
+<td align="center">
+180,000
+</td>
+<td align="center">
+84.36
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/SimpleWiki.tsv.gz">SimpleWiki.tsv.gz</a>
+</td>
+<td>
+<a href="https://cs.pomona.edu/~dkauchak/simplification/">SimpleWiki</a>
+</td>
+<td align="center">
+102,225
+</td>
+<td align="center">
+84.26
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/altlex.tsv.gz">altlex.tsv.gz</a>
+</td>
+<td>
+<a href="https://github.com/chridey/altlex/">altlex</a>
+</td>
+<td align="center">
+112,696
+</td>
+<td align="center">
+83.34
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/msmarco-triplets.tsv.gz">msmarco-triplets.tsv.gz</a>
+</td>
+<td>
+<a href="https://microsoft.github.io/msmarco/">MS MARCO Passages</a>
+</td>
+<td align="center">
+5,028,051
+</td>
+<td align="center">
+83.12
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/quora_duplicates.tsv.gz">quora_duplicates.tsv.gz</a>
+</td>
+<td>
+<a href="https://quoradata.quora.com/First-Quora-Dataset-Release-Question-Pairs">Quora</a>
+</td>
+<td align="center">
+103,663
+</td>
+<td align="center">
+82.55
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/coco_captions-with-guid.tsv.gz">coco_captions-with-guid.tsv.gz</a>
+</td>
+<td>
+<a href="https://cocodataset.org/">COCO</a>
+</td>
+<td align="center">
+828,395
+</td>
+<td align="center">
+82.25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/flickr30k_captions-with-guid.tsv.gz">flickr30k_captions-with-guid.tsv.gz</a>
+</td>
+<td>
+<a href="https://shannon.cs.illinois.edu/DenotationGraph/">Flickr 30k</a>
+</td>
+<td align="center">
+317,695
+</td>
+<td align="center">
+82.04
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/yahoo_answers_title_question.tsv.gz">yahoo_answers_title_question.tsv.gz</a>
+</td>
+<td>
+<a href="https://www.kaggle.com/soumikrakshit/yahoo-answers-dataset">Yahoo Answers Dataset</a>
+</td>
+<td align="center">
+659,896
+</td>
+<td align="center">
+81.19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/S2ORC_citation_pairs.tsv.gz">S2ORC_citation_pairs.tsv.gz</a>
+</td>
+<td>
+<a href="http://s2-public-api-prod.us-west-2.elasticbeanstalk.com/corpus/">Semantic Scholar Open Research Corpus</a>
+</td>
+<td align="center">
+52,603,982
+</td>
+<td align="center">
+81.02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/yahoo_answerstitle_answer.tsv.gz">yahoo_answers_title_answer.tsv.gz</a>
+</td>
+<td>
+<a href="https://www.kaggle.com/soumikrakshit/yahoo-answers-dataset">Yahoo Answers Dataset</a>
+</td>
+<td align="center">
+1,198,260
+</td>
+<td align="center">
+80.25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/stackexchange_duplicate_questions.tsv.gz">stackexchange_duplicate_questions.tsv.gz</a>
+</td>
+<td>
+<a href="https://stackexchange.com/">Stackexchange</a>
+</td>
+<td align="center">
+169,438
+</td>
+<td align="center">
+80.37
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/yahoo_answers_question_answer.tsv.gz">yahoo_answers_question_answer.tsv.gz</a>
+</td>
+<td>
+<a href="https://www.kaggle.com/soumikrakshit/yahoo-answers-dataset">Yahoo Answers Dataset</a>
+</td>
+<td align="center">
+681,164
+</td>
+<td align="center">
+79.88
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/wiki-atomic-edits.tsv.gz">wiki-atomic-edits.tsv.gz</a>
+</td>
+<td>
+<a href="https://github.com/google-research-datasets/wiki-atomic-edits">wiki-atomic-edits</a>
+</td>
+<td align="center">
+22,980,185
+</td>
+<td align="center">
+79.58
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/datasets/paraphrases/wiki-split.tsv.gz">wiki-split.tsv.gz</a>
+</td>
+<td>
+<a href="https://github.com/google-research-datasets/wiki-split">wiki-split</a>
+</td>
+<td align="center">
+929,944
+</td>
+<td align="center">
+76.59
+</td>
+</tr>
+</tbody>
+</table>
+<section id="machine-translation" class="level3">
+<h3 class="anchored" data-anchor-id="machine-translation">Machine translation</h3>
+<p>Different ways of getting around the issue of data have been explored. <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span> investigated whether simply machine translating the English NLI and STS training datasets to Swedish could yield competitive results. They used <a href="https://huggingface.co/KB/bert-base-swedish-cased">KB-BERT</a> <span class="citation" data-cites="swedish-bert">(<a href="#ref-swedish-bert" role="doc-biblioref">Malmsten, Börjeson, and Haffenden 2020</a>)</span> trained in a cross-encoder setting and found it outperformed all other evaluated options (<span class="math inline">\(82.5\)</span> Pearson correlation on a machine translated version of STS-b test set). Ultimately the authors still recommended against using their model “due to a high prevalence of translation errors” in the data with unknown effects on downstream applications.</p>
+</section>
+<section id="self-supervised" class="level3">
+<h3 class="anchored" data-anchor-id="self-supervised">Self-supervised</h3>
+<p>A second avenue for getting around the lack of training data has been by training completely self-supervised/unsupervised. <span class="citation" data-cites="carlsson">Carlsson et al. (<a href="#ref-carlsson" role="doc-biblioref">2021</a>)</span> trained their models on data dumps of Wikipedia. Contrastive tension was used to maximize similarity between identical sentences, and minimize it for differing sentences without any need for labels. Their model however performed somewhat worse for Swedish than other languages (Arabic, English, Russian, Spanish). The Swedish model achieved <span class="math inline">\(61.69\)</span> Pearson correlation on the machine translated version of the STS-b test set created by <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span> .</p>
+<p>While the results are encouraging, at this point there still existed a gap that had yet to be closed when compared to the best performing English models.</p>
+</section>
+</section>
+<section id="data-parallel-corpus-training-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data-parallel-corpus-training-data">Data: Parallel corpus training data</h2>
+<p>One approach to training a model is through distilling the knowledge of a “teacher” model to a student model. In this scenario where we want our student model to emulate the embeddings of a teacher model trained in another language, we need to make use of parallel (translated) data.</p>
+<p>We have data in the form of one sentence from the source language (English) and one sentence from the target language (Swedish). An example of the first 100 sentences of the English-Swedish Europarl dataset can be found <a href="https://opus.nlpl.eu/Europarl/v8/en-sv_sample.html">here</a>.</p>
+<p>The OPUS (Open Parallel Corpus) project <span class="citation" data-cites="opus">(<a href="#ref-opus" role="doc-biblioref">Tiedemann 2012</a>)</span> has made available a great collection of parallel corpora from the web from a diverse set of sources. We use a number of different data sources to ensure our translated parallel sentences cover a wide range of language. Below is a table of the number of total sentences from each dataset used in the training of our model. Each English and Swedish sentence is counted uniquely. The reason some datasets have an odd number of sentences, is because in rare occasions two (or more) different candidate translations may be attached to the same sentence. We filter out all sentences above 600 characters in length. Furthermore, single sentences without a suggested candidate translation or source sentence are not included in training.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-8473f67a064cebc3b2cb" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-8473f67a064cebc3b2cb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Dataset":["OpenSubtitles 18","Europarl","JW300","EMEA","EUbookshop","TED2020","Tatoeba"],"Sentences_v1":[6360393,3680593,3248845,651402,355341,232643,51972],"Sentences_v2":["TBD","TBD","TBD","TBD","TBD","TBD","TBD"]},"columns":[{"id":"Dataset","name":"Dataset","type":"character"},{"id":"Sentences_v1","name":"Sentences_v1","type":"numeric"},{"id":"Sentences_v2","name":"Sentences_v2","type":"character"}],"highlight":true,"dataKey":"d26c7fe883712464382930a3af90d898"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The question of dataset bias may naturally arise as a result of our selection. However, it should be noted that we – in our training – are merely recreating and matching the knowledge of the original model. The training process is not meant to impart “new knowledge” to our student model. Biases in our datasets are unlikely to be reflected in any substantial manner in the final model. Rather the final model will reflect the biases already present in the teacher model.</p>
+<p>Here is a short description of each dataset:</p>
+<ul>
+<li><a href="https://opus.nlpl.eu/OpenSubtitles-v2018.php"><strong>OpenSubtitles 18</strong></a>: Sourced from <a href="http://www.opensubtitles.org/">opensubtitles.org</a>, a large database of movie and TV subtitles <span class="citation" data-cites="opensubtitles">(<a href="#ref-opensubtitles" role="doc-biblioref">Lison and Tiedemann 2016</a>)</span>. Can be filtered by a variable that measures time-overlap of the subtitles. v1 of the model did not filter observations, but a future v2 of the model will be trained on a subset of data with a higher <code>overlap</code> threshold.</li>
+<li><a href="https://opus.nlpl.eu/Europarl.php"><strong>Europarl</strong></a>: A parallel corpus consisting of proceedings of the European parliament <span class="citation" data-cites="opus">(<a href="#ref-opus" role="doc-biblioref">Tiedemann 2012</a>)</span>.</li>
+<li><a href="https://opus.nlpl.eu/JW300.php"><strong>JW300</strong></a>: Various texts and articles from different Jehovas Witnesses websites and magazines. A filtering variable denoting <code>certainty</code> of alignment exists. Filtering will be applied for v2 of the model.</li>
+<li><a href="https://opus.nlpl.eu/EMEA.php"><strong>EMEA</strong></a>: Texts from the European Medicines Agency, extracted from PDFs.</li>
+<li><a href="https://opus.nlpl.eu/EUbookshop.php"><strong>EUbookshop</strong></a>: Based on documents from the EU bookshop. This datasets xml alignment file was found to be corrupt after training the model, causing quality issues in the aligned sentences. Future versions of the model will likely omit this dataset unless the corrupted xml files can be fixed.</li>
+<li><a href="https://opus.nlpl.eu/TED2020.php"><strong>TED2020</strong></a>: Based off of TED and TED-X transcripts from July 2020 <span class="citation" data-cites="multilingual-sentence-bert">(<a href="#ref-multilingual-sentence-bert" role="doc-biblioref">Reimers and Gurevych 2020</a>)</span>.</li>
+<li><a href="https://opus.nlpl.eu/TED2020.php"><strong>Tatoeba</strong></a>: Translated sentences from a free collaborative platform for language learners.</li>
+</ul>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Data download scripts can be found on the following links: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_opus.py"><code>get_parallel_data_opus.py</code></a> <a href="https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_tatoeba.py"><code>get_parallel_data_tatoeba.py</code></a> <a href="https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_ted2020.py"><code>get_parallel_data_ted2020.py</code></a></p>
+</div></div><section id="dev-set-validation-during-training" class="level3">
+<h3 class="anchored" data-anchor-id="dev-set-validation-during-training">Dev set validation during training</h3>
+<p>We split off 1000 sentence pairs each from TED2020 and Tatoeba to form a validation set. The model was validated against these every 1000 training steps. The best model was continually autosaved during training based on the lowest combined MSE (sum) of the student model’s English and Swedish sentence embeddings against the teacher model’s English sentence embedding.</p>
+</section>
+</section>
+<section id="method-translating-models-via-knowledge-distillation" class="level2">
+<h2 class="anchored" data-anchor-id="method-translating-models-via-knowledge-distillation">Method: Translating models via knowledge distillation</h2>
+<p>The method used for KBLab’s Sentence-BERT is described in the paper “Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation” <span class="citation" data-cites="multilingual-sentence-bert">(<a href="#ref-multilingual-sentence-bert" role="doc-biblioref">Reimers and Gurevych 2020</a>)</span>. In short it allows us to take existing sentence embeddings models of the Bi-Encoder type shown in figure @ref(fig:cross) and extend them to new languages. The general setup in our case is as follows:</p>
+<ul>
+<li>A strong pre-trained teacher model of the Bi-Encoder type maps sentences in a source language (English) to dense vectors (embeddings). Our goal is to make a student model learn to match the teacher’s embeddings.<br>
+</li>
+<li>A student model, which may be of the Cross-Encoder type takes sentence pairs consisting of <em>one</em> sentence from the <em>source language</em> (English) and <em>one</em> sentence from the <em>target language</em> (Swedish). Its objective is to minimize the mean squared error (MSE) between the teacher’s embedding against both the source and target language embeddings generated by the student model. See figure @ref(fig:multilingual).</li>
+<li>The input sentences to the student model are from parallel corpora, meaning they are translations of each other.</li>
+</ul>
+<div id="fig-multilingual" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multilingual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/multilingual.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multilingual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Student model takes a sentence from a source language and a sentence from a target language and minimizes the mean squared error of each to the teacher model’s embedding. Image source from <span class="citation" data-cites="multilingual-sentence-bert">Reimers and Gurevych (<a href="#ref-multilingual-sentence-bert" role="doc-biblioref">2020</a>)</span>.
+</figcaption>
+</figure>
+</div>
+<p><strong><em>Update 2022-04-22:</em></strong> In a previous version of this post the author discussed and alluded to the English-Swedish input sentence pairs being cross-encoded in the student model. However, when training a bi-encoder sentence transformer the sentences from different languages are processed independently by the student model network.</p>
+<section id="teacher-model" class="level3">
+<h3 class="anchored" data-anchor-id="teacher-model">Teacher model</h3>
+<p>We chose <a href="https://www.sbert.net/docs/pretrained_models.html#sentence-embedding-models"><code>paraphrase-mpnet-base-v2</code></a> as our teacher model. At the time of training this was the strongest available bi-encoder. It was trained on <a href="https://www.sbert.net/examples/training/paraphrases/README.html">Paraphrase Data</a>.</p>
+</section>
+<section id="student-model" class="level3">
+<h3 class="anchored" data-anchor-id="student-model">Student model</h3>
+<p>Our student model was the Swedish pretrained <a href="https://huggingface.co/KB/bert-base-swedish-cased">KB-BERT</a>, using the same vocabulary.</p>
+</section>
+</section>
+<section id="evaluations-on-superlim" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="evaluations-on-superlim">Evaluations on SuperLim</h2>
+<p>SuperLim is a Swedish evaluation suite for natural language understanding models <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam, Berdicevskis, and Morger 2020</a>)</span>. It was inspired by the English SuperGLUE <span class="citation" data-cites="superglue">(<a href="#ref-superglue" role="doc-biblioref">Wang et al. 2020</a>)</span>.</p>
+<p>We chose the four resources most relevant to the tasks our model was trained on:</p>
+<ul>
+<li><p><a href="https://spraakbanken.gu.se/en/resources/sweparaphrase">SweParaphrase</a>: A subset of the English STS benchmark <span class="citation" data-cites="stsb">(<a href="#ref-stsb" role="doc-biblioref">Cer et al. 2017</a>)</span> dataset translated to Swedish. It consists of 165 sentence pairs. Human evaluators ranked the sentences according to how similar the two sentences were deemed to be (from 0 meaning no meaning overlap, to 5 meaning equivalence). Assembled and translated to Swedish by <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span>. <strong><em>Update (correction, 2021-09-07):</em></strong> The English STSb was machine translated to Swedish by <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span>. A subset of 165 sentence pairs from this automatically translated dataset were manually corrected by a native speaker of Swedish as part of the SuperLim project.</p></li>
+<li><p><a href="https://spraakbanken.gu.se/resurser/faq">Swedish FAQ</a>: A collection of questions and answers from various Swedish authorities websites (Försäkringskassan, Skatteverket, etc). The questions are divided into categories, for example <code>Förälder :: Barnbidrag :: Vanliga frågor</code>. The task is to match questions within a category to the correct answer (among a set of candidate answers that have been shuffled within the category).</p></li>
+<li><p><a href="https://spraakbanken.gu.se/en/resources/swesat-synonyms">SweSAT synonyms</a>: Multiple choice word synonym task of Högskoleprovet (Swedish equivalent to SAT). Test taker is presented with a question word, and needs to match it to the correct option (synonym) from 5 possible choices.</p></li>
+<li><p><a href="https://spraakbanken.gu.se/en/resources/supersim-superlim">SuperSim</a>: It is not clear whether Sentence embedding models produce meaningful word embeddings. This is a similarity and relatedness test set for word pairs, where each word has been rated on both relatedness and similarity by five different annotators. We only evaluate against the similarity scores.</p></li>
+</ul>
+<section id="sweparaphrase-results" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sweparaphrase-results">SweParaphrase results</h3>
+<p>We compare our results (KB-SBERT) to <del>the previous highest published scores on SweParaphrase reported by</del> <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span>. Results reported as <code>Correlation coefficient * 100</code>.</p>
+<p><strong>Update (article correction, 2021-09-07):</strong> <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span> evaluated on a machine translated version of the STSb test set. SweParaphrase is a subset of this machine translated version consisting of 165 sentence pairs. The sentence pairs were manually corrected by a native Swedish speaker. The results are therefore not directly comparable.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-2ad3d7f35d4d4bc50368" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2ad3d7f35d4d4bc50368">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["KB-BERT (Isbister & Sahlgren)","KB-SBERT"],"Pearson":[82.5,91.83],"Spearman":["NA",91.14]},"columns":[{"id":"Model","name":"Model","type":"character"},{"id":"Pearson","name":"Pearson","type":"numeric"},{"id":"Spearman","name":"Spearman","type":"numeric"}],"highlight":true,"dataKey":"9d3273764cad63ba4268d3293355d9e9"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Code to replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_sweparaphrase.py">evaluate_sweparaphrase.py</a></p>
+</div></div></section>
+<section id="swedish-faq-results" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="swedish-faq-results">Swedish FAQ results</h3>
+<p>There’s a varying number of questions per category in this dataset. Randomly guessing or naïvely guessing a single candidate answer within each group would give us an expected accuracy of <span class="math inline">\(9.55\%\)</span> (average questions per category is <span class="math inline">\(10.47\)</span>).</p>
+<p>KB-SBERT total accuracy: <span class="math inline">\(50.49\%\)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_faq.py">evaluate_faq.py</a></p>
+</div></div><p>KB-SBERT manages to match half of the questions with the correct answer.</p>
+</section>
+<section id="swesat-synonyms" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="swesat-synonyms">SweSAT synonyms</h3>
+<p>KB-SBERT hasn’t been explicitly trained to generate meaningful embeddings on the word level. However, we are curious to see how the model performs. Randomly guessing a single answer alternative would yield an expected accuracy of <span class="math inline">\(20\%\)</span>.</p>
+<p>KB-SBERT accuracy: <span class="math inline">\(42.82\%\)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_swesat.py">evaluate_swesat.py</a></p>
+</div></div><p>The model performs better than random, though the result is still quite weak.</p>
+</section>
+<section id="supersim" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="supersim">SuperSim</h3>
+<p>Here we predict semantic word similarity between word pairs as opposed to sentence pairs. We compare results with baselines published by <span class="citation" data-cites="supersim">Hengchen and Tahmasebi (<a href="#ref-supersim" role="doc-biblioref">2021</a>)</span> on the word similarity task.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-512029f6f50bb0682c2b" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-512029f6f50bb0682c2b">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Model":["fastText","GloVe","Word2Vec","KB-SBERT"],"Spearman":[52.8,49.9,49.6,34.3]},"columns":[{"id":"Model","name":"Model","type":"character"},{"id":"Spearman","name":"Spearman","type":"numeric"}],"highlight":true,"dataKey":"ce97e883105b0cded05007cb90f72261"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Replicate results: <a href="https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_supersim.py">evaluate_supersim.py</a></p>
+</div></div><p>It appears KB-SBERT is not to recommend for word embeddings.</p>
+</section>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>We gratefully acknowledge the HPC RIVR consortium (<a href="www.hpc-rivr.si">www.hpc-rivr.si</a>) and EuroHPC JU (<a href="eurohpc-ju.europa.eu">eurohpc-ju.europa.eu</a>) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (<a href="www.izum.si">www.izum.si</a>).</p>
+</section>
+<section id="closing-words" class="level2">
+<h2 class="anchored" data-anchor-id="closing-words">Closing words</h2>
+<p>KB-SBERT appears to perform well on sentence similarity tasks. Training on parallel corpora using a teacher model seemingly leads to better results compared to machine translation. However, it remains to be seen whether the distilled model behaves well when fine-tuned on downstream tasks in Swedish without any English supervision.</p>
+<p>If you use KB-SBERT in your work, and perhaps fine-tune it for specific tasks, please drop us a message and tell us how it went. You can find the lab’s e-mail address in the footer of this webpage.</p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-superlim" class="csl-entry" role="listitem">
+Adesam, Yvonne, Aleksandrs Berdicevskis, and Felix Morger. 2020. <span>“SwedishGLUE – Towards a Swedish Test Set for Evaluating Natural Language Understanding Models.”</span>
+</div>
+<div id="ref-carlsson" class="csl-entry" role="listitem">
+Carlsson, Fredrik, Evangelina Gogoulou, Erik Ylipää, Amaru Cuba Gyllensten, and Magnus Sahlgren. 2021. <em>Semantic Re-Tuning with Contrastive Tension</em>. International Conference on Learning Representations, <span>ICLR</span> 2021. <a href="https://openreview.net/pdf?id=Ov_sMNau-PF">https://openreview.net/pdf?id=Ov_sMNau-PF</a>.
+</div>
+<div id="ref-stsb" class="csl-entry" role="listitem">
+Cer, Daniel, Mona Diab, Eneko Agirre, Inigo Lopez-Gazpio, and Lucia Specia. 2017. <span>“SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Crosslingual Focused Evaluation.”</span> <em>Proceedings of the 11th International Workshop on Semantic Evaluation (SemEval-2017)</em>. <a href="https://doi.org/10.18653/v1/s17-2001">https://doi.org/10.18653/v1/s17-2001</a>.
+</div>
+<div id="ref-supersim" class="csl-entry" role="listitem">
+Hengchen, Simon, and Nina Tahmasebi. 2021. <span>“<span>S</span>uper<span>S</span>im: A Test Set for Word Similarity and Relatedness in <span>S</span>wedish.”</span> In <em>Proceedings of the 23rd Nordic Conference on Computational Linguistics (NoDaLiDa)</em>, 268–75. Reykjavik, Iceland (Online): Link<span>ö</span>ping University Electronic Press, Sweden. <a href="https://aclanthology.org/2021.nodalida-main.27">https://aclanthology.org/2021.nodalida-main.27</a>.
+</div>
+<div id="ref-isbister-simply" class="csl-entry" role="listitem">
+Isbister, Tim, and Magnus Sahlgren. 2020. <span>“Why Not Simply Translate? A First Swedish Evaluation Benchmark for Semantic Similarity.”</span> <a href="https://arxiv.org/abs/2009.03116">https://arxiv.org/abs/2009.03116</a>.
+</div>
+<div id="ref-opensubtitles" class="csl-entry" role="listitem">
+Lison, Pierre, and Jörg Tiedemann. 2016. <span>“<span>O</span>pen<span>S</span>ubtitles2016: Extracting Large Parallel Corpora from Movie and <span>TV</span> Subtitles.”</span> In <em>Proceedings of the Tenth International Conference on Language Resources and Evaluation (<span>LREC</span>’16)</em>, 923–29. Portoro<span>ž</span>, Slovenia: European Language Resources Association (ELRA). <a href="https://aclanthology.org/L16-1147">https://aclanthology.org/L16-1147</a>.
+</div>
+<div id="ref-swedish-bert" class="csl-entry" role="listitem">
+Malmsten, Martin, Love Börjeson, and Chris Haffenden. 2020. <span>“Playing with Words at the National Library of Sweden – Making a Swedish BERT.”</span> <a href="https://arxiv.org/abs/2007.01658">https://arxiv.org/abs/2007.01658</a>.
+</div>
+<div id="ref-sentence-bert" class="csl-entry" role="listitem">
+Reimers, Nils, and Iryna Gurevych. 2019. <span>“Sentence-BERT: Sentence Embeddings Using Siamese BERT-Networks.”</span> In <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing</em>. Association for Computational Linguistics. <a href="https://arxiv.org/abs/1908.10084">https://arxiv.org/abs/1908.10084</a>.
+</div>
+<div id="ref-multilingual-sentence-bert" class="csl-entry" role="listitem">
+———. 2020. <span>“Making Monolingual Sentence Embeddings Multilingual Using Knowledge Distillation.”</span> In <em>Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing</em>. Association for Computational Linguistics. <a href="https://arxiv.org/abs/2004.09813">https://arxiv.org/abs/2004.09813</a>.
+</div>
+<div id="ref-opus" class="csl-entry" role="listitem">
+Tiedemann, Jörg. 2012. <span>“Parallel Data, Tools and Interfaces in OPUS.”</span> In <em>Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC’12)</em>, edited by Nicoletta Calzolari (Conference Chair), Khalid Choukri, Thierry Declerck, Mehmet Ugur Dogan, Bente Maegaard, Joseph Mariani, Jan Odijk, and Stelios Piperidis. Istanbul, Turkey: European Language Resources Association (ELRA).
+</div>
+<div id="ref-superglue" class="csl-entry" role="listitem">
+Wang, Alex, Yada Pruksachatkun, Nikita Nangia, Amanpreet Singh, Julian Michael, Felix Hill, Omer Levy, and Samuel R. Bowman. 2020. <span>“SuperGLUE: A Stickier Benchmark for General-Purpose Language Understanding Systems.”</span> <a href="https://arxiv.org/abs/1905.00537">https://arxiv.org/abs/1905.00537</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Image source: https://www.sbert.net/docs/pretrained_cross-encoders.html<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Paraphrase datasets table source: https://www.sbert.net/examples/training/paraphrases/README.html#<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2021,
+  author = {Rekathati, Faton},
+  title = {Introducing a {Swedish} {Sentence} {Transformer}},
+  date = {2021-08-23},
+  url = {https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2021" class="csl-entry quarto-appendix-citeas" role="listitem">
+Rekathati, Faton. 2021. <span>“Introducing a Swedish Sentence
+Transformer.”</span> August 23, 2021. <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/">https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2021-08-23-a-swedish-sentence-transformer/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

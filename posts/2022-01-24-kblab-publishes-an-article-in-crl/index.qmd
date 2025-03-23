@@ -1,0 +1,31 @@
+---
+title: "KBLab publishes an article about AI in the library in C&RL"
+description: |
+  What does AI mean for libraries and how could libraries pave the way for ethical AI? KBLab reflects on these questions in an article in the Open Access journal College & Research Libraries.
+author:
+  - name: Elena Fano
+    affiliations: 
+      - name: KBLab
+  - name: Chris Haffenden
+    affiliations: 
+      - name: KBLab
+image: newspapers.jpg
+date: 2022-01-24
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+## AI in the library  
+
+With the increasingly rapid appearance of new techniques over the past few years, the role of AI within the library is becoming a hot topic today. Yet despite a growing interest among librarians, there remains surpisingly little research devoted to the subject.  
+We have sought to fill this gap at KBLab by conducting research focused specifically upon AI in the context of libraries. The aim with our new article, *Making and using AI in the library: creating a BERT model at the National Library of Sweden*, is to show how AI techniques create new possibilities for processing and organizing information at scale in a library (e.g. though automated classification and enriched metadata), but also how library collections might be used to make even better AI tools in the future.  
+  
+  
+In this way, we have sought to nuance the image that otherwise tends to predominate of the library as a passive space for the application of AI solutions developed elsewhere. On the contrary, we argue that libraries can have an important roll to play in AI development, especially in relation to language technology (NLP) for other languages than English and Chinese. We hope that our text can lead to new and exciting conversations about the future role of AI in the library! 
+
+### Read the article online  
+The article has been accepted for publication in the Open Access journal College & Research Libraries, but is available to read online as a preprint now ([link to a downloadable PDF on SocArXiv](https://osf.io/preprints/socarxiv/k9duq/)).
+
+

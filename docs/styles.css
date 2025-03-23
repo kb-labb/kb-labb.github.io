@@ -1,0 +1,19 @@
+/* css styles */
+
+html body.nav-fixed.quarto-light div#quarto-content.quarto-container.page-columns.page-rows-contents.page-layout-full.page-navbar main#quarto-document-content.content.quarto-banner-title-block.column-page div#listing-listing.quarto-listing.quarto-listing-container-grid div.list.grid.quarto-listing-cols-3 div.g-col-1 a.quarto-grid-link div.quarto-grid-item.card.h-100.card-left div.card-body.post-contents h5.no-anchor.card-title.listing-title {
+    color: #242424;
+    /* bold */
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-hover-bg: #f88fa8;
+    --bs-dropdown-link-active-bg: #6298d6;
+}
+
+.nav-footer {
+    background-color: #f8f9fa;
+    color: #343a40;
+    /* add padding top */
+    padding-top: 2rem;
+}

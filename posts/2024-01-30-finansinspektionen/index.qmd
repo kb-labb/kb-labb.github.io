@@ -1,0 +1,29 @@
+---
+title: "Analysis of financial data at the Financial Supervisory Authority"
+description: |
+  A guest post from the Swedish Financial Supervisory Authority (Finansinspektionen, FI),
+  where FI describe how they use machine learning to analyze financial data and 
+  perform risk assessments. (Image from I99pema, Wikimedia Commons) 
+author:
+  - name: Jimmy Hollén
+    affiliations: 
+    - name: Finansinspektionen
+date: 2024-01-30
+image: finansinspektionen.JPG
+format:
+  html:
+    embed-resources: false
+    toc: false
+---
+
+Analyzing financial data from various market actors presents significant challenges. It's not just about analyzing the data itself but also about handling the vast amount of data received regularly, both quantitatively and qualitatively. The data arrives on a spectrum from daily to yearly intervals.
+ 
+Upon receiving the data, we meticulously analyze and categorize each institute into different risk categories. Subsequently, we devise a tailored supervisory plan for each institute, with the most high-risk institutions receiving the most comprehensive action plans.
+ 
+Quantitative data undergoes processing and analysis through relevant software, while qualitative data, typically in PDF format, is scrutinized mostly by supervisors. Analyzing qualitative data is resource-intensive and prone to oversights.
+ 
+To streamline the supervision of qualitative data, we've developed a machine learning model with support from the European Commission, DG Reform, and the Research Institute in Sweden (RISE). During the model's development, we utilized KBLab's Named Entity Recognition model based on KB-BERT to minimize noise. More precisely KBLab's model helped us anonymize the data to minimize spurious correlations. The model has proven effective, prompting us to further enhance its capabilities. So instead of roughly 20 people reading little less than 200 reports we nowadays spend roughly one hour for the same work. 
+ 
+As we progress, our commitment to refining our analytical capabilities remains steadfast. By leveraging cutting-edge technologies and collaborative partnerships, we strive to enhance the efficacy of financial market supervision and regulation.
+
+

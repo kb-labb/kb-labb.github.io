@@ -1,0 +1,68 @@
+---
+title: "A robust, multi-label sentiment classifier for Swedish"
+description: |
+  KBLab presents a robust, multi-label sentiment classifier trained on Swedish texts. The model is robust in the sense that it is trained on multiple datasets of different text types and allows labeling of neutral as well positive and negative texts. It is available under Apache 2.0 license on the Hugging Face Hub. 
+author:
+  - name: Hillevi Hägglöf
+    url: https://github.com/gilleti
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2023-06-16
+image: Wingard_Bo_Dagen_H_3_KoB_F_Saml_36.jpg
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+citation: true
+---
+
+Many researchers in the humanities and adjacent fields are interested in the tonality of texts, for which sentiment analysis is an excellent tool. KBLab presents a robust, transformer based sentiment classifier in Swedish. The model is available as a multi-class model (negative/neutral/positive). It is publicly available via [the Hugging Face Hub](https://huggingface.co/KBLab/robust-swedish-sentiment-multiclass), published under the Apache 2.0 license. 
+
+The model was developed in collaboration with KBLab researcher Nora Hansson Bittár, who is a PhD student at the Stockholm School of Economics. She is currently studying the development of sentiments and emotional load in the Swedish media landscape over time, inspired by Rozado et al (2022)^[Rozado D, Hughes R, Halberstadt J (2022) Longitudinal analysis of sentiment and emotion in news media headlines using automated labeling with Transformer language models. PLoS ONE 17(10): e0276367. [https://doi.org/10.1371/journal.pone.0276367](https://doi.org/10.1371/journal.pone.0276367)]. Nora’s project will be further documented in the blog.
+
+A particular requirement when studying tonality in news media, is the need of a category representing a neutral tone, as many news articles are neither inherently positive or negative. This is often overlooked in sentiment modeling, as it adds complexity to the task, which in turn affects model performance.
+
+Another aspect of other available sentiment models available in the Swedish language that makes them difficult to use in a project like Nora’s is their poor generalization capabilities. Most, if not all, previously published sentiment models in Swedish are trained on one type of text exclusively (reviews), which consequently leads to poor performance in other linguistic domains. We have trained our models on multiple datasets of various types and sizes.
+
+Robustness, in this case, refers to a language model’s generalization capabilities. Since most, if not all, previously published sentiment models in Swedish are trained on only one type of text (reviews), the performance in other linguistic domains suffer. We have trained our models on five different datasets from different sources, of various sizes and quality. Note that these datasets do not have a consistent, underlying annotation schema. This is compensated by the relatively large size of the corpus.
+
+* 13K Trustpilot reviews. This dataset is based on [ScandiSent](https://github.com/timpal0l/ScandiSent) and includes reviews of products and services, along with a star rating of 1-5. The original dataset, however, excluded reviews with a star rating of 3, which are the best neutral proxies. Because of this, we have added to the corpus by scraping neutral reviews. The resulting [Trustpilot scraper](https://github.com/gilleti/trustpilot-scraper) is freely available.
+* 12K Twitter posts, manually annotated by Niklas Palm (included with Niklas’ permission). The dataset is available on [Github](https://github.com/niklas-palm/sentiment-classification/).
+* 4K news headlines, manually annotated at KBLab. This dataset cannot be shared due to copyright restrictions of the source material.
+* 5K texts from [Språkbankens ABSAImm corpus](https://spraakbanken.gu.se/resurser/absabank-imm) on the topic of immigration. Data is collected from news and social media.
+* 40K of machine translated reviews from [the Norwegian Review Corpus (NoReC)](https://github.com/ltgoslo/norec). Texts were translated using CTranslate2 with a [translation model from Helsinki NLP](https://github.com/Helsinki-NLP/Tatoeba-Challenge/tree/master/models/nor-swe). The translations have not been formally evaluated but experiments show that they do in fact contribute positively to the sentiment classification.
+
+The accuracy of the model is evaluated on a balanced test set and is measured at 0.80 for the multiclass version and 0.88 for the binary version. More extensive evaluation will be conducted at a later stage and included in Nora’s report (albeit not on a balanced test set, but in the news media domain specifically). Both models are finetuned on the [Swedish BERT-large model with 340M parameters](https://huggingface.co/KBLab/megatron-bert-large-swedish-cased-165k), developed here at KBLab.
+
+# Inference
+
+Below is a minimal example showcasing how to perform predictions with the model using the transformers pipeline.
+
+```{python}
+#| eval: false
+#| echo: true
+#| code-fold: false
+from transformers import AutoTokenizer, AutoModelForSequenceClassific
+ation, pipeline
+
+tokenizer = AutoTokenizer.from_pretrained("KBLab/megatron-bert-large-swedish-cased-165k")
+model = AutoModelForSequenceClassification.from_pretrained("KBLab/robust-swedish-sentiment-multiclass")
+
+text = "Rihanna uppges gravid"
+classifier = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+result = classifier(text)
+```
+
+In this case, the classifier outputs the label NEUTRAL with a score of 0.89. Good luck and happy inference!
+
+## Acknowledgements
+Part of this development work was carried out within [HUMINFRA](https://www.humi
+nfra.se/) infrastructure project.
+
+::: {.column-margin}
+![HUMINFRA](huminfra.svg){width=35% fig-align="left"}
+:::
+
+Preview photo by [Bo Wingård (1967)](http://libris.kb.se/bib/22447938).

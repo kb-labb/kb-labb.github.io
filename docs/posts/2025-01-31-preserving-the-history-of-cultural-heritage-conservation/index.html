@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chris Haffenden">
+<meta name="author" content="Emil Stenback">
+<meta name="dcterms.date" content="2025-01-31">
+<meta name="description" content="While KBLab uses modern heritage data to produce cutting edge AI models, we also work with developing the library’s research infrastructure for older heritage material and special collections. An ongoing collaboration with the National Heritage Board is digitizing and making accessible the earliest history of Swedish cultural heritage conservation. What preservation measures are necessary to safeguard these collections for the future, and what challenges and discoveries await in engaging with the material?">
+
+<title>Preserving the history of cultural heritage conservation – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Preserving the history of cultural heritage conservation</h1>
+                  <div>
+        <div class="description">
+          <p>While KBLab uses modern heritage data to produce cutting edge AI models, we also work with developing the library’s research infrastructure for older heritage material and special collections. An ongoing collaboration with the National Heritage Board is digitizing and making accessible the earliest history of Swedish cultural heritage conservation. What preservation measures are necessary to safeguard these collections for the future, and what challenges and discoveries await in engaging with the material?</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Affiliations</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://www.katalog.uu.se/empinfo/?id=N12-228">Chris Haffenden</a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Emil Stenback </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english.html">
+              KB
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 31, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#in-search-of-the-past" id="toc-in-search-of-the-past" class="nav-link active" data-scroll-target="#in-search-of-the-past">In search of the past</a></li>
+  <li><a href="#digitizing-the-history-of-cultural-heritage-conservation" id="toc-digitizing-the-history-of-cultural-heritage-conservation" class="nav-link" data-scroll-target="#digitizing-the-history-of-cultural-heritage-conservation">Digitizing the history of cultural heritage conservation</a></li>
+  <li><a href="#preservation-measuresa-journey-of-discovery-in-itself" id="toc-preservation-measuresa-journey-of-discovery-in-itself" class="nav-link" data-scroll-target="#preservation-measuresa-journey-of-discovery-in-itself">Preservation measures—a journey of discovery in itself</a></li>
+  <li><a href="#a-collection-full-of-surprises" id="toc-a-collection-full-of-surprises" class="nav-link" data-scroll-target="#a-collection-full-of-surprises">A collection full of surprises</a></li>
+  <li><a href="#protecting-the-past-for-the-future" id="toc-protecting-the-past-for-the-future" class="nav-link" data-scroll-target="#protecting-the-past-for-the-future">Protecting the past for the future</a></li>
+  <li><a href="#only-the-beginning" id="toc-only-the-beginning" class="nav-link" data-scroll-target="#only-the-beginning">Only the beginning…</a></li>
+  <li><a href="#keen-to-explore-further" id="toc-keen-to-explore-further" class="nav-link" data-scroll-target="#keen-to-explore-further">Keen to explore further?</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="This page spread from Jonas Haquini Rhezelius, Runestones in Uppland (n.d. before 1666) - available in full here: Fc 8 - is one of the many sketch illustrations waiting to be found in KB’s F-collection."><img src="images/1.png" class="img-fluid figure-img" style="width:300.0%" alt="This page spread from Jonas Haquini Rhezelius, Runestones in Uppland (n.d. before 1666) - available in full here: Fc 8 - is one of the many sketch illustrations waiting to be found in KB’s F-collection."></a></p>
+<figcaption>This page spread from Jonas Haquini Rhezelius, <em>Runestones in Uppland</em> (n.d. before 1666) - available in full here: <a href="https://www.manuscripta.se/ms/101823">Fc 8</a> - is one of the many sketch illustrations waiting to be found in KB’s F-collection.</figcaption>
+</figure>
+</div>
+<section id="in-search-of-the-past" class="level2">
+<h2 class="anchored" data-anchor-id="in-search-of-the-past">In search of the past</h2>
+<p>How do we best preserve historical traces from oblivion? This question might feel particularly urgent today, as war, cyberattacks, and climate change create ever more acute threats to cultural heritage material <span class="citation" data-cites="bergvall2023 fredrikzon_haffenden_23">(<a href="#ref-bergvall2023" role="doc-biblioref">Bergvall 2023</a>; <a href="#ref-fredrikzon_haffenden_23" role="doc-biblioref">Frederikzon and Haffenden 2023</a>)</span>. But the challenge is far from new. Historians like Peter Fritzsche have described how shifting perceptions of time after the French Revolution—and concerns about what was vanishing—contributed to the establishment of memory institutions across Europe in the mid-19th century <span class="citation" data-cites="Fritzsche2004sit Lowenthal1985tpi Swenson2013tro">(<a href="#ref-Fritzsche2004sit" role="doc-biblioref">Fritzsche 2004</a>; <a href="#ref-Lowenthal1985tpi" role="doc-biblioref">Lowenthal 1985</a>; <a href="#ref-Swenson2013tro" role="doc-biblioref">Swenson 2013</a>)</span>. In Sweden, the story of heritage management goes even further back <span class="citation" data-cites="Jensen2018pse">(<a href="#ref-Jensen2018pse" role="doc-biblioref">Jensen 2018</a>)</span>. As early as the 17th century, organized efforts were underway to collect, document, and preserve physical cultural heritage, exemplified by Johannes Bureus (1568–1652), Sweden’s first antiquarian, national archivist, and royal librarian <span class="citation" data-cites="åström_2024">(<a href="#ref-åström_2024" role="doc-biblioref">Åström 2023</a>)</span>.</p>
+<p>Reading Bureus’ 400-year-old manuscripts about his journeys to document rune stones gives us a tangible sense of this particular history <span class="citation" data-cites="källström2024">(<a href="#ref-källström2024" role="doc-biblioref">Källström 2024</a>)</span>. His drawings, notebooks, and compilations of quotations remind those of us working with cultural heritage conservation today that we are part of a much longer tradition—one in which the similarities can often surprise, despite the obvious contrasts with our digital age. To paraphrase L. P. Hartley’s famous observation: the past may be a foreign country, but they didn’t always do things differently there.</p>
+</section>
+<section id="digitizing-the-history-of-cultural-heritage-conservation" class="level2">
+<h2 class="anchored" data-anchor-id="digitizing-the-history-of-cultural-heritage-conservation">Digitizing the history of cultural heritage conservation</h2>
+<p>Thanks to a recently started collaborative project between the National Library of Sweden (<em>Kungliga biblioteket</em>, KB) and the Swedish National Heritage Board (<em>Riksantikvarieämbetet</em>, RAÄ), it is now possible to explore Sweden’s early cultural heritage preservation efforts in an entirely new way. Funded by the Royal Swedish Academy of Letters, History, and Antiquities (<em>Vitterhetsakademien</em>), <a href="https://www.raa.se/2024/10/kulturminnesvardens-aldsta-historia-blir-tillganglig-for-alla/">the project is digitizing and making accessible a significant portion of this history</a>. For KB, this involves the entire F-collection of the library’s archival holdings, which includes Bureus’ manuscripts, while RAÄ is contributing a large number of archival documents from the 17th century to the late 19th century, drawn from its official archives.</p>
+<p>Through digitization, this material—constituting the oldest history of RAÄ and the Academy of Letters—is being made available to researchers and the public alike. Via KB’s service <a href="https://www.manuscripta.se/search?q=rivih"><em>Manuscripta</em></a> and RAÄ’s <a href="https://app.raa.se/open/arkivsok/search"><em>Arkivsök</em></a>, researchers and the general public will be able to explore a newly reunited collection, previously scattered across several archives, that bears witness to the work of our predecessors in preserving the past.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Storage capsules, covers and boxes from many generations coexist in the F-collection. Some have withstood the test of time well, while others need to be inspected and replaced."><img src="images/2.jpg" class="img-fluid figure-img" style="width:300.0%" alt="Storage capsules, covers and boxes from many generations coexist in the F-collection. Some have withstood the test of time well, while others need to be inspected and replaced."></a></p>
+<figcaption>Storage capsules, covers and boxes from many generations coexist in the F-collection. Some have withstood the test of time well, while others need to be inspected and replaced.</figcaption>
+</figure>
+</div>
+</section>
+<section id="preservation-measuresa-journey-of-discovery-in-itself" class="level2">
+<h2 class="anchored" data-anchor-id="preservation-measuresa-journey-of-discovery-in-itself">Preservation measures—a journey of discovery in itself</h2>
+<p>What does it mean in practice to digitize historical manuscripts and works? Image capture is obviously a central part of digitally preserving and making the material accessible, but significant work also needs to be carried out before the manuscripts even reach our photographers. The following post gives an insight into how we work at KB to conserve and prepare <a href="https://www.kb.se/hitta-och-bestall/om-samlingar-och-material/handskrifter.html">manuscript collections</a> for digitization.</p>
+<p>Handling these materials in any way poses the risk of further damage, since the volumes and texts have been heavily used and are often extremely fragile. Many of them have lived rich and varied lives in the field before arriving in the library’s archives, and require careful and considered treatment. KB’s conservators and bookbinders therefore conduct thorough condition assessments and conservation measures before the material continues through the process. The close encounter with the material that this involves bears striking similarities to Bureus’ earlier explorations of ancient monuments and rune stones.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Reattaching a detached wax and paper seal."><img src="images/3.jpg" class="img-fluid figure-img" style="width:300.0%" alt="Reattaching a detached wax and paper seal."></a></p>
+<figcaption>Reattaching a detached wax and paper seal.</figcaption>
+</figure>
+</div>
+<p>First and foremost, each volume undergoes an evaluation before any further handling and image capture. Based on established criteria, the condition of the various components—bindings, sewing, text blocks, and media (e.g.&nbsp;ink)—is examined and documented. Different types of damage are graded according to their severity. For example, one volume might be in good condition with minor tears, while another might have extensive damage that risks worsening with handling. This evaluation determines whether conservation actions are needed and provides the best conditions for those handling the material during the rest of the digitisation process.</p>
+<p>The assessment also considers whether the material is sensitive to changes in temperature and humidity, influencing where image capture can take place. For example, parchment covers tend to expand or shrink with climate fluctuations, and degraded ink risks cracking if pages “breathe” too much. Decisions are also made about whether new storage solutions are needed or if a damaged box must be replaced. In some cases, the conservators assist during digitization, such as in opening bindings at risk of breaking, loosening tight clasps, or carefully turning fragile pages.</p>
+</section>
+<section id="a-collection-full-of-surprises" class="level2">
+<h2 class="anchored" data-anchor-id="a-collection-full-of-surprises">A collection full of surprises</h2>
+<p>KB’s F-collection is a diverse and heterogeneous assemblage of bound handwritten documents, sketches of buildings, runes and landscapes, prints, and traditional texts annotated with marginalia. Every object in the collection has the potential to surprise, whether with striking imagery or something more unusual.</p>
+<p>The first time we opened Martin Aschaneus’ <em>Collectaneum monetalium seu monetoscopia Sweogothica</em> (n.d. before 1641) - <a href="https://www.manuscripta.se/ms/101809">Fb 17:2</a> - we discovered coins bound between the pages on parchment strips. While books containing objects might seem more challenging to digitize, in this case, the binding method is ideal: the coins are as easy to leaf through as the pages! The thrill of discovering little treasures like this has been a recurring highlight throughout the project, and this coin book, one of the first volumes assessed, got us off to an exciting start.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/4.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Unexpected coins nesting as part of the book. Aschaneus’ Collectaneum monetalium seu monetoscopia Sweogothica (n.d. before 1641), Fb 17:2."><img src="images/4.jpg" class="img-fluid figure-img" style="width:300.0%" alt="Unexpected coins nesting as part of the book. Aschaneus’ Collectaneum monetalium seu monetoscopia Sweogothica (n.d. before 1641), Fb 17:2."></a></p>
+<figcaption>Unexpected coins nesting as part of the book. Aschaneus’ <em>Collectaneum monetalium seu monetoscopia Sweogothica</em> (n.d. before 1641), <a href="https://www.manuscripta.se/ms/101809">Fb 17:2</a>.</figcaption>
+</figure>
+</div>
+</section>
+<section id="protecting-the-past-for-the-future" class="level2">
+<h2 class="anchored" data-anchor-id="protecting-the-past-for-the-future">Protecting the past for the future</h2>
+<p>We cannot turn back time, but with the right conservation measures and storage, we can extend the lifespan of materials at critical moments. Water damage mars the edges of many books. Ink spills have eaten through pages. Many bindings were originally temporary but have become permanent over time—easily mobile in the field but not particularly durable.</p>
+<p>Even though digitization is a method of preserving collections, it is essential that the physical objects themselves, <em>the original</em>, remain in the best possible condition for future generations and research opportunities. With that in mind, tears and creases are among the most common damages that have needed to be repaired in the F-collection.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/5.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Shoring these fragments from ruin. Peringskiöld’s Om Heliga Birgitta (n.d.,1680-1720), Fh 26. Top right: before intervention. Bottom right: highlighting the damage of time. Left: after preservation measures."><img src="images/5.jpg" class="img-fluid figure-img" style="width:300.0%" alt="Shoring these fragments from ruin. Peringskiöld’s Om Heliga Birgitta (n.d.,1680-1720), Fh 26. Top right: before intervention. Bottom right: highlighting the damage of time. Left: after preservation measures."></a></p>
+<figcaption>Shoring these fragments from ruin. Peringskiöld’s <em>Om Heliga Birgitta</em> (n.d.,1680-1720), Fh 26. Top right: before intervention. Bottom right: highlighting the damage of time. Left: after preservation measures.</figcaption>
+</figure>
+</div>
+<p>A good example can be found in capsule Fh 26, Johan Peringskiöld’s <em>Om Heliga Birgitta</em> (n.d., between 1680 and 1720, <a href="https://libris.kb.se/bib/wc28f3h9t1xgdmvw">yet to be digitized</a>), which contains a letter where the same sheet of paper serves as both the writing surface and the envelope. At first glance, the letter appears somewhat worn, but as soon as we remove it from its capsule, we realize that it cannot be handled without falling apart (see red marking in figure 5). To make digitization possible, the folds need to be carefully smoothed out, and extremely thin Japanese paper is applied with adhesive to secure the different parts of the letter. This process is carried out with great care, and we avoid affecting the ink with the moisture introduced during treatment as much as possible.</p>
+<p>Many of the volumes contain foldouts or plates that are larger than the rest of the pages and therefore had to be folded to fit within the covers. Johan Peringskiöld’s <em>Konungatal eller förteckning på Svea och Göta Rikes konungar och drottningar</em> (n.d. before 1720) - <a href="https://www.manuscripta.se/ms/101917">Fh 13</a> - is an example of a book that includes several large printed plates, one of which illustrates a procession and lists its participants. This particular plate is one of the largest, measuring a full 75 cm (see figure 6). Foldouts present several challenges both before and during digitization. The paper in the folds is often weakened, and long tears are common. These must be stabilized—not only to prevent the loss of material but also to ensure that text and images remain intact during digitization. It is also common for foldouts to have been improperly refolded over time, creating new creases that need to be smoothed out.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/6.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Mediating social order via extended diagrams. Peringskiöld, Konungatal eller förteckning på Svea och Göta Rikes konungar och drottningar, (n.d. before 1720), Fh 13."><img src="images/6.jpg" class="img-fluid figure-img" style="width:300.0%" alt="Mediating social order via extended diagrams. Peringskiöld, Konungatal eller förteckning på Svea och Göta Rikes konungar och drottningar, (n.d. before 1720), Fh 13."></a></p>
+<figcaption>Mediating social order via extended diagrams. Peringskiöld, <em>Konungatal eller förteckning på Svea och Göta Rikes konungar och drottningar</em>, (n.d. before 1720), <a href="https://www.manuscripta.se/ms/101917">Fh 13</a>.</figcaption>
+</figure>
+</div>
+</section>
+<section id="only-the-beginning" class="level2">
+<h2 class="anchored" data-anchor-id="only-the-beginning">Only the beginning…</h2>
+<p>We are still in the early stages of the project. Some digitized items have already been published through <em>Manuscripta</em>, and at the time of writing, our conservators and bookbinders have assessed and treated 90 of approximately 300 volumes. Many challenges lie ahead, given the diversity of the collection. We are also exploring the possibility of applying the <a href="https://huggingface.co/blog/Gabriel/htrflow">Handwritten Text Recognition (HTR) models</a> developed by our colleagues at the Swedish National Archives’ <a href="https://huggingface.co/Riksarkivet">AI lab</a> to further enhance the material’s searchability and accessibility. We suspect more surprises await and hope that as you explore the digitized collection, you make your own discoveries—and perhaps gain a deeper appreciation for the dedication with which Johannes Bureus and so many others worked to preserve the heritage that continues to enrich our landscapes, both physical and digital.</p>
+</section>
+<section id="keen-to-explore-further" class="level2">
+<h2 class="anchored" data-anchor-id="keen-to-explore-further">Keen to explore further?</h2>
+<p>The material that has been digitized thus far in the project is freely available via <a href="https://www.manuscripta.se/search?q=rivih">Manuscripta</a>. Follow the link to browse the collection!</p>
+<p>Read more about the collaborative project that enables this digitization work, RiViH, via the Swedish National Heritage Board’s <a href="https://www.raa.se/2024/10/kulturminnesvardens-aldsta-historia-blir-tillganglig-for-alla/">website</a> (in Swedish).</p>
+<p>See how the research team attached to the project is making use of the material with this essay on the National Heritage Board’s <a href="https://k-blogg.se/tag/rivih-projektet/">K-blogg</a> (in Swedish).</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-åström_2024" class="csl-entry" role="listitem">
+Åström, Patrik. 2023. <span>“Sammel­su­ri­et Sumlen.”</span> Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html</a>.
+</div>
+<div id="ref-bergvall2023" class="csl-entry" role="listitem">
+Bergvall, Greger. 2023. <span>“Hotat Kultur­arv Genom Tider­na.”</span> Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html</a>.
+</div>
+<div id="ref-fredrikzon_haffenden_23" class="csl-entry" role="listitem">
+Frederikzon, Johan, and Chris Haffenden. 2023. <span>“Towards Erasure Studies: Excavating the Material Conditions of Memory and Forgetting.”</span> <em>Memory, Mind &amp; Media</em> 2: 1–24. <a href="https://doi:10.1017/mem.2023.2">doi:10.1017/mem.2023.2</a>.
+</div>
+<div id="ref-Fritzsche2004sit" class="csl-entry" role="listitem">
+Fritzsche, Peter. 2004. <em>Stranded in the Present : Modern Time and the Melancholy of History</em>. Cambridge Massachusetts: Harvard University Press.
+</div>
+<div id="ref-Jensen2018pse" class="csl-entry" role="listitem">
+Jensen, Ola W. 2018. <em>P<span>å</span> Spaning Efter Det f<span>ö</span>rflutna : En Historia Om Arkeologiskt f<span>ä</span>ltarbete i Sverige 1600-1900</em>. Stockholm: Kungl. Vitterhets historie och antikvitets akademien (KVHAA).
+</div>
+<div id="ref-källström2024" class="csl-entry" role="listitem">
+Källström, Magnus. 2024. <span>“Johannes Bureus Första Runresa.”</span> K-blogg,Riksantikvarieämbetet. <a href="https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/">https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/</a>.
+</div>
+<div id="ref-Lowenthal1985tpi" class="csl-entry" role="listitem">
+Lowenthal, David. 1985. <em>The Past Is a Foreign Country</em>. Cambridge: Cambridge University Press.
+</div>
+<div id="ref-Swenson2013tro" class="csl-entry" role="listitem">
+Swenson, Astrid. 2013. <em>The Rise of Heritage : Preserving the Past in France, Germany and England, 1789-1914</em>. Cambridge: Cambridge University Press.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
+  author = {Haffenden, Chris and Stenback, Emil},
+  title = {Preserving the History of Cultural Heritage Conservation},
+  date = {2025-01-31},
+  url = {https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Haffenden, Chris, and Emil Stenback. 2025. <span>“Preserving the History
+of Cultural Heritage Conservation.”</span> January 31, 2025. <a href="https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/">https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../images/kb_logo_text_black.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Contact: kblabb@kb.se"><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%" alt="Contact: kblabb@kb.se"></a></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

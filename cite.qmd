@@ -1,0 +1,65 @@
+---
+title: "How to cite KBLab"
+---
+If you have used the Lab’s resources or need to refer to the Lab in your research, please use the following reference:
+
+Börjeson, L., Haffenden, C., Malmsten, M., Klingwall, F., Rende, E., Kurtz, R., Rekathati, F., Hägglöf, H., & Sikora, J. (2024). Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden. College & Research Libraries, 85(4), 564–582. https://doi.org/10.5860/crl.85.4.564
+
+Or for BibTeX:
+
+ 
+```
+@article{CRL26325,
+	author = {Love Börjeson and Chris Haffenden and Martin Malmsten and Fredrik Klingwall 
+	and Emma Rende and Robin Kurtz and Faton Rekathati and Hillevi Hägglöf and Justyna Sikora},
+	title = {Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden},
+	journal = {College & Research Libraries},
+	volume = {85},
+	number = {4},
+	year = {2024},
+	issn = {2150-6701},	
+    pages = {564–582},	
+    doi = {10.5860/crl.85.4.564},
+	url = {https://crl.acrl.org/index.php/crl/article/view/26325}
+}
+```
+ 
+## Acknowledgements:
+
+If your project has been based at the Lab, please use the following formulation in any related publications:
+
+> ”Computational resources and support for this research was provided by KBLab at the National Library of Sweden.”
+
+## Citing specific models
+
+If you have used our models and need to cite the documentation we have produced for them, please use the following references:
+
+### KB-BERT
+
+```
+@misc{malmsten2020playing,
+  title={Playing with Words at the National Library of Sweden -- Making a Swedish BERT},
+  author={Martin Malmsten and Love Börjeson and Chris Haffenden},
+  year={2020},
+  eprint={2007.01658},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL}
+}
+```
+
+### Wav2vec2
+
+```
+@misc{malmsten2022hearing,
+    title={Hearing voices at the National Library -- a speech corpus and acoustic model for the Swedish language}, 
+    author={Martin Malmsten and Chris Haffenden and Love Börjeson},
+    year={2022},
+    eprint={2205.03026},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL}
+}
+```
+
+### Other models
+
+If there is a post on this blog about the model you can find a BibTeX reference in the specific post. 

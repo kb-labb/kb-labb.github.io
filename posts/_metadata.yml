@@ -1,0 +1,24 @@
+# options specified here will apply to all posts in this folder
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: true
+
+# Enable banner style title blocks
+title-block-banner: true
+
+# Make "Figure" titles bold in figure text
+crossref:
+  fig-title: '**Figure**'
+
+# Create citation for all articles by default
+citation: true
+
+# Don't make the document self-contained (e.g. include images etc. in html)
+# as opposed to linking to them
+embed-resources: false
+
+# Default table of content settings
+format:
+  html:
+    toc-location: right

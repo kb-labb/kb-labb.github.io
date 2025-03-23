@@ -1,0 +1,140 @@
+---
+title: "Swedish speech synthesis"
+description: |
+  KBLab releases a neural network based text-to-speech model for Swedish. The model was trained on an open Swedish speech synthesis dataset from NST. We make our latest training checkpoint available for for anyone wishing to finetune on a new voice. We also contribute the model weights to the open source project Piper, where users can deploy a light weight optimized version of the model on their own computers or on their Raspberry Pis.
+author:
+  - name: Faton Rekathati
+    url: https://github.com/Lauler
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2023-05-24
+image: tts_banner.png
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+    css: styles.css
+citation: true
+---
+
+Creating realistic sounding speech with proper intonation, pitch and tone from text has long been a goal of speech synthesis systems. These systems have a wide range of applications, among which a few are:
+
+1. Accessibility tooling for the visually impaired via screen readers. 
+2. Helping people with speech impairments communicate.
+3. Allowing for interaction with computers, digital assistants, and robots through audio as opposed to text. 
+
+Recent developments in neural speech synthesis have allowed for the synthetization of voices with increasing natural fidelity. However, many of these high quality systems with support for smaller languages remain proprietary. 
+
+At KBLab we recently discovered a relatively user friendly option to train a neural speech synthesis model through the Piper library^[https://github.com/rhasspy/piper]. Luckily, the Norwegian Language Bank (Språkbanken) maintains several speech datasets originally produced by the company NST (Nordisk Språkteknologi). One of those datasets consists of 5300 recordings of a single Swedish speaker ^[https://www.nb.no/sprakbanken/en/resource-catalogue/oai-nb-no-sbr-18/], recorded for the purposes of training speech synthesis systems. 
+
+## Have a listen
+
+Have a listen to the output of KBLab's model below. We use text from the wikipedia articles on [Regnbåge](https://sv.wikipedia.org/wiki/Regnb%C3%A5ge) and [Europaparlementet](https://sv.wikipedia.org/wiki/Europaparlamentet) as the source text. For each sample, we also compare our model to a recently released open source text-to-speech model from Meta AI. See the Massively Multilingual Speech project (MMS) ^[https://ai.facebook.com/blog/multilingual-model-speech-recognition/] for further details about Meta's model. 
+
+```{=html}
+<div class="fullbox">
+  <div class="audiobox">
+    <div class="metabox">
+      <h3>KBLab TTS (Piper)</h3>
+      <audio controls style="width: 290px;">
+         <source src="audio/kblab_regnbage.wav" type="audio/wav">
+      </audio>
+    </div>
+  </div>
+  
+  <div class="audiobox">
+    <div class="metabox2">
+      <h3>Facebook/Meta TTS</h3>
+      <audio controls style="width: 290px;">
+        <source src="audio/meta_mms_regnbage.wav" type="audio/wav">
+      </audio>
+    </div>
+  </div>
+</div>
+```
+
+&nbsp;  
+
+> En regnbåge är ett optiskt, meteorologiskt fenomen som uppträder som ett (nästintill) fullständigt ljusspektrum i form av en båge på himlen då solen lyser på nedfallande regn. Regnbågen består färgmässigt av en kontinuerlig övergång från rött (ytterst) via gula, gröna och blå nyanser till violett innerst; ofta definieras antalet färger som sju, inklusive orange och indigo.
+
+
+```{=html}
+<div class="fullbox2">
+  <div class="audiobox">
+    <div class="metabox">
+      <h3>KBLab TTS (Piper)</h3>
+    <audio controls style="width: 290px;">
+      <source src="audio/kblab_eu.wav" type="audio/wav">
+    </audio>
+    </div>
+  </div>
+  
+  <div class="audiobox">
+    <div class="metabox2">
+      <h3>Facebook/Meta TTS</h3>
+      <audio controls style="width: 290px;">
+        <source src="audio/meta_mms_eu.wav" type="audio/wav">
+      </audio>
+    </div>
+  </div>
+</div>
+```
+
+&nbsp;  
+
+> Europaparlamentet (EP), även känt som EU-parlamentet, är den ena lagstiftande institutionen inom Europeiska unionen; den andra är Europeiska unionens råd. Parlamentet, som består av 705 ledamöter, väljs genom allmänna och direkta val vart femte år, och företräder unionsmedborgarna direkt på unionsnivå. Parlamentet kan förenklat liknas vid ett underhus i ett tvåkammarsystem. 
+
+### Odd pronounciations
+
+Piper and the MMS model from Meta both use [VITS](https://github.com/jaywalnut310/vits) to train the text-to-speech model. This model relies on [espeak-ng](https://en.wikipedia.org/wiki/ESpeak) to translate text to phonemes. The extent and comprehensiveness of `espeak-ng`'s pronounciation and prosody rules vary from language to language, as the software is largely reliant on volunteer contributions. The reason the words *meteorologiskt*, *fenomen* and *kontinuerlig* have such a strange pronounciations is because `espeak-ng` generates an incorrect text to phoneme conversion ^[https://github.com/rhasspy/piper/issues/72#issuecomment-1550170779].
+
+## How do I use the model?
+
+To try out KBLab's TTS model yourself using Piper:
+
+1. Download the Piper binary [from Github](https://github.com/rhasspy/piper) (executable file that allows you to run the model in your terminal) ^[https://github.com/rhasspy/piper]. For Linux:
+
+```bash
+wget https://github.com/rhasspy/piper/releases/download/v0.0.2/piper_amd64.tar.gz
+```
+
+2. Unzip/Untar the downloaded archive in a directory of your choice. 
+
+```bash
+# The contents will be untarred to directory named piper/
+tar -xvf piper_amd64.tar.gz
+```
+
+3. Download the Svenska (Swedish) model weights from [Piper's voice samples](https://rhasspy.github.io/piper-samples/).
+
+```bash
+wget https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-sv-se-nst-medium.tar.gz
+```
+
+4. Unzip/Untar the downloaded archive file in a directory of your choice. We suggest doing it in the same directory where you untarred the piper binary: `piper/`. 
+
+```bash
+tar -xvf voice-sv-se-nst-medium.tar.gz --directory="piper"
+```
+
+5. Generate speech via the terminal. 
+
+```bash
+# Let's first move in to the piper directory
+cd piper
+
+# Generate speech to the audio file min_talsyntes.wav
+echo 'Jag genererar tal med hjälp av talsyntes.' | ./piper \
+  --model sv-se-nst-medium.onnx \
+  --output_file min_talsyntes.wav
+```
+
+## Pretrained model checkpoints
+
+For anyone interested in using this model to finetune other voices, we have uploaded the [pretrained checkpoint weights to Huggingface](https://huggingface.co/KBLab/piper-tts-nst-swedish). 
+
+```bash
+git clone https://huggingface.co/KBLab/piper-tts-nst-swedish
+```

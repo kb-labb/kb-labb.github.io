@@ -1,0 +1,41 @@
+project:
+  type: website
+  output-dir: docs # Github pages needs output dir to be docs
+
+website:
+  # reader-mode: true
+  repo-url: https://github.com/Lauler/lauler.github.io
+  repo-actions: [source, issue]
+  repo-link-target: _blank # open new tab when clicking on repo link
+  title: "The KBLab Blog"
+  site-url: https://kb-labb.github.io/
+  favicon: images/kblab_logo_noprint.png
+  page-footer:
+    center: |
+      ![Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a>](/images/kb_logo_text_black.png){width="30%"}
+  navbar:
+    logo: images/kblab_logo_noprint.png
+    right:
+      - text: Models
+        menu:
+          - text: KBLab Hugging Face
+            href: https://huggingface.co/KBLab
+          - text: KB-Whisper
+            href: https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa
+      - text: About
+        href: about.qmd
+      - text: How to cite
+        href: cite.qmd
+      - icon: github
+        href: https://github.com/kb-labb
+      - icon: rss
+        href: index.xml
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+
+
+

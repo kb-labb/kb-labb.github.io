@@ -1,0 +1,32 @@
+.audiobox {
+    display: inline-block;
+    align-content: center;
+    margin-right: 10px;
+    border: 2px;
+    word-wrap: break-word;
+    max-width: 300px;
+}
+
+.clear {
+    clear: both;
+}
+
+.metabox {
+    background-color: #d1d1e0;
+    margin: 0px;
+}
+
+.metabox>* {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.metabox2 {
+    background-color: #ffdab3;
+    margin: 0px;
+}
+
+.metabox2>* {
+    padding-left: 6px;
+    padding-right: 6px;
+}

@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Leonora Vesterbacka">
+<meta name="author" content="Faton Rekathati">
+<meta name="author" content="Robin Kurtz">
+<meta name="author" content="Justyna Sikora">
+<meta name="author" content="Agnes Toftgård">
+<meta name="dcterms.date" content="2025-03-07">
+<meta name="description" content="KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech. This work reports an overall improvement across model sizes compared to OpenAI’s Whisper evaluated on Swedish. Most notably, we report an average 47% reduction in WER comparing our best performing model to OpenAI’s Whisper-large-v3, in evaluations across FLEURS, Common Voice, and NST.">
+
+<title>Welcome KB-Whisper, a new fine-tuned Swedish Whisper model! – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4723c2ce50f655324c098584fc94d321.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Welcome KB-Whisper, a new fine-tuned Swedish Whisper model!</h1>
+                  <div>
+        <div class="description">
+          <p>KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech. This work reports an overall improvement across model sizes compared to OpenAI’s Whisper evaluated on Swedish. Most notably, we report an average 47% reduction in WER comparing our best performing model to OpenAI’s Whisper-large-v3, in evaluations across FLEURS, Common Voice, and NST.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Leonora Vesterbacka </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Faton Rekathati </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Robin Kurtz </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Justyna Sikora </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Agnes Toftgård </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 7, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#improving-swedish-speech-recognition" id="toc-improving-swedish-speech-recognition" class="nav-link active" data-scroll-target="#improving-swedish-speech-recognition">Improving Swedish speech recognition</a></li>
+  <li><a href="#subtitles-parliament-recordings-and-dialect-archives" id="toc-subtitles-parliament-recordings-and-dialect-archives" class="nav-link" data-scroll-target="#subtitles-parliament-recordings-and-dialect-archives">Subtitles, Parliament recordings and dialect archives</a></li>
+  <li><a href="#two-stages-of-data-quality" id="toc-two-stages-of-data-quality" class="nav-link" data-scroll-target="#two-stages-of-data-quality">Two stages of data quality</a></li>
+  <li><a href="#based-on-open-weights-from-openais-whisper" id="toc-based-on-open-weights-from-openais-whisper" class="nav-link" data-scroll-target="#based-on-open-weights-from-openais-whisper">Based on open weights from OpenAI’s Whisper</a></li>
+  <li><a href="#a-great-improvement-in-swedish-asr" id="toc-a-great-improvement-in-swedish-asr" class="nav-link" data-scroll-target="#a-great-improvement-in-swedish-asr">A great improvement in Swedish ASR</a></li>
+  <li><a href="#where-to-find-the-models" id="toc-where-to-find-the-models" class="nav-link" data-scroll-target="#where-to-find-the-models">Where to find the models?</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2025-03-07-welcome-KB-Whisper/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/KBLab-whisper.jpg" class="img-fluid figure-img" style="width:300.0%"></p>
+<figcaption>The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB</figcaption>
+</figure>
+</div>
+<section id="improving-swedish-speech-recognition" class="level2">
+<h2 class="anchored" data-anchor-id="improving-swedish-speech-recognition">Improving Swedish speech recognition</h2>
+<p>KBLab proudly presents KB-Whisper, a speech to text model fine-tuned using 50,000 hours of transcribed speech. Traditionally, Automatic Speech Recognition (ASR) systems have been based on models that either require an extensive unsupervised pretraining or supervised training that demands very high-quality orthographic transcripts, which are rare and expensive to produce.</p>
+<p>The Whisper model <span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">(<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">Radford et al. 2022</a>)</span>, originally released by OpenAI has revolutionized automatic speech recognition, by showing that high performance could be achieved with a slight decrease in quality of the transcript, thus unlocking large amounts of training data that has hitherto not been used. Subtitles for TV often use abbreviations to fit the text on the screen, and are not considered a gold standard transcription. However, <span class="citation" data-cites="radford2022robustspeechrecognitionlargescale">Radford et al. (<a href="#ref-radford2022robustspeechrecognitionlargescale" role="doc-biblioref">2022</a>)</span> showed that this training data, extracted from the web, was still good enough for Whisper to learn.</p>
+<p>The massive improvement gain with Whisper has been shown for English, and this result is directly proportional to the amount of English training data available on the web. For languages with fewer speakers, this type of data is less represented on the web and leads to poorer performance. In order to bridge this performance gap, the team at KBLab have constructed a training dataset of transcribed Swedish speech of unprecedented size, which is used to fine-tune Whisper models.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/KBLab-team.jpg" class="img-fluid figure-img" style="width:300.0%"></p>
+<figcaption>The team behind KB-Whisper. Back row: Agnes Toftgård, Robin Kurtz, Justyna Sikora. Front row: Leonora Vesterbacka, Faton Rekathati. Photography: Lina Löfström Baker/KB</figcaption>
+</figure>
+</div>
+</section>
+<section id="subtitles-parliament-recordings-and-dialect-archives" class="level2">
+<h2 class="anchored" data-anchor-id="subtitles-parliament-recordings-and-dialect-archives">Subtitles, Parliament recordings and dialect archives</h2>
+<p>The National Library of Sweden is responsible for collecting, preserving and giving access to everything that is published in Sweden. The collections include the audiovisual archives that hold TV broadcasted in Sweden. Swedish subtitles paired with spoken Swedish from TV broadcasts constitute a large portion of the training data. Parliament recordings paired with high quality transcripts in the form of protocols provide the second largest source of the training data. <a href="https://huggingface.co/datasets/KBLab/rixvox-v2">This dataset</a> is made publicly available on Huggingface, and constitute 23,000 hours of transcribed Swedish speech.</p>
+<p>Both of these data sources have the advantage of covering wide variations of spoken Swedish. In order to enhance KB-Whisper’s performance in transcribing rare variations of Swedish, dialect recordings from The Institute for language and folklore (Isof) are included. Subtitles are also extracted from YouTube channels with Swedish content. Finally, datasets collected as crowd sourced initiatives such as Mozillas CommonVoice, Googles FLEURS and the Nordic Speech Technology (NST) dataset are used partly in the training, and partly in the evaluation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bandrulle.jpg" class="img-fluid figure-img" style="width:300.0%"></p>
+<figcaption>From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB</figcaption>
+</figure>
+</div>
+</section>
+<section id="two-stages-of-data-quality" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="two-stages-of-data-quality">Two stages of data quality</h2>
+<p>To assess the quality of transcriptions, i.e.&nbsp;how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
+<p>The first quality assessment catches examples with low or no overlap, but still of sufficient quality for the model to learn from, yielding a large training dataset with an increased probability of covering rare Swedish words and names, denoted below as the Stage 1 data. The second quality assessment focuses on defining the style of transcription, aiming to teach the model how to transcribe rather than providing a large number of examples. Two styles of transcriptions are defined: one more subtitle-like (Stage 2-subtitle), and one more orthographic (Stage 2-standard) for more precise transcription.</p>
+<p>Each stage is defined by a set of criteria on CER, BLEU and ROUGE, which are outlined in Table 1.</p>
+<div class="column-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>BLEU</th>
+<th>CER-head</th>
+<th>CER-tail</th>
+<th>ROUGE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage 1</td>
+<td>&gt; 0.2</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Stage 2 standard</td>
+<td>&gt; 0.6</td>
+<td>&lt; 0.3</td>
+<td>&lt; 0.3</td>
+<td>&gt; 0.7</td>
+</tr>
+<tr class="odd">
+<td>Stage 2 subtitle</td>
+<td>&gt; 0.6</td>
+<td>&lt; 0.4</td>
+<td>&lt; 0.4</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The resulting hours the fall into each category is presented in Table 2.</p>
+<div class="column-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 21%">
+<col style="width: 30%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Dataset</th>
+<th style="text-align: right;">Stage 1 (h)</th>
+<th style="text-align: right;">Stage 2 standard (h)</th>
+<th style="text-align: right;">Stage 2 subtitle (h)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Subtitles</td>
+<td style="text-align: right;">34,261</td>
+<td style="text-align: right;">3,110</td>
+<td style="text-align: right;">6,928</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Riksdag</td>
+<td style="text-align: right;">21,949</td>
+<td style="text-align: right;">5,119</td>
+<td style="text-align: right;">8,710</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">ISOF</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">54</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">NST</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>56,514</strong></td>
+<td style="text-align: right;"><strong>8,533</strong></td>
+<td style="text-align: right;"><strong>15,942</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="based-on-open-weights-from-openais-whisper" class="level2">
+<h2 class="anchored" data-anchor-id="based-on-open-weights-from-openais-whisper">Based on open weights from OpenAI’s Whisper</h2>
+<p>Following the excellent Whisper fine-tuning tutorial from <a href="https://github.com/huggingface/community-events/tree/main/whisper-fine-tuning-event">Huggingface</a> we fine-tune all sizes of Whisper models on our Swedish training dataset of unprecedented size. The training is performed in a two-stage approach, where the first stage leverages the large Stage 1 dataset, followed by two parallel training stages where the model is either trained on the Stage 2-subtitle data or the Stage 2-standard data.</p>
+<p>The training is executed on the Leonardo Supercomputer hosted by CINECA (Italy), that we were granted access to through a <a href="https://eurohpc-ju.europa.eu/index_en">EuroHPC JU</a> AI and data-intensive applications call.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/leonardo.png" class="img-fluid figure-img" style="width:300.0%"></p>
+<figcaption>The Leonardo Supercomputer. Source <a href="https://leonardo-supercomputer.cineca.eu/">CINECA</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="a-great-improvement-in-swedish-asr" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="a-great-improvement-in-swedish-asr">A great improvement in Swedish ASR</h2>
+<p>We have evaluated the models on three datasets: FLEURS (train and test set), NST (test set), and Common Voice 16.0 (train, validation, and test set). The CommonVoice and FLEURS data has not been part of the training set and can therefore serve as a benchmark for the models’ out-of-domain performance.</p>
+<p>To compare our newly trained models with OpenAI’s models, we calculate Word Error Rate (WER) and BLEU scores for each of the mentioned datasets. WER measures transcription accuracy by calculating the percentage of words that are substituted, deleted, or inserted, while the BLEU score evaluates how well a transcription matches the reference text.</p>
+<p>The results evaluated in terms of WER is presented in the table below.</p>
+<div class="column-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model size</th>
+<th></th>
+<th>FLEURS</th>
+<th>CommonVoice</th>
+<th>NST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://huggingface.co/KBLab/kb-whisper-tiny">tiny</a></td>
+<td><strong>KBLab</strong></td>
+<td><strong>13.2</strong></td>
+<td><strong>12.9</strong></td>
+<td><strong>11.2</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>59.2</td>
+<td>67.8</td>
+<td>85.2</td>
+</tr>
+<tr class="odd">
+<td><a href="https://huggingface.co/KBLab/kb-whisper-base">base</a></td>
+<td><strong>KBLab</strong></td>
+<td><strong>9.1</strong></td>
+<td><strong>8.7</strong></td>
+<td><strong>7.8</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>39.6</td>
+<td>52.1</td>
+<td>53.4</td>
+</tr>
+<tr class="odd">
+<td><a href="https://huggingface.co/KBLab/kb-whisper-small">small</a></td>
+<td><strong>KBLab</strong></td>
+<td><strong>7.3</strong></td>
+<td><strong>6.4</strong></td>
+<td><strong>6.6</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>20.6</td>
+<td>26.4</td>
+<td>26.4</td>
+</tr>
+<tr class="odd">
+<td><a href="https://huggingface.co/KBLab/kb-whisper-medium">medium</a></td>
+<td><strong>KBLab</strong></td>
+<td><strong>6.6</strong></td>
+<td><strong>5.4</strong></td>
+<td><strong>5.8</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>12.1</td>
+<td>15.8</td>
+<td>17.1</td>
+</tr>
+<tr class="odd">
+<td><a href="https://huggingface.co/KBLab/kb-whisper-large">large-v3</a></td>
+<td><strong>KBLab</strong></td>
+<td><strong>5.4</strong></td>
+<td><strong>4.1</strong></td>
+<td><strong>5.2</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>7.8</td>
+<td>9.5</td>
+<td>11.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Our evaluations show that the best-performing model reduces the WER by an average of 47% compared to Whisper-large-v3.</p>
+<p>The results evaluated in terms of BLEU is presented in the table below.</p>
+<div class="column-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model size</th>
+<th></th>
+<th>FLEURS</th>
+<th>CommonVoice</th>
+<th>NST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tiny</td>
+<td>KBLab</td>
+<td><strong>76.6</strong></td>
+<td><strong>73.7</strong></td>
+<td><strong>74.3</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>26.9</td>
+<td>21.1</td>
+<td>24.0</td>
+</tr>
+<tr class="odd">
+<td>base</td>
+<td>KBLab</td>
+<td><strong>83.2</strong></td>
+<td><strong>79.9</strong></td>
+<td><strong>78.3</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>41.1</td>
+<td>32.5</td>
+<td>36.9</td>
+</tr>
+<tr class="odd">
+<td>small</td>
+<td>KBLab</td>
+<td><strong>86.6</strong></td>
+<td><strong>83.5</strong></td>
+<td><strong>79.6</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>64.0</td>
+<td>56.5</td>
+<td>58.2</td>
+</tr>
+<tr class="odd">
+<td>medium</td>
+<td>KBLab</td>
+<td><strong>87.6</strong></td>
+<td><strong>85.0</strong></td>
+<td><strong>80.2</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>77.1</td>
+<td>70.1</td>
+<td>68.9</td>
+</tr>
+<tr class="odd">
+<td>large-v3</td>
+<td>KBLab</td>
+<td><strong>89.8</strong></td>
+<td><strong>87.2</strong></td>
+<td><strong>81.1</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>OpenAI</td>
+<td>84.9</td>
+<td>79.1</td>
+<td>75.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The most significant improvements are observed in smaller models, demonstrating that high-quality transcriptions can be achieved with fewer computational resources.The KB-whisper-small model outperforms OpenAI’s whisper-large-v3, a model six times its size. ´This means that similar transcription quality can be obtained using a smaller model, making speech-to-text more accessible and less costly.</p>
+</section>
+<section id="where-to-find-the-models" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-find-the-models">Where to find the models?</h2>
+<p>All models are freely available for download from KBLab’s page on <a href="https://huggingface.co/KBLab">HuggingFace</a>.</p>
+<p>For more information on ASR models and how to use KBLab’s Whisper models programmatically, we recommend exploring this <a href="https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842?usp=sharing">notebook</a>.</p>
+</section>
+<section id="acknowledgments" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>We acknowledge the EuroHPC Joint Undertaking for awarding this project access to the EuroHPC supercomputer LEONARDO, hosted by CINECA (Italy) and the LEONARDO consortium, through the Development Access call and AI and data intensive applications access call.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="images/eurohpc.png" class="img-fluid" style="margin-left: 5px;;width:35.0%"></p>
+</div></div><p>The development work to produce the notebook mentioned above was carried out within the <a href="https://www.huminfra.se/">HUMINFRA</a> infrastructure project.</p>
+
+
+
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
+</div></div></section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-wav2vec2" class="csl-entry" role="listitem">
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+</div>
+<div id="ref-radford2022robustspeechrecognitionlargescale" class="csl-entry" role="listitem">
+Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <span>“Robust Speech Recognition via Large-Scale Weak Supervision.”</span> <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{vesterbacka2025,
+  author = {Vesterbacka, Leonora and Rekathati, Faton and Kurtz, Robin
+    and Sikora, Justyna and Toftgård, Agnes},
+  title = {Welcome {KB-Whisper,} a New Fine-Tuned {Swedish} {Whisper}
+    Model!},
+  date = {2025-03-07},
+  url = {https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vesterbacka2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and
+Agnes Toftgård. 2025. <span>“Welcome KB-Whisper, a New Fine-Tuned
+Swedish Whisper Model!”</span> March 7, 2025. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Lauler/lauler.github.io/blob/main/posts/2025-03-07-welcome-KB-Whisper/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/Lauler/lauler.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

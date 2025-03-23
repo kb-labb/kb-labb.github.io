@@ -1,0 +1,190 @@
+---
+title: "Swedish Sentence Transformer 2.0"
+description: |
+  KBLab's Swedish sentence transformer has been updated to a newer version. The
+  new version features an increased maximum sequence length of 384 tokens, 
+  allowing users to encode longer documents. It also performs better on retrieval
+  tasks, such as matching questions and answers. 
+author:
+  - name: Faton Rekathati
+    url: https://github.com/Lauler
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2023-01-16
+image: images/sentence_transformer.svg
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+---
+
+We release an updated Swedish sentence transformer model. In addition to training the model on parallel sentences, we concatenate sentences from those parallel text corpora whose sentence orderings are sequential, training our model on longer text paragraphs. The new **KB-SBERT v2.0** has an increased maximum sequence length of 384, up from the 256 maximum tokens of the previous model. The model performs only marginally worse on SuperLim's SweParaphrase benchmark, while performing significantly better on SweFaQ.
+
+## The sequence length problem
+The training of the vast majority of available non-English sentence transformer models involves the use of so called *parallel corpora*. These are text translations of the same source documents in two or more languages. Typically these datasets come in the form of sentence-aligned observations. As a result, the context of any single given observation is quite small. 
+
+::: {.column-margin}
+You can read more about the first version of the model in another article on our blog: [Introducing a Swedish Sentence Transformer](https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/).
+:::
+
+The setup for training the first version of KB-SBERT involved parallel corpora and using *knowledge distillation* to transfer the knowledge of an English sentence transformer to a Swedish student BERT model. The library [`sentence-transformers`](https://github.com/UKPLab/sentence-transformers) provides a template for training models in this manner. Its default setting however recommends a maximum sequence length of $128$ for knowledge distilled bi- or multilingual models. This is due to most training examples in parallel corpora being rather short. It is unclear whether models trained on only short inputs can perform well on longer inputs. 
+
+
+::: {.column-margin}
+The limited maximum sequence length of multilingual models is discussed in a [Github issue](https://github.com/UKPLab/sentence-transformers/issues/1476).
+:::
+
+In this article, we set out to train a new model where we investigate and try to address the sequence length problem. 
+
+## Longer parallel texts
+
+The new model is trained on a similar set of source datasets as the old one, assembled mostly from the [Open Parallel Corpus (OPUS)](https://opus.nlpl.eu/). We use `JW300`, `Europarl`, `DGT-TM`, `EMEA`, `ELITR-ECA`, `TED2020`, `Tatoeba` and `OpenSubtitles`.  We discovered issues in alignments in the published files from OPUS for the DGT dataset. For this reason we downloaded all the raw DGT-TM data files from EU's data portal and processed them ourselves ([code](https://github.com/kb-labb/swedish-sbert/blob/main/get_parallel_data_dgt.py)). Some of the datasets have quality filters indicating the confidence of the alignments. You can see which thresholds we used in the following [highlighted lines](https://github.com/kb-labb/swedish-sbert/blob/fb829a2ce3832a24912f29b1dc20c7f4878bc44e/get_parallel_data_opus.py#L57-L67).
+
+::: {.column-margin}
+Read more about the datasets in [the original article](https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/#data-parallel-corpus-training-data).
+:::
+
+The main difference when it comes to training data comes from
+
+1. identifying the datasets where sentences are ordered consecutively.
+2. concatenating consecutive sentences in both English and Swedish to longer parallel texts.
+
+A dataset with longer texts was created using `DGT-TM`, `Europarl`, `EMEA`, `ELITR-ECA`, `JW300` and `TED2020`. Word counts were calculated for all sentences. Consecutive sentences were then concatenated until the cumulative number of words exceeded a maximum word limit determined by sampling from a truncated normal distribution:
+
+$$
+\mathcal{TN}(\mu, \sigma, a, b)
+$$
+
+::: {.column-margin}
+$\mu$ -- mean.  
+$\sigma$ -- standard deviation.  
+$a$ -- minimum nr of words.  
+$b$ -- maximum nr of words.  
+:::
+
+where $\mu=270$, $\sigma=110$, $a=60$, $b=330$. Generally each word is represented by an average of $1.3$ to $1.4$ tokens. Some of the concatenated texts will thus exceed the $384$ max sequence length of the model and be truncated. We imagine truncation will be common in real world usage as well, and the pretraining schemes of some language models such as BERT even included too long sequences for this very reason. Therefore we don't regard the occasional truncation as an issue. 
+
+## New models
+
+We train two new models with $384$ max sequence length. The one called **v1.1** is trained with the same teacher model as our original **v1.0** model. The new default model called **v2.0** is trained with a more recently released teacher model `all-mpnet-base-v2` that is [supposedly better](https://www.sbert.net/docs/pretrained_models.html). An overview of available models and their differences are listed below.
+
+| Model version | Teacher Model | Max Sequence Length |
+|---------------|:---------|----------|
+| v1.0          | [paraphrase-mpnet-base-v2](https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2)  | 256   |
+| v1.1          | [paraphrase-mpnet-base-v2](https://huggingface.co/sentence-transformers/paraphrase-mpnet-base-v2)  | 384   |
+| v2.0          | [all-mpnet-base-v2](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)  | 384 |
+
+```{=html}
+<style>
+table th:first-of-type {
+    width: 32%;
+}
+table th:nth-of-type(2) {
+    width: 36%;
+}
+table th:nth-of-type(3) {
+    width: 32%;
+}
+</style>
+```
+
+You can still access and use older version of the model with Huggingface via 
+
+```{python}
+#| eval: false
+from transformers import AutoModel
+AutoModel.from_pretrained('KBLab/sentence-bert-swedish-cased', revision="v1.0")
+```
+
+or with `sentence-transformers` by cloning the repository to your computer with 
+
+```bash
+git clone --depth 1 --branch v1.0 https://huggingface.co/KBLab/sentence-bert-swedish-cased
+``` 
+
+and then pointing to that local folder when loading the model in:
+
+```{python}
+#| eval: false
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer("path_to_model_folder/sentence-bert-swedish-cased")
+```
+
+## Training
+
+The published models **v1.1**, and **v2.0** were first trained on datasets without concatenations for about 380k steps, since this was 4 times faster than training with longer texts mixed in. After 48 hours (380k steps), they were trained for another ~100k steps (48 hours) with longer paragraphs mixed in. 
+
+Initially, training and convergence was very slow when using `all-mpnet-base-v2` as a teacher model. Our student model had difficulties and took much longer to converge to the same evaluation results compared to when it was trained with `paraphrase-mpnet-base-v2`. After some troubleshooting involving ablations such as:
+
+* Training only with parallel sentences.
+* Training with only longer paragraphs.
+* Training with a mix.
+* Repeating training with all the above configurations using `paraphrase-mpnet-base-v2` as a comparison. 
+
+eventually we turned to carefully comparing both of the above teacher models for differences. We discovered that `all-mpnet-base-v2` has an [L2-normalization layer at the end](https://huggingface.co/sentence-transformers/all-mpnet-base-v2/blob/main/modules.json) after pooling the embeddings. This normalization layer doesn't involve any model parameters, it simply rescales the output vector based on the magnitude of its own values. We suspected this layer was making it harder for our student model to learn to output similar embeddings to the teacher model, as the student model now had to learn how to normalize a vector (a process that doesn't involve model paramters) in addition to emulating the teacher model. 
+
+We removed this normalization layer and replaced it with an `Identity()`-layer (returns the input without any manipulation). After this, the model converged much faster and the evaluation results improved.
+
+## Results on SuperLim
+
+To evaluate whether whether training with longer sequences improves model performance, we evaluated the model on two datasets using [SuperLim](https://spraakbanken.gu.se/resurser/superlim), a set of evaluation datasets for Swedish language models. An updated version **v2.0** of SuperLim is in the works, and will be released publicly once it is ready. We luckily had access to a development version of **v2.0**, and evaluated our models on both **v1.0** and **v2.0** of SuperLim. 
+
+
+### SweParahrase v1.0
+The models were evaluated on SweParahrase and SweFAQ. Results from  **SweParaphrase v1.0** are displayed below.
+
+| Model version | Pearson | Spearman |
+|---------------|---------|----------|
+| v1.0          | 0.9183  | 0.9114   |
+| v1.1          | 0.9183  | 0.9114   |
+| v2.0          | **0.9283**  | **0.9130**   |
+
+**v2.0** of our model inches out a slight win when evaluated on **SweParaphrase v1.0**. However, it should be noted the test set is quite small in this version of SuperLim. 
+
+### SweParaphrase v2.0
+
+Below, we present zero-shot evaluation results on all data splits. They display the model's performance out of the box, without any fine-tuning.
+
+| Model version | Data split | Pearson    | Spearman   |
+|---------------|------------|------------|------------|
+| v1.0          | train      | 0.8355     | 0.8256     |
+| v1.1          | train      | **0.8383** | **0.8302** |
+| v2.0          | train      | 0.8209     | 0.8059     |
+| v1.0          | dev        | 0.8682     | 0.8774     |
+| v1.1          | dev        | **0.8739** | **0.8833** |
+| v2.0          | dev        | 0.8638     | 0.8668     |
+| v1.0          | test       | 0.8356     | 0.8476     |
+| v1.1          | test       | **0.8393** | **0.8550** |
+| v2.0          | test       | 0.8232     | 0.8213     |
+
+
+In general, **v1.1**, the model trained using the same teacher model as the original model, but using longer texts, correlates the most with human assessment of text similarity on SweParaphrase v2.0. 
+
+### SweFAQ v2.0
+
+When it comes to retrieval tasks, **v2.0** performs the best by quite a substantial margin. It is better at matching the correct answer to a question compared to v1.1 and v1.0. Notably **v1.1** performs better than **v1.0**, with the only difference between the two models  being that longer parallel texts were included in the training of **v1.1**.
+
+| Model version | Data split | Accuracy   |
+|---------------|------------|------------|
+| v1.0          | train      | 0.5262     |
+| v1.1          | train      | 0.6236     |
+| v2.0          | train      | **0.7106** |
+| v1.0          | dev        | 0.4636     |
+| v1.1          | dev        | 0.5818     |
+| v2.0          | dev        | **0.6727** |
+| v1.0          | test       | 0.4495     |
+| v1.1          | test       | 0.5229     |
+| v2.0          | test       | **0.5871** |
+
+<aside> 
+Examples how to evaluate the newer model on some of the test sets of SuperLim v2.0 can be found on the following links: [evaluate_faq.py](https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_faq.py) (Swedish FAQ), [evaluate_sweparaphrase.py](https://github.com/kb-labb/swedish-sbert/blob/main/evaluate_sweparaphrase.py)
+</aside>
+
+## Acknowledgements
+
+We gratefully acknowledge the HPC RIVR consortium ([www.hpc-rivr.si](www.hpc-rivr.si)) and EuroHPC JU ([eurohpc-ju.europa.eu](eurohpc-ju.europa.eu)) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science ([www.izum.si](www.izum.si)).
+
+## Code availability {.appendix}
+The code used to train and evaluate KBLab's Swedish Sentence BERT is available at https://github.com/kb-labb/swedish-sbert.
