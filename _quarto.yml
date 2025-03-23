@@ -4,7 +4,7 @@ project:
 
 website:
   # reader-mode: true
-  repo-url: https://github.com/Lauler/lauler.github.io
+  repo-url: https://github.com/kb-labb/kb-labb.github.io
   repo-actions: [source, issue]
   repo-link-target: _blank # open new tab when clicking on repo link
   title: "The KBLab Blog"
