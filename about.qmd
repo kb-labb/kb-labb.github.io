@@ -141,3 +141,13 @@ My background is in Classics and I have a [PhD in Greek from Uppsala University 
 
 I work as a senior data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.
 
+
+```{=html}
+<hr>
+<br />
+```
+![](images/agnes.png){width="25%"}
+
+### Agnes Toftgård, Data scientist [✉️](mailto:agnes.toftgard@kb.se)
+I am a data scientist at KBLab, where I work with training Swedish language models (such as our speech-to-text model kb-whisper), and with finding ways to integrate AI in the broader activity at the National Library (such as auto-transcribing radio-archives to make them searchable).
+My background is a MSE from Linköping University in Data-driven Analysis and Machine Learning, where I found that natural language processing was a perfect mix of my interests in languages and computer science.
