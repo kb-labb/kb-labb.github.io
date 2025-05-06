@@ -9,7 +9,7 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.42</generator>
+<generator>quarto-1.7.30</generator>
 <lastBuildDate>Thu, 06 Mar 2025 23:00:00 GMT</lastBuildDate>
 <item>
   <title>Welcome KB-Whisper, a new fine-tuned Swedish Whisper model!</title>
@@ -573,11 +573,15 @@ The image search demo can be accessed at <a href="https://lab.kb.se/bildsok">htt
 <aside>
 <strong>GLAM:</strong> <strong>G</strong>alleries, <strong>L</strong>ibraries, <strong>A</strong>rchives and <strong>M</strong>useums.
 </aside>
-<p>By connecting the visual and textual domains in an innovative manner, multimodal AI has enabled more effective online search techniques, both in terms of text-to-image (i.e.&nbsp;image retrieval from a textual description) and image-to-image search (otherwise known as reverse image search, i.e.&nbsp;image retrieval from an image). The Open AI model <a href="https://openai.com/research/clip">CLIP</a> was trained on a dataset of 400 million matching text-image pairs to learn to recognize visual concepts and their associated names - e.g.&nbsp;an image of a cat and “a photo of a cat” <span class="citation" data-cites="radford2021learning">(Radford et al. 2021)</span>. This works via the use of vector space: through transforming the input text or image to a numerical representation (called <a href="https://en.wikipedia.org/wiki/Word_embedding">embeddings</a>), the AI model can return results based upon images with a similar representation (see fig.&nbsp;@ref(fig:embeddings)). When “church” appears in a text, for instance, the model will generate a similar number representation for both the word description and the visual manifestation of a church, thus collapsing the distinction between the different modes and making them directly comparable. Such a technique can be used to identify all the images containing a church in a large collection of images, regardless of whether these images have previously been described as such. In short, it offers content-based image search independent of prior metadata.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/embeddings.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Matching similar images and texts within vector space. Image: Federico Bianchi."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/embeddings.png" class="img-fluid figure-img" style="width:100.0%" alt="Matching similar images and texts within vector space. Image: Federico Bianchi."></a></p>
-<figcaption>Matching similar images and texts within vector space. Image: Federico Bianchi.</figcaption>
+<p>By connecting the visual and textual domains in an innovative manner, multimodal AI has enabled more effective online search techniques, both in terms of text-to-image (i.e.&nbsp;image retrieval from a textual description) and image-to-image search (otherwise known as reverse image search, i.e.&nbsp;image retrieval from an image). The Open AI model <a href="https://openai.com/research/clip">CLIP</a> was trained on a dataset of 400 million matching text-image pairs to learn to recognize visual concepts and their associated names - e.g.&nbsp;an image of a cat and “a photo of a cat” <span class="citation" data-cites="radford2021learning">(Radford et al. 2021)</span>. This works via the use of vector space: through transforming the input text or image to a numerical representation (called <a href="https://en.wikipedia.org/wiki/Word_embedding">embeddings</a>), the AI model can return results based upon images with a similar representation (see Figure&nbsp;1). When “church” appears in a text, for instance, the model will generate a similar number representation for both the word description and the visual manifestation of a church, thus collapsing the distinction between the different modes and making them directly comparable. Such a technique can be used to identify all the images containing a church in a large collection of images, regardless of whether these images have previously been described as such. In short, it offers content-based image search independent of prior metadata.</p>
+<div id="fig-embeddings" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-embeddings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/embeddings.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Matching similar images and texts within vector space. Image: Federico Bianchi."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/embeddings.png" class="img-fluid figure-img" style="width:100.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-embeddings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: Matching similar images and texts within vector space. Image: Federico Bianchi.
+</figcaption>
 </figure>
 </div>
 </section>
@@ -585,41 +589,57 @@ The image search demo can be accessed at <a href="https://lab.kb.se/bildsok">htt
 <h2 class="anchored" data-anchor-id="applying-multimodal-search-at-the-library">Applying multimodal search at the library</h2>
 <p>We chose to explore the potential of this method for heritage material through a pilot project focused upon a selection of KB’s postcards. While the original version of CLIP was trained upon English text data, we turned to the Swedish adaptation of the model produced by <span class="citation" data-cites="carlsson-etal-2022-cross">(Carlsson et al. 2022)</span>, Swe-CLIP 2M, to enable free text search in Swedish. Since only part of the library’s postcard collection has been digitized, we could include 17,409 postcards in the project. Given that the back side of each postcard could include personal details such as names and addresses, we opted to employ only the front sides. Using this digital material as a dataset, we sought to investigate the relevance of cutting-edge AI search techniques in a library context.</p>
 <div class="page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/interface.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Interface for postcard image search."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/interface.png" class="img-fluid figure-img column-body-outset" style="width:100.0%" alt="Interface for postcard image search."></a></p>
-<figcaption>Interface for postcard image search.</figcaption>
+<div id="fig-interface" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/interface.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Interface for postcard image search."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/interface.png" class="img-fluid figure-img column-body-outset" style="width:100.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Interface for postcard image search.
+</figcaption>
 </figure>
 </div>
 </div>
-<p>After close collaboration with the library’s developers, the project resulted in an image search demo, which, thanks to a recent licensing agreement, can now be openly accessed <a href="https://lab.kb.se/bildsok">here</a>. This amounts to an interface that allows these postcards to be searched according to either text or image search terms (see fig.&nbsp;@ref(fig:interface)), making a previously largely undescribed - and therefore undiscoverable - material amenable to the sort of granular search possibilities we are familiar with from online search engines.</p>
+<p>After close collaboration with the library’s developers, the project resulted in an image search demo, which, thanks to a recent licensing agreement, can now be openly accessed <a href="https://lab.kb.se/bildsok">here</a>. This amounts to an interface that allows these postcards to be searched according to either text or image search terms (see Figure&nbsp;2), making a previously largely undescribed - and therefore undiscoverable - material amenable to the sort of granular search possibilities we are familiar with from online search engines.</p>
 <p>The demo works by exploiting the multimodal capabilities of CLIP outlined above. So any text or image entered into the search box is run through the model, transformed into a numerical representation, and then compared with the equivalent representations for all of the postcards that have been previously processed and stored in a database. The search results are ranked according to (cosine) similarity, with the postcards with the closest representation to the search term appearing at the top of the list. Insofar as it prototypes a new entrance point to the collections, our demo provides a striking example of the transformative possibilities of vector databases for memory institutions.</p>
 </section>
 <section id="test-and-explore" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="test-and-explore">Test and explore!</h2>
 <p>As part of our wider mission at KBLab to contribute to wider use and discussion of AI tools for the heritage sector and beyond <span class="citation" data-cites="börjeson_haffenden_malmsten_klingwall_rende_kurtz_rekathati_hägglöf_sikora_2023">(Börjeson et al. 2023)</span>, we encourage you to try out the image search demo and play around with its capabilities. Here we would like to offer a few brief pointers about how to use the demo and understand the results.</p>
-<p>The first option is free text search: you can provide the search box with either a general term - i.e.&nbsp;“kyrka” (fig.&nbsp;@ref(fig:kyrka)) - or a more specific set of terms, if you would like to find something more particular - i.e.&nbsp;“kyrka och blå himmel bilar” (fig.&nbsp;@ref(fig:kyrkabilar)). The second option is image search. Here you can either click on a given image in order to be provided with a results list of the most similar images in the collection (fig.&nbsp;@ref(fig:imagetoimage)), or you can upload your own image to find out which of the postcards are most closely related. (This latter option is particularly useful if you are a researcher interested in tracing the reception history and transmission of a particular image.) As the green tags at the top of figure @ref(fig:imagetoimage) suggest, the images have also been selectively enriched with various tags to enhance searchability: you can click on a tag to see which postcards share the same description, i.e.&nbsp;the category “Borgholms kyrka”.</p>
+<p>The first option is free text search: you can provide the search box with either a general term - i.e.&nbsp;“kyrka” (Figure&nbsp;3) - or a more specific set of terms, if you would like to find something more particular - i.e.&nbsp;“kyrka och blå himmel bilar” (Figure&nbsp;4). The second option is image search. Here you can either click on a given image in order to be provided with a results list of the most similar images in the collection (Figure&nbsp;5), or you can upload your own image to find out which of the postcards are most closely related. (This latter option is particularly useful if you are a researcher interested in tracing the reception history and transmission of a particular image.) As the green tags at the top of Figure&nbsp;5 suggest, the images have also been selectively enriched with various tags to enhance searchability: you can click on a tag to see which postcards share the same description, i.e.&nbsp;the category “Borgholms kyrka”.</p>
 <div class="page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/kyrka.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Free text search in the postcard collection for the Swedish term “church”."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/kyrka.png" class="img-fluid figure-img column-body-outset" style="width:100.0%" alt="Free text search in the postcard collection for the Swedish term “church”."></a></p>
-<figcaption>Free text search in the postcard collection for the Swedish term “church”.</figcaption>
+<div id="fig-kyrka" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-kyrka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/kyrka.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Free text search in the postcard collection for the Swedish term “church”."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/kyrka.png" class="img-fluid figure-img column-body-outset" style="width:100.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kyrka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: Free text search in the postcard collection for the Swedish term “church”.
+</figcaption>
 </figure>
 </div>
 </div>
 <div class="page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/kyrka_bilar.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Search results for the Swedish search string: “church and blue sky cars”."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/kyrka_bilar.png" class="img-fluid figure-img column-body-outset" style="width:100.0%" alt="Search results for the Swedish search string: “church and blue sky cars”."></a></p>
-<figcaption>Search results for the Swedish search string: “church and blue sky cars”.</figcaption>
+<div id="fig-kyrkabilar" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-kyrkabilar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/kyrka_bilar.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Search results for the Swedish search string: “church and blue sky cars”."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/kyrka_bilar.png" class="img-fluid figure-img column-body-outset" style="width:100.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kyrkabilar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;4: Search results for the Swedish search string: “church and blue sky cars”.
+</figcaption>
 </figure>
 </div>
 </div>
 <div class="page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/image_to_image.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" title="Image-to-image search to find most closely related postcards."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/image_to_image.png" class="img-fluid figure-img column-body-outset" style="width:100.0%" alt="Image-to-image search to find most closely related postcards."></a></p>
-<figcaption>Image-to-image search to find most closely related postcards.</figcaption>
+<div id="fig-imagetoimage" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-imagetoimage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/image_to_image.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Image-to-image search to find most closely related postcards."><img src="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/images/image_to_image.png" class="img-fluid figure-img column-body-outset" style="width:100.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-imagetoimage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5: Image-to-image search to find most closely related postcards.
+</figcaption>
 </figure>
 </div>
 </div>
