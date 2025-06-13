@@ -1,0 +1,14 @@
+.column-margin {
+    text-align: center;
+}
+
+.column-margin img {
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.shift-right {
+    margin-left: 70px;
+    /* Adjust the value as needed */
+}

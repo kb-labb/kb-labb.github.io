@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Robin Böckerman">
+<meta name="author" content="Chris Haffenden">
+<meta name="author" content="Justyna Sikora">
+<meta name="dcterms.date" content="2025-06-11">
+<meta name="description" content="How well do current HTR models handle the complexity of medieval Latin handwriting? At KBLab, we’ve been testing and comparing the state of the art in openly available models to assess their potential - and limitations - for unlocking KB’s Latin manuscript collections.">
+
+<title>From Parchment to Pixels: Exploring HTR Models for KB’s Latin Manuscripts – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">From Parchment to Pixels: Exploring HTR Models for KB’s Latin Manuscripts</h1>
+                  <div>
+        <div class="description">
+          <p>How well do current HTR models handle the complexity of medieval Latin handwriting? At KBLab, we’ve been testing and comparing the state of the art in openly available models to assess their potential - and limitations - for unlocking KB’s Latin manuscript collections.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Robin Böckerman </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Chris Haffenden </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Justyna Sikora </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 11, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#kbs-latin-manuscripts" id="toc-kbs-latin-manuscripts" class="nav-link" data-scroll-target="#kbs-latin-manuscripts">KB’s Latin manuscripts</a></li>
+  <li><a href="#htr-architecture" id="toc-htr-architecture" class="nav-link" data-scroll-target="#htr-architecture">HTR architecture</a></li>
+  <li><a href="#htr-process" id="toc-htr-process" class="nav-link" data-scroll-target="#htr-process">HTR process</a></li>
+  <li><a href="#challenges-with-htr-and-latin-manuscripts" id="toc-challenges-with-htr-and-latin-manuscripts" class="nav-link" data-scroll-target="#challenges-with-htr-and-latin-manuscripts">Challenges with HTR and Latin manuscripts</a></li>
+  <li><a href="#different-htr-frameworks" id="toc-different-htr-frameworks" class="nav-link" data-scroll-target="#different-htr-frameworks">Different HTR frameworks</a>
+  <ul class="collapse">
+  <li><a href="#transkribus" id="toc-transkribus" class="nav-link" data-scroll-target="#transkribus">Transkribus</a></li>
+  <li><a href="#escriptorium-and-kraken" id="toc-escriptorium-and-kraken" class="nav-link" data-scroll-target="#escriptorium-and-kraken">eScriptorium and Kraken</a></li>
+  <li><a href="#advanced-htr-training-options" id="toc-advanced-htr-training-options" class="nav-link" data-scroll-target="#advanced-htr-training-options">Advanced HTR training options</a></li>
+  </ul></li>
+  <li><a href="#testing-escriptorium" id="toc-testing-escriptorium" class="nav-link" data-scroll-target="#testing-escriptorium">Testing eScriptorium</a>
+  <ul class="collapse">
+  <li><a href="#segmentation" id="toc-segmentation" class="nav-link" data-scroll-target="#segmentation">Segmentation</a></li>
+  <li><a href="#single-column-manuscript-pages" id="toc-single-column-manuscript-pages" class="nav-link" data-scroll-target="#single-column-manuscript-pages">Single-column manuscript pages</a></li>
+  <li><a href="#reading-order-and-line-association" id="toc-reading-order-and-line-association" class="nav-link" data-scroll-target="#reading-order-and-line-association">Reading order and line association</a></li>
+  <li><a href="#transcription" id="toc-transcription" class="nav-link" data-scroll-target="#transcription">Transcription</a></li>
+  <li><a href="#results-of-htr-with-kraken-models-in-escriptorium" id="toc-results-of-htr-with-kraken-models-in-escriptorium" class="nav-link" data-scroll-target="#results-of-htr-with-kraken-models-in-escriptorium">Results of HTR with Kraken Models in eScriptorium</a></li>
+  </ul></li>
+  <li><a href="#testing-transkribus" id="toc-testing-transkribus" class="nav-link" data-scroll-target="#testing-transkribus">Testing Transkribus</a></li>
+  <li><a href="#testing-trocr" id="toc-testing-trocr" class="nav-link" data-scroll-target="#testing-trocr">Testing TrOCR</a></li>
+  <li><a href="#comparing-outputs-kraken-pylaia-or-trocr" id="toc-comparing-outputs-kraken-pylaia-or-trocr" class="nav-link" data-scroll-target="#comparing-outputs-kraken-pylaia-or-trocr">Comparing outputs: Kraken, pyLaia or TrOCR?</a></li>
+  <li><a href="#next-steps-and-future-work" id="toc-next-steps-and-future-work" class="nav-link" data-scroll-target="#next-steps-and-future-work">Next steps and future work</a></li>
+  <li><a href="#appendix-htr-model-results-with-manual-benchmark" id="toc-appendix-htr-model-results-with-manual-benchmark" class="nav-link" data-scroll-target="#appendix-htr-model-results-with-manual-benchmark">Appendix: HTR Model Results with Manual Benchmark</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kb-labb/kb-labb.github.io/blob/main/posts/2025-06-11-from-parchment-to-pixel/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/kb-labb/kb-labb.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Recent advances in <strong>Handwritten Text Recognition (HTR)</strong> have opened up powerful new ways to access cultural heritage material. HTR models can now achieve high levels of accuracy in transcribing handwritten texts, making once difficult-to-decipher historical archives searchable in ways that resemble the granular digital search we take for granted online <span class="citation" data-cites="nockels_implications_2024">(<a href="#ref-nockels_implications_2024" role="doc-biblioref">Nockels, Gooding, and Terras 2024</a>)</span>. At the Swedish National Archives’ AI lab, our colleagues have spent the past few years significantly improving HTR models for modern and early modern Swedish. The technology is now being applied at scale, with over a million documents set to be <a href="https://riksarkivet.se/inlagg/riksarkivet-gor-en-miljon-handskrivna-dokument-sokbara">transcribed and made digitally searchable</a>.</p>
+<p>But what about older handwritten archival holdings? The National Library of Sweden (KB) has over 300 medieval manuscripts, many of which remain challenging to search, analyze or even read due to the complexity and variability of the writing style. At KBLab we have begun exploring the possibilities of HTR to enhance the searchability of this material. In particular, we have been testing and comparing existing HTR models for Latin texts to establish the state of the art among openly available tools. This forms part of our broader mission to improve access to the library’s digital collections by harnessing the capacities of AI <span class="citation" data-cites="borjeson_transfiguring_2024">(<a href="#ref-borjeson_transfiguring_2024" role="doc-biblioref">Börjeson et al. 2024</a>)</span>.</p>
+<p>In this post, we present some initial results from our experiments, highlight key challenges and share insights into the potential and limitations of HTR for Latin manuscripts. Before assessing these models, we begin with a brief overview of the library’s Latin manuscript holdings and an introduction to how HTR techniques work.</p>
+</section>
+<section id="kbs-latin-manuscripts" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="kbs-latin-manuscripts">KB’s Latin manuscripts</h2>
+<p>Around 60% of KB’s medieval manuscripts are written in Latin. These span from the early eighth century to the late sixteenth century and include texts on theology, law, grammar, philosophy, medicine, astronomy and rhetoric <span class="citation" data-cites="bockerman_kungliga_2025">(<a href="#ref-bockerman_kungliga_2025" role="doc-biblioref">Böckerman 2025</a>)</span>. The largest subgroup consists of theological manuscripts - about 200 in total. As part of an ongoing effort to improve access to these materials, a project is currently underway to provide detailed catalog descriptions and full digitization of all theological Latin manuscripts in the collection. Once digitized, the materials are made available through the library’s digital research infrastructure: <a href="https://www.manuscripta.se/search?q=%22Medieval+Latin+Manuscripts%22">manuscripta.se</a>. The project, funded by <a href="https://www.rj.se/en/grants/2021/medieval-latin-manuscripts-in-the-national-library-cataloguing-and-digitization/">Riksbankens Jubileumsfond</a>, involves a team of Latin specialists at KB and is scheduled for completion in 2026.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai" class="uri">https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai</a></p>
+</div></div><p>From the 8th to the 15th century, Latin manuscripts were written in a variety of scripts that reflect shifts in writing styles. Between 700 and 1000, the dominant script was Carolingian minuscule - a relatively clear and legible hand. Yet KB holds only a few manuscripts from this early period. In the following centuries (1000–1200), the so-called protogothic script emerged. This transitional style is important but still relatively understudied, and the library’s manuscripts from this period are also limited. The majority of Latin manuscripts at KB -roughly 90 - date from 1200 to 1500 and are written in various Gothic scripts. These include the highly formal textualis (often used for liturgical purposes) and the more practical, everyday cursiva. In the 15th century, the humanist minuscule - developed in Italy as a deliberate return to earlier Carolingian and protogothic forms - appears as well. This style is notably more legible, and the library holds a few examples written in this hand.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Saint Birgitta - or Bridget of Sweden, as she is often referred to in international contexts - lived in 14th-century Sweden and, beginning in the 1340s, is said to have received a series of divine visions. She initially recorded these revelations in Swedish, which were later translated into Latin. The Latin version became the standard text and circulated widely across Europe, contributing to Birgitta’s growing international influence.</p>
+</div></div><p>We selected a few pages from five Latin manuscripts (<a href="https://www.manuscripta.se/ms/101070">A 32</a>, <a href="https://www.manuscripta.se/ms/101084">A 66</a>, <a href="https://www.manuscripta.se/ms/101086">A 68</a>, <a href="https://www.manuscripta.se/ms/101087">A 69</a>, <a href="https://www.manuscripta.se/ms/101088">A 70</a>) containing <em>The Revelations</em> by St.&nbsp;Birgitta of Sweden to explore how well automatic text recognition can be applied to Latin manuscripts in the library’s collections. The aim was to assess whether existing HTR models could handle the complexity and variation typical of medieval Latin texts, and to identify which models might serve as suitable starting points for future fine-tuning.</p>
+</section>
+<section id="htr-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="htr-architecture">HTR architecture</h2>
+<p>HTR is a form of optical character recognition (OCR) designed to convert handwritten text into machine-readable formats. In recent years, HTR has seen significant advancements - evolving from early rule-based and statistical approaches to deep learning and transformer-based architectures.</p>
+<p>Early HTR systems relied heavily on handcrafted features, lexicons, and probabilistic models such as Hidden Markov Models (HMMs), often combined with n-gram language models. The advent of deep learning marked a major turning point. In particular, Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs) - especially Long Short-Term Memory (LSTM) networks - enabled models to extract features directly from raw image inputs and to capture the sequential nature of handwritten text lines. This architecture significantly improved recognition accuracy, especially for more challenging handwritten scripts and historical manuscripts.</p>
+<p>More recently, transformer-based models - such as TrOCR - have pushed the boundaries of what HTR systems can achieve. Unlike traditional RNNs, transformer models rely on self-attention mechanisms that capture long-range dependencies in sequences more effectively <span class="citation" data-cites="vaswani_attention_2017">(<a href="#ref-vaswani_attention_2017" role="doc-biblioref">Vaswani et al. 2017</a>)</span>.</p>
+<p>These technical advances have been supported by the increasing availability of annotated training datasets, the synthetic generation of handwritten texts, and platforms such as <a href="https://gitlab.com/scripta/escriptorium">eScriptorium</a>, <a href="https://www.transkribus.org/">Transkribus</a>, and the <a href="https://huggingface.co/">Hugging Face Model Hub</a>, which enable the training, fine-tuning and deployment of HTR models.</p>
+</section>
+<section id="htr-process" class="level2">
+<h2 class="anchored" data-anchor-id="htr-process">HTR process</h2>
+<p>HTR models can operate at different levels - character, word, line or page. The models we tested are mostly line-level, so we’ll focus on how that process works.</p>
+<p>To recognize text from a manuscript page using a line-level model, the first key step is <strong>segmentation</strong>. This means breaking the page down into parts the model can actually read - starting with identifying where the text is and then splitting it into individual lines. Segmentation has two main components:</p>
+<ul>
+<li><p><strong>Region detection</strong>: Identifying blocks of text on the page and separating them from non-textual elements such as images, margins and decorations etc (see <a href="#fig-1" class="quarto-xref">Figure&nbsp;3 (a)</a>).</p></li>
+<li><p><strong>Line extraction</strong>: Finding each individual line of text within those regions and cropping them out as individual images (see <a href="#fig-2" class="quarto-xref">Figure&nbsp;3 (b)</a>).</p></li>
+</ul>
+<div id="fig-elephants" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/first.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;1&nbsp;(a): "><img src="images/first.jpg" id="fig-1" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image2.png" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;1&nbsp;(b): "><img src="images/image2.png" id="fig-2" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: Segmentation involves first detecting region (left) and then lines of text (right)
+</figcaption>
+</figure>
+</div>
+<p>Segmentation is crucial because it also determines the reading order. Line-level HTR models process one line at a time and have no built-in understanding of sequence. So if the segmentation process gets the reading order wrong, the final output will not make sense.</p>
+<p>Tools like eScriptorium or custom setups using object detection models like YOLO - You Only Look Once <span class="citation" data-cites="redmon_you_2015">(<a href="#ref-redmon_you_2015" role="doc-biblioref">Redmon et al. 2015</a>)</span> - can handle the segmentation process. These tools often allow manual adjustments, which is especially useful for complex layouts in historical documents.</p>
+<p>Once the lines are segmented, they are passed to the HTR model, which reads each line image and outputs the recognized text. Some platforms also use language models to refine grammar, predict words or assign confidence scores that flag uncertain results for human review.</p>
+<p>Finally, the transcribed lines are reassembled to reconstruct the full page of handwriting as digital text. As suggested, this final output relies heavily on accurate segmentation from the start. Without the correct reading order, we cannot expect a legible text at the end of the process.</p>
+</section>
+<section id="challenges-with-htr-and-latin-manuscripts" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-with-htr-and-latin-manuscripts">Challenges with HTR and Latin manuscripts</h2>
+<p>One of the main challenges in applying HTR to Latin manuscripts is the sheer diversity of handwriting styles, typescripts and scribal conventions, which can vary significantly even within a single document or collection. This variability makes generalization difficult - models trained on one set of manuscripts often struggle to adapt to others without retraining or fine-tuning.</p>
+<p>For instance, a model trained on Carolingian minuscule - a relatively open and legible script used between the 9th and 12th centuries - may perform poorly when applied to Gothic textualis, a denser script that emerged later and features tightly packed letters, numerous ligatures and frequent abbreviations. Even within the Gothic tradition, different writing styles such as the more formal textualis and the faster, less consistent cursiva present distinct challenges. Early modern humanist scripts, which deliberately revived classical letterforms and often resemble modern fonts, might seem easier to read at first glance. Yet even these show variation in letter shapes - such as long s versus short s or u versus v - and are often accompanied by marginal notes in entirely different hands.</p>
+<p>Another complicating factor is the way manuscripts are transcribed. Transcriptions can vary significantly in their level of editorial intervention, which in turn influences how models are trained and evaluated. A <em>diplomatic transcription</em> preserves original spellings, abbreviations and letterforms, aiming to capture the text as it appears in the manuscript. A <em>semi-diplomatic transcription</em> may expand some abbreviations or regularise spelling for readability, whereas a <em>normalised transcription</em> modernises the text to align with contemporary orthographic standards. Abbreviations are expanded, non-standard characters are replaced with modern equivalents, and spacing, punctuation and capitalisation may be adjusted. While this makes the material more accessible for modern readers and analysis, it may strip away useful palaeographic information.</p>
+<p>Abbreviations themselves pose a specific challenge. Latin scribes used a wide array of abbreviation marks to save time and space, and these are not always easy for an HTR model to detect or interpret. Whether a model expands or retains them often depends on the transcription style it was trained on.</p>
+<p>Taken together, the variability in scripts, transcription practices and scribal habits means that a “one-size-fits-all” approach to HTR rarely works for Latin manuscripts. Instead, models need to be adapted to the specific characteristics of the material - for particular writing styles, time periods or even individual scribes. Though such fine-tuning of models is a time-consuming process, it is necessary to produce meaningful and accurate automatic transcriptions. Tools and platforms like eScriptorium, Transkribus, and Hugging Face now offer increasingly accessible ways to train and customize HTR models to meet these challenges.</p>
+</section>
+<section id="different-htr-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="different-htr-frameworks">Different HTR frameworks</h2>
+<section id="transkribus" class="level3">
+<h3 class="anchored" data-anchor-id="transkribus">Transkribus</h3>
+<p>Transkribus is a platform maintained by <a href="https://readcoop.org/">READ-COOP SCE</a> (Recognition and Enrichment of Archival Documents – Cooperative Society), a European cooperative focused on advancing research and innovation in the digital humanities. The cooperative brings together a broad community of academic institutions, cultural heritage organisations, archives and individual researchers, with the goal of making historical documents more accessible and understandable through digital tools.</p>
+<p>The platform offers tools for transcription, annotation and analysis of historical documents. One of its core features is support for HTR, enabling users to train and apply models tailored to specific handwriting styles in order to automate transcription.</p>
+<p>Transkribus operates on a credit-based system: users receive a number of free credits, and larger or more complex projects can be supported through a range of paid plans.</p>
+<p>The platform relies on <a href="https://gitlab.teklia.com/atr/pylaia">PyLaia</a>, a recognition engine developed by the Universitat Politècnica de València. Currently, Transkribus hosts more than 200 publicly available models, which can be used directly or fine-tuned to new handwriting styles or collections. However, it’s also worth noting that models trained within Transkribus are designed to work exclusively within the platform.</p>
+</section>
+<section id="escriptorium-and-kraken" class="level3">
+<h3 class="anchored" data-anchor-id="escriptorium-and-kraken">eScriptorium and Kraken</h3>
+<p>Like Transkribus, eScriptorium is a platform designed to manage transcription workflows. It supports both manual and automated processes for annotation, segmentation and model training. The software was developed as part of <a href="https://classics-at.chs.harvard.edu/classics18-stokes-kiessling-stokl-ben-ezra-tissot-gargem/">the Scripta project</a> at the École Pratique des Hautes Études, Université Paris Sciences et Lettres (EPHE–PSL).</p>
+<p>eScriptorium is open source and can be installed locally. For light tasks such as annotation, segmentation or transcription, no specialised hardware is needed - standard consumer-grade computers are sufficient. Model training can also be done on CPUs, though the process is significantly faster when <a href="https://inria.hal.science/hal-04362085v1/document">using GPUs</a>, especially for large datasets or multi-user environments.</p>
+<p>The underlying recognition engine in eScriptorium is <a href="https://kraken.re/main/index.html">the OCR software Kraken</a>. Kraken uses deep learning, specifically recurrent neural networks (RNNs) with connectionist temporal classification (CTC), to recognise text in images. It offers flexible layout analysis and supports training on custom datasets, making it well suited for historical documents and complex scripts.</p>
+<p>Pretrained models compatible with eScriptorium are often shared through repositories like <a href="https://zenodo.org/communities/ocr_models/records?q=&amp;l=list&amp;p=1&amp;s=10&amp;sort=newest">Zenodo</a>, typically alongside the training data used to create them. These resources - produced by researchers and institutions as part of larger transcription projects - can serve as helpful starting points for similar materials. Using such models can significantly reduce the time and effort required for training, particularly when working with rare or difficult scripts.</p>
+<p>Once uploaded to eScriptorium, models can be used directly for transcription or fine-tuned on new data.</p>
+</section>
+<section id="advanced-htr-training-options" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-htr-training-options">Advanced HTR training options</h3>
+<p>Platforms such as Transkribus and eScriptorium provide graphical user interfaces (GUIs) that lower the technical barrier, allowing users to train Kraken or PyLaia models without writing code. But for those who need greater control over the training process - hyperparameters, preprocessing pipelines or custom architectures - both Kraken and PyLaia can be run independently of these platforms. However, PyLaia models trained within Transkribus cannot currently be exported, so external training requires either building your own model from scratch or fine-tuning one from outside that ecosystem.</p>
+<p>For an approach that works directly with Python packages, you can also leverage Microsoft’s transformer-based TrOCR models via <a href="https://huggingface.co/docs/transformers/en/model_doc/trocr">the Hugging Face Transformers library</a>. These models come pre-trained on a mix of printed and handwritten datasets and can be fine-tuned on your own Latin manuscript images to boost performance on complex, historical scripts. TrOCR’s transformer-based architecture allows them to handle complex input more robustly than some more traditional OCR approaches <span class="citation" data-cites="li_trocr_2021">(<a href="#ref-li_trocr_2021" role="doc-biblioref">Li et al. 2021</a>)</span>.</p>
+<p>Because most line-level HTR models assume correctly segmented inputs, they need to be paired with a region-detection step. Object-detection models like YOLO can locate and crop text regions or individual lines in a page image. Once each line has been detected and isolated, any of the above HTR models - whether trained via a GUI platform or directly in Python - can be applied to produce the transcription.</p>
+</section>
+</section>
+<section id="testing-escriptorium" class="level2">
+<h2 class="anchored" data-anchor-id="testing-escriptorium">Testing eScriptorium</h2>
+<p>Having provided an overview of available HTR tools, we now turn to how these models perform in practice when applied to KB’s Latin manuscripts. In the remainder of this post, we discuss our experiences using eScriptorium, Transkribus and TrOCR’s models for automatic transcription.</p>
+<section id="segmentation" class="level3">
+<h3 class="anchored" data-anchor-id="segmentation">Segmentation</h3>
+<p>Before comparing the models themselves, let’s first examine the segmentation process. For our experiments, we used Kraken’s default segmentation model, available on <a href="https://zenodo.org/records/14602569">Zenodo</a>. This model predicts a single region class and is designed to work well on most non-fragmentary handwritten and machine-printed documents with moderate layout complexity. (It can also serve as a good starting point for fine-tuning when necessary.)</p>
+<p>We applied the model to two single-column pages and three double-column pages. The images below show how the segmentation output highlights detected regions (in violet) and text lines (in blue). The yellow circles indicate the proposed reading order, which determines the sequence in which the transcribed lines will be arranged.</p>
+<div id="fig-elephants" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image3.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;2&nbsp;(a): "><img src="images/image3.jpg" id="fig-3" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image4.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;2&nbsp;(b): "><img src="images/image4.jpg" id="fig-4" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Outputs from Kraken’s segmentation model, when applied to <a href="https://www.manuscripta.se/ms/101087">A 69</a>, f.&nbsp;22r (left) and <a href="https://www.manuscripta.se/ms/101070">A 32</a>, f.&nbsp;2r (right)
+</figcaption>
+</figure>
+</div>
+<div id="fig-elephants" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image5.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;3&nbsp;(a): "><img src="images/image5.jpg" id="fig-5" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image6.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;3&nbsp;(b): "><img src="images/image6.jpg" id="fig-6" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: Outputs from Kraken’s segmentation model, when applied to <a href="https://www.manuscripta.se/ms/101086">A 68</a>, f.&nbsp;207v (left) and <a href="https://www.manuscripta.se/ms/101088">A 70</a> f.&nbsp;1r (right).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="single-column-manuscript-pages" class="level3">
+<h3 class="anchored" data-anchor-id="single-column-manuscript-pages">Single-column manuscript pages</h3>
+<p>On the single-column pages, the segmentation model performed reasonably well. Almost all lines of text were correctly enclosed within a single region, with no major omissions (see <a href="#fig-3" class="quarto-xref">Figure&nbsp;3 (a)</a> and <a href="#fig-4" class="quarto-xref">Figure&nbsp;3 (b)</a>). This suggests good generalisation for straightforward layouts. In one case, however, the model mistakenly recognized regions on the previous page, which will later affect the reading order.</p>
+</section>
+<section id="reading-order-and-line-association" class="level3">
+<h3 class="anchored" data-anchor-id="reading-order-and-line-association">Reading order and line association</h3>
+<p>An important feature of Kraken’s layout analysis is the way it organizes regions and lines. While reading order typically proceeds from top to bottom, indentations or more complex layouts - such as double columns - can lead to unexpected results. A line can either be associated with a region or classified as an orphan. Regions themselves can contain multiple lines, a single line, or none at all. When lines are associated with a region, their reading order is calculated within that region, not across the entire page.</p>
+<p>This makes segmentation a critical first step for producing a coherent transcription. If regions are too broad or incorrectly identified, the resulting reading order will become confused.</p>
+<p>Double-column layouts illustrate this well. In <a href="#fig-5" class="quarto-xref">Figure&nbsp;3 (a)</a>, the model correctly identifies three distinct regions, assigning them a logical reading order. But in <a href="#fig-6" class="quarto-xref">Figure&nbsp;3 (b)</a>, the model encloses the entire page in a single region, ignoring the column structure. As a result, the lines are read left to right across the page, rather than top to bottom within each column - producing a disordered output.</p>
+<p>In addition to problems with reading order, some lines are not properly segmented: a few are merged across both columns, while others are omitted altogether. These examples highlight the limitations of the default segmentation model when applied to complex or irregular layouts, and suggest that fine-tuning may be necessary for improved performance.</p>
+</section>
+<section id="transcription" class="level3">
+<h3 class="anchored" data-anchor-id="transcription">Transcription</h3>
+<p>Once segmentation is complete, we can proceed with transcribing the documents. We tested several models available on Zenodo, each trained on different Latin manuscript datasets. The two best-performing models were <a href="https://zenodo.org/records/10788591">TRIDIS</a> and <a href="https://zenodo.org/records/12743230">CATMuS</a>, which also exemplify two different approaches to transcription and annotation.</p>
+<p>TRIDIS (Tria Digita Scribunt) is a multilingual HTR model trained on semi-diplomatic transcriptions from medieval and early modern documentary manuscripts. This means it retains much of the original spelling and character forms, while also expanding some common abbreviations and smoothing out inconsistencies to improve readability and support downstream analysis. TRIDIS is especially suited to legal, administrative and memorial documents from the 13th to 16th centuries, but it has also been shown to perform well on other genres, including literary texts, cartularies and scholarly treatises.</p>
+<p>In contrast, CATMuS Medieval (Consistent Approach to Transcribing ManuScript) takes a stricter approach. It is trained on graphematic transcriptions that reproduce each character exactly as it appears in the manuscript - without expanding abbreviations - and represent diacritics, superscripts and ligatures separately using NFD Unicode normalization. CATMuS supports multiple languages, including Latin, Old and Middle French, Spanish and Italian, and reflects a consistent transcription standard developed across several collaborative projects, such as CREMMA, HTRomance and GalliCorpora.</p>
+<p>One thing both models have in common is the scale and breadth of their training data. Compared to the other models we tested, TRIDIS and CATMuS were trained on significantly larger datasets: around 560,000 lines of Latin text for TRIDIS and 160,000 for CATMuS. By contrast, <a href="https://zenodo.org/records/7631619">a third model</a> we tested was trained on approximately 46,000 lines, of which fewer than 10,000 were in Latin. As expected, its performance was noticeably weaker. This highlights the importance of dataset size in enabling better HTR performance.</p>
+</section>
+<section id="results-of-htr-with-kraken-models-in-escriptorium" class="level3">
+<h3 class="anchored" data-anchor-id="results-of-htr-with-kraken-models-in-escriptorium">Results of HTR with Kraken Models in eScriptorium</h3>
+<p>As noted above, off-the-shelf HTR models tend to perform best on material similar to their training data. Since we have not yet fine-tuned any models on KB’s manuscripts, perfect results are not to be expected at this stage. Instead, our aim is to survey the current capabilities of available Latin HTR models and determine which might be best suited for fine-tuning to better match the characteristics of KB’s collections.</p>
+<div id="fig-7" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image7.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;4: Recognized regions and text lines on a manuscript page in eScriptorium. Right: a view showing the generated text overlaid on the original layout for easier comparison."><img src="images/image7.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;4: Recognized regions and text lines on a manuscript page in eScriptorium. Right: a view showing the generated text overlaid on the original layout for easier comparison.
+</figcaption>
+</figure>
+</div>
+<div id="fig-8" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image8.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;5: Comparing model outputs within eScriptorium"><img src="images/image8.jpg" style="height:3.5in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5: Comparing model outputs within eScriptorium
+</figcaption>
+</figure>
+</div>
+<p>The user interface of eScriptorium makes it simple to compare the outputs of different HTR models. As <a href="#fig-8" class="quarto-xref">Figure&nbsp;5</a> shows, the GUI displays a manuscript excerpt alongside a manual line-by-line transcription and the results from various models (e.g., <em>catmus_1.6.0</em> and <em>tridis_v2</em>). Insertions are highlighted in green, deletions in red. In our experiments, all manual transcriptions were done line by line, with hyphens marking words split across lines. Abbreviations were expanded - though without special notation - and the original orthography was preserved throughout.</p>
+<p>We used this interface to compare transcriptions produced by CATMuS and TRIDIS, and we present a series of examples from that comparison below.</p>
+<div id="fig-9" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image9.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;6: Comparison of transcriptions from the CATMuS and TRIDIS models."><img src="images/image9.jpg" style="height:3.5in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;6: Comparison of transcriptions from the CATMuS and TRIDIS models.
+</figcaption>
+</figure>
+</div>
+<p>Various factors need to be considered when assessing these outputs. Because each model follows its own transcription conventions, red and green highlights don’t always signal true errors. CATMuS, for instance, emits graphematic output as opposed to expanding abbreviations - so in the example above “xpi” remains unchanged rather than expanded to “christi” (see <a href="#fig-9" class="quarto-xref">Figure&nbsp;6</a>), and diacritic-driven omissions (e.g.&nbsp;◌̃ for an omitted “m”) are left in their original form. Likewise, differences in capitalization or in rendering “i” as “j” and “u” as “v” reflect annotation choices rather than model failure.</p>
+<div id="fig-10" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image10.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;7: Transcription of a manuscript excerpt with the text “Prologus”."><img src="images/image10.jpg" style="height:5in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;7: Transcription of a manuscript excerpt with the text “Prologus”.
+</figcaption>
+</figure>
+</div>
+<div id="fig-11" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image11.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;8: Transcription of a manuscript excerpt with the text “Incipit prologus in libros celestium reue-”."><img src="images/image11.jpg" style="height:3in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;8: Transcription of a manuscript excerpt with the text “Incipit prologus in libros celestium reue-”.
+</figcaption>
+</figure>
+</div>
+<p>Segmentation errors can further complicate evaluation. In <a href="#fig-10" class="quarto-xref">Figure&nbsp;7</a> and <a href="#fig-11" class="quarto-xref">Figure&nbsp;8</a> above, the words “Prologus” and “Incipit” lie partially outside the detected text region. Because the model never “sees” the full word image, it predictably fails to transcribe it correctly - underscoring how even the best HTR engine depends on accurate region detection.</p>
+<div id="fig-12" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-12-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image12.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;9: Transcription of a manuscript excerpt with the text “intytulatur ex eo quod processus eius."><img src="images/image12.jpg" style="height:3.5in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-12-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;9: Transcription of a manuscript excerpt with the text “intytulatur ex eo quod processus eius.
+</figcaption>
+</figure>
+</div>
+<p>Let’s consider a few more examples. Across several excerpts, we observed various model-specific quirks:</p>
+<ul>
+<li>The LATIN word “quod” (‘that’) was transcribed by CATMuS as the abbreviation “ꝙ,” while TRIDIS misread the same sign as “ꝗ” and expanded it to “quam” (‘how’) (see <a href="#fig-12" class="quarto-xref">Figure&nbsp;9</a>).</li>
+<li>The symbol “ꝰ” intended as “us” was rendered simply as “o” in TRIDIS’ expanded transcription, whereas CATMuS correctly preserved the meaning of both “processus” and “eius”.</li>
+<li>In <a href="#fig-13" class="quarto-xref">Figure&nbsp;10</a> below, the scribal abbreviation for “est” (‘is’), ẽ, was correctly recognized by CATMuS but not TRIDIS. However, neither model detected the “per” abbreviation, p̱, leading to mistaken readings of “ꝓ” or plain “p.”</li>
+</ul>
+<div id="fig-13" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-13-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image13.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;10: Transcription of a manuscript excerpt with the text “est per modum questionum ad quas”."><img src="images/image13.jpg" style="height:3.5in" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-13-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;10: Transcription of a manuscript excerpt with the text “est per modum questionum ad quas”.
+</figcaption>
+</figure>
+</div>
+<p>Other errors - such as concatenated words or confusion between similar strings like “quam” vs.&nbsp;“quod” - further illustrate the gap between generic models and our specific manuscripts. Yet these results also point to a clear path forward: fine-tuning on annotated data from the same scribal hands should markedly improve accuracy. In sum, while base Kraken models offer a useful preview of HTR performance on KB’s Latin holdings, sustained fine-tuning is likely essential for reliable, high-quality transcriptions.</p>
+</section>
+</section>
+<section id="testing-transkribus" class="level2">
+<h2 class="anchored" data-anchor-id="testing-transkribus">Testing Transkribus</h2>
+<p>Now, let us turn to our explorations with <strong>Transkribus</strong>. As in eScriptorium, the HTR workflow in Transkribus involves two main steps: detecting text regions and lines, followed by transcription. Segmentation can be carried out as a separate step or combined with transcription in a single process. By default, Transkribus uses a pre-trained segmentation model, though users can also train custom models tailored to their specific material. The recommended dataset size for training a new model is approximately 50 pages.</p>
+<p>We tested the default segmentation mode in Transkribus and encountered segmentation challenges similar to those observed in eScriptorium. In particular, the default segmentation model performs best on single-column layouts. In the example shown below (see <a href="#fig-14" class="quarto-xref">Figure&nbsp;11</a>), it incorrectly interpreted both columns of a page as a single region. As a result, the reading order became distorted: instead of reading the columns top-to-bottom, the engine processed the text line-by-line across the full page width from left to right. This produces transcriptions that are jumbled and difficult to interpret.</p>
+<div id="fig-14" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-14-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image14.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;11: Regions are shown in green and lines in blue, numbered from 1 within each region, A 70, f.&nbsp;1r. (Beginning of Book 4 of St Birgitta’s Revelations. Top and bottom margin: later owner’s inscriptions (The Carthusians in Buxheim)."><img src="images/image14.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-14-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;11: Regions are shown in green and lines in blue, numbered from 1 within each region, <a href="https://www.manuscripta.se/ms/101088">A 70</a>, f.&nbsp;1r. (Beginning of Book 4 of St Birgitta’s <em>Revelations</em>. Top and bottom margin: later owner’s inscriptions (The Carthusians in Buxheim).
+</figcaption>
+</figure>
+</div>
+<div id="fig-15" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-15-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image15.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;12: As in eScriptorium, the model occasionally misinterprets decorative elements as text lines. A 32, f.&nbsp;2r."><img src="images/image15.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-15-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;12: As in eScriptorium, the model occasionally misinterprets decorative elements as text lines. <a href="https://www.manuscripta.se/ms/101070">A 32</a>, f.&nbsp;2r.
+</figcaption>
+</figure>
+</div>
+<p>However, unlike the segmentation model in eScriptorium, the Transkribus model appears to handle two-column layouts more effectively - provided no additional text elements, such as titles, are present.</p>
+<div id="fig-16" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-16-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image16.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="Figure&nbsp;13: The results of segmentation of a multi-column page."><img src="images/image16.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-16-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;13: The results of segmentation of a multi-column page.
+</figcaption>
+</figure>
+</div>
+<div id="fig-17" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-17-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image17.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="Figure&nbsp;14: The results of segmentation of a multi-column page with additional text."><img src="images/image17.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-17-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;14: The results of segmentation of a multi-column page with additional text.
+</figcaption>
+</figure>
+</div>
+<p>Transkribus also allows users to adjust parameters for layout analysis. Despite experimenting with these settings, we were unable to achieve the correct number of segments on a manuscript page that included a title. This suggests that more robust performance on complex layouts is likely only achievable by training a custom model tailored to the specific data. In our tests, we chose to force the model to detect “multiple” segments - see <a href="#fig-18" class="quarto-xref">Figure&nbsp;15</a> for the results.</p>
+<div id="fig-18" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-18-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image18.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18" title="Figure&nbsp;15: Detecting multiple segments."><img src="images/image18.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-18-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;15: Detecting multiple segments.
+</figcaption>
+</figure>
+</div>
+<p>Now let us turn to our experiments with the transcription models in Transkribus. As in our tests with eScriptorium, we evaluated several HTR models to assess how well they perform on Latin manuscripts. One of the best-performing models was TrHtr Titan I bis, released in April. This was trained on a large, balanced dataset that includes both printed and handwritten documents, covering historical as well as modern sources. The platform classifies it as a “super model,” meaning that access requires a subscription.</p>
+<p>To explore a free alternative, we also tested a pyLaia-based model available in Transkribus: <a href="https://readcoop.eu/model/charter-scripts-german-latin-french/">Medieval_Scripts_M2.4</a>. Trained on 24,764 pages, this model was developed as a general-purpose HTR solution for medieval Latin scripts.</p>
+<p>In terms of interface, Transkribus offers functionalities similar to those of eScriptorium, but it lacks some useful features. For instance, it does not currently support the direct comparison of more than two transcriptions, nor does it highlight the differences between them. Another helpful feature present in eScriptorium but missing in Transkribus is the close view option; in Transkribus, the only way to inspect individual lines is to manually zoom in on the highlighted text.</p>
+<div id="fig-19" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-19-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image19.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19" title="Figure&nbsp;16: Transkribus interface showing the transcription editor, with the corresponding line on the manuscript page highlighted during editing."><img src="images/image19.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-19-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;16: Transkribus interface showing the transcription editor, with the corresponding line on the manuscript page highlighted during editing.
+</figcaption>
+</figure>
+</div>
+<p>Turning to the transcriptions themselves, we observed that the <a href="https://blog.transkribus.org/en/introducing-text-titan-i-bis">Titan I bis</a> model handles abbreviation expansion inconsistently - likely reflecting the diversity of its training data. In one example (see <a href="#fig-20" class="quarto-xref">Figure&nbsp;17</a>), the model successfully expands common abbreviations such as <em>et</em> and <em>us</em>, demonstrating its capacity to interpret these forms correctly. However, in another case (see <a href="#fig-21" class="quarto-xref">Figure&nbsp;18</a>), the same abbreviation signs - such as ꝰ (<em>us</em>) and ꝭ (<em>-us</em>) - are left unexpanded, along with several others. This inconsistency suggests that the model does not apply a uniform rule for abbreviation expansion across different documents or contexts, which may require additional manual correction during post-processing.</p>
+<div id="fig-20" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image20.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20" title="Figure&nbsp;17: Titan I bis’s transcription with expanded abbreviations: “ipsa et confessores eius sepe oretenus testabantur. Nam semel conti”"><img src="images/image20.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;17: Titan I bis’s transcription with expanded abbreviations: “ipsa et confessores eius sepe oretenus testabantur. Nam semel conti”
+</figcaption>
+</figure>
+</div>
+<div id="fig-21" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-21-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image21.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-21" title="Figure&nbsp;18: Titan I bis’s transcription without expanded abbreviations: “plogꝰ lib q̄stōm qͣ ē qᶦntꝭ lib* celestium reuelacionum btē Bˀgitte”"><img src="images/image21.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-21-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;18: Titan I bis’s transcription without expanded abbreviations: “plogꝰ lib q̄stōm qͣ ē qᶦntꝭ lib* celestium reuelacionum btē Bˀgitte”
+</figcaption>
+</figure>
+</div>
+<p>Another notable feature of the Titan I bis model is its attempt to transcribe paragraph signs (¶) to reflect the original structure of the text. However, the model is not always consistent: it occasionally inserts the sign correctly, but at other times omits it or places it incorrectly.</p>
+<div id="fig-22" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-22-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image22.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-22" title="Figure&nbsp;19: Correctly recognized paragraph sign."><img src="images/image22.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-22-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;19: Correctly recognized paragraph sign.
+</figcaption>
+</figure>
+</div>
+<div id="fig-23" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-23-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image23.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-23" title="Figure&nbsp;20: Incorrectly recognized paragraph sign."><img src="images/image23.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-23-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;20: Incorrectly recognized paragraph sign.
+</figcaption>
+</figure>
+</div>
+<p>This tendency can also result in transcriptions that include unexpected characters, such as &lt; or |, which are not present in the original manuscript.</p>
+<div id="fig-24" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image24.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-24" title="Figure&nbsp;21: Example of a transcription containing unexpected characters such as < and |."><img src="images/image24.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;21: Example of a transcription containing unexpected characters such as &lt; and |.
+</figcaption>
+</figure>
+</div>
+<p>Like the Titan I bis model, M4.2 also shows inconsistency in handling abbreviations. For example, the abbreviation ꝰ (used for <em>us</em>) is expanded in the word <em>revelatus</em>, but left unchanged in <em>auitꝰ</em>, despite being the same abbreviation.</p>
+<div id="fig-25" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-25-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image25.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-25" title="Figure&nbsp;22: Example of a transcription showing the abbreviation “ꝰ” left unexpanded."><img src="images/image25.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-25-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;22: Example of a transcription showing the abbreviation “ꝰ” left unexpanded.
+</figcaption>
+</figure>
+</div>
+<div id="fig-26" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-26-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image26.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-26" title="Figure&nbsp;23: Example of a transcription where the abbreviation “ꝰ” is correctly expanded."><img src="images/image26.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-26-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;23: Example of a transcription where the abbreviation “ꝰ” is correctly expanded.
+</figcaption>
+</figure>
+</div>
+<p>In other cases, the model fails to expand the abbreviation entirely and sometimes omits diacritics as well (see <a href="#fig-27" class="quarto-xref">Figure&nbsp;24</a>). These inconsistencies can make it difficult to produce clean, uniform transcriptions - particularly when working with larger datasets or aiming to support full-text search across the material.</p>
+<div id="fig-27" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-27-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image27.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-27" title="Figure&nbsp;24: Example of a transcription where the abbreviation “dne” is neither expanded nor correctly marked with diacritics. The accurate form should be dn̄e or domine."><img src="images/image27.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-27-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;24: Example of a transcription where the abbreviation “dne” is neither expanded nor correctly marked with diacritics. The accurate form should be <em>dn̄e</em> or <em>domine</em>.
+</figcaption>
+</figure>
+</div>
+<p>The challenges we encountered highlight how off-the-shelf models often fall short when applied to specialised manuscript collections with complex layouts and distinctive scribal practices. These limitations underscore the value of developing tailored models to improve transcription quality.</p>
+</section>
+<section id="testing-trocr" class="level2">
+<h2 class="anchored" data-anchor-id="testing-trocr">Testing TrOCR</h2>
+<p>We also explored a third approach using transformer-based models outside the two major platforms. The TRIDIS model is available in a version built with Microsoft’s TrOCR framework, a transformer-based OCR system. This alternative, trained on the <a href="https://huggingface.co/magistermilitum/tridis_HTR">same dataset</a> as the Kraken version, combines a Vision Transformer (ViT) encoder with a decoder based on a medieval Latin RoBERTa language model. According to reported evaluations, the TrOCR-based model is expected to slightly outperform its Kraken-based counterpart.</p>
+<p>To use the TRIDIS TrOCR model for transcription, we first segmented the manuscript pages using the BigLAM YOLO model. Trained on the CATMuS Medieval Segmentation dataset, this <a href="https://huggingface.co/biglam/medieval-manuscript-yolov11">model</a> can distinguish between 18 different layout elements - such as heading lines, standard text lines, marginalia and numerical annotations.</p>
+<p>At present, there is no graphical interface that fully integrates YOLO-based segmentation with TrOCR-based transcription. However, for those interested in exploring how the BigLAM model performs, a demo is available on <a href="https://huggingface.co/spaces/biglam/medieval-yolo">Hugging Face</a>.</p>
+<div id="fig-28" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-28-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image28.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-28" title="Figure&nbsp;25: Example of YOLO segmentation output. In addition to regular text lines, the model labels other layout elements with distinct classes and assigns confidence scores to each detection, aiding in the filtering of regions unlikely to contain text."><img src="images/image28.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-28-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;25: Example of YOLO segmentation output. In addition to regular text lines, the model labels other layout elements with distinct classes and assigns confidence scores to each detection, aiding in the filtering of regions unlikely to contain text.
+</figcaption>
+</figure>
+</div>
+<p>Like the other segmentation methods we tested, YOLO produces outputs consisting of regions and the elements contained within them. Unlike the models in eScriptorium and Transkribus - which recognize regions and text lines - YOLO also provides element-level classification, identifying components such as lines, marginalia or initials. In Transkribus, achieving this level of detail requires training a separate “Field” model. Understanding the structural layout of a document is crucial, as it allows the detected lines to be organized into coherent text before the HTR step.</p>
+<p>As noted, there is currently no interface that directly integrates TrOCR and YOLO models. As a result, users must programmatically extract lines from the manuscript pages, determine the correct reading order, and then run recognition on the extracted line images.</p>
+<p>In our tests, we performed only steps 1 and 3 - line detection and text recognition - without automatically correcting the reading order. However, YOLO’s ability to label different parts of a page offers a valuable foundation for automating the reading order in future workflows.</p>
+<p>The HTR model we tested is available on Hugging Face under the name: magistermilitum/tridis_v2_HTR_historical_manuscript. Compared to the Kraken model trained on the same dataset, the TrOCR version successfully corrected many transcription errors that Kraken failed to resolve. For example:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Example</th>
+<th>Source</th>
+<th>Transcription</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>Manual</strong></td>
+<td><code>-cionem peccatorum de medio ignis zeli dei</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Kraken</td>
+<td><code>cionem pecctorum de Medioignis zeli Dei</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>TrOCR</td>
+<td><code>cionem peccatorum de medioignis zeli dei</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><strong>Manual</strong></td>
+<td><code>Liber quintus</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Kraken</td>
+<td><code>Liber quantus</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>TrOCR</td>
+<td><code>liber quintus</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Manual</strong></td>
+<td><code>de regno Swecie Qui liber questionum merito intulatur</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Kraken</td>
+<td><code>de regno Girecie Rui liber questionim meito intytulatur</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>TrOCR</td>
+<td><code>de regno Swecie Qui liber questionum merito intulatur</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><strong>Manual</strong></td>
+<td><code>Liber quintus</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Kraken</td>
+<td><code>Riber qntus</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>TrOCR</td>
+<td><code>Liber qſtionu</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><strong>Manual</strong></td>
+<td><code>Liber quintus</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Kraken</td>
+<td><code>Riber qntus</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>TrOCR</td>
+<td><code>Liber qſtionu</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>In some instances, TrOCR improved the transcription but did not fully correct the text:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 82%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Manual</strong></td>
+<td><code>-bantur Nam semel contigit quod</code></td>
+</tr>
+<tr class="even">
+<td><strong>Kraken</strong></td>
+<td><code>bautur Fulam semel contigit quom</code></td>
+</tr>
+<tr class="odd">
+<td><strong>TrOCR</strong></td>
+<td><code>vantur suam semel contigit quod</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>In a few cases, TrOCR introduced completely incorrect words. For example, it transcribed “videlicet” instead of “sed”, which Kraken had correctly recognized:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 82%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Manual</strong></td>
+<td><code>vocem audiret Sed stupendius est quod</code></td>
+</tr>
+<tr class="even">
+<td><strong>Kraken</strong></td>
+<td><code>votem audiret / sed scupendius est quod</code></td>
+</tr>
+<tr class="odd">
+<td><strong>TrOCR</strong></td>
+<td><code>vocem audiret / videlicet stipendius est / quod</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>As with other frameworks, the quality of segmentation has a major impact on HTR performance. When the manuscript text is relatively straight, YOLO’s output for a line typically includes only that line, with minimal noise (see <a href="#fig-29" class="quarto-xref">Figure&nbsp;26</a>). In skewed documents, however, the detected line may accidentally include fragments from the lines above or below, as illustrated in <a href="#fig-30" class="quarto-xref">Figure&nbsp;27</a>.</p>
+<div id="fig-29" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-29-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/Image29.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-29" title="Figure&nbsp;26: Example of a YOLO output from a manuscript with a simple layout."><img src="images/Image29.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-29-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;26: Example of a YOLO output from a manuscript with a simple layout.
+</figcaption>
+</figure>
+</div>
+<p>To reduce the impact of this added noise, an additional preprocessing step can be introduced before text recognition. For testing purposes, we used a model available on Hugging Face: <a href="https://huggingface.co/Riksarkivet/yolov9-lines-within-regions-1">Riksarkivet/yolov9-lines-within-regions-1</a>. (Note: this model was trained on a different dataset and is included here solely for experimental purposes.)</p>
+<p><a href="#fig-30" class="quarto-xref">Figure&nbsp;27</a> shows the “DefaultLine” region recognized by the medieval-manuscript-yolov11 model, while <a href="#fig-31" class="quarto-xref">Figure&nbsp;28</a> presents the same image cropped to remove surrounding noise. Although the model was not specifically trained on this type of manuscript, it performed adequately for testing purposes.</p>
+<div id="fig-30" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-30-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image30.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-30" title="Figure&nbsp;27: “DefaultLine” region recognized by the medieval-manuscript-yolov11 model."><img src="images/image30.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-30-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;27: “DefaultLine” region recognized by the medieval-manuscript-yolov11 model.
+</figcaption>
+</figure>
+</div>
+<div id="fig-31" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-31-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image31.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-31" title="Figure&nbsp;28: The cropped image after removing additional noise. The model was not trained to recognize text on this type of documents, but it worked well enough for our testing purposes."><img src="images/image31.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-31-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;28: The cropped image after removing additional noise. The model was not trained to recognize text on this type of documents, but it worked well enough for our testing purposes.
+</figcaption>
+</figure>
+</div>
+<p>Comparison after masking:</p>
+<ul>
+<li><strong>Before (TrOCR)</strong>: vocem audiret / videlicet stipendius est / quod</li>
+<li><strong>After (cleaned TrOCR)</strong>: yocem audiret / sed stipendius est quod</li>
+<li><strong>Gold</strong>: vocem audiret Sed stupendius est quod</li>
+</ul>
+<p>Masking redundant text helped clean up the transcription and corrected the previously mistranscribed word “videlicet” to the correct “sed.” However, it also introduced a new error in the first word, which had previously been transcribed correctly. This highlights the importance of experimenting with different cropping and masking techniques, as well as the critical role of image preparation in the HTR pipeline.</p>
+<p>A valuable tool for managing this HTR pipeline is the HTRFlow Python package, developed by our colleagues at the National Archives of Sweden’s AI lab. <a href="https://huggingface.co/blog/Gabriel/htrflow">HTRFlow</a> simplifies the customization and management of HTR workflows by using a configuration file in which each step - such as segmentation or recognition - is defined as a modular component. This design allows users to flexibly adapt and experiment with different models or processing steps, without needing to rewrite code for every adjustment.</p>
+</section>
+<section id="comparing-outputs-kraken-pylaia-or-trocr" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-outputs-kraken-pylaia-or-trocr">Comparing outputs: Kraken, pyLaia or TrOCR?</h2>
+<p>The performance of the HTR models we tested reflects the differences in their training data, transcription conventions and underlying architectures:</p>
+<ul>
+<li><p><strong>TRIDIS TrOCR</strong> consistently delivered the most complete and accurate transcriptions. It handled abbreviations - such as “xp̄i” - by expanding them correctly to “Christi,” and even resolved more complex abbreviations into their full forms with remarkable consistency.</p></li>
+<li><p><strong>Kraken-based TRIDIS</strong> produced results similar to the TrOCR version but was more prone to occasional character-level errors, such as misrecognizing single letters or ligatures.</p></li>
+<li><p><strong>Kraken CATMuS</strong> faithfully preserved original abbreviations and special characters, making it suitable for researchers interested in palaeographic detail and scribal practices. However, its literal output may require additional editorial interpretation for those less familiar with medieval Latin conventions.</p></li>
+<li><p><strong>Transkribus Titan I bis</strong> generally yielded readable, standardized text and attempted to encode layout features (e.g., paragraph marks or vertical bars). Although its transcriptions were often clear, the model sometimes introduced incorrect expansions or misreadings, and its layout markers were not always reliable.</p></li>
+<li><p><strong>Medieval_Scripts_M2.4</strong> (pyLaia) was the least reliable of the tested models, particularly in segmentation. It struggled with accurate line breaks and produced more errors compared to the other tools.</p></li>
+</ul>
+<p>All models exhibited occasional spelling inaccuracies, spacing errors, misreadings and inconsistent abbreviation expansions. Overall, the TrOCR version of TRIDIS offered the best balance between accuracy and normalization - simplifying complex elements without introducing excessive distortions - which makes it a strong candidate for further fine-tuning in the future. The Kraken CATMuS model provides a closer visual match to the original manuscript, preserving intricate glyphs and diacritics, which may be especially valuable for manuscript-focused research. The Transkribus models tended to simplify special characters more aggressively, which improved readability but sometimes flattened palaeographic nuance and distorted visual elements.</p>
+<p>In the appendix below you can observe exemplary outputs from the four models alongside the manually curated “gold standard” transcription for direct comparison.</p>
+</section>
+<section id="next-steps-and-future-work" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps-and-future-work">Next steps and future work</h2>
+<p>Our experiments yield promising results, particularly with models like TRIDIS TrOCR, which strike a good balance between legibility and historical accuracy. However, variability in script styles, layouts and editorial conventions remains a significant challenge.</p>
+<p>Moving forward, we plan to explore the following options:</p>
+<ul>
+<li><p>Fine-tune models on representative samples from KB’s collections.</p></li>
+<li><p>Develop annotated datasets featuring both diplomatic and semi-diplomatic transcriptions.</p></li>
+<li><p>Investigate hybrid workflows that combine HTR with expert human validation.</p></li>
+<li><p>Explore user-friendly tools for viewing, comparing and correcting transcriptions.</p></li>
+</ul>
+<p>By continuing this work - and sharing both our successes and setbacks - we hope to contribute meaningfully to digital manuscript studies and improve access to KB’s medieval heritage collections.</p>
+</section>
+<section id="appendix-htr-model-results-with-manual-benchmark" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-htr-model-results-with-manual-benchmark">Appendix: HTR Model Results with Manual Benchmark</h2>
+<div class="scrollable" style="width: 100%; margin-left: 0;">
+<table class="caption-top table">
+<caption><em>Transcriptions of <a href="https://www.manuscripta.se/ms/101084">A 66</a></em></caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tridis_v2</th>
+<th>tridis_v2_tr_ocr</th>
+<th>Catmus-medival-1.6.0</th>
+<th>Titan I bis</th>
+<th>m4.2</th>
+<th>Manual (Gold)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>liber primus</td>
+<td>liber primus</td>
+<td>Liber primus</td>
+<td>Liberprimus</td>
+<td>Liber primus</td>
+<td>Liber primus</td>
+</tr>
+<tr class="even">
+<td>tupor et muralia judita sunct in tram</td>
+<td>Stupor et miralia vidita sunt in terra</td>
+<td>tupor et miralia uidita st̾ ĩ tra</td>
+<td>tu por et miralia iudita sunt in tra</td>
+<td>Stupor et miraliauidita ſti tra</td>
+<td>Stupor et mirabilia audita sunt in terra</td>
+</tr>
+<tr class="odd">
+<td>nostra mirabile si quidem erat quod ze</td>
+<td>nostra mirabile siquidem erat quod ze</td>
+<td>nr̃a Mirabile si quid̃ erat ꝙ ze</td>
+<td>nostra mirabile si quidem erat quod ze</td>
+<td>nostra mirabile siquidem erat quod ze</td>
+<td>nostra mirabile siquidem erat quod ze-</td>
+</tr>
+<tr class="even">
+<td>lator legis morses igneam in vl</td>
+<td>lator legis morses ignea in vl</td>
+<td>lator legis moyses igneã in ul</td>
+<td>lator legis moyſes igneā in vl</td>
+<td>Dlator legis moyses ignea in vl</td>
+<td>lator legis moyses igneam in vl-</td>
+</tr>
+<tr class="odd">
+<td>cionem pecctorum de Medioignis zeli Dei</td>
+<td>cionem peccatorum de medioignis zeli dei</td>
+<td>tiõnem pcc̃oꝵ de medro ignis zeli dei</td>
+<td>tionem pctoro de mediovinis zeli dei</td>
+<td>cionem patorum de medioigus zeli dei</td>
+<td>cionem peccatorum de medio ignis zeli dei</td>
+</tr>
+<tr class="even">
+<td>votem audiret / sed scupendius est quod</td>
+<td>vocem audiret / videlicet stipendius est / quod</td>
+<td>uocem audiret. S scupendiis est qd</td>
+<td>|| vocem audiret | Dz §tuyenerins eſt | quod</td>
+<td>vocem audiret Eʒ ſtuprudius eſt quod</td>
+<td>vocem audiret Sed stupendius est quod</td>
+</tr>
+<tr class="odd">
+<td>huiles hodie et mansueti spiritu vocem</td>
+<td>humles hodie et mansueti spiritu vocem</td>
+<td>hiunles hodie et mansueti spũ uocem</td>
+<td>huiusles hodie et mansueti spiritum vocem</td>
+<td>hunles hodie et mansueti spum vocem</td>
+<td>humiles hodie et mansueti spiritu vocem</td>
+</tr>
+<tr class="even">
+<td>ibu Christi Dei et homum aveuit ut olim</td>
+<td>Jhesu Christi dei et hominum audint ut olim</td>
+<td>ihũ xp̃i dei et homu audĩt ut olim</td>
+<td>Si hū xpi dei et homi auduit ut olim</td>
+<td>hu xxi dei et homi auduit ut olim</td>
+<td>iesu christi dei et hominis audiunt vt olim</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="scrollable" style="width: 100%; margin-left: 0;">
+<table class="caption-top table">
+<caption><em>Transcriptions of <a href="https://www.manuscripta.se/ms/101088">A 70</a></em></caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tridis_v2</th>
+<th>tridis_v2_tr_ocr</th>
+<th>Catmus-medival-1.6.0</th>
+<th>Titan I bis</th>
+<th>m4.2</th>
+<th>Manual (Gold)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Iste liber est Carthuser in Buchshein prope Meningen</td>
+<td>Iste liber est Carthuses in Bouchshem prope Meningen</td>
+<td>Iste liber est Carthus in Buchshem ꝓpe memugen</td>
+<td>Iſte liber eſt Carthuͤß in Buchſheim ſpe wenigen</td>
+<td>Iste liber est Carthusz in Buchshein prpe Meningen</td>
+<td>Iste liber est Carthusiensis in Buchshem prope memingen</td>
+</tr>
+<tr class="even">
+<td>liber quantus</td>
+<td>liber quintus</td>
+<td>Riber qntus</td>
+<td>Tiberg’ntus</td>
+<td>Riber qntus</td>
+<td>Liber quintus</td>
+</tr>
+<tr class="odd">
+<td>ncipit quantus liber te</td>
+<td>Incipit quintus liber te</td>
+<td>ncipit qntus liber ce</td>
+<td>incipit (qͥntus liber te</td>
+<td>ncipit quntus liber te</td>
+<td>Incipit quintus liber ce-</td>
+</tr>
+<tr class="even">
+<td>lestis revelacionum Christi</td>
+<td>Lestis revelacionum Christi</td>
+<td>lestis reuelacõnũ xpi</td>
+<td>¶ leſtis reuelatōnum xp̅i</td>
+<td>Clestis revelacionum xxi</td>
+<td>lestis reuelacionum christi</td>
+</tr>
+<tr class="odd">
+<td>adbeatam Byigictam drequo</td>
+<td>ad beatam Bycam dregno.</td>
+<td>adbeatam Bycgittam dregno.</td>
+<td>abbeatam bydgickam d̾ regno</td>
+<td>adbeatam Byigittam dregno</td>
+<td>ad beatam Byrgittam de regno</td>
+</tr>
+<tr class="even">
+<td>siretie qui liber questionum meico</td>
+<td>sroetie qui liber questionum merito</td>
+<td>siretie qui liber q̃stionũ melco</td>
+<td>ſwetie qui ſiber q̄ſtionu meito</td>
+<td>swetie am liber qſtionu meico</td>
+<td>swecie qui liber questionum merito</td>
+</tr>
+<tr class="odd">
+<td>intyntulatur exeo quam processo eius</td>
+<td>intyculatur ex eo quod processo ejus</td>
+<td>intyculatur exeo ꝙ ꝓcessꝰ eiꝰ</td>
+<td>intyculatur exeo quod processo eius</td>
+<td>intyculatur exeo quod processo eius</td>
+<td>intytulatur ex eo quod processus eius</td>
+</tr>
+<tr class="even">
+<td>et prmodum questianum adquas</td>
+<td>est postmodum questionum adquas</td>
+<td>ẽ ꝓmodum q̃stianũ adquas</td>
+<td>est primodum quaestionum adquas</td>
+<td>permodum questionum ut infra sequi</td>
+<td>est per modum questionum ad quas</td>
+</tr>
+<tr class="odd">
+<td>xhrist dominus dac nirabiles soluto</td>
+<td>sept dominus dati mirabiles soluto</td>
+<td>xp̃t dñs dac mirabiles solutõ</td>
+<td>Xpt dominus dach mirabiles ſoluto</td>
+<td>xpc dominus dac mirabiles soluto</td>
+<td>christus dominus dat mirabiles solucio-</td>
+</tr>
+<tr class="even">
+<td>nes et revelatus fuit eidem</td>
+<td>nes et revelatus fuit eidem</td>
+<td>nes ¶Et reuelatus fuit eidem</td>
+<td>nes ¶ Et reuelatus fuit eidem</td>
+<td>nes set revelatus fuit eidem</td>
+<td>nes Et reuelatus fuit eidem</td>
+</tr>
+<tr class="odd">
+<td>domine miro oson sicut ipsa et con</td>
+<td>domine miro nostro sicut ipsa et con</td>
+<td>dñe miro mõ situt ipsa et cõ</td>
+<td>dn̄e miro mō ſitur ip̄a et to</td>
+<td>dne miro mo situc ipsa et co-</td>
+<td>domine miro modo sicut ipsa et con-</td>
+</tr>
+<tr class="even">
+<td>fessores ejus sepe oretenu resta</td>
+<td>fessores ejus sepe oretenus resta</td>
+<td>fessores eiꝰ sepe aretonꝰ resta</td>
+<td>feſſores eius ſepe oretem teſta</td>
+<td>feſſores ei ſepe cretens reſta</td>
+<td>fessores eius sepe oretenus testa-</td>
+</tr>
+<tr class="odd">
+<td>bautur Fulam semel contigit quom</td>
+<td>vantur suam semel contigit quod</td>
+<td>bantur Iam semel contigit ꝙ</td>
+<td>bantur Nam semel contigit ꝙ</td>
+<td>vantur Nam ſemel contigit q</td>
+<td>-bantur Nam semel contigit quod</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="scrollable" style="width: 100%; margin-left: 0;">
+<table class="caption-top table">
+<caption><em>Transcriptions of <a href="https://www.manuscripta.se/ms/101070">A 32</a></em></caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tridis_v2</th>
+<th>tridis_v2_tr_ocr</th>
+<th>Catmus-medival-1.6.0</th>
+<th>Titan I bis</th>
+<th>m4.2</th>
+<th>Manual (Gold)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Eloga libero quesato que e quenta libe celestin reuela conun bete vegit</td>
+<td>Ploga libras questionem, qui cum quintalibus celestium revelacionum beate Berengitte</td>
+<td>plogꝰ lib̾ q̃sto ͫͫ q ẽ qntꝰlib celestiũ reuelacõnũ bte Bgitte</td>
+<td>plogꝰ lib q̄stōm qͣ ē qᶦntꝭ lib* celestium reuelacionum btē Bˀgitte</td>
+<td>Nots lib qstom q qutꝰ ib clestū reuvelacdoinui bte rbgitt</td>
+<td>prologus libri questionum qui est quintus liber celestium revelacionum beate Birgitte</td>
+</tr>
+<tr class="even">
+<td>cipit vitus liber celestium revelacionum Christi ad batam Botam</td>
+<td>Precipit adecuitus liber celestivi revelacionum Christi ad vestram bergertum</td>
+<td>Acipit adũitꝰ liber celestiũ reuelacõnũ xp̃i ad bt̃a Egtã</td>
+<td>Mcipit a Quĩtꝰ liber celeſtuĩ reue la cõnũ xp̄i ad bt̄az Sgͣtā</td>
+<td>bcipit auitꝰ liber celestiū revelaconū xp̄i ad ut̄ƺ sgta</td>
+<td>INcipit Quintus liber celestium reuelacionum christi ad beatam Birgittam</td>
+</tr>
+<tr class="odd">
+<td>de regno Girecie Rui liber questionim meito intytulatur</td>
+<td>de regno Swecie Qui liber questionum merito intulatur</td>
+<td>de regno Groecie Qui liber questionũ meito ĩtytulatur</td>
+<td>de regno swecie Qui liber questionū meito ītytula tur</td>
+<td>de regno siecie Qui liber questionum merito intytilaturs.</td>
+<td>de regno Swecie Qui liber questionum merito intytulatur</td>
+</tr>
+<tr class="even">
+<td>exra eo quod processus eius est per modum questionum ad quas x dominus dat nostri et</td>
+<td>ex eo quod processus eius est per modum questionum ad quas xl. dominus dat iii et</td>
+<td>ex eo ꝙ ꝓcessꝰ eiꝰ ẽ ꝑ modũ q̃stionũ ad qͣs x dñs dat mĩr</td>
+<td>ex eo quod processus eius est per modum questionum ad quas Cristus dominus datum im</td>
+<td>ex eo quo processus eius en per modum questionum ad quas e domins dat mi</td>
+<td>ex eo quod processus eius est per modum questionum ad quas christus dominus dat mira-</td>
+</tr>
+<tr class="odd">
+<td>biles soluciones . Et revelatus fuit eidem domine miro modo sicud</td>
+<td>viles soluciones / Et revelatus fuit eidem domine miro modo situd</td>
+<td>biles solucões. Et reuelatꝰ fuit eidẽ dñe miro modo Sicud</td>
+<td>biles solucciones Et reuelatus fuit eidem domine miro modo Sicud</td>
+<td>biles soluciones Et revelatus fuit eidem domine miro modo Sicud</td>
+<td>-biles soluciones Et reuelatus fuit eidem domine miro modo Sicud</td>
+</tr>
+<tr class="even">
+<td>ipsa et confessores eius sepe oretenus testabantur Ma semel conti</td>
+<td>ipsa et confessores eius sepe oretenus testabantur / Wansemel</td>
+<td>ip̃a ⁊ ꝯfessores eiꝰ sepe oretenꝰ testabant Nã semel ꝯti ⁊</td>
+<td>ipsa et confessores eius sepe oretenus testabantur. Nam semel conti</td>
+<td>ipsia et confessores eius sepe oretenus testabantur Nam semel conti e</td>
+<td>ipsa et confessores eius sepe oretenus testabantur Nam semel conti-</td>
+</tr>
+<tr class="odd">
+<td>git quod cum ipsa quadam die equataret in equo itermerando ad suum</td>
+<td>sit quod cum ipsa quadam die equitaret in equo Itermerando ad suum</td>
+<td>git ꝙ cũ ip̃a quada die cqͥtaret ĩ equo itmerando ad suũ</td>
+<td>Egit quod cum ipsa quadam die equitaret in equo itinerando ad suum</td>
+<td>git quo cu ipsa quadea die equataret in equo itmerando ad suum</td>
+<td>-git quod cum ipsa quadam die equitaret in equo itinerando ad suum</td>
+</tr>
+<tr class="even">
+<td>castrum wadzsta plribus fralidibus cum ea equitantibus sociata tunc illa</td>
+<td>castrum Wadzsten pluribus frantibus cum ea equitantibus sociata, tunc illa</td>
+<td>castrũ wadste płibꝰ frãliai̾bꝰ cũ ea eq̾tãtibꝯ soci̾ata. tũc illa</td>
+<td>caſtiū wadꝫ stꝭ pl̄ibro fālicaibꝰ cū ea eꝗtcīti bo ſociata. tūc illa</td>
+<td>castum wadstuis plibs frailiaribus cum ea cstanti bius socirata. tumc illa</td>
+<td>castrum wadzsteni pluribus familiaribus cum ea equitantibus sociata tunc illa</td>
+</tr>
+<tr class="odd">
+<td>sic eutando per viam Incep orando ad Deum erige mentem suam</td>
+<td>sic equitando per viam. Incept orando ad Deum erigeretur mentem suam.</td>
+<td>sic eq̾tando ꝑ uiã. Incepͭ orando ad deũ crige ͨ mentẽ suam.</td>
+<td>sic equitando per viciis incepto orando ad deum eriget mentem suam</td>
+<td>sic eostando pruia. inceps orando ad deum erigeus mentem suam</td>
+<td>sic equitando per viam Incepit orando ad deum erigere mentem suam</td>
+</tr>
+<tr class="even">
+<td>que illico rapta fuit in spiritu etibat quai extra se alienata a</td>
+<td>que illico rapta fuit in spiritu et ibat quam extra extit se alienata a</td>
+<td>que illico rapta fuit ĩ spũ. ⁊ ibat qͣi ext̾ se alienata a</td>
+<td>que illico rapta fuit ĩ spiritū. ⁊ ibat qͣi ext se alienata a</td>
+<td>que illico rapta fuit in sptiu. Rwat quam exter se alienata a</td>
+<td>que illico rapta fuit in spiritu et ibat quasi extra se alienata a</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bockerman_kungliga_2025" class="csl-entry" role="listitem">
+Böckerman, Robin. 2025. <span>“Kungliga Bibliotekets Latinska Medeltida Handskrifter : <span>Proveniens</span> Och Katalogisering.”</span> In, 11–34. Uppsala universitet. <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596">https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596</a>.
+</div>
+<div id="ref-borjeson_transfiguring_2024" class="csl-entry" role="listitem">
+Börjeson, Love, Chris Haffenden, Martin Malmsten, Fredrik Klingwall, Emma Rende, Robin Kurtz, Faton Rekathati, Hillevi Hägglöf, and Justyna Sikora. 2024. <span>“Transfiguring the <span>Library</span> as <span>Digital</span> <span>Research</span> <span>Infrastructure</span>: <span>Making</span> <span>KBLab</span> at the <span>National</span> <span>Library</span> of <span>Sweden</span>.”</span> <em>College &amp; Research Libraries</em> 85 (4): 564. <a href="https://doi.org/10.5860/crl.85.4.564">https://doi.org/10.5860/crl.85.4.564</a>.
+</div>
+<div id="ref-li_trocr_2021" class="csl-entry" role="listitem">
+Li, Minghao, Tengchao Lv, Jingye Chen, Lei Cui, Yijuan Lu, Dinei Florencio, Cha Zhang, Zhoujun Li, and Furu Wei. 2021. <span>“<span>TrOCR</span>: <span>Transformer</span>-Based <span>Optical</span> <span>Character</span> <span>Recognition</span> with <span>Pre</span>-Trained <span>Models</span>.”</span> <em>arXiv.org</em>. <a href="https://arxiv.org/abs/2109.10282v5">https://arxiv.org/abs/2109.10282v5</a>.
+</div>
+<div id="ref-nockels_implications_2024" class="csl-entry" role="listitem">
+Nockels, Joseph, Paul Gooding, and Melissa Terras. 2024. <span>“The Implications of Handwritten Text Recognition for Accessing the&nbsp;Past at Scale.”</span> <em>Journal of Documentation</em> 80 (7): 148–67. <a href="https://doi.org/10.1108/JD-09-2023-0183">https://doi.org/10.1108/JD-09-2023-0183</a>.
+</div>
+<div id="ref-redmon_you_2015" class="csl-entry" role="listitem">
+Redmon, Joseph, Santosh Divvala, Ross Girshick, and Ali Farhadi. 2015. <span>“You <span>Only</span> <span>Look</span> <span>Once</span>: <span>Unified</span>, <span>Real</span>-<span>Time</span> <span>Object</span> <span>Detection</span>.”</span> <em>arXiv.org</em>. <a href="https://arxiv.org/abs/1506.02640v5">https://arxiv.org/abs/1506.02640v5</a>.
+</div>
+<div id="ref-vaswani_attention_2017" class="csl-entry" role="listitem">
+Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz Kaiser, and Illia Polosukhin. 2017. <span>“Attention Is <span>All</span> You <span>Need</span>.”</span> In <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em>. Vol. 30. Curran Associates, Inc. <a href="https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html</a>.
+</div>
+</div>
+</section>
+<section id="acknowledgments" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>Part of this development work was carried out within the HUMINFRA infrastructure project.</p>
+
+
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
+</div></div></section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{böckerman2025,
+  author = {Böckerman, Robin and Haffenden, Chris and Sikora, Justyna},
+  title = {From {Parchment} to {Pixels:} {Exploring} {HTR} {Models} for
+    {KB’s} {Latin} {Manuscripts}},
+  date = {2025-06-11},
+  url = {https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-böckerman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Böckerman, Robin, Chris Haffenden, and Justyna Sikora. 2025. <span>“From
+Parchment to Pixels: Exploring HTR Models for KB’s Latin
+Manuscripts.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kb-labb/kb-labb.github.io/blob/main/posts/2025-06-11-from-parchment-to-pixel/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/kb-labb/kb-labb.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
