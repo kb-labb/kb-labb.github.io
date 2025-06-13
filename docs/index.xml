@@ -12,10 +12,10 @@
 <generator>quarto-1.7.31</generator>
 <lastBuildDate>Tue, 10 Jun 2025 22:00:00 GMT</lastBuildDate>
 <item>
-  <title>From Parchment to Pixels: Exploring HTR Models for KB’s Latin Manuscripts</title>
-  <dc:creator>Robin Böckerman</dc:creator>
-  <dc:creator>Chris Haffenden</dc:creator>
+  <title>From Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at KBLab</title>
   <dc:creator>Justyna Sikora</dc:creator>
+  <dc:creator>Chris Haffenden</dc:creator>
+  <dc:creator>Robin Böckerman</dc:creator>
   <link>https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</link>
   <description><![CDATA[ 
 
@@ -698,7 +698,7 @@
 <li><p>Investigate hybrid workflows that combine HTR with expert human validation.</p></li>
 <li><p>Explore user-friendly tools for viewing, comparing and correcting transcriptions.</p></li>
 </ul>
-<p>By continuing this work - and sharing both our successes and setbacks - we hope to contribute meaningfully to digital manuscript studies and improve access to KB’s medieval heritage collections.</p>
+<p>By continuing this work - and sharing both our successes and setbacks - we hope to contribute meaningfully to digital manuscript studies and improve access to KB’s medieval heritage collections. We welcome feedback from other researchers and institutions working with medieval Latin manuscripts and HTR. If you’re interested in collaboration, don’t hesitate to get in touch at kblabb@kb.se.</p>
 </section>
 <section id="appendix-htr-model-results-with-manual-benchmark" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-htr-model-results-with-manual-benchmark">Appendix: HTR Model Results with Manual Benchmark</h2>
@@ -1059,18 +1059,18 @@ Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan 
 <p><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{böckerman2025,
-  author = {Böckerman, Robin and Haffenden, Chris and Sikora, Justyna},
-  title = {From {Parchment} to {Pixels:} {Exploring} {HTR} {Models} for
-    {KB’s} {Latin} {Manuscripts}},
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{sikora2025,
+  author = {Sikora, Justyna and Haffenden, Chris and Böckerman, Robin},
+  title = {From {Parchment} to {Pixels:} {Testing} {HTR} for {Medieval}
+    {Latin} {Manuscripts} at {KBLab}},
   date = {2025-06-11},
   url = {https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-böckerman2025" class="csl-entry quarto-appendix-citeas">
-Böckerman, Robin, Chris Haffenden, and Justyna Sikora. 2025. <span>“From
-Parchment to Pixels: Exploring HTR Models for KB’s Latin
-Manuscripts.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2025" class="csl-entry quarto-appendix-citeas">
+Sikora, Justyna, Chris Haffenden, and Robin Böckerman. 2025. <span>“From
+Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at
+KBLab.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</guid>
   <pubDate>Tue, 10 Jun 2025 22:00:00 GMT</pubDate>

@@ -1,10 +1,10 @@
 ---
-title: "From Parchment to Pixels: Exploring HTR Models for KB’s Latin Manuscripts"
+title: "From Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at KBLab"
 description: |
   How well do current HTR models handle the complexity of medieval Latin handwriting?
   At KBLab, we’ve been testing and comparing the state of the art in openly available models to assess their potential - and limitations - for unlocking KB’s Latin manuscript collections.
 author:
-  - name: Robin Böckerman
+  - name: Justyna Sikora
     affiliations: 
       - name: KBLab
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
@@ -12,7 +12,7 @@ author:
     affiliations: 
       - name: KBLab
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
-  - name: Justyna Sikora
+  - name: Robin Böckerman
     affiliations: 
       - name: KBLab
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
@@ -412,7 +412,7 @@ Moving forward, we plan to explore the following options:
 
   - Explore user-friendly tools for viewing, comparing and correcting transcriptions.
 
-By continuing this work - and sharing both our successes and setbacks - we hope to contribute meaningfully to digital manuscript studies and improve access to KB’s medieval heritage collections.
+By continuing this work - and sharing both our successes and setbacks - we hope to contribute meaningfully to digital manuscript studies and improve access to KB’s medieval heritage collections. We welcome feedback from other researchers and institutions working with medieval Latin manuscripts and HTR. If you're interested in collaboration, don’t hesitate to get in touch at kblabb@kb.se.
 
 ## Appendix: HTR Model Results with Manual Benchmark 
 
