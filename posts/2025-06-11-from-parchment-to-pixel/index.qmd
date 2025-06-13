@@ -73,17 +73,17 @@ HTR models can operate at different levels - character, word, line or page. The 
 
 To recognize text from a manuscript page using a line-level model, the first key step is **segmentation**. This means breaking the page down into parts the model can actually read - starting with identifying where the text is and then splitting it into individual lines. Segmentation has two main components:
 
-  - **Region detection**: Identifying blocks of text on the page and separating them from non-textual elements such as images, margins and decorations etc (see @fig-1).
+  - **Region detection**: Identifying blocks of text on the page and separating them from non-textual elements such as images, margins and decorations etc (see @fig-first).
 
-  - **Line extraction**: Finding each individual line of text within those regions and cropping them out as individual images (see @fig-2).
+  - **Line extraction**: Finding each individual line of text within those regions and cropping them out as individual images (see @fig-second).
 
 
 
-::: {#fig-elephants layout-ncol=2}
+::: {#fig-lines layout-ncol=2}
 
-![](images/first.jpg){#fig-1 .lightbox}
+![](images/first.jpg){#fig-first .lightbox}
 
-![](images/image2.png){#fig-2 .lightbox}
+![](images/image2.png){#fig-second .lightbox}
 
 Segmentation involves first detecting region (left) and then lines of text (right)
 :::
@@ -154,7 +154,7 @@ Before comparing the models themselves, let’s first examine the segmentation p
 We applied the model to two single-column pages and three double-column pages. The images below show how the segmentation output highlights detected regions (in violet) and text lines (in blue). The yellow circles indicate the proposed reading order, which determines the sequence in which the transcribed lines will be arranged.
 
 
-::: {#fig-elephants layout-ncol=2}
+::: {#fig-manus layout-ncol=2}
 
 ![](images/image3.jpg){#fig-3 .lightbox}
 
@@ -164,7 +164,7 @@ Outputs from Kraken’s segmentation model, when applied to [A 69](https://www.m
 :::
 
 
-::: {#fig-elephants layout-ncol=2}
+::: {#fig-manuscripts layout-ncol=2}
 
 ![](images/image5.jpg){#fig-5 .lightbox}
 

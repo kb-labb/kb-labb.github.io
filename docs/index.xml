@@ -53,32 +53,32 @@
 <p>HTR models can operate at different levels - character, word, line or page. The models we tested are mostly line-level, so we’ll focus on how that process works.</p>
 <p>To recognize text from a manuscript page using a line-level model, the first key step is <strong>segmentation</strong>. This means breaking the page down into parts the model can actually read - starting with identifying where the text is and then splitting it into individual lines. Segmentation has two main components:</p>
 <ul>
-<li><p><strong>Region detection</strong>: Identifying blocks of text on the page and separating them from non-textual elements such as images, margins and decorations etc (see Figure&nbsp;3 (a)).</p></li>
-<li><p><strong>Line extraction</strong>: Finding each individual line of text within those regions and cropping them out as individual images (see Figure&nbsp;3 (b)).</p></li>
+<li><p><strong>Region detection</strong>: Identifying blocks of text on the page and separating them from non-textual elements such as images, margins and decorations etc (see Figure&nbsp;1 (a)).</p></li>
+<li><p><strong>Line extraction</strong>: Finding each individual line of text within those regions and cropping them out as individual images (see Figure&nbsp;1 (b)).</p></li>
 </ul>
-<div id="fig-elephants" class="quarto-layout-panel">
+<div id="fig-lines" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-lines" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-first" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/first.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;1&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/first.jpg" id="fig-1" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<div aria-describedby="fig-first-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/first.jpg" class="lightbox" data-gallery="fig-lines" title="Figure&nbsp;1&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/first.jpg" id="fig-first" class="img-fluid figure-img" data-ref-parent="fig-lines"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-first-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a)
 </figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-lines" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-second" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image2.png" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;1&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image2.png" id="fig-2" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<div aria-describedby="fig-second-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image2.png" class="lightbox" data-gallery="fig-lines" title="Figure&nbsp;1&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image2.png" id="fig-second" class="img-fluid figure-img" data-ref-parent="fig-lines"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-second-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b)
 </figcaption>
 </figure>
@@ -86,7 +86,7 @@
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <strong>Figure</strong>&nbsp;1: Segmentation involves first detecting region (left) and then lines of text (right)
 </figcaption>
 </figure>
@@ -135,15 +135,15 @@
 <h3 class="anchored" data-anchor-id="segmentation">Segmentation</h3>
 <p>Before comparing the models themselves, let’s first examine the segmentation process. For our experiments, we used Kraken’s default segmentation model, available on <a href="https://zenodo.org/records/14602569">Zenodo</a>. This model predicts a single region class and is designed to work well on most non-fragmentary handwritten and machine-printed documents with moderate layout complexity. (It can also serve as a good starting point for fine-tuning when necessary.)</p>
 <p>We applied the model to two single-column pages and three double-column pages. The images below show how the segmentation output highlights detected regions (in violet) and text lines (in blue). The yellow circles indicate the proposed reading order, which determines the sequence in which the transcribed lines will be arranged.</p>
-<div id="fig-elephants" class="quarto-layout-panel">
+<div id="fig-manus" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image3.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;2&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image3.jpg" id="fig-3" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<a href="images/image3.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image3.jpg" id="fig-3" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a)
@@ -151,11 +151,11 @@
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image4.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;2&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image4.jpg" id="fig-4" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<a href="images/image4.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image4.jpg" id="fig-4" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b)
@@ -165,20 +165,20 @@
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <strong>Figure</strong>&nbsp;2: Outputs from Kraken’s segmentation model, when applied to <a href="https://www.manuscripta.se/ms/101087">A 69</a>, f.&nbsp;22r (left) and <a href="https://www.manuscripta.se/ms/101070">A 32</a>, f.&nbsp;2r (right)
 </figcaption>
 </figure>
 </div>
-<div id="fig-elephants" class="quarto-layout-panel">
+<div id="fig-manuscripts" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-manuscripts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manuscripts" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image5.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;3&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image5.jpg" id="fig-5" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<a href="images/image5.jpg" class="lightbox" data-gallery="fig-manuscripts" title="Figure&nbsp;3&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image5.jpg" id="fig-5" class="img-fluid figure-img" data-ref-parent="fig-manuscripts"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a)
@@ -186,11 +186,11 @@
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-elephants" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manuscripts" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-6" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image6.jpg" class="lightbox" data-gallery="fig-elephants" title="Figure&nbsp;3&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image6.jpg" id="fig-6" class="img-fluid figure-img" data-ref-parent="fig-elephants"></a>
+<a href="images/image6.jpg" class="lightbox" data-gallery="fig-manuscripts" title="Figure&nbsp;3&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/image6.jpg" id="fig-6" class="img-fluid figure-img" data-ref-parent="fig-manuscripts"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b)
@@ -200,7 +200,7 @@
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-manuscripts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <strong>Figure</strong>&nbsp;3: Outputs from Kraken’s segmentation model, when applied to <a href="https://www.manuscripta.se/ms/101086">A 68</a>, f.&nbsp;207v (left) and <a href="https://www.manuscripta.se/ms/101088">A 70</a> f.&nbsp;1r (right).
 </figcaption>
 </figure>
@@ -208,7 +208,7 @@
 </section>
 <section id="single-column-manuscript-pages" class="level3">
 <h3 class="anchored" data-anchor-id="single-column-manuscript-pages">Single-column manuscript pages</h3>
-<p>On the single-column pages, the segmentation model performed reasonably well. Almost all lines of text were correctly enclosed within a single region, with no major omissions (see Figure&nbsp;3 (a) and Figure&nbsp;3 (b)). This suggests good generalisation for straightforward layouts. In one case, however, the model mistakenly recognized regions on the previous page, which will later affect the reading order.</p>
+<p>On the single-column pages, the segmentation model performed reasonably well. Almost all lines of text were correctly enclosed within a single region, with no major omissions (see Figure&nbsp;2 (a) and Figure&nbsp;2 (b)). This suggests good generalisation for straightforward layouts. In one case, however, the model mistakenly recognized regions on the previous page, which will later affect the reading order.</p>
 </section>
 <section id="reading-order-and-line-association" class="level3">
 <h3 class="anchored" data-anchor-id="reading-order-and-line-association">Reading order and line association</h3>
