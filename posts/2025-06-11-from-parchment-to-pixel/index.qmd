@@ -479,7 +479,7 @@ By continuing this work - and sharing both our successes and setbacks - we hope 
 
 ## Acknowledgments 
 
-Part of this development work was carried out within the HUMINFRA infrastructure project.
+Part of this development work was carried out within the [HUMINFRA](https://www.huminfra.se/) infrastructure project.
 
 :::{.column-margin}
 ![](images/huminfra.svg){width="40%"}
