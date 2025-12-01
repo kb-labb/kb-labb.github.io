@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Chris Haffenden">
+<meta name="author" content="Justyna Sikora">
 <meta name="dcterms.date" content="2025-12-01">
 <meta name="description" content="Heritage institutions hold vast collections of digital images that remain difficult to search or interpret. CLIP-Topic shows how multimodal AI can be used to surface thematic patterns in such collections, helping users see connections, clusters and motifs that would otherwise remain hidden.">
 
@@ -174,11 +175,21 @@ div.csl-indent {
   </div>
     
   <div class="quarto-title-meta-author">
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-heading">Affiliation</div>
     
       <div class="quarto-title-meta-contents">
       <p class="author">Chris Haffenden </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+      <div class="quarto-title-meta-contents">
+      <p class="author">Justyna Sikora </p>
     </div>
     <div class="quarto-title-meta-contents">
           <p class="affiliation">
@@ -303,7 +314,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="limitations-and-considerations">Limitations and considerations</h2>
 <p>Like all search methods that build upon current multimodal AI models, CLIP-Topic has constraints that it is important to recognize and adapt for.</p>
 <ul>
-<li><p><strong>Bias and anachronism</strong>. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see <a href="#fig-4" class="quarto-xref">Figure&nbsp;4</a>) — a reminder of how training data shapes interpretation <span class="citation" data-cites="smits_multimodal_2023">(<a href="#ref-smits_multimodal_2023" role="doc-biblioref">Smits and Wevers 2023</a>)</span>.</p></li>
+<li><p><strong>Risk of anachronism</strong>. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see <a href="#fig-4" class="quarto-xref">Figure&nbsp;4</a>) — a reminder of how training data shapes interpretation <span class="citation" data-cites="smits_multimodal_2023">(<a href="#ref-smits_multimodal_2023" role="doc-biblioref">Smits and Wevers 2023</a>)</span>.</p></li>
 <li><p><strong>Metadata matters</strong>. Even though CLIP-Topic can cluster images purely on the basis of visual similarity, sparse or inconsistent textual descriptions limit the model’s ability to generate precise labels for those clusters. In such cases, the underlying groupings remain coherent, but the textual summaries may be generic or less helpful for interpretation.</p></li>
 <li><p><strong>Clusters are provisional</strong>. Themes may overlap or be internally diverse, and the level of granularity chosen for clustering directly shapes how specific—or how general—the resulting topics become. Coarser clustering can reveal broad patterns but may obscure meaningful variation, while finer clustering can surface particular motifs at the cost of producing a larger number of smaller, harder-to-interpret groups. For this reason, clusters should be treated as prompts for exploration rather than fixed categories. It is crucial not to treat the results as fixed, but to recognise how they might shift when the method’s parameters are adjusted.</p></li>
 </ul>
@@ -321,8 +332,9 @@ div.csl-indent {
 </section>
 <section id="why-this-matters-for-glam-institutions" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-matters-for-glam-institutions">Why this matters for GLAM institutions</h2>
-<p>Multimodal topic modelling broadens what is possible in large-scale visual analysis. It provides institutions with: a rapid way to map the thematic contents of image collections</p>
+<p>Multimodal topic modelling broadens what is possible in large-scale visual analysis. It provides institutions with:</p>
 <ul>
+<li><p>a rapid way to map the thematic contents of image collections</p></li>
 <li><p>automated tagging that can feed into cataloguing and documentation workflows</p></li>
 <li><p>new opportunities for discovery interfaces, research dashboards and visual search tools — like our CLIP-based <a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/">image search demo</a></p></li>
 <li><p>a foundation for linking images with related textual or audiovisual content</p></li>
@@ -373,7 +385,7 @@ Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digi
 </div></div></section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
-  author = {Haffenden, Chris},
+  author = {Haffenden, Chris and Sikora, Justyna},
   title = {CLIP-Topic: {Identifying} {Themes} in {Large} {Image}
     {Collections}},
   date = {2025-12-01},
@@ -381,8 +393,9 @@ Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digi
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Haffenden, Chris. 2025. <span>“CLIP-Topic: Identifying Themes in Large
-Image Collections.”</span> December 1, 2025. <a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
+Haffenden, Chris, and Justyna Sikora. 2025. <span>“CLIP-Topic:
+Identifying Themes in Large Image Collections.”</span> December 1, 2025.
+<a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -6,9 +6,13 @@ author:
     affiliations: 
       - name: KBLab
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
+  - name: Justyna Sikora
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
 date: 2025-12-01
 bibliography: references.bib
-image: images/image5.png
+image: images/image3.png
 format:
   html:
     embed-resources: false
@@ -90,7 +94,7 @@ These clusters provided a fast way of seeing what kinds of motifs recur across t
 
 Like all search methods that build upon current multimodal AI models, CLIP-Topic has constraints that it is important to recognize and adapt for.
 
-  - **Bias and anachronism**. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see @fig-4) — a reminder of how training data shapes interpretation [@smits_multimodal_2023]. 
+  - **Risk of anachronism**. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see @fig-4) — a reminder of how training data shapes interpretation [@smits_multimodal_2023]. 
 
 
   - **Metadata matters**. Even though CLIP-Topic can cluster images purely on the basis of visual similarity, sparse or inconsistent textual descriptions limit the model’s ability to generate precise labels for those clusters. In such cases, the underlying groupings remain coherent, but the textual summaries may be generic or less helpful for interpretation.
@@ -105,7 +109,8 @@ These issues do not diminish the method’s value, but they underline the import
 ## Why this matters for GLAM institutions
 
 Multimodal topic modelling broadens what is possible in large-scale visual analysis. It provides institutions with:
-a rapid way to map the thematic contents of image collections
+  
+  - a rapid way to map the thematic contents of image collections
 
 
   - automated tagging that can feed into cataloguing and documentation workflows
