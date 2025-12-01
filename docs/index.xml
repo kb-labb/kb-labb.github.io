@@ -10,7 +10,174 @@
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Tue, 10 Jun 2025 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 30 Nov 2025 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>CLIP-Topic: Identifying Themes in Large Image Collections</title>
+  <dc:creator>Chris Haffenden</dc:creator>
+  <link>https://kb-labb.github.io/posts/2025-12-01-clip-topic/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>As more visual collections are digitised and the volume of born-digital material increases, libraries, archives and museums face a familiar challenge: images accumulate much faster than the metadata necessary to make them searchable. This creates huge amounts of material that remain difficult to navigate in practice. Without a sense of the themes running through a collection, it becomes hard to see what is present, how items relate to one another or where there might be gaps in description.</p>
+<p>In this post, we introduce <strong>CLIP-Topic</strong>, a method for discovering thematic patterns in visual datasets using multimodal AI. The approach builds on OpenAI’s <a href="https://openai.com/index/clip/">CLIP model</a> and adapts topic-modelling techniques widely used in textual analysis. For institutions working with heterogeneous image collections lacking consistent metadata, CLIP-Topic provides a way to generate an initial thematic overview at scale.</p>
+</section>
+<section id="why-bring-topic-modelling-to-images" class="level2">
+<h2 class="anchored" data-anchor-id="why-bring-topic-modelling-to-images">Why bring topic modelling to images?</h2>
+<p>Topic modelling has proven valuable for exploring large text corpora, especially when combined with transformer-based models like BERT, e.g.&nbsp;<a href="https://kb-labb.github.io/posts/2022-06-14-bertopic/">BERTopic</a>. Extending this idea to images has only recently become feasible. Unlike text, images contain overlapping motifs, stylistic cues and contextual details that resist easy segmentation, which makes large-scale thematic analysis challenging. This complexity is compounded by the fact that visual materials lack the structural cues that enable textual topic modelling, and image metadata is often inconsistent or minimal.</p>
+<p>CLIP-Topic addresses this by using <strong>CLIP embeddings</strong> — vector representations that capture visual features alongside associated text. By clustering these embeddings, the method identifies groups of images with shared motifs. Provisional labels can then be generated using textual prompts, metadata or nearest-neighbour text embeddings <span class="citation" data-cites="grootendorst_multimodal_2022">(Grootendorst 2022)</span>.</p>
+<p>The goal is not to produce definitive categories but to create a navigable thematic map of a collection.</p>
+</section>
+<section id="what-clip-topic-can-reveal" class="level2">
+<h2 class="anchored" data-anchor-id="what-clip-topic-can-reveal">What CLIP-Topic can reveal</h2>
+<p>In practical terms, CLIP-Topic helps surface patterns that are difficult to see manually, especially in large or loosely curated datasets:</p>
+<ul>
+<li><p><strong>Recurring visual themes</strong>, even when not reflected in the metadata.</p></li>
+<li><p><strong>Cross-collection links</strong>, where items from different sources share visual traits.</p></li>
+<li><p><strong>Overlooked motifs</strong>, particularly in collections lacking detailed description.</p></li>
+<li><p><strong>Structural absences</strong>, such as areas where images fail to cluster due to bias or limited representation.</p></li>
+<li><p><strong>Stylistic or temporal shifts</strong>, where clusters reveal changes in visual conventions or materials over time that might otherwise go unnoticed or remain undocumented.</p></li>
+</ul>
+<p>For GLAM institutions, these insights can support tasks ranging from curatorial planning to collection assessment and research exploration. For researchers of visual heritage, these clusters offer a way to analyse large image corpora comparatively, trace thematic or stylistic patterns over time, and generate new questions about how visual material is organised and represented <span class="citation" data-cites="smits_multimodal_2023">(Smits and Wevers 2023)</span>.</p>
+</section>
+<section id="how-the-method-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-method-works">How the method works</h2>
+<p>The workflow consists of four straightforward steps:</p>
+<ol type="1">
+<li><p><strong>Embed the images</strong>. Each image is processed through a CLIP model to generate an embedding — a compact numerical representation that allows images to be compared computationally.</p></li>
+<li><p><strong>Cluster the embeddings</strong>. Algorithms such as HDBSCAN or k-means group similar images.</p></li>
+<li><p><strong>Generate labels</strong>. Representative words or phrases are produced using prompts, metadata, or text embeddings, giving each cluster a provisional “topic” label.</p></li>
+<li><p><strong>Interpret</strong>. Subject-matter expertise is essential for understanding what the clusters represent and how reliable the labels are.</p></li>
+</ol>
+<p>Although the workflow is automated, human interpretation remains essential. The method suggests patterns; it does not decide their meaning. In our accompanying workshop (see the conclusion below), we demonstrate three parallel pathways — text-only, image-only and multimodal— to show how each signal behaves and what the combined approach contributes to interpretation.</p>
+<div id="fig-1" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A schematic overview of a typical CLIP-Topic workflow, showing how images (and optionally text) are embedded, reduced in dimensionality, clustered, and assigned topic labels. Specific algorithms (e.g.&nbsp;UMAP, HDBSCAN, c-TF-IDF) may vary, but the overall structure remains consistent. [@grootendorst_multimodal_2022]"><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: A schematic overview of a typical CLIP-Topic workflow, showing how images (and optionally text) are embedded, reduced in dimensionality, clustered, and assigned topic labels. Specific algorithms (e.g.&nbsp;UMAP, HDBSCAN, c-TF-IDF) may vary, but the overall structure remains consistent. <span class="citation" data-cites="grootendorst_multimodal_2022">(Grootendorst 2022)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="a-small-experiment-postcards-as-a-visual-corpus" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-experiment-postcards-as-a-visual-corpus">A small experiment: postcards as a visual corpus</h2>
+<p>To explore the potential of CLIP-Topic, we recently applied it to a collection of historical postcards. Even in this modest experiment, the clustering surfaced clear thematic groups. One contained snowy cityscapes: winter streets, dark skies, and drifting snow rendered in different artistic styles (see Figure&nbsp;1). Another grouped images of parades and military formations, bringing together items dispersed across the collection (see Figure&nbsp;3). These clusters provided a fast way of seeing what kinds of motifs recur across thousands of images. For institutions with large quantities of under-labelled visual material, this offers a practical route to understanding a collection’s thematic range without requiring exhaustive manual work.</p>
+<div id="fig-2" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: CLIP-Topic revealing new forms of order in image collections: a cluster of postcards associated with the “snowy” topic.)"><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image2.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: CLIP-Topic revealing new forms of order in image collections: a cluster of postcards associated with the “snowy” topic.)
+</figcaption>
+</figure>
+</div>
+<div id="fig-3" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Figure 3: A CLIP-Topic cluster labelled “parades,” showing how the method groups together visually similar scenes from the historical postcard collection.)"><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image3.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3: Figure 3: A CLIP-Topic cluster labelled “parades,” showing how the method groups together visually similar scenes from the historical postcard collection.)
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="limitations-and-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-and-considerations">Limitations and considerations</h2>
+<p>Like all search methods that build upon current multimodal AI models, CLIP-Topic has constraints that it is important to recognize and adapt for.</p>
+<ul>
+<li><p><strong>Bias and anachronism</strong>. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see Figure&nbsp;4) — a reminder of how training data shapes interpretation <span class="citation" data-cites="smits_multimodal_2023">(Smits and Wevers 2023)</span>.</p></li>
+<li><p><strong>Metadata matters</strong>. Even though CLIP-Topic can cluster images purely on the basis of visual similarity, sparse or inconsistent textual descriptions limit the model’s ability to generate precise labels for those clusters. In such cases, the underlying groupings remain coherent, but the textual summaries may be generic or less helpful for interpretation.</p></li>
+<li><p><strong>Clusters are provisional</strong>. Themes may overlap or be internally diverse, and the level of granularity chosen for clustering directly shapes how specific—or how general—the resulting topics become. Coarser clustering can reveal broad patterns but may obscure meaningful variation, while finer clustering can surface particular motifs at the cost of producing a larger number of smaller, harder-to-interpret groups. For this reason, clusters should be treated as prompts for exploration rather than fixed categories. It is crucial not to treat the results as fixed, but to recognise how they might shift when the method’s parameters are adjusted.</p></li>
+</ul>
+<p>These issues do not diminish the method’s value, but they underline the importance of expert review, contextual interpretation and attention to how different parameter choices shape the results. Such methodological self-reflexivity is essential.</p>
+<div id="fig-4" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: An example of anachronistic topic labels: CLIP-Topic assigns the term “skateboard” to a cluster of historical church interiors and museum objects, highlighting how modern training data can influence textual descriptions."><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image4.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;4: An example of anachronistic topic labels: CLIP-Topic assigns the term “skateboard” to a cluster of historical church interiors and museum objects, highlighting how modern training data can influence textual descriptions.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="why-this-matters-for-glam-institutions" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-for-glam-institutions">Why this matters for GLAM institutions</h2>
+<p>Multimodal topic modelling broadens what is possible in large-scale visual analysis. It provides institutions with: a rapid way to map the thematic contents of image collections</p>
+<ul>
+<li><p>automated tagging that can feed into cataloguing and documentation workflows</p></li>
+<li><p>new opportunities for discovery interfaces, research dashboards and visual search tools — like our CLIP-based <a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/">image search demo</a></p></li>
+<li><p>a foundation for linking images with related textual or audiovisual content</p></li>
+</ul>
+<p>In combination with other machine-learning techniques — such as ASR for transcribing AV materials, e.g.&nbsp;<a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">KB-Whisper</a> — CLIP-Topic can help create more coherent, interconnected heritage datasets.</p>
+</section>
+<section id="conclusion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>CLIP-Topic does not replace archival description or curatorial expertise. What it offers is an additional layer of insight: a thematic overview that helps institutions understand large image collections more effectively, making it easier to identify recurring motifs and notice connections that may otherwise remain obscure.</p>
+<p>As part of this work, we have also created an openly accessible <a href="https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp">Google Colab</a> notebook designed to help users experiment with CLIP-Topic in a hands-on way. Developed within the national infrastructure <a href="https://www.huminfra.se/">Huminfra</a>, the notebook introduces the method through a small, curated set of images from DigitaltMuseum and combines brief explanatory notes with runnable code cells. Because everything runs in the browser — no installation, no setup — it offers a low-barrier way of seeing how the workflow unfolds in practice. More importantly, it is meant to be revisited and adapted: the notebook can be explored at one’s own pace and reused with local collections, supporting both experimentation and understanding <span class="citation" data-cites="sikora_ai_2024">(Sikora 2024)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Check out the <a href="https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp">Google Colab notebook on CLIP-Topic</a></p>
+</div></div><p>This post accompanies our poster for the <a href="https://sites.google.com/view/ai4lam/fantastic-futures-2025?authuser=0">AI4LAM Fantastic Futures 2025 conference</a> hosted at the British Library. If you are interested in trying CLIP-Topic on your own collections, we invite you to explore the notebook and see what patterns emerge!</p>
+<div id="fig-5" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: A view of the CLIP-Topic Colab notebook developed within Huminfra, showing how users can run the workflow step by step directly in the browser."><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image5.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5: A view of the CLIP-Topic Colab notebook developed within Huminfra, showing how users can run the workflow step by step directly in the browser.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-grootendorst_multimodal_2022" class="csl-entry">
+Grootendorst, Maarten. 2022. <span>“Multimodal <span>Topic</span> <span>Modeling</span> - <span>BERTopic</span>.”</span> <a href="https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html">https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html</a>.
+</div>
+<div id="ref-sikora_ai_2024" class="csl-entry">
+Sikora, Justyna. 2024. <span>“<span>AI</span> for <span>Image</span> <span>Collections</span>: <span>A</span> <span>Hands</span>-<span>On</span> <span>Workshop</span> with <span>CLIP</span>-<span>Topic</span>.”</span> <a href="https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp">https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp</a>.
+</div>
+<div id="ref-smits_multimodal_2023" class="csl-entry">
+Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digital</span> <span>Humanities</span>. <span>Using</span> Contrastive Machine Learning Models to Explore, Enrich, and Analyze Digital Visual Historical Collections.”</span> <em>Digital Scholarship in the Humanities</em> 38 (3): 1267–80. <a href="https://doi.org/10.1093/llc/fqad008">https://doi.org/10.1093/llc/fqad008</a>.
+</div>
+</div>
+</section>
+<section id="acknowledgments" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>Part of this development work was carried out within the <a href="https://www.huminfra.se/">HUMINFRA</a> infrastructure project.</p>
+
+
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
+</div></div></section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
+  author = {Haffenden, Chris},
+  title = {CLIP-Topic: {Identifying} {Themes} in {Large} {Image}
+    {Collections}},
+  date = {2025-12-01},
+  url = {https://kb-labb.github.io/posts/2025-12-01-clip-topic/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
+Haffenden, Chris. 2025. <span>“CLIP-Topic: Identifying Themes in Large
+Image Collections.”</span> December 1, 2025. <a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://kb-labb.github.io/posts/2025-12-01-clip-topic/</guid>
+  <pubDate>Sun, 30 Nov 2025 23:00:00 GMT</pubDate>
+  <media:content url="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/image5.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>From Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at KBLab</title>
   <dc:creator>Justyna Sikora</dc:creator>
@@ -5096,49 +5263,6 @@ Article about AI in the Library in C&amp;RL.”</span> January 24, 2022.
   <guid>https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</guid>
   <pubDate>Sun, 23 Jan 2022 23:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-  <title>KBLab’s director Love Börjeson nominated as AI Swede of the year 2021</title>
-  <dc:creator>Elena Fano</dc:creator>
-  <link>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="about-techsverige" class="level3">
-<h3 class="anchored" data-anchor-id="about-techsverige">About TechSverige</h3>
-<p>From their own <a href="https://www.techsverige.se/">website</a>:<br>
-“TechSverige is a member organization for companies of all sizes within the tech sector, that wish to join the largest industry network in Sweden in order to promote and further develop the tech market and conditions for tech enterprises. We represent about 1 400 member companies that between them have nearly 100 000 employees.”</p>
-</section>
-<section id="about-the-prize" class="level3">
-<h3 class="anchored" data-anchor-id="about-the-prize">About the prize</h3>
-<p>Årets AI Svensk 2021 (AI Swede of the year 2021) is a prize awarded by TechSverige. The prize aims to promote efforts and achievements that lead to an advancement in Swedish AI. That is done by way of bringing forward and honoring people who have contributed to the development and visibility of Swedish AI.</p>
-</section>
-<section id="motivation" class="level3">
-<h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
-<p>“Love Börjeson leads KBLab at the National Library of Sweden with great patience and engagement. Among other things, the lab builds large AI language models for Swedish and has a huge impact in the application of AI in the Swedish public sector. KBLab is considered to be a unique resource in the development of Swedish AI and thanks to Love’s leadership and willpower it even has the potential to position Sweden on the international AI map.”</p>
-<p>Read more in the official announcement <a href="https://www.techsverige.se/2021/11/har-ar-finalisterna-i-arets-ai-svensk-2021/">here</a> (in Swedish).</p>
-
-
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fano2021,
-  author = {Fano, Elena},
-  title = {KBLab’s Director {Love} {Börjeson} Nominated as {AI} {Swede}
-    of the Year 2021},
-  date = {2021-11-15},
-  url = {https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2021" class="csl-entry quarto-appendix-citeas">
-Fano, Elena. 2021. <span>“KBLab’s Director Love Börjeson Nominated as AI
-Swede of the Year 2021.”</span> November 15, 2021. <a href="https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/">https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/</guid>
-  <pubDate>Sun, 14 Nov 2021 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/ai_swede.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

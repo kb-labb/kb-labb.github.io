@@ -1,0 +1,153 @@
+---
+title: "CLIP-Topic: Identifying Themes in Large Image Collections"
+description: Heritage institutions hold vast collections of digital images that remain difficult to search or interpret. CLIP-Topic shows how multimodal AI can be used to surface thematic patterns in such collections, helping users see connections, clusters and motifs that would otherwise remain hidden.
+author:
+  - name: Chris Haffenden
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2025-12-01
+bibliography: references.bib
+image: images/image5.png
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+    css: styles.css
+citation: true
+---
+
+## Introduction
+
+As more visual collections are digitised and the volume of born-digital material increases, libraries, archives and museums face a familiar challenge: images accumulate much faster than the metadata necessary to make them searchable. This creates huge amounts of material that remain difficult to navigate in practice. Without a sense of the themes running through a collection, it becomes hard to see what is present, how items relate to one another or where there might be gaps in description.
+
+In this post, we introduce **CLIP-Topic**, a method for discovering thematic patterns in visual datasets using multimodal AI. The approach builds on OpenAI’s [CLIP model](https://openai.com/index/clip/) and adapts topic-modelling techniques widely used in textual analysis. For institutions working with heterogeneous image collections lacking consistent metadata, CLIP-Topic provides a way to generate an initial thematic overview at scale.
+
+
+## Why bring topic modelling to images?
+
+Topic modelling has proven valuable for exploring large text corpora, especially when combined with transformer-based models like BERT, e.g.  [BERTopic](https://kb-labb.github.io/posts/2022-06-14-bertopic/). Extending this idea to images has only recently become feasible. Unlike text, images contain overlapping motifs, stylistic cues and contextual details that resist easy segmentation, which makes large-scale thematic analysis challenging. This complexity is compounded by the fact that visual materials lack the structural cues that enable textual topic modelling, and image metadata is often inconsistent or minimal.
+
+CLIP-Topic addresses this by using **CLIP embeddings** — vector representations that capture visual features alongside associated text. By clustering these embeddings, the method identifies groups of images with shared motifs. Provisional labels can then be generated using textual prompts, metadata or nearest-neighbour text embeddings [@grootendorst_multimodal_2022].
+
+The goal is not to produce definitive categories but to create a navigable thematic map of a collection.
+
+
+## What CLIP-Topic can reveal
+In practical terms, CLIP-Topic helps surface patterns that are difficult to see manually, especially in large or loosely curated datasets:
+
+  - **Recurring visual themes**, even when not reflected in the metadata.
+
+
+  - **Cross-collection links**, where items from different sources share visual traits.
+
+
+  - **Overlooked motifs**, particularly in collections lacking detailed description.
+
+
+  - **Structural absences**, such as areas where images fail to cluster due to bias or limited representation.
+
+  - **Stylistic or temporal shifts**, where clusters reveal changes in visual conventions or materials over time that might otherwise go unnoticed or remain undocumented.
+
+For GLAM institutions, these insights can support tasks ranging from curatorial planning to collection assessment and research exploration. For researchers of visual heritage, these clusters offer a way to analyse large image corpora comparatively, trace thematic or stylistic patterns over time, and generate new questions about how visual material is organised and represented [@smits_multimodal_2023]. 
+
+## How the method works
+
+The workflow consists of four straightforward steps:
+
+  1. **Embed the images**. Each image is processed through a CLIP model to generate an embedding — a compact numerical representation that allows images to be compared computationally.
+
+
+  2. **Cluster the embeddings**. Algorithms such as HDBSCAN or k-means group similar images.
+
+
+  3. **Generate labels**. Representative words or phrases are produced using prompts, metadata, or text embeddings, giving each cluster a provisional “topic” label.
+
+
+  4. **Interpret**. Subject-matter expertise is essential for understanding what the clusters represent and how reliable the labels are.
+
+
+Although the workflow is automated, human interpretation remains essential. The method suggests patterns; it does not decide their meaning. 
+In our accompanying workshop (see the conclusion below), we demonstrate three parallel pathways — text-only, image-only and multimodal— to show how each signal behaves and what the combined approach contributes to interpretation.
+
+![A schematic overview of a typical CLIP-Topic workflow, showing how images (and optionally text) are embedded, reduced in dimensionality, clustered, and assigned topic labels. Specific algorithms (e.g. UMAP, HDBSCAN, c-TF-IDF) may vary, but the overall structure remains consistent. [@grootendorst_multimodal_2022] ](images/image1.png){#fig-1 .lightbox}
+
+
+
+## A small experiment: postcards as a visual corpus
+
+To explore the potential of CLIP-Topic, we recently applied it to a collection of historical postcards. Even in this modest experiment, the clustering surfaced clear thematic groups. One contained snowy cityscapes: winter streets, dark skies, and drifting snow rendered in different artistic styles (see @fig-1). Another grouped images of parades and military formations, bringing together items dispersed across the collection (see @fig-3).
+These clusters provided a fast way of seeing what kinds of motifs recur across thousands of images. For institutions with large quantities of under-labelled visual material, this offers a practical route to understanding a collection’s thematic range without requiring exhaustive manual work.
+
+
+![CLIP-Topic revealing new forms of order in image collections: a cluster of postcards associated with the “snowy” topic.) ](images/image2.png){#fig-2 .lightbox}
+
+![Figure 3: A CLIP-Topic cluster labelled “parades,” showing how the method groups together visually similar scenes from the historical postcard collection.) ](images/image3.png){#fig-3 .lightbox}
+
+
+## Limitations and considerations
+
+Like all search methods that build upon current multimodal AI models, CLIP-Topic has constraints that it is important to recognize and adapt for.
+
+  - **Bias and anachronism**. Because CLIP is trained on contemporary web data, it has a tendency to project modern associations onto historical images. This is not usually a problem for broad visual features, but it becomes more delicate when dealing with historically specific motifs. In one experiment, a cluster of church interiors and museum objects was labelled with terms including “skateboard” (see @fig-4) — a reminder of how training data shapes interpretation [@smits_multimodal_2023]. 
+
+
+  - **Metadata matters**. Even though CLIP-Topic can cluster images purely on the basis of visual similarity, sparse or inconsistent textual descriptions limit the model’s ability to generate precise labels for those clusters. In such cases, the underlying groupings remain coherent, but the textual summaries may be generic or less helpful for interpretation.
+
+
+  - **Clusters are provisional**. Themes may overlap or be internally diverse, and the level of granularity chosen for clustering directly shapes how specific—or how general—the resulting topics become. Coarser clustering can reveal broad patterns but may obscure meaningful variation, while finer clustering can surface particular motifs at the cost of producing a larger number of smaller, harder-to-interpret groups. For this reason, clusters should be treated as prompts for exploration rather than fixed categories. It is crucial not to treat the results as fixed, but to recognise how they might shift when the method’s parameters are adjusted.
+
+These issues do not diminish the method’s value, but they underline the importance of expert review, contextual interpretation and attention to how different parameter choices shape the results. Such methodological self-reflexivity is essential.
+
+![An example of anachronistic topic labels: CLIP-Topic assigns the term “skateboard” to a cluster of historical church interiors and museum objects, highlighting how modern training data can influence textual descriptions.](images/image4.png){#fig-4 .lightbox}
+
+## Why this matters for GLAM institutions
+
+Multimodal topic modelling broadens what is possible in large-scale visual analysis. It provides institutions with:
+a rapid way to map the thematic contents of image collections
+
+
+  - automated tagging that can feed into cataloguing and documentation workflows
+
+
+  - new opportunities for discovery interfaces, research dashboards and visual search tools — like our CLIP-based [image search demo](https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/)
+
+
+  - a foundation for linking images with related textual or audiovisual content
+
+
+In combination with other machine-learning techniques — such as ASR for transcribing AV materials, e.g. [KB-Whisper](https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/) — CLIP-Topic can help create more coherent, interconnected heritage datasets.
+
+## Conclusion
+
+CLIP-Topic does not replace archival description or curatorial expertise. What it offers is an additional layer of insight: a thematic overview that helps institutions understand large image collections more effectively, making it easier to identify recurring motifs and notice connections that may otherwise remain obscure.
+
+As part of this work, we have also created an openly accessible [Google Colab](https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp) notebook designed to help users experiment with CLIP-Topic in a hands-on way. Developed within the national infrastructure [Huminfra](https://www.huminfra.se/), the notebook introduces the method through a small, curated set of images from DigitaltMuseum and combines brief explanatory notes with runnable code cells. Because everything runs in the browser — no installation, no setup — it offers a low-barrier way of seeing how the workflow unfolds in practice. More importantly, it is meant to be revisited and adapted: the notebook can be explored at one’s own pace and reused with local collections, supporting both experimentation and understanding [@sikora_ai_2024].
+
+:::{.column-margin}
+Check out the [Google Colab notebook on CLIP-Topic](https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp)
+:::
+
+
+This post accompanies our poster for the [AI4LAM Fantastic Futures 2025 conference](https://sites.google.com/view/ai4lam/fantastic-futures-2025?authuser=0) hosted at the British Library. If you are interested in trying CLIP-Topic on your own collections, we invite you to explore the notebook and see what patterns emerge!
+
+![A view of the CLIP-Topic Colab notebook developed within Huminfra, showing how users can run the workflow step by step directly in the browser.](images/image5.png){#fig-5 .lightbox}
+
+
+
+## References
+
+::: {#refs}
+:::
+
+
+## Acknowledgments 
+
+Part of this development work was carried out within the [HUMINFRA](https://www.huminfra.se/) infrastructure project.
+
+:::{.column-margin}
+![](images/huminfra.svg){width="40%"}
+::::
+
+
