@@ -1,0 +1,277 @@
+---
+title: "easytranscriber: Speech recognition with precise timestamps"
+description: |
+  easytranscriber is an automatic speech recognition library that produces transcriptions with precise word-level timestamps. It is 35% to 102% faster than WhisperX by leveraging GPU-accelerated forced alignment, parallel data loading, and batched emission extraction.
+author:
+  - name: Faton Rekathati
+    affiliations:
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+date: 2026-02-26
+image: images/easytranscriber.png
+bibliography: references.bib
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+    css: styles.css
+citation: true
+resources:
+  - images/taleoftwocities_01_dickens_64kb_trimmed.json
+---
+
+![](images/easytranscriber.png){width="100%"}
+
+[`easytranscriber`](https://kb-labb.github.io/easytranscriber/) is an automatic speech recognition (ASR) library designed for efficient, scalable transcription with accurate word-level timestamps. It has been developed by KBLab at the National Library of Sweden, drawing inspiration from the `WhisperX` library [@bain2023whisperx].  
+
+The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making these audiovisual collections searchable and navigable. 
+
+At scale, small inefficiencies can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of the pipeline, the surrounding components (data loading, emission extraction, forced alignment) often remain as bottlenecks. `easytranscriber` seeks to address such inefficiencies by implementing:
+
+* **GPU-accelerated forced alignment** using Pytorch's [forced alignment API](https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html) [@pratap2024scaling].
+* **Parallel loading and pre-fetching** of audio files, enabling efficient non-blocking data loading and batching.
+* **Batched inference** for wav2vec2 models (emission extraction).
+* **Flexible regex-based text normalization** that improves forced alignment quality. The normalizations are reversible, meaning that the original text can be recovered after alignment.
+
+## Pipeline
+
+`easytranscriber` runs four stages in sequence: voice activity detection (VAD), transcription, emission extraction, and forced alignment. The pipeline can be run as a single `pipeline()` call, or each stage can be run independently for more fine-grained control.
+
+::: {.column-margin}
+::: {.callout-tip style="margin-top: 0em;"}
+The `easytranscriber` documentation has a guide for how to use the pipeline stages [independently](https://kb-labb.github.io/easytranscriber/get-started/pipelines.html)
+:::
+:::
+
+For VAD, `easytranscriber` supports both `pyannote` and `silero` models. Note that `pyannote` is a gated model -- you need to accept the [terms and conditions](https://huggingface.co/pyannote/segmentation-3.0) and authenticate with a Hugging Face [access token](https://huggingface.co/docs/hub/en/security-tokens). `silero` can be used without authentication.
+
+::: {.column-body-outset}
+![The easytranscriber pipeline](images/pipelines_light.svg){#fig-pipeline width=100% fig-align="center"}
+:::
+
+## Installation
+
+```bash
+pip install easytranscriber --extra-index-url https://download.pytorch.org/whl/cu128
+```
+
+When installing with [uv](https://docs.astral.sh/uv/), PyTorch's CUDA/CPU version is selected automatically:
+
+```bash
+uv pip install easytranscriber
+```
+
+## Usage
+
+The following example transcribes the first chapter of *A Tale of Two Cities* from [LibriVox](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/):
+
+```python
+from pathlib import Path
+from easyaligner.text import load_tokenizer
+from huggingface_hub import snapshot_download
+from easytranscriber.pipelines import pipeline
+from easytranscriber.text.normalization import text_normalizer
+
+snapshot_download(
+    "Lauler/easytranscriber_tutorials",
+    repo_type="dataset",
+    local_dir="data/tutorials",
+    allow_patterns="tale-of-two-cities_short-en/*",
+)
+
+tokenizer = load_tokenizer("english")
+audio_files = [
+    file.name for file in
+    Path("data/tutorials/tale-of-two-cities_short-en").glob("*")
+]
+
+pipeline(
+    vad_model="pyannote",
+    emissions_model="facebook/wav2vec2-base-960h",
+    transcription_model="distil-whisper/distil-large-v3.5",
+    audio_paths=audio_files,
+    audio_dir="data/tutorials/tale-of-two-cities_short-en",
+    backend="ct2",
+    language="en",
+    tokenizer=tokenizer,
+    text_normalizer_fn=text_normalizer,
+    cache_dir="models",
+)
+```
+
+You can specify any Whisper model on Hugging Face. `easytranscriber` handles the download and conversion to CTranslate2 format automatically. Hugging Face `transformers` is also supported as a backend with `backend="hf"`.
+
+### Output
+
+`easytranscriber` outputs a JSON file for each pipeline stage. The final aligned output in `output/alignments` contains word-level timestamps:
+
+```
+output
+├── vad                  ← SpeechSegments with AudioChunks
+├── transcriptions       ← + transcribed text per chunk
+├── emissions            ← + emission file paths (.npy)
+└── alignments           ← + AlignmentSegments with word timestamps
+```
+
+Each alignment segment includes sentence-level and word-level start/end timestamps with confidence scores:
+
+```json
+{
+  "start": 6.553,
+  "end": 8.474,
+  "text": "It was the best of times. ",
+  "score": 0.995,
+  "words": [
+    {"text": "It ",    "start": 6.553, "end": 6.593, "score": 0.999},
+    {"text": "was ",   "start": 6.673, "end": 6.773, "score": 1.000},
+    {"text": "the ",   "start": 6.853, "end": 6.933, "score": 0.999},
+    {"text": "best ",  "start": 7.013, "end": 7.173, "score": 0.999},
+    {"text": "of ",    "start": 7.273, "end": 7.333, "score": 0.999},
+    {"text": "times. ","start": 7.394, "end": 8.474, "score": 0.980}
+  ]
+}
+```
+
+## Interactive demo
+
+The word-level timestamps allow for building interactive applications where text is highlighted in sync with the audio. Below is a demo, using the alignment output from the example above. Pressing play will highlight each word as it is spoken. You can also click any sentence to jump to that point in the audio. Dragging the progress bar will scroll the transcript to keep the active sentence in view.
+
+<div id="audio-player" class="audio-card">
+  <div class="audio-card-label">Sample audio</div>
+  <div class="audio-card-title"><em>A Tale of Two Cities</em> — Chapter 1 (LibriVox)</div>
+  <audio controls>
+    <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_short-en/taleoftwocities_01_dickens_64kb_trimmed.mp3"
+    type="audio/mpeg">
+  </audio>
+</div>
+
+<div id="transcript-container" class="transcript-container transcript-card"></div>
+
+```{=html}
+<script>
+const audioPlayer = document.querySelector("#audio-player audio");
+const container = document.getElementById("transcript-container");
+
+const wordMap = [];
+const alignmentMap = [];
+let prevWord = null;
+let prevAlignment = null;
+
+fetch("images/taleoftwocities_01_dickens_64kb_trimmed.json")
+  .then((r) => r.json())
+  .then((data) => {
+    data.speeches.forEach((speech) => {
+      let para = document.createElement("p");
+      para.className = "chunk";
+
+      speech.alignments.forEach((alignment) => {
+        const sentenceSpan = document.createElement("span");
+        sentenceSpan.className = "alignment";
+
+        sentenceSpan.addEventListener("click", () => {
+          audioPlayer.currentTime = alignment.start;
+          audioPlayer.play();
+        });
+
+        alignment.words.forEach((word) => {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          wordSpan.textContent = word.text;
+          wordSpan.dataset.start = word.start;
+          wordSpan.dataset.end = word.end;
+          sentenceSpan.appendChild(wordSpan);
+
+          wordMap.push({ el: wordSpan, start: word.start, end: word.end });
+        });
+
+        para.appendChild(sentenceSpan);
+        alignmentMap.push({
+          el: sentenceSpan,
+          start: alignment.start,
+          end: alignment.end,
+        });
+
+        if (!alignment.text.endsWith(" ")) {
+          container.appendChild(para);
+          para = document.createElement("p");
+          para.className = "chunk";
+        }
+      });
+
+      if (para.childElementCount > 0) {
+        container.appendChild(para);
+      }
+    });
+  });
+
+function updateHighlight() {
+  const t = audioPlayer.currentTime;
+
+  const curWord = wordMap.find((w) => t >= w.start && t < w.end);
+  if (curWord && curWord.el !== prevWord) {
+    if (prevWord) prevWord.classList.remove("highlight-word");
+    curWord.el.classList.add("highlight-word");
+    prevWord = curWord.el;
+  }
+
+  const curAlignment = alignmentMap.find((a) => t >= a.start && t < a.end);
+  if (curAlignment && curAlignment.el !== prevAlignment) {
+    if (prevAlignment) prevAlignment.classList.remove("highlight-sentence");
+    curAlignment.el.classList.add("highlight-sentence");
+    prevAlignment = curAlignment.el;
+
+    // Auto-scroll to keep active sentence visible
+    curAlignment.el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+audioPlayer.addEventListener("seeked", updateHighlight);
+
+function tick() {
+  if (!audioPlayer.paused) {
+    updateHighlight();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+```
+
+::: {.column-margin}
+You can find the [recording](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/) of the audiobook at LibriVox. 
+:::
+
+## Search interface: easysearch
+
+`easysearch` is a minimal, lightweight, search interface built into `easytranscriber` for browsing and querying transcription outputs. It indexes the output JSON transcriptions into a SQLite database with full-text search and serves a web UI with the same synchronized audio playback and transcript highlighting shown in the demo above.
+
+```bash
+pip install easytranscriber[search]
+easysearch --alignments-dir output/alignments --audio-dir data/audio
+```
+
+This indexes all alignment JSON files and starts a web server at `http://127.0.0.1:8642`. On subsequent launches, only new or modified files are re-indexed.
+
+The search uses SQLite FTS5 and supports queries like `"exact phrase"`, `prefix*`, `word1 OR word2`, `word1 NOT word2`, and `NEAR(word1 word2, 3)`. Clicking a search result navigates to the document at the matching timestamp and begins playback with synchronized highlighting.
+
+## Benchmarks
+
+The optimizations in `easytranscriber` result in speedups of $35$% to $102$% compared to `WhisperX`, depending on the hardware configuration. The gains are most pronounced on hardware with slower single-core CPU performance. `WhisperX`'s single-threaded data loading and forced alignment implementations become bottlenecks that leave the GPU underutilized. `easytranscriber`, in contrast, manages to saturate the GPU by loading, prefetching and processing data in parallel. GPU based forced alignment further minimizes idle time and dependence on single-core CPU performance.
+
+::: {.column-page-inset}
+![Throughput comparison between easytranscriber and WhisperX across different hardware configurations.](images/all_speedup.png){#fig-benchmarks .lightbox}
+:::
+
+All `easytranscriber` benchmarks were run using the CTranslate2 backend with the `KBLab/kb-whisper-large` model.
+
+## Acknowledgements
+
+`easytranscriber` draws heavy inspiration from [`WhisperX`](https://github.com/m-bain/whisperX) [@bain2023whisperx]. The forced alignment component is based on Pytorch's forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm [@pratap2024scaling]. 
+
+Public domain LibriVox recordings are used as tutorial examples.
+
+### References
+
+::: {#refs}
+:::
