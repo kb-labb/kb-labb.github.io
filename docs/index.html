@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,14 +35,15 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8699bdd72dbe510ce3fc3cdce415d69c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +116,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -142,7 +143,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="./images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="./images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -229,7 +231,31 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1764543600000" data-listing-file-modified-sort="1764603253301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1425">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1772060400000" data-listing-file-modified-sort="1772407006629" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1610">
+<a href="./posts/2026-02-26-easytranscriber/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/2026-02-26-easytranscriber/images/easytranscriber.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+easytranscriber: Speech recognition with precise timestamps
+</h5>
+<div class="card-text listing-description delink">
+<p>easytranscriber is an automatic speech recognition library for transcription with precise word-level timestamps. It is 35% to 102% faster compared to WhisperX, by leveraging…</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Faton Rekathati
+</div>
+<div class="listing-date">
+Feb 26, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-listing-date-sort="1764543600000" data-listing-file-modified-sort="1772056397528" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1425">
 <a href="./posts/2025-12-01-clip-topic/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -253,7 +279,7 @@ Dec 1, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1749592800000" data-listing-file-modified-sort="1764600377496" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44" data-listing-word-count-sort="8603">
+<div class="g-col-1" data-index="2" data-listing-date-sort="1749592800000" data-listing-file-modified-sort="1772056397522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44" data-listing-word-count-sort="8603">
 <a href="./posts/2025-06-11-from-parchment-to-pixel/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -277,7 +303,7 @@ Jun 11, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1741302000000" data-listing-file-modified-sort="1764600377483" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1960">
+<div class="g-col-1" data-index="3" data-listing-date-sort="1741302000000" data-listing-file-modified-sort="1742739643006" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1960">
 <a href="./posts/2025-03-07-welcome-KB-Whisper/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -301,7 +327,7 @@ Mar 7, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1738278000000" data-listing-file-modified-sort="1764600377480" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1588">
+<div class="g-col-1" data-index="4" data-listing-date-sort="1738278000000" data-listing-file-modified-sort="1742739643008" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1588">
 <a href="./posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -325,7 +351,7 @@ Jan 31, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="4" data-listing-date-sort="1706569200000" data-listing-file-modified-sort="1764600377478" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
+<div class="g-col-1" data-index="5" data-listing-date-sort="1706569200000" data-listing-file-modified-sort="1742739643008" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
 <a href="./posts/2024-01-30-finansinspektionen/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -349,7 +375,7 @@ Jan 30, 2024
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="5" data-listing-date-sort="1697752800000" data-listing-file-modified-sort="1764600377477" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1538">
+<div class="g-col-1" data-index="6" data-listing-date-sort="1697752800000" data-listing-file-modified-sort="1772056397511" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1538">
 <a href="./posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -373,7 +399,7 @@ Oct 20, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="6" data-listing-date-sort="1693260000000" data-listing-file-modified-sort="1764600377470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1729">
+<div class="g-col-1" data-index="7" data-listing-date-sort="1693260000000" data-listing-file-modified-sort="1742739643008" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1729">
 <a href="./posts/2023-08-29-kubord/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -397,7 +423,7 @@ Aug 29, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="7" data-listing-date-sort="1688421600000" data-listing-file-modified-sort="1764600377470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3870">
+<div class="g-col-1" data-index="8" data-listing-date-sort="1688421600000" data-listing-file-modified-sort="1742739643010" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3870">
 <a href="./posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -421,7 +447,7 @@ Jul 4, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="8" data-listing-date-sort="1686866400000" data-listing-file-modified-sort="1764600377461" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="646">
+<div class="g-col-1" data-index="9" data-listing-date-sort="1686866400000" data-listing-file-modified-sort="1742739643006" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="646">
 <a href="./posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -445,7 +471,7 @@ Jun 16, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="9" data-listing-date-sort="1684879200000" data-listing-file-modified-sort="1764600377454" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="753">
+<div class="g-col-1" data-index="10" data-listing-date-sort="1684879200000" data-listing-file-modified-sort="1742739643015" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="753">
 <a href="./posts/2023-05-24-swedish-text-to-speech/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -469,7 +495,7 @@ May 24, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="10" data-listing-date-sort="1680127200000" data-listing-file-modified-sort="1764600377422" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1825">
+<div class="g-col-1" data-index="11" data-listing-date-sort="1680127200000" data-listing-file-modified-sort="1742739643018" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1825">
 <a href="./posts/2023-03-17-scientific-discourse-with-bertopic/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -493,7 +519,7 @@ Mar 30, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="11" data-listing-date-sort="1678316400000" data-listing-file-modified-sort="1764600377401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2154">
+<div class="g-col-1" data-index="12" data-listing-date-sort="1678316400000" data-listing-file-modified-sort="1742739643018" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2154">
 <a href="./posts/2023-03-09-rixvox-a-swedish-speech-corpus/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -517,7 +543,7 @@ Mar 9, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="12" data-listing-date-sort="1677106800000" data-listing-file-modified-sort="1764600377395" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4520">
+<div class="g-col-1" data-index="13" data-listing-date-sort="1677106800000" data-listing-file-modified-sort="1742739643019" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4520">
 <a href="./posts/2023-02-15-finding-speeches-in-the-riksdags-debates/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2023-02-15-finding-speeches-in-the-riksdags-debates/riksmotets-oppnande-2022_kammaren2.jpg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -539,7 +565,7 @@ Feb 23, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="13" data-listing-date-sort="1676242800000" data-listing-file-modified-sort="1764600377392" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="942">
+<div class="g-col-1" data-index="14" data-listing-date-sort="1676242800000" data-listing-file-modified-sort="1742739643018" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="942">
 <a href="./posts/2023-02-12-zero-shot-text-classification/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -563,7 +589,7 @@ Feb 13, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="14" data-listing-date-sort="1673823600000" data-listing-file-modified-sort="1764600377391" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1876">
+<div class="g-col-1" data-index="15" data-listing-date-sort="1673823600000" data-listing-file-modified-sort="1742739643020" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1876">
 <a href="./posts/2023-01-16-sentence-transformer-20/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -587,7 +613,7 @@ Jan 16, 2023
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="15" data-listing-date-sort="1655157600000" data-listing-file-modified-sort="1764600377391" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1002">
+<div class="g-col-1" data-index="16" data-listing-date-sort="1655157600000" data-listing-file-modified-sort="1742739643021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1002">
 <a href="./posts/2022-06-14-bertopic/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -611,7 +637,7 @@ Jun 14, 2022
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="16" data-listing-date-sort="1647385200000" data-listing-file-modified-sort="1764600377389" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2217">
+<div class="g-col-1" data-index="17" data-listing-date-sort="1647385200000" data-listing-file-modified-sort="1742739643020" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2217">
 <a href="./posts/2022-03-16-evaluating-swedish-language-models/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -635,11 +661,11 @@ Mar 16, 2022
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="17" data-listing-date-sort="1646262000000" data-listing-file-modified-sort="1764600377388" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1182">
+<div class="g-col-1" data-index="18" data-listing-date-sort="1646262000000" data-listing-file-modified-sort="1742739643021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1182">
 <a href="./posts/2022-03-03-swedish-bootleg-model/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img loading="lazy" src="./posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" class="thumbnail-image card-img" style="height: 150px;">
+<img loading="lazy" data-src="./posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -659,7 +685,7 @@ Mar 3, 2022
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="18" data-listing-date-sort="1644188400000" data-listing-file-modified-sort="1764600377387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4305">
+<div class="g-col-1" data-index="19" data-listing-date-sort="1644188400000" data-listing-file-modified-sort="1742739643021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4305">
 <a href="./posts/2022-02-07-sucx3_ner/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -683,7 +709,7 @@ Feb 7, 2022
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="19" data-listing-date-sort="1642978800000" data-listing-file-modified-sort="1764600377383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="256">
+<div class="g-col-1" data-index="20" data-listing-date-sort="1642978800000" data-listing-file-modified-sort="1742739643021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="256">
 <a href="./posts/2022-01-24-kblab-publishes-an-article-in-crl/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -707,7 +733,7 @@ Jan 24, 2022
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="20" data-listing-date-sort="1636930800000" data-listing-file-modified-sort="1764600377383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="202">
+<div class="g-col-1" data-index="21" data-listing-date-sort="1636930800000" data-listing-file-modified-sort="1742739643020" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="202">
 <a href="./posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -731,7 +757,7 @@ Nov 15, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="21" data-listing-date-sort="1629669600000" data-listing-file-modified-sort="1764600377383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3090">
+<div class="g-col-1" data-index="22" data-listing-date-sort="1629669600000" data-listing-file-modified-sort="1742739643022" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3090">
 <a href="./posts/2021-08-23-a-swedish-sentence-transformer/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img data-src="posts/2021-08-23-a-swedish-sentence-transformer/images/Bi_vs_Cross-Encoder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -753,7 +779,7 @@ Aug 23, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="22" data-listing-date-sort="1623708000000" data-listing-file-modified-sort="1764600377383" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1874">
+<div class="g-col-1" data-index="23" data-listing-date-sort="1623708000000" data-listing-file-modified-sort="1742739643022" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1874">
 <a href="./posts/2021-06-15-a-swedish-norwegian-federated-language-model/index.html" class="quarto-grid-link">
 </a><div class="quarto-grid-item card h-100 card-left"><a href="./posts/2021-06-15-a-swedish-norwegian-federated-language-model/index.html" class="quarto-grid-link">
 <p class="card-img-top">
@@ -777,7 +803,7 @@ Jun 15, 2021
 </div>
 </div>
 </div>
-<div class="g-col-1" data-index="23" data-listing-date-sort="1620079200000" data-listing-file-modified-sort="1764600377375" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2974">
+<div class="g-col-1" data-index="24" data-listing-date-sort="1620079200000" data-listing-file-modified-sort="1742739643008" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2974">
 <a href="./posts/2021-05-04-topic-models-for-sous/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -801,7 +827,7 @@ May 4, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="24" data-listing-date-sort="1616886000000" data-listing-file-modified-sort="1764600377374" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="38" data-listing-word-count-sort="7554">
+<div class="g-col-1" data-index="25" data-listing-date-sort="1616886000000" data-listing-file-modified-sort="1742739643022" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="38" data-listing-word-count-sort="7554">
 <a href="./posts/2021-03-28-ad-classification/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -882,13 +908,14 @@ Mar 28, 2021
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

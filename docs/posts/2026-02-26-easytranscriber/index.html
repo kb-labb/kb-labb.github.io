@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Faton Rekathati">
+<meta name="dcterms.date" content="2026-02-26">
+<meta name="description" content="easytranscriber is an automatic speech recognition library for transcription with precise word-level timestamps. It is 35% to 102% faster compared to WhisperX, by leveraging GPU-accelerated forced alignment, parallel data loading, and batched emission extraction.">
+
+<title>easytranscriber: Speech recognition with precise timestamps – The KBLab Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/kblab_logo_noprint.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-8699bdd72dbe510ce3fc3cdce415d69c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The KBLab Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Models</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-models">    
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/KBLab">
+ <span class="dropdown-text">KBLab Hugging Face</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa">
+ <span class="dropdown-text">KB-Whisper</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cite.html"> 
+<span class="menu-text">How to cite</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kb-labb"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">easytranscriber: Speech recognition with precise timestamps</h1>
+                  <div>
+        <div class="description">
+          <p>easytranscriber is an automatic speech recognition library for transcription with precise word-level timestamps. It is 35% to 102% faster compared to WhisperX, by leveraging GPU-accelerated forced alignment, parallel data loading, and batched emission extraction.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Faton Rekathati </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://www.kb.se/in-english/research-collaboration/kblab.html">
+              KBLab
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 26, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#pipeline" id="toc-pipeline" class="nav-link active" data-scroll-target="#pipeline">Pipeline</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a>
+  <ul class="collapse">
+  <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
+  </ul></li>
+  <li><a href="#interactive-demo" id="toc-interactive-demo" class="nav-link" data-scroll-target="#interactive-demo">Interactive demo</a></li>
+  <li><a href="#search-interface-easysearch" id="toc-search-interface-easysearch" class="nav-link" data-scroll-target="#search-interface-easysearch">Search interface: easysearch</a></li>
+  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link" data-scroll-target="#benchmarks">Benchmarks</a></li>
+  <li><a href="#documentation-and-source-code" id="toc-documentation-and-source-code" class="nav-link" data-scroll-target="#documentation-and-source-code">Documentation and source code</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kb-labb/kb-labb.github.io/blob/main/posts/2026-02-26-easytranscriber/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/kb-labb/kb-labb.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p><img src="images/easytranscriber.png" class="img-fluid" style="width:100.0%"></p>
+<p><a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> is an automatic speech recognition (ASR) library designed for efficient, scalable transcription with accurate word-level timestamps. It has been developed by KBLab at the National Library of Sweden, drawing inspiration from the <code>WhisperX</code> library <span class="citation" data-cites="bain2023whisperx">(<a href="#ref-bain2023whisperx" role="doc-biblioref">Bain et al. 2023</a>)</span>.</p>
+<p>The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making our audiovisual collections searchable and navigable.</p>
+<p>At scale, small inefficiencies in inference libraries can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of their pipelines, the surrounding components (data loading, emission extraction, forced alignment) often leave significant performance gains on the table. <code>easytranscriber</code> addresses several such issues by implementing:</p>
+<ul>
+<li><strong>GPU-accelerated forced alignment</strong> using Pytorch’s <a href="https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html">forced alignment API</a> <span class="citation" data-cites="pratap2024scaling">(<a href="#ref-pratap2024scaling" role="doc-biblioref">Pratap et al. 2024</a>)</span>.</li>
+<li><strong>Parallel loading and pre-fetching</strong> of audio files, enabling efficient non-blocking data loading and batching.</li>
+<li><strong>Batched inference</strong> for wav2vec2 models (emission extraction).</li>
+<li><strong>Flexible regex-based text normalization</strong> that improves forced alignment quality. The normalizations are reversible, meaning that the original text can be recovered after alignment.</li>
+</ul>
+<p><code>easytranscriber</code> has support for both <code>ctranslate2</code> and Hugging Face <code>transformers</code> as backends – bringing the functionality of <code>WhisperX</code> to the Hugging Face ecosystem.</p>
+<section id="pipeline" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="pipeline">Pipeline</h2>
+<p><code>easytranscriber</code> runs four stages in sequence: voice activity detection (VAD), transcription, emission extraction, and forced alignment. The pipeline can be run as a single <code>pipeline()</code> call, or each stage can be run independently for more fine-grained control.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled" style="margin-top: 0em;">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>easytranscriber</code> documentation has a guide for how to use the pipeline stages <a href="https://kb-labb.github.io/easytranscriber/get-started/pipelines.html">independently</a></p>
+</div>
+</div>
+</div></div><p>For VAD, <code>easytranscriber</code> supports both <code>pyannote</code> and <code>silero</code> models. Note that <code>pyannote</code> is a gated model – you need to accept the <a href="https://huggingface.co/pyannote/segmentation-3.0">terms and conditions</a> and authenticate with a Hugging Face <a href="https://huggingface.co/docs/hub/en/security-tokens">access token</a>. <code>silero</code> can be used without authentication.</p>
+<div class="page-columns page-full">
+<div id="fig-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="images/pipelines_light.svg" class="img-fluid quarto-figure quarto-figure-center figure-img column-body-outset" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: The easytranscriber pipeline
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A list of suitable emission models for different languages can be found in the <a href="https://github.com/m-bain/whisperX/blob/d8a078eed46b139f90d7f33b472119e9be9ff969/whisperx/alignment.py#L41-L77">WhisperX library</a>.</p>
+</div>
+</div>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install easytranscriber <span class="at">--extra-index-url</span> https://download.pytorch.org/whl/cu128</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When installing with <a href="https://docs.astral.sh/uv/">uv</a>, PyTorch’s CUDA/CPU version is selected automatically:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install easytranscriber</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>The following example downloads and transcribes the first chapter of <em>A Tale of Two Cities</em> from <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">LibriVox</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> load_tokenizer</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> snapshot_download</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.pipelines <span class="im">import</span> pipeline</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.text.normalization <span class="im">import</span> text_normalizer</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>snapshot_download(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lauler/easytranscriber_tutorials"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span><span class="st">"dataset"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    local_dir<span class="op">=</span><span class="st">"data/tutorials"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    allow_patterns<span class="op">=</span><span class="st">"tale-of-two-cities_short-en/*"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> load_tokenizer(<span class="st">"english"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>audio_files <span class="op">=</span> [</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.name <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    Path(<span class="st">"data/tutorials/tale-of-two-cities_short-en"</span>).glob(<span class="st">"*"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>pipeline(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    vad_model<span class="op">=</span><span class="st">"pyannote"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    emissions_model<span class="op">=</span><span class="st">"facebook/wav2vec2-base-960h"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    transcription_model<span class="op">=</span><span class="st">"distil-whisper/distil-large-v3.5"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    audio_paths<span class="op">=</span>audio_files,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    audio_dir<span class="op">=</span><span class="st">"data/tutorials/tale-of-two-cities_short-en"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    backend<span class="op">=</span><span class="st">"ct2"</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    language<span class="op">=</span><span class="st">"en"</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    tokenizer<span class="op">=</span>tokenizer,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    text_normalizer_fn<span class="op">=</span>text_normalizer,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    cache_dir<span class="op">=</span><span class="st">"models"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can specify any Whisper model on Hugging Face. <code>easytranscriber</code> handles the download and conversion to <code>ctranslate2</code> format automatically. Hugging Face <code>transformers</code> is also supported as a backend with <code>backend="hf"</code>.</p>
+<section id="output" class="level3">
+<h3 class="anchored" data-anchor-id="output">Output</h3>
+<p><code>easytranscriber</code> outputs a JSON file for each pipeline stage. The final aligned output in <code>output/alignments</code> contains word-level timestamps:</p>
+<pre><code>output
+├── vad                  ← SpeechSegments with AudioChunks
+├── transcriptions       ← + transcribed text per chunk
+├── emissions            ← + emission file paths (.npy)
+└── alignments           ← + AlignmentSegments with word timestamps</code></pre>
+<p>Each alignment segment includes sentence-level and word-level start/end timestamps with confidence scores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">6.553</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">8.474</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"It was the best of times. "</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.995</span><span class="fu">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"words"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"It "</span><span class="fu">,</span>    <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">6.553</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">6.593</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.999</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"was "</span><span class="fu">,</span>   <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">6.673</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">6.773</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">1.000</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"the "</span><span class="fu">,</span>   <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">6.853</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">6.933</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.999</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"best "</span><span class="fu">,</span>  <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">7.013</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">7.173</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.999</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"of "</span><span class="fu">,</span>    <span class="dt">"start"</span><span class="fu">:</span> <span class="fl">7.273</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">7.333</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.999</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"text"</span><span class="fu">:</span> <span class="st">"times. "</span><span class="fu">,</span><span class="dt">"start"</span><span class="fu">:</span> <span class="fl">7.394</span><span class="fu">,</span> <span class="dt">"end"</span><span class="fu">:</span> <span class="fl">8.474</span><span class="fu">,</span> <span class="dt">"score"</span><span class="fu">:</span> <span class="fl">0.980</span><span class="fu">}</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="interactive-demo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="interactive-demo">Interactive demo</h2>
+<p>The word-level timestamps allow for building interactive applications where text is highlighted in sync with the audio. Below is a demo, using the alignment output from the example above. Pressing play will highlight each word as it is spoken. You can also click any sentence to jump to that point in the audio. Dragging the progress bar will scroll the transcript to keep the active sentence in view.</p>
+<div id="audio-player" class="audio-card">
+<div class="audio-card-label">
+Sample audio
+</div>
+<div class="audio-card-title">
+<em>A Tale of Two Cities</em> — Chapter 1 (LibriVox)
+</div>
+<p><audio controls=""> <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_short-en/taleoftwocities_01_dickens_64kb_trimmed.mp3" type="audio/mpeg"> </audio></p>
+</div>
+<div id="transcript-container" class="transcript-container transcript-card">
+
+</div>
+<script>
+const audioPlayer = document.querySelector("#audio-player audio");
+const container = document.getElementById("transcript-container");
+
+const wordMap = [];
+const alignmentMap = [];
+let prevWord = null;
+let prevAlignment = null;
+
+fetch("images/taleoftwocities_01_dickens_64kb_trimmed.json")
+  .then((r) => r.json())
+  .then((data) => {
+    data.speeches.forEach((speech) => {
+      let para = document.createElement("p");
+      para.className = "chunk";
+
+      speech.alignments.forEach((alignment) => {
+        const sentenceSpan = document.createElement("span");
+        sentenceSpan.className = "alignment";
+
+        sentenceSpan.addEventListener("click", () => {
+          audioPlayer.currentTime = alignment.start;
+          audioPlayer.play();
+        });
+
+        alignment.words.forEach((word) => {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          wordSpan.textContent = word.text;
+          wordSpan.dataset.start = word.start;
+          wordSpan.dataset.end = word.end;
+          sentenceSpan.appendChild(wordSpan);
+
+          wordMap.push({ el: wordSpan, start: word.start, end: word.end });
+        });
+
+        para.appendChild(sentenceSpan);
+        alignmentMap.push({
+          el: sentenceSpan,
+          start: alignment.start,
+          end: alignment.end,
+        });
+
+        if (!alignment.text.endsWith(" ")) {
+          container.appendChild(para);
+          para = document.createElement("p");
+          para.className = "chunk";
+        }
+      });
+
+      if (para.childElementCount > 0) {
+        container.appendChild(para);
+      }
+    });
+  });
+
+function updateHighlight() {
+  const t = audioPlayer.currentTime;
+
+  const curWord = wordMap.find((w) => t >= w.start && t < w.end);
+  if (curWord && curWord.el !== prevWord) {
+    if (prevWord) prevWord.classList.remove("highlight-word");
+    curWord.el.classList.add("highlight-word");
+    prevWord = curWord.el;
+  }
+
+  const curAlignment = alignmentMap.find((a) => t >= a.start && t < a.end);
+  if (curAlignment && curAlignment.el !== prevAlignment) {
+    if (prevAlignment) prevAlignment.classList.remove("highlight-sentence");
+    curAlignment.el.classList.add("highlight-sentence");
+    prevAlignment = curAlignment.el;
+
+    // Auto-scroll to keep active sentence visible
+    curAlignment.el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+audioPlayer.addEventListener("seeked", updateHighlight);
+
+function tick() {
+  if (!audioPlayer.paused) {
+    updateHighlight();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can find the <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">recording</a> of the audiobook at LibriVox.</p>
+</div></div></section>
+<section id="search-interface-easysearch" class="level2">
+<h2 class="anchored" data-anchor-id="search-interface-easysearch">Search interface: easysearch</h2>
+<p><code>easysearch</code> is a minimal, lightweight, search interface built into <code>easytranscriber</code> for browsing and querying transcription outputs. It indexes the output JSON transcriptions into a SQLite database with full-text search and serves a web UI with the same synchronized audio playback and transcript highlighting shown in the demo above.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install easytranscriber<span class="pp">[</span><span class="ss">search</span><span class="pp">]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">easysearch</span> <span class="at">--alignments-dir</span> output/alignments <span class="at">--audio-dir</span> data/audio</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This indexes all alignment JSON files and starts a web server at <code>http://127.0.0.1:8642</code>. On subsequent launches, only new or modified files are re-indexed.</p>
+<p>The search uses SQLite FTS5 and supports queries like <code>"exact phrase"</code>, <code>prefix*</code>, <code>word1 OR word2</code>, <code>word1 NOT word2</code>, and <code>NEAR(word1 word2, 3)</code>. Clicking a search result navigates to the document at the matching timestamp and begins playback with synchronized highlighting.</p>
+</section>
+<section id="benchmarks" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="benchmarks">Benchmarks</h2>
+<p>The optimizations in <code>easytranscriber</code> result in speedups of <span class="math inline">\(35\)</span>% to <span class="math inline">\(102\)</span>% compared to <code>WhisperX</code>, depending on the hardware configuration. The gains are most pronounced on hardware with slower single-core CPU performance. <code>WhisperX</code>’s single-threaded data loading and forced alignment implementations become bottlenecks that leave the GPU underutilized. <code>easytranscriber</code>, in contrast, manages to saturate the GPU by loading, prefetching and processing data in parallel.</p>
+<p>GPU based forced alignment further minimizes idle time and dependence on single-core CPU performance.</p>
+<div class="page-columns page-full">
+<div id="fig-benchmarks" class="lightbox quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-benchmarks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/all_speedup.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;2: Throughput comparison between easytranscriber and WhisperX across different hardware configurations."><img src="images/all_speedup.png" class="img-fluid figure-img column-page-inset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-benchmarks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Throughput comparison between easytranscriber and WhisperX across different hardware configurations.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>See the <a href="https://kb-labb.github.io/easytranscriber/benchmarks.html">easytranscriber documentation</a> for more details on the benchmarks and hardware configurations.</p>
+</section>
+<section id="documentation-and-source-code" class="level2">
+<h2 class="anchored" data-anchor-id="documentation-and-source-code">Documentation and source code</h2>
+<p>Visit <code>easytranscriber</code>’s documentation website for detailed guides, API references and more:</p>
+<ul>
+<li><strong>Documentation</strong>: <a href="https://kb-labb.github.io/easytranscriber/">kb-labb.github.io/easytranscriber</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com/kb-labb/easytranscriber">github.com/kb-labb/easytranscriber</a></li>
+<li><strong>PyPI</strong>: <a href="https://pypi.org/project/easytranscriber/">pypi.org/project/easytranscriber</a></li>
+</ul>
+<p><code>easytranscriber</code> depends on <code>easyaligner</code> for forced alignment. Stay tuned and follow the <code>KBLab</code> organization for updates on the <code>easyaligner</code> library. Its documentation will be updated in the coming weeks with guides on how to align ground-truth transcripts with audio.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p><code>easytranscriber</code> draws heavy inspiration from <a href="https://github.com/m-bain/whisperX"><code>WhisperX</code></a> <span class="citation" data-cites="bain2023whisperx">(<a href="#ref-bain2023whisperx" role="doc-biblioref">Bain et al. 2023</a>)</span>. The forced alignment component is based on Pytorch’s forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm <span class="citation" data-cites="pratap2024scaling">(<a href="#ref-pratap2024scaling" role="doc-biblioref">Pratap et al. 2024</a>)</span>.</p>
+<p>Public domain LibriVox recordings are used as tutorial examples.</p>
+<p><a href="https://github.com/OpenNMT/CTranslate2"><code>ctranslate2</code></a> and Hugging Face <code>transformers</code> are used as inference backends.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bain2023whisperx" class="csl-entry" role="listitem">
+Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“WhisperX: Time-Accurate Speech Transcription of Long-Form Audio.”</span> In <em>Interspeech 2023</em>. <a href="https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf">https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf</a>.
+</div>
+<div id="ref-pratap2024scaling" class="csl-entry" role="listitem">
+Pratap, Vineel, Andros Tjandra, Bowen Shi, Paden Tober, Anuroop Babu, Sajjad Kunber, Ali Elkahky, Wei-Ning Hsu, et al. 2024. <span>“Scaling Speech Technology to 1,000+ Languages.”</span> <em>Journal of Machine Learning Research</em> 25: 1–52. <a href="https://jmlr.org/papers/volume25/23-1318/23-1318.pdf">https://jmlr.org/papers/volume25/23-1318/23-1318.pdf</a>.
+</div>
+</div>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2026,
+  author = {Rekathati, Faton},
+  title = {Easytranscriber: {Speech} Recognition with Precise
+    Timestamps},
+  date = {2026-02-26},
+  url = {https://kb-labb.github.io/posts/2026-02-26-easytranscriber/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Rekathati, Faton. 2026. <span>“Easytranscriber: Speech Recognition with
+Precise Timestamps.”</span> February 26, 2026. <a href="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/">https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/kb-labb\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/kb_logo_text_black.png" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Contact: <a href="mailto:kblabb@kb.se">kblabb@kb.se</a></figcaption>
+</figure>
+</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kb-labb/kb-labb.github.io/blob/main/posts/2026-02-26-easytranscriber/index.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/kb-labb/kb-labb.github.io/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

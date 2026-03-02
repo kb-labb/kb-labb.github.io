@@ -9,8 +9,684 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.7.31</generator>
-<lastBuildDate>Sun, 30 Nov 2025 23:00:00 GMT</lastBuildDate>
+<generator>quarto-1.8.26</generator>
+<lastBuildDate>Wed, 25 Feb 2026 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>easytranscriber: Speech recognition with precise timestamps</title>
+  <dc:creator>Faton Rekathati</dc:creator>
+  <link>https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><img src="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/images/easytranscriber.png" class="img-fluid" style="width:100.0%"></p>
+<p><a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> is an automatic speech recognition (ASR) library designed for efficient, scalable transcription with accurate word-level timestamps. It has been developed by KBLab at the National Library of Sweden, drawing inspiration from the <code>WhisperX</code> library <span class="citation" data-cites="bain2023whisperx">(Bain et al. 2023)</span>.</p>
+<p>The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making our audiovisual collections searchable and navigable.</p>
+<p>At scale, small inefficiencies in inference libraries can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of their pipelines, the surrounding components (data loading, emission extraction, forced alignment) often leave significant performance gains on the table. <code>easytranscriber</code> addresses several such issues by implementing:</p>
+<ul>
+<li><strong>GPU-accelerated forced alignment</strong> using Pytorch’s <a href="https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html">forced alignment API</a> <span class="citation" data-cites="pratap2024scaling">(Pratap et al. 2024)</span>.</li>
+<li><strong>Parallel loading and pre-fetching</strong> of audio files, enabling efficient non-blocking data loading and batching.</li>
+<li><strong>Batched inference</strong> for wav2vec2 models (emission extraction).</li>
+<li><strong>Flexible regex-based text normalization</strong> that improves forced alignment quality. The normalizations are reversible, meaning that the original text can be recovered after alignment.</li>
+</ul>
+<p><code>easytranscriber</code> has support for both <code>ctranslate2</code> and Hugging Face <code>transformers</code> as backends – bringing the functionality of <code>WhisperX</code> to the Hugging Face ecosystem.</p>
+<section id="pipeline" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="pipeline">Pipeline</h2>
+<p><code>easytranscriber</code> runs four stages in sequence: voice activity detection (VAD), transcription, emission extraction, and forced alignment. The pipeline can be run as a single <code>pipeline()</code> call, or each stage can be run independently for more fine-grained control.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled" style="margin-top: 0em;">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>easytranscriber</code> documentation has a guide for how to use the pipeline stages <a href="https://kb-labb.github.io/easytranscriber/get-started/pipelines.html">independently</a></p>
+</div>
+</div>
+</div></div><p>For VAD, <code>easytranscriber</code> supports both <code>pyannote</code> and <code>silero</code> models. Note that <code>pyannote</code> is a gated model – you need to accept the <a href="https://huggingface.co/pyannote/segmentation-3.0">terms and conditions</a> and authenticate with a Hugging Face <a href="https://huggingface.co/docs/hub/en/security-tokens">access token</a>. <code>silero</code> can be used without authentication.</p>
+<div class="page-columns page-full">
+<div id="fig-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/images/pipelines_light.svg" class="img-fluid quarto-figure quarto-figure-center figure-img column-body-outset" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: The easytranscriber pipeline
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A list of suitable emission models for different languages can be found in the <a href="https://github.com/m-bain/whisperX/blob/d8a078eed46b139f90d7f33b472119e9be9ff969/whisperx/alignment.py#L41-L77">WhisperX library</a>.</p>
+</div>
+</div>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install easytranscriber <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--extra-index-url</span> https://download.pytorch.org/whl/cu128</span></code></pre></div></div>
+<p>When installing with <a href="https://docs.astral.sh/uv/">uv</a>, PyTorch’s CUDA/CPU version is selected automatically:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> pip install easytranscriber</span></code></pre></div></div>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>The following example downloads and transcribes the first chapter of <em>A Tale of Two Cities</em> from <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">LibriVox</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> pathlib <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Path</span>
+<span id="cb3-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.text <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_tokenizer</span>
+<span id="cb3-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> huggingface_hub <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> snapshot_download</span>
+<span id="cb3-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easytranscriber.pipelines <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pipeline</span>
+<span id="cb3-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easytranscriber.text.normalization <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> text_normalizer</span>
+<span id="cb3-6"></span>
+<span id="cb3-7">snapshot_download(</span>
+<span id="cb3-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Lauler/easytranscriber_tutorials"</span>,</span>
+<span id="cb3-9">    repo_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dataset"</span>,</span>
+<span id="cb3-10">    local_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/tutorials"</span>,</span>
+<span id="cb3-11">    allow_patterns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tale-of-two-cities_short-en/*"</span>,</span>
+<span id="cb3-12">)</span>
+<span id="cb3-13"></span>
+<span id="cb3-14">tokenizer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> load_tokenizer(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"english"</span>)</span>
+<span id="cb3-15">audio_files <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb3-16">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">file</span>.name <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">file</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span></span>
+<span id="cb3-17">    Path(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/tutorials/tale-of-two-cities_short-en"</span>).glob(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"*"</span>)</span>
+<span id="cb3-18">]</span>
+<span id="cb3-19"></span>
+<span id="cb3-20">pipeline(</span>
+<span id="cb3-21">    vad_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pyannote"</span>,</span>
+<span id="cb3-22">    emissions_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"facebook/wav2vec2-base-960h"</span>,</span>
+<span id="cb3-23">    transcription_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"distil-whisper/distil-large-v3.5"</span>,</span>
+<span id="cb3-24">    audio_paths<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>audio_files,</span>
+<span id="cb3-25">    audio_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/tutorials/tale-of-two-cities_short-en"</span>,</span>
+<span id="cb3-26">    backend<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ct2"</span>,</span>
+<span id="cb3-27">    language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"en"</span>,</span>
+<span id="cb3-28">    tokenizer<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tokenizer,</span>
+<span id="cb3-29">    text_normalizer_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>text_normalizer,</span>
+<span id="cb3-30">    cache_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"models"</span>,</span>
+<span id="cb3-31">)</span></code></pre></div></div>
+<p>You can specify any Whisper model on Hugging Face. <code>easytranscriber</code> handles the download and conversion to <code>ctranslate2</code> format automatically. Hugging Face <code>transformers</code> is also supported as a backend with <code>backend="hf"</code>.</p>
+<section id="output" class="level3">
+<h3 class="anchored" data-anchor-id="output">Output</h3>
+<p><code>easytranscriber</code> outputs a JSON file for each pipeline stage. The final aligned output in <code>output/alignments</code> contains word-level timestamps:</p>
+<pre><code>output
+├── vad                  ← SpeechSegments with AudioChunks
+├── transcriptions       ← + transcribed text per chunk
+├── emissions            ← + emission file paths (.npy)
+└── alignments           ← + AlignmentSegments with word timestamps</code></pre>
+<p>Each alignment segment includes sentence-level and word-level start/end timestamps with confidence scores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb5-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.553</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8.474</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-4">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"It was the best of times. "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-5">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.995</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-6">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"words"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span></span>
+<span id="cb5-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"It "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.553</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.593</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.999</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"was "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>   <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.673</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.773</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.000</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"the "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>   <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.853</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.933</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.999</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"best "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.013</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.173</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.999</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-11">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"of "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.273</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.333</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.999</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-12">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"times. "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.394</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8.474</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.980</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb5-13">  <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb5-14"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div></div>
+</section>
+</section>
+<section id="interactive-demo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="interactive-demo">Interactive demo</h2>
+<p>The word-level timestamps allow for building interactive applications where text is highlighted in sync with the audio. Below is a demo, using the alignment output from the example above. Pressing play will highlight each word as it is spoken. You can also click any sentence to jump to that point in the audio. Dragging the progress bar will scroll the transcript to keep the active sentence in view.</p>
+<div id="audio-player" class="audio-card">
+<div class="audio-card-label">
+Sample audio
+</div>
+<div class="audio-card-title">
+<em>A Tale of Two Cities</em> — Chapter 1 (LibriVox)
+</div>
+<p><audio controls=""> <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_short-en/taleoftwocities_01_dickens_64kb_trimmed.mp3" type="audio/mpeg"> </audio></p>
+</div>
+<div id="transcript-container" class="transcript-container transcript-card">
+
+</div>
+<script>
+const audioPlayer = document.querySelector("#audio-player audio");
+const container = document.getElementById("transcript-container");
+
+const wordMap = [];
+const alignmentMap = [];
+let prevWord = null;
+let prevAlignment = null;
+
+fetch("images/taleoftwocities_01_dickens_64kb_trimmed.json")
+  .then((r) => r.json())
+  .then((data) => {
+    data.speeches.forEach((speech) => {
+      let para = document.createElement("p");
+      para.className = "chunk";
+
+      speech.alignments.forEach((alignment) => {
+        const sentenceSpan = document.createElement("span");
+        sentenceSpan.className = "alignment";
+
+        sentenceSpan.addEventListener("click", () => {
+          audioPlayer.currentTime = alignment.start;
+          audioPlayer.play();
+        });
+
+        alignment.words.forEach((word) => {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          wordSpan.textContent = word.text;
+          wordSpan.dataset.start = word.start;
+          wordSpan.dataset.end = word.end;
+          sentenceSpan.appendChild(wordSpan);
+
+          wordMap.push({ el: wordSpan, start: word.start, end: word.end });
+        });
+
+        para.appendChild(sentenceSpan);
+        alignmentMap.push({
+          el: sentenceSpan,
+          start: alignment.start,
+          end: alignment.end,
+        });
+
+        if (!alignment.text.endsWith(" ")) {
+          container.appendChild(para);
+          para = document.createElement("p");
+          para.className = "chunk";
+        }
+      });
+
+      if (para.childElementCount > 0) {
+        container.appendChild(para);
+      }
+    });
+  });
+
+function updateHighlight() {
+  const t = audioPlayer.currentTime;
+
+  const curWord = wordMap.find((w) => t >= w.start && t < w.end);
+  if (curWord && curWord.el !== prevWord) {
+    if (prevWord) prevWord.classList.remove("highlight-word");
+    curWord.el.classList.add("highlight-word");
+    prevWord = curWord.el;
+  }
+
+  const curAlignment = alignmentMap.find((a) => t >= a.start && t < a.end);
+  if (curAlignment && curAlignment.el !== prevAlignment) {
+    if (prevAlignment) prevAlignment.classList.remove("highlight-sentence");
+    curAlignment.el.classList.add("highlight-sentence");
+    prevAlignment = curAlignment.el;
+
+    // Auto-scroll to keep active sentence visible
+    curAlignment.el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+audioPlayer.addEventListener("seeked", updateHighlight);
+
+function tick() {
+  if (!audioPlayer.paused) {
+    updateHighlight();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can find the <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">recording</a> of the audiobook at LibriVox.</p>
+</div></div></section>
+<section id="search-interface-easysearch" class="level2">
+<h2 class="anchored" data-anchor-id="search-interface-easysearch">Search interface: easysearch</h2>
+<p><code>easysearch</code> is a minimal, lightweight, search interface built into <code>easytranscriber</code> for browsing and querying transcription outputs. It indexes the output JSON transcriptions into a SQLite database with full-text search and serves a web UI with the same synchronized audio playback and transcript highlighting shown in the demo above.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install easytranscriber<span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">search</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb6-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">easysearch</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--alignments-dir</span> output/alignments <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--audio-dir</span> data/audio</span></code></pre></div></div>
+<p>This indexes all alignment JSON files and starts a web server at <code>http://127.0.0.1:8642</code>. On subsequent launches, only new or modified files are re-indexed.</p>
+<p>The search uses SQLite FTS5 and supports queries like <code>"exact phrase"</code>, <code>prefix*</code>, <code>word1 OR word2</code>, <code>word1 NOT word2</code>, and <code>NEAR(word1 word2, 3)</code>. Clicking a search result navigates to the document at the matching timestamp and begins playback with synchronized highlighting.</p>
+</section>
+<section id="benchmarks" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="benchmarks">Benchmarks</h2>
+<p>The optimizations in <code>easytranscriber</code> result in speedups of <img src="https://latex.codecogs.com/png.latex?35">% to <img src="https://latex.codecogs.com/png.latex?102">% compared to <code>WhisperX</code>, depending on the hardware configuration. The gains are most pronounced on hardware with slower single-core CPU performance. <code>WhisperX</code>’s single-threaded data loading and forced alignment implementations become bottlenecks that leave the GPU underutilized. <code>easytranscriber</code>, in contrast, manages to saturate the GPU by loading, prefetching and processing data in parallel.</p>
+<p>GPU based forced alignment further minimizes idle time and dependence on single-core CPU performance.</p>
+<div class="page-columns page-full">
+<div id="fig-benchmarks" class="lightbox quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-benchmarks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/all_speedup.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;2: Throughput comparison between easytranscriber and WhisperX across different hardware configurations."><img src="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/images/all_speedup.png" class="img-fluid figure-img column-page-inset"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-benchmarks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Throughput comparison between easytranscriber and WhisperX across different hardware configurations.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>See the <a href="https://kb-labb.github.io/easytranscriber/benchmarks.html">easytranscriber documentation</a> for more details on the benchmarks and hardware configurations.</p>
+</section>
+<section id="documentation-and-source-code" class="level2">
+<h2 class="anchored" data-anchor-id="documentation-and-source-code">Documentation and source code</h2>
+<p>Visit <code>easytranscriber</code>’s documentation website for detailed guides, API references and more:</p>
+<ul>
+<li><strong>Documentation</strong>: <a href="https://kb-labb.github.io/easytranscriber/">kb-labb.github.io/easytranscriber</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com/kb-labb/easytranscriber">github.com/kb-labb/easytranscriber</a></li>
+<li><strong>PyPI</strong>: <a href="https://pypi.org/project/easytranscriber/">pypi.org/project/easytranscriber</a></li>
+</ul>
+<p><code>easytranscriber</code> depends on <code>easyaligner</code> for forced alignment. Stay tuned and follow the <code>KBLab</code> organization for updates on the <code>easyaligner</code> library. Its documentation will be updated in the coming weeks with guides on how to align ground-truth transcripts with audio.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p><code>easytranscriber</code> draws heavy inspiration from <a href="https://github.com/m-bain/whisperX"><code>WhisperX</code></a> <span class="citation" data-cites="bain2023whisperx">(Bain et al. 2023)</span>. The forced alignment component is based on Pytorch’s forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm <span class="citation" data-cites="pratap2024scaling">(Pratap et al. 2024)</span>.</p>
+<p>Public domain LibriVox recordings are used as tutorial examples.</p>
+<p><a href="https://github.com/OpenNMT/CTranslate2"><code>ctranslate2</code></a> and Hugging Face <code>transformers</code> are used as inference backends.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-bain2023whisperx" class="csl-entry">
+Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“WhisperX: Time-Accurate Speech Transcription of Long-Form Audio.”</span> In <em>Interspeech 2023</em>. <a href="https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf">https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf</a>.
+</div>
+<div id="ref-pratap2024scaling" class="csl-entry">
+Pratap, Vineel, Andros Tjandra, Bowen Shi, Paden Tober, Anuroop Babu, Sajjad Kunber, Ali Elkahky, Wei-Ning Hsu, et al. 2024. <span>“Scaling Speech Technology to 1,000+ Languages.”</span> <em>Journal of Machine Learning Research</em> 25: 1–52. <a href="https://jmlr.org/papers/volume25/23-1318/23-1318.pdf">https://jmlr.org/papers/volume25/23-1318/23-1318.pdf</a>.
+</div>
+</div>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2026,
+  author = {Rekathati, Faton},
+  title = {Easytranscriber: {Speech} Recognition with Precise
+    Timestamps},
+  date = {2026-02-26},
+  url = {https://kb-labb.github.io/posts/2026-02-26-easytranscriber/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
+Rekathati, Faton. 2026. <span>“Easytranscriber: Speech Recognition with
+Precise Timestamps.”</span> February 26, 2026. <a href="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/">https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</guid>
+  <pubDate>Wed, 25 Feb 2026 23:00:00 GMT</pubDate>
+  <media:content url="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/images/easytranscriber.png" medium="image" type="image/png" height="48" width="144"/>
+</item>
 <item>
   <title>CLIP-Topic: Identifying Themes in Large Image Collections</title>
   <dc:creator>Chris Haffenden</dc:creator>
@@ -5225,47 +5901,6 @@ February 7, 2022. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/
   <guid>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</guid>
   <pubDate>Sun, 06 Feb 2022 23:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png" medium="image" type="image/png" height="26" width="144"/>
-</item>
-<item>
-  <title>KBLab publishes an article about AI in the library in C&amp;RL</title>
-  <dc:creator>Elena Fano</dc:creator>
-  <dc:creator>Chris Haffenden</dc:creator>
-  <link>https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="ai-in-the-library" class="level2">
-<h2 class="anchored" data-anchor-id="ai-in-the-library">AI in the library</h2>
-<p>With the increasingly rapid appearance of new techniques over the past few years, the role of AI within the library is becoming a hot topic today. Yet despite a growing interest among librarians, there remains surpisingly little research devoted to the subject.<br>
-We have sought to fill this gap at KBLab by conducting research focused specifically upon AI in the context of libraries. The aim with our new article, <em>Making and using AI in the library: creating a BERT model at the National Library of Sweden</em>, is to show how AI techniques create new possibilities for processing and organizing information at scale in a library (e.g.&nbsp;though automated classification and enriched metadata), but also how library collections might be used to make even better AI tools in the future.</p>
-<p>In this way, we have sought to nuance the image that otherwise tends to predominate of the library as a passive space for the application of AI solutions developed elsewhere. On the contrary, we argue that libraries can have an important roll to play in AI development, especially in relation to language technology (NLP) for other languages than English and Chinese. We hope that our text can lead to new and exciting conversations about the future role of AI in the library!</p>
-<section id="read-the-article-online" class="level3">
-<h3 class="anchored" data-anchor-id="read-the-article-online">Read the article online</h3>
-<p>The article has been accepted for publication in the Open Access journal College &amp; Research Libraries, but is available to read online as a preprint now (<a href="https://osf.io/preprints/socarxiv/k9duq/">link to a downloadable PDF on SocArXiv</a>).</p>
-
-
-</section>
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fano2022,
-  author = {Fano, Elena and Haffenden, Chris},
-  title = {KBLab Publishes an Article about {AI} in the Library in
-    {C\&amp;RL}},
-  date = {2022-01-24},
-  url = {https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2022" class="csl-entry quarto-appendix-citeas">
-Fano, Elena, and Chris Haffenden. 2022. <span>“KBLab Publishes an
-Article about AI in the Library in C&amp;RL.”</span> January 24, 2022.
-<a href="https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/">https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/</guid>
-  <pubDate>Sun, 23 Jan 2022 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2022-01-24-kblab-publishes-an-article-in-crl/newspapers.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

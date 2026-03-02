@@ -1,7 +1,7 @@
 ---
 title: "easytranscriber: Speech recognition with precise timestamps"
 description: |
-  easytranscriber is an automatic speech recognition library that produces transcriptions with precise word-level timestamps. It is 35% to 102% faster than WhisperX by leveraging GPU-accelerated forced alignment, parallel data loading, and batched emission extraction.
+  easytranscriber is an automatic speech recognition library for transcription with precise word-level timestamps. It is 35% to 102% faster compared to WhisperX, by leveraging GPU-accelerated forced alignment, parallel data loading, and batched emission extraction.
 author:
   - name: Faton Rekathati
     affiliations:
@@ -25,14 +25,16 @@ resources:
 
 [`easytranscriber`](https://kb-labb.github.io/easytranscriber/) is an automatic speech recognition (ASR) library designed for efficient, scalable transcription with accurate word-level timestamps. It has been developed by KBLab at the National Library of Sweden, drawing inspiration from the `WhisperX` library [@bain2023whisperx].  
 
-The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making these audiovisual collections searchable and navigable. 
+The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making our  audiovisual collections searchable and navigable. 
 
-At scale, small inefficiencies can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of the pipeline, the surrounding components (data loading, emission extraction, forced alignment) often remain as bottlenecks. `easytranscriber` seeks to address such inefficiencies by implementing:
+At scale, small inefficiencies in inference libraries can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of their pipelines, the surrounding components (data loading, emission extraction, forced alignment) often leave significant performance gains on the table. `easytranscriber` addresses several such issues by implementing:
 
 * **GPU-accelerated forced alignment** using Pytorch's [forced alignment API](https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html) [@pratap2024scaling].
 * **Parallel loading and pre-fetching** of audio files, enabling efficient non-blocking data loading and batching.
 * **Batched inference** for wav2vec2 models (emission extraction).
 * **Flexible regex-based text normalization** that improves forced alignment quality. The normalizations are reversible, meaning that the original text can be recovered after alignment.
+
+`easytranscriber` has support for both `ctranslate2` and Hugging Face `transformers` as backends -- bringing the functionality of `WhisperX` to the Hugging Face ecosystem. 
 
 ## Pipeline
 
@@ -50,6 +52,10 @@ For VAD, `easytranscriber` supports both `pyannote` and `silero` models. Note th
 ![The easytranscriber pipeline](images/pipelines_light.svg){#fig-pipeline width=100% fig-align="center"}
 :::
 
+::: {.callout-tip}
+A list of suitable emission models for different languages can be found in the [WhisperX library](https://github.com/m-bain/whisperX/blob/d8a078eed46b139f90d7f33b472119e9be9ff969/whisperx/alignment.py#L41-L77).
+:::
+
 ## Installation
 
 ```bash
@@ -64,7 +70,7 @@ uv pip install easytranscriber
 
 ## Usage
 
-The following example transcribes the first chapter of *A Tale of Two Cities* from [LibriVox](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/):
+The following example downloads and transcribes the first chapter of *A Tale of Two Cities* from [LibriVox](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/):
 
 ```python
 from pathlib import Path
@@ -100,7 +106,7 @@ pipeline(
 )
 ```
 
-You can specify any Whisper model on Hugging Face. `easytranscriber` handles the download and conversion to CTranslate2 format automatically. Hugging Face `transformers` is also supported as a backend with `backend="hf"`.
+You can specify any Whisper model on Hugging Face. `easytranscriber` handles the download and conversion to `ctranslate2` format automatically. Hugging Face `transformers` is also supported as a backend with `backend="hf"`.
 
 ### Output
 
@@ -257,19 +263,33 @@ The search uses SQLite FTS5 and supports queries like `"exact phrase"`, `prefix*
 
 ## Benchmarks
 
-The optimizations in `easytranscriber` result in speedups of $35$% to $102$% compared to `WhisperX`, depending on the hardware configuration. The gains are most pronounced on hardware with slower single-core CPU performance. `WhisperX`'s single-threaded data loading and forced alignment implementations become bottlenecks that leave the GPU underutilized. `easytranscriber`, in contrast, manages to saturate the GPU by loading, prefetching and processing data in parallel. GPU based forced alignment further minimizes idle time and dependence on single-core CPU performance.
+The optimizations in `easytranscriber` result in speedups of $35$% to $102$% compared to `WhisperX`, depending on the hardware configuration. The gains are most pronounced on hardware with slower single-core CPU performance. `WhisperX`'s single-threaded data loading and forced alignment implementations become bottlenecks that leave the GPU underutilized. `easytranscriber`, in contrast, manages to saturate the GPU by loading, prefetching and processing data in parallel. 
+
+GPU based forced alignment further minimizes idle time and dependence on single-core CPU performance.
 
 ::: {.column-page-inset}
 ![Throughput comparison between easytranscriber and WhisperX across different hardware configurations.](images/all_speedup.png){#fig-benchmarks .lightbox}
 :::
 
-All `easytranscriber` benchmarks were run using the CTranslate2 backend with the `KBLab/kb-whisper-large` model.
+See the [easytranscriber documentation](https://kb-labb.github.io/easytranscriber/benchmarks.html) for more details on the benchmarks and hardware configurations. 
+
+## Documentation and source code
+
+Visit `easytranscriber`'s documentation website for detailed guides, API references and more:  
+
+- **Documentation**: [kb-labb.github.io/easytranscriber](https://kb-labb.github.io/easytranscriber/)
+- **GitHub**: [github.com/kb-labb/easytranscriber](https://github.com/kb-labb/easytranscriber)
+- **PyPI**: [pypi.org/project/easytranscriber](https://pypi.org/project/easytranscriber/)
+
+`easytranscriber` depends on `easyaligner` for forced alignment. Stay tuned and follow the `KBLab` organization for updates on the `easyaligner` library. Its documentation will be updated in the coming weeks with guides on how to align ground-truth transcripts with audio.  
 
 ## Acknowledgements
 
 `easytranscriber` draws heavy inspiration from [`WhisperX`](https://github.com/m-bain/whisperX) [@bain2023whisperx]. The forced alignment component is based on Pytorch's forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm [@pratap2024scaling]. 
 
 Public domain LibriVox recordings are used as tutorial examples.
+
+[`ctranslate2`](https://github.com/OpenNMT/CTranslate2) and Hugging Face `transformers` are used as inference backends. 
 
 ### References
 
