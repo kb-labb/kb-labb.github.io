@@ -15,7 +15,7 @@ author:
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
 date: 2026-03-17
 bibliography: references.bib
-image: images/KBLab-whisper.jpg
+image: images/bandrulle.jpg
 format:
   html:
     embed-resources: false
