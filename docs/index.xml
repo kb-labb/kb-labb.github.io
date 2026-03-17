@@ -9,8 +9,146 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.8.26</generator>
-<lastBuildDate>Wed, 25 Feb 2026 23:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.29</generator>
+<lastBuildDate>Mon, 16 Mar 2026 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Using AI to Improve Metadata in the Swedish Audio-visual Archive</title>
+  <dc:creator>Agnes Toftgård</dc:creator>
+  <dc:creator>Emma Rende</dc:creator>
+  <link>https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/bandrulle.jpg" class="img-fluid figure-img" style="width:300.0%"></p>
+<figcaption>From the audiovisual archives of the National Library of Sweden. Photography: Lina Löfström Baker/KB</figcaption>
+</figure>
+</div>
+<section id="the-context" class="level1">
+<h1>The context</h1>
+<p>Everything that is broadcast on Swedish radio and television is archived at KB in the national database for audio-visual materials, SMDB (Svensk MedieDataBas). The TV and radio-archives are cataloged using metadata purchased from a Swedish news agency, TT, including program schedules, air times, and subject matter. However, for many programs - particularly live news broadcasts - this metadata is incomplete or too generic to be useful. Compare these two content descriptions as an example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/SMDB_SVT1_2025-08-15.png" class="img-fluid figure-img"></p>
+<figcaption>Example of metadata available in SMDB (Svensk MedieDataBas). Catalogue for SVT1 2025-08-15</figcaption>
+</figure>
+</div>
+<p>Where the movie <em>Sången om Stockholm</em> has an informative description of the plot, the news program <em>Rapport</em> is only described as “news”. In order to make the archive more usable for researchers, who may not only be interested in <em>that</em> news have been discussed but also <em>what</em> news have been discussed, the metadata has been manually supplemented with content information. Up until now, experienced cataloging staff have been spending up to one work-day per week, listening through selected news broadcasts and typing up summaries of the highlighted stories. This seemed to us a perfect project for KBx, a collaborative initiative between KB-labb, development, and production, with the aim of catalyzing AI usage internally at the library. A time consuming, repetitive, language-based task that steals time from other tasks that require the staff’s expertise is a great candidate for automation.</p>
+</section>
+<section id="the-goal" class="level1 page-columns page-full">
+<h1>The goal</h1>
+<p>Ideally we would want to accommodate visitors and researchers by making all of the AV-content searchable, something we are working on in our project <em>Mediesök</em>. However, due to legacy systems and limited capacity, we do not currently have the ability to transcribe every broadcast, nor to store every transcription. So an intermediate solution is required! In our case it means limiting the amount of processing to only the news programs that are currently being manually enriched, which severely lack in metadata and are likely to be relevant to research; and limiting the amount of information stored to a summary instead of the whole transcript. Resulting in the following automated workflow:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/process.png" class="img-fluid figure-img"></p>
+<figcaption>Automated workflow</figcaption>
+</figure>
+</div>
+<p>Selected TV and radio programs are transcribed using KB-Whisper <span class="citation" data-cites="vesterbacka2025swedishwhispersleveragingmassive">(Vesterbacka et al. 2025)</span>, a transcription model we released in February 2025. The transcribed text is then summarized using a language model (currently Llama 3.1-8B-Instruct <span class="citation" data-cites="grattafiori2024llama">(<span class="nocase">Grattafiori et al.</span> 2024)</span>). These summaries are automatically added to the institution’s national AV catalogue, SMDB, in a dedicated field clearly labeled as AI-generated. Catalogue staff manage only the selection of programs to be processed - everything else happens without manual input.</p>
+<aside>
+Check out our post about finetuning our own Whisper model <a href="../../posts/2025-03-07-welcome-KB-Whisper/index.html">here</a>
+</aside>
+</section>
+<section id="the-process" class="level1">
+<h1>The process</h1>
+<section id="identifying-needs" class="level2">
+<h2 class="anchored" data-anchor-id="identifying-needs">Identifying needs</h2>
+<p>We started the whole project by talking to the AV-catalogers who were creating the manual summaries. What was their current process? How much time did they spend? Why did they think this was important to do, and what would they like the finished automated process to look like? We realized that the current process was cobbled together from numerous sources. It included: scripts that scraped open access summaries from broadcasters’ websites that regularly change their layout leading to regular adapting of the scripts; rewriting official broadcaster summaries that are copyrighted; listening to the initial recap of a news broadcast and writing a summary; and, for programs where only a few news stories are mentioned in the initial recap, listening to entire programs and writing up a summary. So, we wanted an automated process that worked for all of the relevant programs, regardless of source, and required little to no oversight.</p>
+</section>
+<section id="experimenting-with-models" class="level2">
+<h2 class="anchored" data-anchor-id="experimenting-with-models">Experimenting with models</h2>
+<p>Not having trained a generative LLM ourselves yet, we set out to test some available open source models that we could run in-house. The model needed to:</p>
+<ol type="1">
+<li>understand and output the Swedish language</li>
+<li>produce summaries that accurately portray the original text</li>
+<li>format the output relatively consistently</li>
+<li>have a context length that could handle transcriptions of up to 1h programs.</li>
+</ol>
+<p>Size and language-wise, our two frontrunners were Gemma2-9B <span class="citation" data-cites="team2024gemma">(<span class="nocase">Team et al.</span> 2024)</span> and Llama3.1-instruct-8B <span class="citation" data-cites="grattafiori2024llama">(<span class="nocase">Grattafiori et al.</span> 2024)</span>. But we finally settled on the Llama because, compared to Gemmas context length of 8 192 tokens that could process around 10 minutes of audio transcriptions, Llama could process up to 1.5 hours with its 128 000 token context window.</p>
+</section>
+<section id="prompt-workshop" class="level2">
+<h2 class="anchored" data-anchor-id="prompt-workshop">Prompt workshop</h2>
+<p>With an LLM selected, the next step was to work on a prompt. To figure out what we wanted the summaries to look like, and what kind of prompt would get us there, we gathered the AV-catalogers for a workshop. Running a Jupyter-notebook on one of the lab’s computers, equipped with GPUs for fast processing, we spent an afternoon getting a feel for how the model responded to different kinds of instructions.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/prompt_ex2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Prompt = Sammanfatta nyhetsinslaget."><img src="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/prompt_ex2.png" class="img-fluid figure-img" alt="Prompt = Sammanfatta nyhetsinslaget."></a></p>
+<figcaption>Prompt = Sammanfatta nyhetsinslaget.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/prompt_ex1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Prompt = Gör en lista på de 10 viktigaste nyckelorden från nyhetssändningen."><img src="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/prompt_ex1.png" class="img-fluid figure-img" alt="Prompt = Gör en lista på de 10 viktigaste nyckelorden från nyhetssändningen."></a></p>
+<figcaption>Prompt = Gör en lista på de 10 viktigaste nyckelorden från nyhetssändningen.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>An important lesson from the prompt-workshop was managing expectations. Not even the most well thought out prompt will produce completely consistent output. This is partly because of the stochastic nature of large language models in general, but we were also limited in the size of the model we were able to run and smaller models are <em>generally</em> more inconsistent. The quality of our outputs varied quite a lot from case to case; sometimes the formatting was exactly what we specified, sometimes liberties were taken. Thus, discussions about expectation, what kind of output was “good enough”, was a large piece of this part of the process. Depending on the use case, the minimum level of quality of a summary may be different. In the context of this initiative, we are focusing primarily on enhancing the searcheability of the AV-archives. As long as the summaries mention a majority of the subject matters in the broadcast, it will help end users navigate the archive and find the original source. We may therefore be more lenient towards small errors than for example a case where users cannot access the original source.</p>
+</section>
+<section id="looping-in-production" class="level2">
+<h2 class="anchored" data-anchor-id="looping-in-production">Looping in production</h2>
+<p>Another vital collaboration through out the initiative was with the IT-department and the dev-team. Together with our metadata expert, we figured out what metadata was possible to store in the catalog and how, where we could run language models to continuously process new broadcasts, how the catalogers could manage which programs that should be processed. It was decided that the models should be run in a Kubernetes environment, meaning a Kubernetes crash course for developers and data scientists alike who had not worked with it before. An admin interface for the catalogers was developed within LevReg, the library’s system for handling delivery of digital deposits.</p>
+<p>Through the admin interface, the staff can select which programs to summarize, either by specific broadcasting times, or by the program name. The relevant audio is then retrieved from the digital archive and transcribed with kb-whisper and a summary of the transcription is produced by the Llama model using our prompt. The summary is then made available in the admin interface where the staff can check the quality before copy-pasting it into the AV-catalog along with a caveat that the added content is AI-generated.</p>
+</section>
+<section id="testing-and-improvements" class="level2">
+<h2 class="anchored" data-anchor-id="testing-and-improvements">Testing and improvements</h2>
+<p>The first iteration is seldom the last! Once the admin interface was up and running, the catalogers were able to try out the process and gather feedback and ideas for improvement.</p>
+<p>One thing that became clear was that different news programs needed different kinds of instructions (depending on run time, chatty shows vs formal reporting etc). This has already been amended, and the admin interface has been updated such that the catalogers are able to customize prompts for each program.</p>
+<p>Another improvement in progress is upgrading the summarizing LLM. When developing the first iteration, we were limited to running the models on CPU’s which meant smaller models. Now, however, we are able to make use of GPU’s allowing us to perform the summarization with a larger model such as Gemma 3 27b <span class="citation" data-cites="gemmateam2025gemma3technicalreport">(Team et al. 2025)</span>. We anticipate that this will improve the quality of the outputted summaries and make them more consistent.</p>
+<p>The next step planned is for the summaries to be automatically added to the catalog, without the need for copy-pasting by staff. This will be implemented once we have seen improvements from the multiple prompts and new model, and we feel confident that the summaries achieve our approved level of quality.</p>
+</section>
+</section>
+<section id="reflections" class="level1">
+<h1>Reflections</h1>
+<p>While this initiative involved everyone learning a lot about the technical aspects (such as prompt engineering and working with kubernetes), it taught us just as much about the process of implementing new methods in an existing system.</p>
+<p><strong>New ways of working mean organizational change:</strong> When developing a new workflow, the changes need to be led by department heads as well as the dev team to make sure that it is clear what the new tasks are for the staff. For our purposes that chiefly meant delineating responsibility for the generated summaries. Who is responsible when the summary isn’t perfect? Should staff edit mistakes? Clear guidelines are helpful when automating a task that a person used to be accountable for.</p>
+<p><strong>People want to be involved:</strong> Throughout this initiative, we met a lot of interest from colleagues. There was curiosity about new technology, concern about accuracy and integrity, important input about implementation, among others. While it can be time consuming to manage differing expectations, especially for a small team with limited resources, it is essential to find a balance between making progress and keeping the organization in the loop.</p>
+<p><strong>Finding the balance between short-term and long-term:</strong> Working with inflexible legacy systems, it is easy to get stuck either looking at small-scale fixes of single elements within an existing workflow, or waiting for the exact right circumstances for making large-scale overhauls of entire processes. These approaches, however, are needed in tandem. Starting with small-scale initiatives helps you figure out what could be possible down the line, as well as preparing the organization for handling new technologies or processes whenever it is time for a large-scale change.</p>
+<p>Small-scale initiatives like this not only improve current workflows, but also help cultural heritage institutions prepare for a future where AI becomes an integrated part of archival infrastructure. Structures like KBx play an important role by creating new meeting points between AI specialists and domain experts.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-grattafiori2024llama" class="csl-entry">
+<span class="nocase">Grattafiori, Aaron, Abhimanyu Dubey, Abhinav Jauhri, et al.</span> 2024. <span>“The Llama 3 Herd of Models.”</span> <em>arXiv Preprint arXiv:2407.21783</em>.
+</div>
+<div id="ref-gemmateam2025gemma3technicalreport" class="csl-entry">
+Team, Gemma, Aishwarya Kamath, Johan Ferret, et al. 2025. <em>Gemma 3 Technical Report</em>. <a href="https://arxiv.org/abs/2503.19786">https://arxiv.org/abs/2503.19786</a>.
+</div>
+<div id="ref-team2024gemma" class="csl-entry">
+<span class="nocase">Team, Gemma, Morgane Riviere, Shreya Pathak, et al.</span> 2024. <span>“Gemma 2: Improving Open Language Models at a Practical Size.”</span> <em>arXiv Preprint arXiv:2408.00118</em>.
+</div>
+<div id="ref-vesterbacka2025swedishwhispersleveragingmassive" class="csl-entry">
+Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and Agnes Toftgård. 2025. <em>Swedish Whispers; Leveraging a Massive Speech Corpus for Swedish Speech Recognition</em>. <a href="https://arxiv.org/abs/2505.17538">https://arxiv.org/abs/2505.17538</a>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{toftgård2026,
+  author = {Toftgård, Agnes and Rende, Emma},
+  title = {Using {AI} to {Improve} {Metadata} in the {Swedish}
+    {Audio-visual} {Archive}},
+  date = {2026-03-17},
+  url = {https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-toftgård2026" class="csl-entry quarto-appendix-citeas">
+Toftgård, Agnes, and Emma Rende. 2026. <span>“Using AI to Improve
+Metadata in the Swedish Audio-Visual Archive.”</span> March 17. <a href="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/">https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/</guid>
+  <pubDate>Mon, 16 Mar 2026 23:00:00 GMT</pubDate>
+  <media:content url="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/KBLab-whisper.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>easytranscriber: Speech recognition with precise timestamps</title>
   <dc:creator>Faton Rekathati</dc:creator>
@@ -26,7 +164,7 @@
 <p>The National Library of Sweden is currently in the process of mass transcribing millions of hours of archival radio recordings. Accurate transcription tools with the ability to output precise timestamps have been crucial in making our audiovisual collections searchable and navigable.</p>
 <p>At scale, small inefficiencies in inference libraries can add up to substantial wasted compute. While most ASR libraries have squeezed every last drop of performance out of the transcription step of their pipelines, the surrounding components (data loading, emission extraction, forced alignment) often leave significant performance gains on the table. <code>easytranscriber</code> addresses several such issues by implementing:</p>
 <ul>
-<li><strong>GPU-accelerated forced alignment</strong> using Pytorch’s <a href="https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html">forced alignment API</a> <span class="citation" data-cites="pratap2024scaling">(Pratap et al. 2024)</span>.</li>
+<li><strong>GPU-accelerated forced alignment</strong> using Pytorch’s <a href="https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html">forced alignment API</a> <span class="citation" data-cites="pratap2024scaling">(<span class="nocase">Pratap et al.</span> 2024)</span>.</li>
 <li><strong>Parallel loading and pre-fetching</strong> of audio files, enabling efficient non-blocking data loading and batching.</li>
 <li><strong>Batched inference</strong> for wav2vec2 models (emission extraction).</li>
 <li><strong>Flexible regex-based text normalization</strong> that improves forced alignment quality. The normalizations are reversible, meaning that the original text can be recovered after alignment.</li>
@@ -653,17 +791,17 @@ font-style: inherit;">--audio-dir</span> data/audio</span></code></pre></div></d
 </section>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p><code>easytranscriber</code> draws heavy inspiration from <a href="https://github.com/m-bain/whisperX"><code>WhisperX</code></a> <span class="citation" data-cites="bain2023whisperx">(Bain et al. 2023)</span>. The forced alignment component is based on Pytorch’s forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm <span class="citation" data-cites="pratap2024scaling">(Pratap et al. 2024)</span>.</p>
+<p><code>easytranscriber</code> draws heavy inspiration from <a href="https://github.com/m-bain/whisperX"><code>WhisperX</code></a> <span class="citation" data-cites="bain2023whisperx">(Bain et al. 2023)</span>. The forced alignment component is based on Pytorch’s forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm <span class="citation" data-cites="pratap2024scaling">(<span class="nocase">Pratap et al.</span> 2024)</span>.</p>
 <p>Public domain LibriVox recordings are used as tutorial examples.</p>
 <p><a href="https://github.com/OpenNMT/CTranslate2"><code>ctranslate2</code></a> and Hugging Face <code>transformers</code> are used as inference backends.</p>
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bain2023whisperx" class="csl-entry">
-Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“WhisperX: Time-Accurate Speech Transcription of Long-Form Audio.”</span> In <em>Interspeech 2023</em>. <a href="https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf">https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf</a>.
+Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“WhisperX: Time-Accurate Speech Transcription of Long-Form Audio.”</span> <em>Interspeech 2023</em>. <a href="https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf">https://www.isca-archive.org/interspeech_2023/bain23_interspeech.pdf</a>.
 </div>
 <div id="ref-pratap2024scaling" class="csl-entry">
-Pratap, Vineel, Andros Tjandra, Bowen Shi, Paden Tober, Anuroop Babu, Sajjad Kunber, Ali Elkahky, Wei-Ning Hsu, et al. 2024. <span>“Scaling Speech Technology to 1,000+ Languages.”</span> <em>Journal of Machine Learning Research</em> 25: 1–52. <a href="https://jmlr.org/papers/volume25/23-1318/23-1318.pdf">https://jmlr.org/papers/volume25/23-1318/23-1318.pdf</a>.
+<span class="nocase">Pratap, Vineel, Andros Tjandra, Bowen Shi, et al.</span> 2024. <span>“Scaling Speech Technology to 1,000+ Languages.”</span> <em>Journal of Machine Learning Research</em> 25: 1–52. <a href="https://jmlr.org/papers/volume25/23-1318/23-1318.pdf">https://jmlr.org/papers/volume25/23-1318/23-1318.pdf</a>.
 </div>
 </div>
 
@@ -681,7 +819,7 @@ Pratap, Vineel, Andros Tjandra, Bowen Shi, Paden Tober, Anuroop Babu, Sajjad Kun
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2026. <span>“Easytranscriber: Speech Recognition with
-Precise Timestamps.”</span> February 26, 2026. <a href="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/">https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</a>.
+Precise Timestamps.”</span> February 26. <a href="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/">https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</guid>
   <pubDate>Wed, 25 Feb 2026 23:00:00 GMT</pubDate>
@@ -818,12 +956,12 @@ Precise Timestamps.”</span> February 26, 2026. <a href="https://kb-labb.github
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-grootendorst_multimodal_2022" class="csl-entry">
-Grootendorst, Maarten. 2022. <span>“Multimodal <span>Topic</span> <span>Modeling</span> - <span>BERTopic</span>.”</span> <a href="https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html">https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html</a>.
+Grootendorst, Maarten. 2022. <em>Multimodal <span>Topic</span> <span>Modeling</span> - <span>BERTopic</span></em>. <a href="https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html">https://maartengr.github.io/BERTopic/getting_started/multimodal/multimodal.html</a>.
 </div>
 <div id="ref-sikora_ai_2024" class="csl-entry">
-Sikora, Justyna. 2024. <span>“<span>AI</span> for <span>Image</span> <span>Collections</span>: <span>A</span> <span>Hands</span>-<span>On</span> <span>Workshop</span> with <span>CLIP</span>-<span>Topic</span>.”</span> <a href="https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp">https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp</a>.
+Sikora, Justyna. 2024. <em><span>AI</span> for <span>Image</span> <span>Collections</span>: <span>A</span> <span>Hands</span>-<span>On</span> <span>Workshop</span> with <span>CLIP</span>-<span>Topic</span></em>. <a href="https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp">https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp#scrollTo=YpnMhmNoQ5sp</a>.
 </div>
 <div id="ref-smits_multimodal_2023" class="csl-entry">
 Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digital</span> <span>Humanities</span>. <span>Using</span> Contrastive Machine Learning Models to Explore, Enrich, and Analyze Digital Visual Historical Collections.”</span> <em>Digital Scholarship in the Humanities</em> 38 (3): 1267–80. <a href="https://doi.org/10.1093/llc/fqad008">https://doi.org/10.1093/llc/fqad008</a>.
@@ -850,8 +988,7 @@ Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digi
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, and Justyna Sikora. 2025. <span>“CLIP-Topic:
-Identifying Themes in Large Image Collections.”</span> December 1, 2025.
-<a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
+Identifying Themes in Large Image Collections.”</span> December 1. <a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-12-01-clip-topic/</guid>
   <pubDate>Sun, 30 Nov 2025 23:00:00 GMT</pubDate>
@@ -871,7 +1008,7 @@ Identifying Themes in Large Image Collections.”</span> December 1, 2025.
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Recent advances in <strong>Handwritten Text Recognition (HTR)</strong> have opened up powerful new ways to access cultural heritage material. HTR models can now achieve high levels of accuracy in transcribing handwritten texts, making once difficult-to-decipher historical archives searchable in ways that resemble the granular digital search we take for granted online <span class="citation" data-cites="nockels_implications_2024">(Nockels, Gooding, and Terras 2024)</span>. At the Swedish National Archives’ AI lab, our colleagues have spent the past few years significantly improving HTR models for modern and early modern Swedish. The technology is now being applied at scale, with over a million documents set to be <a href="https://riksarkivet.se/inlagg/riksarkivet-gor-en-miljon-handskrivna-dokument-sokbara">transcribed and made digitally searchable</a>.</p>
+<p>Recent advances in <strong>Handwritten Text Recognition (HTR)</strong> have opened up powerful new ways to access cultural heritage material. HTR models can now achieve high levels of accuracy in transcribing handwritten texts, making once difficult-to-decipher historical archives searchable in ways that resemble the granular digital search we take for granted online <span class="citation" data-cites="nockels_implications_2024">(Nockels et al. 2024)</span>. At the Swedish National Archives’ AI lab, our colleagues have spent the past few years significantly improving HTR models for modern and early modern Swedish. The technology is now being applied at scale, with over a million documents set to be <a href="https://riksarkivet.se/inlagg/riksarkivet-gor-en-miljon-handskrivna-dokument-sokbara">transcribed and made digitally searchable</a>.</p>
 <p>But what about older handwritten archival holdings? The National Library of Sweden (KB) has over 300 medieval manuscripts, many of which remain challenging to search, analyze or even read due to the complexity and variability of the writing style. At KBLab we have begun exploring the possibilities of HTR to enhance the searchability of this material. In particular, we have been testing and comparing existing HTR models for Latin texts to establish the state of the art among openly available tools. This forms part of our broader mission to improve access to the library’s digital collections by harnessing the capacities of AI <span class="citation" data-cites="borjeson_transfiguring_2024">(Börjeson et al. 2024)</span>.</p>
 <p>In this post, we present some initial results from our experiments, highlight key challenges and share insights into the potential and limitations of HTR for Latin manuscripts. Before assessing these models, we begin with a brief overview of the library’s Latin manuscript holdings and an introduction to how HTR techniques work.</p>
 </section>
@@ -1871,24 +2008,24 @@ Identifying Themes in Large Image Collections.”</span> December 1, 2025.
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bockerman_kungliga_2025" class="csl-entry">
-Böckerman, Robin. 2025. <span>“Kungliga Bibliotekets Latinska Medeltida Handskrifter : <span>Proveniens</span> Och Katalogisering.”</span> In, 11–34. Uppsala universitet. <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596">https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596</a>.
+Böckerman, Robin. 2025. <em>Kungliga Bibliotekets Latinska Medeltida Handskrifter : <span>Proveniens</span> Och Katalogisering</em>. Uppsala universitet. <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596">https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-556596</a>.
 </div>
 <div id="ref-borjeson_transfiguring_2024" class="csl-entry">
-Börjeson, Love, Chris Haffenden, Martin Malmsten, Fredrik Klingwall, Emma Rende, Robin Kurtz, Faton Rekathati, Hillevi Hägglöf, and Justyna Sikora. 2024. <span>“Transfiguring the <span>Library</span> as <span>Digital</span> <span>Research</span> <span>Infrastructure</span>: <span>Making</span> <span>KBLab</span> at the <span>National</span> <span>Library</span> of <span>Sweden</span>.”</span> <em>College &amp; Research Libraries</em> 85 (4): 564. <a href="https://doi.org/10.5860/crl.85.4.564">https://doi.org/10.5860/crl.85.4.564</a>.
+Börjeson, Love, Chris Haffenden, Martin Malmsten, et al. 2024. <span>“Transfiguring the <span>Library</span> as <span>Digital</span> <span>Research</span> <span>Infrastructure</span>: <span>Making</span> <span>KBLab</span> at the <span>National</span> <span>Library</span> of <span>Sweden</span>.”</span> <em>College &amp; Research Libraries</em> 85 (4): 564. <a href="https://doi.org/10.5860/crl.85.4.564">https://doi.org/10.5860/crl.85.4.564</a>.
 </div>
 <div id="ref-li_trocr_2021" class="csl-entry">
-Li, Minghao, Tengchao Lv, Jingye Chen, Lei Cui, Yijuan Lu, Dinei Florencio, Cha Zhang, Zhoujun Li, and Furu Wei. 2021. <span>“<span>TrOCR</span>: <span>Transformer</span>-Based <span>Optical</span> <span>Character</span> <span>Recognition</span> with <span>Pre</span>-Trained <span>Models</span>.”</span> <em>arXiv.org</em>. <a href="https://arxiv.org/abs/2109.10282v5">https://arxiv.org/abs/2109.10282v5</a>.
+Li, Minghao, Tengchao Lv, Jingye Chen, et al. 2021. <span>“<span>TrOCR</span>: <span>Transformer</span>-Based <span>Optical</span> <span>Character</span> <span>Recognition</span> with <span>Pre</span>-Trained <span>Models</span>.”</span> In <em>arXiv.org</em>. <a href="https://arxiv.org/abs/2109.10282v5">https://arxiv.org/abs/2109.10282v5</a>.
 </div>
 <div id="ref-nockels_implications_2024" class="csl-entry">
 Nockels, Joseph, Paul Gooding, and Melissa Terras. 2024. <span>“The Implications of Handwritten Text Recognition for Accessing the&nbsp;Past at Scale.”</span> <em>Journal of Documentation</em> 80 (7): 148–67. <a href="https://doi.org/10.1108/JD-09-2023-0183">https://doi.org/10.1108/JD-09-2023-0183</a>.
 </div>
 <div id="ref-redmon_you_2015" class="csl-entry">
-Redmon, Joseph, Santosh Divvala, Ross Girshick, and Ali Farhadi. 2015. <span>“You <span>Only</span> <span>Look</span> <span>Once</span>: <span>Unified</span>, <span>Real</span>-<span>Time</span> <span>Object</span> <span>Detection</span>.”</span> <em>arXiv.org</em>. <a href="https://arxiv.org/abs/1506.02640v5">https://arxiv.org/abs/1506.02640v5</a>.
+Redmon, Joseph, Santosh Divvala, Ross Girshick, and Ali Farhadi. 2015. <span>“You <span>Only</span> <span>Look</span> <span>Once</span>: <span>Unified</span>, <span>Real</span>-<span>Time</span> <span>Object</span> <span>Detection</span>.”</span> In <em>arXiv.org</em>. <a href="https://arxiv.org/abs/1506.02640v5">https://arxiv.org/abs/1506.02640v5</a>.
 </div>
 <div id="ref-vaswani_attention_2017" class="csl-entry">
-Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz Kaiser, and Illia Polosukhin. 2017. <span>“Attention Is <span>All</span> You <span>Need</span>.”</span> In <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em>. Vol. 30. Curran Associates, Inc. <a href="https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html</a>.
+Vaswani, Ashish, Noam Shazeer, Niki Parmar, et al. 2017. <span>“Attention Is <span>All</span> You <span>Need</span>.”</span> <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> 30. <a href="https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html</a>.
 </div>
 </div>
 </section>
@@ -1913,7 +2050,7 @@ Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan 
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2025" class="csl-entry quarto-appendix-citeas">
 Sikora, Justyna, Chris Haffenden, and Robin Böckerman. 2025. <span>“From
 Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at
-KBLab.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
+KBLab.”</span> June 11. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</guid>
   <pubDate>Tue, 10 Jun 2025 22:00:00 GMT</pubDate>
@@ -1964,7 +2101,7 @@ KBLab.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06
 </section>
 <section id="two-stages-of-data-quality" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="two-stages-of-data-quality">Two stages of data quality</h2>
-<p>To assess the quality of transcriptions, i.e.&nbsp;how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(Malmsten, Haffenden, and Börjeson 2022)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
+<p>To assess the quality of transcriptions, i.e.&nbsp;how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(Malmsten et al. 2022)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
 <p>The first quality assessment catches examples with low or no overlap, but still of sufficient quality for the model to learn from, yielding a large training dataset with an increased probability of covering rare Swedish words and names, denoted below as the Stage 1 data. The second quality assessment focuses on defining the style of transcription, aiming to teach the model how to transcribe rather than providing a large number of examples. Two styles of transcriptions are defined: one more subtitle-like (Stage 2-subtitle), and one more orthographic (Stage 2-standard) for more precise transcription.</p>
 <p>Each stage is defined by a set of criteria on CER, BLEU and ROUGE, which are outlined in Table 1.</p>
 <div class="column-body">
@@ -2265,12 +2402,12 @@ KBLab.”</span> June 11, 2025. <a href="https://kb-labb.github.io/posts/2025-06
 <p><img src="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-wav2vec2" class="csl-entry">
-Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language</em>. <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
 </div>
 <div id="ref-radford2022robustspeechrecognitionlargescale" class="csl-entry">
-Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <span>“Robust Speech Recognition via Large-Scale Weak Supervision.”</span> <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
+Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <em>Robust Speech Recognition via Large-Scale Weak Supervision</em>. <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{vesterbacka2025,
   author = {Vesterbacka, Leonora and Rekathati, Faton and Kurtz, Robin
@@ -2284,7 +2421,7 @@ Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ily
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vesterbacka2025" class="csl-entry quarto-appendix-citeas">
 Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and
 Agnes Toftgård. 2025. <span>“Welcome KB-Whisper, a New Fine-Tuned
-Swedish Whisper Model!”</span> March 7, 2025. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
+Swedish Whisper Model!”</span> March 7. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</guid>
   <pubDate>Thu, 06 Mar 2025 23:00:00 GMT</pubDate>
@@ -2380,30 +2517,30 @@ Swedish Whisper Model!”</span> March 7, 2025. <a href="https://kb-labb.github.
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-åström_2024" class="csl-entry">
-Åström, Patrik. 2023. <span>“Sammel­su­ri­et Sumlen.”</span> Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html</a>.
+Åström, Patrik. 2023. <em>Sammel­su­ri­et Sumlen</em>. Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-08-26-sammelsuriet-sumlen.html</a>.
 </div>
 <div id="ref-bergvall2023" class="csl-entry">
-Bergvall, Greger. 2023. <span>“Hotat Kultur­arv Genom Tider­na.”</span> Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html</a>.
+Bergvall, Greger. 2023. <em>Hotat Kultur­arv Genom Tider­na</em>. Samlingsbloggen, Kungliga biblioteket. <a href="https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html">https://www.kb.se/hitta-och-bestall/samlingsbloggen/blogginlagg/2024-09-05-hotat-kulturarv-genom-tiderna.html</a>.
 </div>
 <div id="ref-fredrikzon_haffenden_23" class="csl-entry">
 Frederikzon, Johan, and Chris Haffenden. 2023. <span>“Towards Erasure Studies: Excavating the Material Conditions of Memory and Forgetting.”</span> <em>Memory, Mind &amp; Media</em> 2: 1–24. <a href="https://doi:10.1017/mem.2023.2">doi:10.1017/mem.2023.2</a>.
 </div>
 <div id="ref-Fritzsche2004sit" class="csl-entry">
-Fritzsche, Peter. 2004. <em>Stranded in the Present : Modern Time and the Melancholy of History</em>. Cambridge Massachusetts: Harvard University Press.
+Fritzsche, Peter. 2004. <em>Stranded in the Present : Modern Time and the Melancholy of History</em>. Harvard University Press.
 </div>
 <div id="ref-Jensen2018pse" class="csl-entry">
-Jensen, Ola W. 2018. <em>P<span>å</span> Spaning Efter Det f<span>ö</span>rflutna : En Historia Om Arkeologiskt f<span>ä</span>ltarbete i Sverige 1600-1900</em>. Stockholm: Kungl. Vitterhets historie och antikvitets akademien (KVHAA).
+Jensen, Ola W. 2018. <em>P<span>å</span> Spaning Efter Det f<span>ö</span>rflutna : En Historia Om Arkeologiskt f<span>ä</span>ltarbete i Sverige 1600-1900</em>. Kungl. Vitterhets historie och antikvitets akademien (KVHAA).
 </div>
 <div id="ref-källström2024" class="csl-entry">
-Källström, Magnus. 2024. <span>“Johannes Bureus Första Runresa.”</span> K-blogg,Riksantikvarieämbetet. <a href="https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/">https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/</a>.
+Källström, Magnus. 2024. <em>Johannes Bureus Första Runresa</em>. K-blogg,Riksantikvarieämbetet. <a href="https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/">https://k-blogg.se/2024/12/10/johannes-bureus-forsta-runresa/</a>.
 </div>
 <div id="ref-Lowenthal1985tpi" class="csl-entry">
-Lowenthal, David. 1985. <em>The Past Is a Foreign Country</em>. Cambridge: Cambridge University Press.
+Lowenthal, David. 1985. <em>The Past Is a Foreign Country</em>. Cambridge University Press.
 </div>
 <div id="ref-Swenson2013tro" class="csl-entry">
-Swenson, Astrid. 2013. <em>The Rise of Heritage : Preserving the Past in France, Germany and England, 1789-1914</em>. Cambridge: Cambridge University Press.
+Swenson, Astrid. 2013. <em>The Rise of Heritage : Preserving the Past in France, Germany and England, 1789-1914</em>. Cambridge University Press.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
   author = {Haffenden, Chris and Stenback, Emil},
@@ -2414,7 +2551,7 @@ Swenson, Astrid. 2013. <em>The Rise of Heritage : Preserving the Past in France,
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, and Emil Stenback. 2025. <span>“Preserving the History
-of Cultural Heritage Conservation.”</span> January 31, 2025. <a href="https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/">https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/</a>.
+of Cultural Heritage Conservation.”</span> January 31. <a href="https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/">https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/</guid>
   <pubDate>Thu, 30 Jan 2025 23:00:00 GMT</pubDate>
@@ -2448,7 +2585,7 @@ of Cultural Heritage Conservation.”</span> January 31, 2025. <a href="https://
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hollén2024" class="csl-entry quarto-appendix-citeas">
 Hollén, Jimmy. 2024. <span>“Analysis of Financial Data at the Financial
-Supervisory Authority.”</span> January 30, 2024. <a href="https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/">https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/</a>.
+Supervisory Authority.”</span> January 30. <a href="https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/">https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/</guid>
   <pubDate>Mon, 29 Jan 2024 23:00:00 GMT</pubDate>
@@ -2574,18 +2711,18 @@ The image search demo can be accessed at <a href="https://lab.kb.se/bildsok">htt
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Assmann_2010" class="csl-entry">
-Assmann, Aleida. 2010. <span>“Canon and Archive.”</span> In <em>Cultural Memory Studies: An International and Interdisciplinary Handbook</em>, edited by Astrid Erll and AnsgarEditors Nünning, 97–108. De Gruyter.
+Assmann, Aleida. 2010. <span>“Canon and Archive.”</span> In <em>Cultural Memory Studies: An International and Interdisciplinary Handbook</em>, edited by Astrid Erll and AnsgarEditors Nünning. De Gruyter.
 </div>
 <div id="ref-börjeson_haffenden_malmsten_klingwall_rende_kurtz_rekathati_hägglöf_sikora_2023" class="csl-entry">
-Börjeson, Love, Chris Haffenden, Martin Malmsten, Fredrik Klingwall, Emma Rende, Robin Kurtz, Faton Rekathati, Hillevi Hägglöf, and Justyna Sikora. 2023. <span>“Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden.”</span> SocArXiv. <a href="https://doi.org/10.31235/osf.io/w48rf">https://doi.org/10.31235/osf.io/w48rf</a>.
+Börjeson, Love, Chris Haffenden, Martin Malmsten, et al. 2023. <em>Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden</em>. SocArXiv. <a href="https://doi.org/10.31235/osf.io/w48rf">https://doi.org/10.31235/osf.io/w48rf</a>.
 </div>
 <div id="ref-carlsson-etal-2022-cross" class="csl-entry">
-Carlsson, Fredrik, Philipp Eisen, Faton Rekathati, and Magnus Sahlgren. 2022. <span>“Cross-Lingual and Multilingual <span>CLIP</span>.”</span> In <em>Proceedings of the Thirteenth Language Resources and Evaluation Conference</em>, 6848–54. Marseille, France: European Language Resources Association. <a href="https://aclanthology.org/2022.lrec-1.739">https://aclanthology.org/2022.lrec-1.739</a>.
+Carlsson, Fredrik, Philipp Eisen, Faton Rekathati, and Magnus Sahlgren. 2022. <span>“Cross-Lingual and Multilingual <span>CLIP</span>.”</span> <em>Proceedings of the Thirteenth Language Resources and Evaluation Conference</em> (Marseille, France), June, 6848–54. <a href="https://aclanthology.org/2022.lrec-1.739">https://aclanthology.org/2022.lrec-1.739</a>.
 </div>
 <div id="ref-radford2021learning" class="csl-entry">
-Radford, Alec, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, et al. 2021. <span>“Learning Transferable Visual Models from Natural Language Supervision.”</span> <a href="https://arxiv.org/abs/2103.00020">https://arxiv.org/abs/2103.00020</a>.
+Radford, Alec, Jong Wook Kim, Chris Hallacy, et al. 2021. <em>Learning Transferable Visual Models from Natural Language Supervision</em>. <a href="https://arxiv.org/abs/2103.00020">https://arxiv.org/abs/2103.00020</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2023,
   author = {Haffenden, Chris and Rekathati, Faton and Rende, Emma},
@@ -2597,7 +2734,7 @@ Radford, Alec, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhin
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2023" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, Faton Rekathati, and Emma Rende. 2023.
 <span>“Unearthing Forgotten Images with the Help of AI.”</span> October
-20, 2023. <a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/">https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/</a>.
+20. <a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/">https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/</guid>
   <pubDate>Thu, 19 Oct 2023 22:00:00 GMT</pubDate>
@@ -2703,7 +2840,7 @@ Haffenden, Chris, Faton Rekathati, and Emma Rende. 2023.
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-forsberg2023" class="csl-entry quarto-appendix-citeas">
 Forsberg, Markus, Justyna Sikora, and Emma Sköldberg. 2023. <span>“Words
-Unboxed: Discovering New Words with Kubord.”</span> August 29, 2023. <a href="https://kb-labb.github.io/posts/2023-08-29-kubord/">https://kb-labb.github.io/posts/2023-08-29-kubord/</a>.
+Unboxed: Discovering New Words with Kubord.”</span> August 29. <a href="https://kb-labb.github.io/posts/2023-08-29-kubord/">https://kb-labb.github.io/posts/2023-08-29-kubord/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-08-29-kubord/</guid>
   <pubDate>Mon, 28 Aug 2023 22:00:00 GMT</pubDate>
@@ -2743,7 +2880,7 @@ Unboxed: Discovering New Words with Kubord.”</span> August 29, 2023. <a href="
 </section>
 <section id="converting-to-voiceprints" class="level3">
 <h3 class="anchored" data-anchor-id="converting-to-voiceprints">Converting to voiceprints</h3>
-<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(Koluguri, Park, and Ginsburg 2022)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
+<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(Koluguri et al. 2022)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
 </section>
 <section id="division-of-data" class="level3">
 <h3 class="anchored" data-anchor-id="division-of-data">Division of data</h3>
@@ -3139,18 +3276,18 @@ Unboxed: Discovering New Words with Kubord.”</span> August 29, 2023. <a href="
 
 
 
-</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-koluguri2022titanet" class="csl-entry">
-Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1D Depth-Wise Separable Convolutions and Global Context.”</span> In <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6. IEEE.
+Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1D Depth-Wise Separable Convolutions and Global Context.”</span> <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6.
 </div>
 <div id="ref-Nachesa1762445" class="csl-entry">
 Nachesa, Maya Konstantinovna. 2023. <span>“How Do Voiceprints Age?”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology. <a href="https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445">https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445</a>.
 </div>
 <div id="ref-rekathati2023finding" class="csl-entry">
-Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+Rekathati, Faton. 2023a. <em>The KBLab Blog: Finding Speeches in the Riksdag’s Debates</em>. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div>
 <div id="ref-rekathati2023rixvox" class="csl-entry">
-———. 2023b. <span>“The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+Rekathati, Faton. 2023b. <em>The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</em>. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{nachesa2023,
   author = {Nachesa, Maya},
@@ -3161,7 +3298,7 @@ Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksda
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-nachesa2023" class="csl-entry quarto-appendix-citeas">
 Nachesa, Maya. 2023. <span>“For How Long Is a Person Recognisable by
-Their Voice?”</span> July 4, 2023. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
+Their Voice?”</span> July 4. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</guid>
   <pubDate>Mon, 03 Jul 2023 22:00:00 GMT</pubDate>
@@ -3194,7 +3331,7 @@ Their Voice?”</span> July 4, 2023. <a href="https://kb-labb.github.io/posts/20
 <h1>Inference</h1>
 <p>Below is a minimal example showcasing how to perform predictions with the model using the transformers pipeline.</p>
 <div id="22d16982" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
@@ -3228,7 +3365,7 @@ background-color: null;
 font-style: inherit;">=</span>tokenizer)</span>
 <span id="cb1-9">result <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> classifier(text)</span></code></pre></div>
+font-style: inherit;">=</span> classifier(text)</span></code></pre></div></div>
 </div>
 <p>In this case, the classifier outputs the label NEUTRAL with a score of 0.89. Good luck and happy inference!</p>
 <section id="acknowledgements" class="level2 page-columns page-full">
@@ -3263,7 +3400,7 @@ font-style: inherit;">=</span> classifier(text)</span></code></pre></div>
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
 Hägglöf, Hillevi. 2023. <span>“A Robust, Multi-Label Sentiment
-Classifier for Swedish.”</span> June 16, 2023. <a href="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/">https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</a>.
+Classifier for Swedish.”</span> June 16. <a href="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/">https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</guid>
   <pubDate>Thu, 15 Jun 2023 22:00:00 GMT</pubDate>
@@ -3347,30 +3484,30 @@ Classifier for Swedish.”</span> June 16, 2023. <a href="https://kb-labb.github
 <ol type="1">
 <li>Download the Piper binary <a href="https://github.com/rhasspy/piper">from Github</a> (executable file that allows you to run the model in your terminal) <sup>5</sup>. For Linux:</li>
 </ol>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">wget</span> https://github.com/rhasspy/piper/releases/download/v0.0.2/piper_amd64.tar.gz</span></code></pre></div>
+font-style: inherit;">wget</span> https://github.com/rhasspy/piper/releases/download/v0.0.2/piper_amd64.tar.gz</span></code></pre></div></div>
 <ol start="2" type="1">
 <li>Unzip/Untar the downloaded archive in a directory of your choice.</li>
 </ol>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># The contents will be untarred to directory named piper/</span></span>
 <span id="cb2-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tar</span> <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">-xvf</span> piper_amd64.tar.gz</span></code></pre></div>
+font-style: inherit;">-xvf</span> piper_amd64.tar.gz</span></code></pre></div></div>
 <ol start="3" type="1">
 <li>Download the Svenska (Swedish) model weights from <a href="https://rhasspy.github.io/piper-samples/">Piper’s voice samples</a>.</li>
 </ol>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">wget</span> https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-sv-se-nst-medium.tar.gz</span></code></pre></div>
+font-style: inherit;">wget</span> https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-sv-se-nst-medium.tar.gz</span></code></pre></div></div>
 <ol start="4" type="1">
 <li>Unzip/Untar the downloaded archive file in a directory of your choice. We suggest doing it in the same directory where you untarred the piper binary: <code>piper/</code>.</li>
 </ol>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tar</span> <span class="at" style="color: #657422;
 background-color: null;
@@ -3380,11 +3517,11 @@ font-style: inherit;">--directory</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"piper"</span></span></code></pre></div>
+font-style: inherit;">"piper"</span></span></code></pre></div></div>
 <ol start="5" type="1">
 <li>Generate speech via the terminal.</li>
 </ol>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Let's first move in to the piper directory</span></span>
 <span id="cb5-2"><span class="bu" style="color: null;
@@ -3413,14 +3550,14 @@ background-color: null;
 font-style: inherit;">\</span></span>
 <span id="cb5-7">  <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">--output_file</span> min_talsyntes.wav</span></code></pre></div>
+font-style: inherit;">--output_file</span> min_talsyntes.wav</span></code></pre></div></div>
 </section>
 <section id="pretrained-model-checkpoints" class="level2">
 <h2 class="anchored" data-anchor-id="pretrained-model-checkpoints">Pretrained model checkpoints</h2>
 <p>For anyone interested in using this model to finetune other voices, we have uploaded the <a href="https://huggingface.co/KBLab/piper-tts-nst-swedish">pretrained checkpoint weights to Huggingface</a>.</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">git</span> clone https://huggingface.co/KBLab/piper-tts-nst-swedish</span></code></pre></div>
+font-style: inherit;">git</span> clone https://huggingface.co/KBLab/piper-tts-nst-swedish</span></code></pre></div></div>
 
 
 </section>
@@ -3443,8 +3580,8 @@ font-style: inherit;">git</span> clone https://huggingface.co/KBLab/piper-tts-ns
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
-Rekathati, Faton. 2023. <span>“Swedish Speech Synthesis.”</span> May 24,
-2023. <a href="https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/">https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/</a>.
+Rekathati, Faton. 2023. <span>“Swedish Speech Synthesis.”</span> May 24.
+<a href="https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/">https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/</guid>
   <pubDate>Tue, 23 May 2023 22:00:00 GMT</pubDate>
@@ -3557,7 +3694,7 @@ body {text-align: justify}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
 Hägglöf, Hillevi, and Justyna Sikora. 2023. <span>“Scientific Discourse
-with BERTopic.”</span> March 30, 2023. <a href="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/">https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/</a>.
+with BERTopic.”</span> March 30. <a href="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/">https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/</guid>
   <pubDate>Wed, 29 Mar 2023 22:00:00 GMT</pubDate>
@@ -3640,7 +3777,7 @@ with BERTopic.”</span> March 30, 2023. <a href="https://kb-labb.github.io/post
 </div>
 <section id="most-and-least-intelligible-electoral-districts" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</h3>
-<p>Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab’s <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(Malmsten, Haffenden, and Börjeson 2022)</span>. We then calculated the <a href="https://en.wikipedia.org/wiki/BLEU">BLEU score</a> to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there’s a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts.</p>
+<p>Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab’s <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(Malmsten et al. 2022)</span>. We then calculated the <a href="https://en.wikipedia.org/wiki/BLEU">BLEU score</a> to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there’s a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts.</p>
 <div class="column-body-outset">
 <div data-pagedtable="false">
 <script data-pagedtable-source="" type="application/json">
@@ -3722,15 +3859,15 @@ with BERTopic.”</span> March 30, 2023. <a href="https://kb-labb.github.io/post
 
 
 
-</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Biczysko1674281" class="csl-entry">
 Biczysko, Klaudia. 2022. <span>“Automatic Annotation of Speech: Exploring Boundaries Within Forced Alignment for Swedish and Norwegian.”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology.
 </div>
 <div id="ref-wav2vec2" class="csl-entry">
-Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language</em>. <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
 </div>
 <div id="ref-rekathati2023finding" class="csl-entry">
-Rekathati, Faton. 2023. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+Rekathati, Faton. 2023. <em>The KBLab Blog: Finding Speeches in the Riksdag’s Debates</em>. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
@@ -3742,7 +3879,7 @@ Rekathati, Faton. 2023. <span>“The KBLab Blog: Finding Speeches in the Riksdag
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“RixVox: A Swedish Speech Corpus with 5500
-Hours of Speech from Parliamentary Debates.”</span> March 9, 2023. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+Hours of Speech from Parliamentary Debates.”</span> March 9. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</guid>
   <pubDate>Wed, 08 Mar 2023 23:00:00 GMT</pubDate>
@@ -3770,7 +3907,7 @@ Hours of Speech from Parliamentary Debates.”</span> March 9, 2023. <a href="ht
 <p>The Chamber.</p>
 <p><em>Photo: Melker Dahlstrand /The Swedish Parliament</em></p>
 </div></div><p>Happening upon these recordings and seeing them linked to such rich metadata, we were curious to learn if the Riksdag had planned to make them available through its <a href="https://data.riksdagen.se/">open data platform</a> and APIs. We e-mailed them to inquire whether an audio/media file API was in the plans, to which they responded that such an API in fact already did and does exist, although they had yet to settle on a good way of communicating this service to the public.</p>
-<p>Part of our work here at KBLab involves training Swedish <em>Automatic Speech Recognition</em> (ASR) models capable of transcribing speech to text. We release these models freely and openly, see for example our <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(Malmsten, Haffenden, and Börjeson 2022)</span>. Here, audio datasets with annotated transcriptions play an especially important part for quality. Unfortunately such datasets are hard to come by for Swedish. The combined total of current available datasets with annotated transcriptions number somewhere in the <em>hundreds</em> of hours.</p>
+<p>Part of our work here at KBLab involves training Swedish <em>Automatic Speech Recognition</em> (ASR) models capable of transcribing speech to text. We release these models freely and openly, see for example our <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(Malmsten et al. 2022)</span>. Here, audio datasets with annotated transcriptions play an especially important part for quality. Unfortunately such datasets are hard to come by for Swedish. The combined total of current available datasets with annotated transcriptions number somewhere in the <em>hundreds</em> of hours.</p>
 <p>Decades of debates from the Riksdag present a golden opportunity to increase this quantity by a factor of tenfold or more. The wealth of dialects and accents, along with the breadth of metadata covering electoral districts, birth year and the gender of members of parliament may serve to not only improve ASR systems, but also to enable research on the weaknesses and biases of both current and future models.</p>
 <p>However, in order to get the speeches and transcripts properly aligned so they can be brought to a suitable and workable format, we first need to ensure the region of audio within a debate representing a speech actually matches the written transcript. Additionally no other speakers should ideally be present in this window.</p>
 <section id="the-importance-of-metadata" class="level2 page-columns page-full">
@@ -3998,7 +4135,7 @@ Hours of Speech from Parliamentary Debates.”</span> March 9, 2023. <a href="ht
 <h2 class="anchored" data-anchor-id="the-speech-finder-method">The speech finder method</h2>
 <p>We’ll provide a short summary of our method here, since the concept is likely better illustrated in graphical form.</p>
 <ol type="1">
-<li>We begin by using a speech-to-text model to transcribe an entire audio file. The speech-to-text model also outputs timestamps for when each of its output words were uttered. We use the model wav2vec2-large-voxrex-swedish <span class="citation" data-cites="wav2vec2">(Malmsten, Haffenden, and Börjeson 2022)</span>.</li>
+<li>We begin by using a speech-to-text model to transcribe an entire audio file. The speech-to-text model also outputs timestamps for when each of its output words were uttered. We use the model wav2vec2-large-voxrex-swedish <span class="citation" data-cites="wav2vec2">(Malmsten et al. 2022)</span>.</li>
 <li>We use the official transcripts, and perform fuzzy string matching to locate what region of the automatic transcript they match against. The string matched region becomes an approximation of where the speech is located in the big audio file.</li>
 <li>We perform <a href="https://en.wikipedia.org/wiki/Speaker_diarisation">speaker diarization</a>. This gives us a more detailed view of when different speakers spoke during the debate. We use the tool pyannote.audio <span class="citation" data-cites="Bredin2020">(Bredin et al. 2020)</span> <span class="citation" data-cites="Bredin2021">(Bredin and Laurent 2021)</span> for speaker diarization.</li>
 <li>We now still need to connect the speaker segments from the speaker diarization output to the official transcripts and the metadata associated with the transcripts. We therefore use the approximate predictions from the string matching method, and calculate the degre of overlap between different diarization speaker segments and the fuzzy string matched region of a speech.</li>
@@ -4264,15 +4401,15 @@ function nextDebateEvent() {
 
 
 
-</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+</div></section><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Bredin2021" class="csl-entry">
-Bredin, Hervé, and Antoine Laurent. 2021. <span>“<span class="nocase">End-to-end speaker segmentation for overlap-aware resegmentation</span>.”</span> In <em>Proc. Interspeech 2021</em>.
+Bredin, Hervé, and Antoine Laurent. 2021. <span>“<span class="nocase">End-to-end speaker segmentation for overlap-aware resegmentation</span>.”</span> <em>Proc. Interspeech 2021</em>.
 </div>
 <div id="ref-Bredin2020" class="csl-entry">
-Bredin, Hervé, Ruiqing Yin, Juan Manuel Coria, Gregory Gelly, Pavel Korshunov, Marvin Lavechin, Diego Fustes, Hadrien Titeux, Wassim Bouaziz, and Marie-Philippe Gill. 2020. <span>“<span class="nocase">pyannote.audio: neural building blocks for speaker diarization</span>.”</span> In <em>ICASSP 2020, IEEE International Conference on Acoustics, Speech, and Signal Processing</em>.
+Bredin, Hervé, Ruiqing Yin, Juan Manuel Coria, et al. 2020. <span>“<span class="nocase">pyannote.audio: neural building blocks for speaker diarization</span>.”</span> <em>ICASSP 2020, IEEE International Conference on Acoustics, Speech, and Signal Processing</em>.
 </div>
 <div id="ref-wav2vec2" class="csl-entry">
-Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language</em>. <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
@@ -4289,7 +4426,7 @@ Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Vo
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“Finding Speeches in the Riksdag’s
-Debates.”</span> February 23, 2023. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+Debates.”</span> February 23. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</guid>
   <pubDate>Wed, 22 Feb 2023 23:00:00 GMT</pubDate>
@@ -4355,7 +4492,7 @@ Debates.”</span> February 23, 2023. <a href="https://kb-labb.github.io/posts/2
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2023" class="csl-entry quarto-appendix-citeas">
 Sikora, Justyna. 2023. <span>“Swedish Zero-Shot Classification
-Model.”</span> February 13, 2023. <a href="https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/">https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/</a>.
+Model.”</span> February 13. <a href="https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/">https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/</guid>
   <pubDate>Sun, 12 Feb 2023 23:00:00 GMT</pubDate>
@@ -4447,7 +4584,7 @@ table th:nth-of-type(3) {
 </style>
 <p>You can still access and use older version of the model with Huggingface via</p>
 <div id="4bb61f8d" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
@@ -4458,19 +4595,19 @@ font-style: inherit;">'KBLab/sentence-bert-swedish-cased'</span>, revision<span 
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"v1.0"</span>)</span></code></pre></div>
+font-style: inherit;">"v1.0"</span>)</span></code></pre></div></div>
 </div>
 <p>or with <code>sentence-transformers</code> by cloning the repository to your computer with</p>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">git</span> clone <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">--depth</span> 1 <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">--branch</span> v1.0 https://huggingface.co/KBLab/sentence-bert-swedish-cased</span></code></pre></div>
+font-style: inherit;">--branch</span> v1.0 https://huggingface.co/KBLab/sentence-bert-swedish-cased</span></code></pre></div></div>
 <p>and then pointing to that local folder when loading the model in:</p>
 <div id="1c183c59" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> sentence_transformers <span class="im" style="color: #00769E;
 background-color: null;
@@ -4479,7 +4616,7 @@ font-style: inherit;">import</span> SentenceTransformer</span>
 background-color: null;
 font-style: inherit;">=</span> SentenceTransformer(<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"path_to_model_folder/sentence-bert-swedish-cased"</span>)</span></code></pre></div>
+font-style: inherit;">"path_to_model_folder/sentence-bert-swedish-cased"</span>)</span></code></pre></div></div>
 </div>
 </section>
 <section id="training" class="level2">
@@ -4684,7 +4821,7 @@ Examples how to evaluate the newer model on some of the test sets of SuperLim v2
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“Swedish Sentence Transformer 2.0.”</span>
-January 16, 2023. <a href="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/">https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</a>.
+January 16. <a href="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/">https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</guid>
   <pubDate>Sun, 15 Jan 2023 23:00:00 GMT</pubDate>
@@ -4783,7 +4920,7 @@ Google Colab: https://colab.research.google.com/</p>
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2022" class="csl-entry quarto-appendix-citeas">
 Fano, Elena, and Chris Haffenden. 2022. <span>“BERTopic for Swedish:
-Topic Modeling Made Easier via KB-BERT.”</span> June 14, 2022. <a href="https://kb-labb.github.io/posts/2022-06-14-bertopic/">https://kb-labb.github.io/posts/2022-06-14-bertopic/</a>.
+Topic Modeling Made Easier via KB-BERT.”</span> June 14. <a href="https://kb-labb.github.io/posts/2022-06-14-bertopic/">https://kb-labb.github.io/posts/2022-06-14-bertopic/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2022-06-14-bertopic/</guid>
   <pubDate>Mon, 13 Jun 2022 22:00:00 GMT</pubDate>
@@ -5083,7 +5220,7 @@ Topic Modeling Made Easier via KB-BERT.”</span> June 14, 2022. <a href="https:
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kurtz2022" class="csl-entry quarto-appendix-citeas">
 Kurtz, Robin. 2022. <span>“Evaluating Swedish Language Models.”</span>
-March 16, 2022. <a href="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/">https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</a>.
+March 16. <a href="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/">https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</guid>
   <pubDate>Tue, 15 Mar 2022 23:00:00 GMT</pubDate>
@@ -5165,742 +5302,11 @@ f1 = 0.983</p>
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2022" class="csl-entry quarto-appendix-citeas">
-Fano, Elena. 2022. <span>“Swedish Bootleg Model.”</span> March 3, 2022.
-<a href="https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/">https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/</a>.
+Fano, Elena. 2022. <span>“Swedish Bootleg Model.”</span> March 3. <a href="https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/">https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/</guid>
   <pubDate>Wed, 02 Mar 2022 23:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/bootleg_architecture.png" medium="image" type="image/png" height="133" width="144"/>
-</item>
-<item>
-  <title>SUCX 3.0 - NER</title>
-  <dc:creator>Robin Kurtz</dc:creator>
-  <dc:creator>Joey Öhman</dc:creator>
-  <link>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<div id="fig-ner" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-ner-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ner.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A simple NER example with three entities of two types."><img src="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ner-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;1: A simple NER example with three entities of two types.
-</figcaption>
-</figure>
-</div>
-<p>Named Entity Recognition (NER), the task of automatically recognizing named entities, such as persons, companies, organizations, etc., is a staple Natural Language Processing (NLP) application. For Swedish, the <a href="https://spraakbanken.gu.se/en/resources/suc3">Stockholm Umeå Corpus (SUC)</a> has been the biggest resource for training NER models, containing more than 30,000 sentences with manually annotated named entities and part-of-speech (POS) tags. Additionally, Språkbanken has further enhanced the corpus with additional syntactic annotations and alternative annotations for NER, both created automatically. This enhanced version of the corpus is called <em>SUCX 3.0</em>. The new named entities largely match the manually annotated ones, use however slightly different categories and introduce two new categories for measurements and time. These new entity annotations are done by a <a href="https://aclanthology.org/L14-1339/">rule-based NER system</a>, creating regular and predictable annotations. A comparison of the entity categories is given below.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Manually Annotated</th>
-<th>Automatically Annotated</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>person</td>
-<td>PRS</td>
-</tr>
-<tr class="even">
-<td>place</td>
-<td>LOC</td>
-</tr>
-<tr class="odd">
-<td>inst</td>
-<td>ORG</td>
-</tr>
-<tr class="even">
-<td>work</td>
-<td>WRK</td>
-</tr>
-<tr class="odd">
-<td>product</td>
-<td>OBJ</td>
-</tr>
-<tr class="even">
-<td>animal</td>
-<td>PRS</td>
-</tr>
-<tr class="odd">
-<td>event</td>
-<td>EVN</td>
-</tr>
-<tr class="even">
-<td>myth</td>
-<td>PRS</td>
-</tr>
-<tr class="odd">
-<td>-</td>
-<td>MSR</td>
-</tr>
-<tr class="even">
-<td>-</td>
-<td>TME</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<p>With large transformer language models (LM) such as <a href="https://arxiv.org/abs/1810.04805">BERT</a> becoming the de-facto standard for most NLP tasks, they have also shown their worth for somewhat simpler tasks such as NER.</p>
-<section id="data-splits" class="level3">
-<h3 class="anchored" data-anchor-id="data-splits">Data Splits</h3>
-<p>In order to compare the performance of various models, it is common in NLP practice to create a canonical split of the training data into training-, development-, and test-data, that everyone uses to train and evaluate their models to provide a fair comparison. While this practice comes with a <a href="https://aclanthology.org/P19-1267/">heap of problems</a>, it is nonetheless an easy way to quickly compare models with the same setup to give an intuition about their performance. We therefore split the SUC 3.0 corpus into these three parts at random, while keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.</p>
-<p>The original SUC 3.0 corpus uses XML to structure its various types of annotations. We use a much friendlier <code>json</code>-based format that only contains the sentence split into tokens, the POS annotations, and the NER annotations in the BIO format.</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><span class="er" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">e245ac6c-e24b4fe4</span></span>
-<span id="cb1-2"><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">[</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"I"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"dag"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"är"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"han"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"ingenjör"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"på"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"vetenskapsakademins"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb1-3">                    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"kemisk-tekniska"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"institution"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"i"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Vilnius"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"."</span> <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span></span>
-<span id="cb1-4"><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">[</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"PP"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"NN"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"VB"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"PN"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"NN"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"PP"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"NN"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"JJ"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"NN"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"PP"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"PM"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"MAD"</span> <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span></span>
-<span id="cb1-5"><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">[</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"B-TME"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"I-TME"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"B-LOC"</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"O"</span> <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span> </span></code></pre></div>
-<p>The data and its variations can be downloaded either with <code>git</code> or directly as a huggingface 🤗 <code>dataset</code> here https://huggingface.co/datasets/KBLab/sucx3_ner.</p>
-</section>
-<section id="variations" class="level3">
-<h3 class="anchored" data-anchor-id="variations">Variations</h3>
-<p>The original annotations of SUC are sometimes criticized to be somewhat inconsistent compared with other datasets (should titles be included in the named entity: <em>kungen [Waldemar Atterdag]</em> vs.&nbsp;<em>[kung Carl Gustaf]</em>), to contain needlessly specific categories (animal, myth), and a dangerously confusing (for a machine) <em>other</em> category. In some instances one would therefore prefer the tags automatically annotated by the tagger, over the manual annotations.</p>
-<p>In our first dataset variation we only take sentences with annotations, which do not contain the <em>other</em> category, and where the manual and automatic annotations match according to the mapping above. The new <em>measurement</em> (MSR) and <em>time</em> (TME) annotations are included as well. This means that this new dataset is somewhat smaller, as all sentences where the annotations did not match for each token are removed.</p>
-<section id="cased-and-uncased" class="level4">
-<h4 class="anchored" data-anchor-id="cased-and-uncased">Cased and Uncased</h4>
-<p>Due to the custom in Swedish (and a lot of other European languages), to write named entities with a leading capital letter, NER systems quickly learn to rely on this simple feature. This improves performance as it is a clear indicator, when the data consists of properly formatted text, but leads systems to near absolute failure, when the data does not use case, as is often the case in web-text resources or chat.</p>
-<p>We therefore also add a completely lower-cased (uncased) version of the dataset, and a cased-uncased-mixed version, that can be used to train and evaluate systems that are supposed to handle more noisy data. The new dataset variations uses the suffix “_lower” at the sentence-id, to indicate that the sentence has been lower-cased. This allows users that wish to train and/or evaluate a model on a dataset where each sentence exists twice, cased and uncased, by simply combining the instances of each dataset into a new one.</p>
-</section>
-</section>
-</section>
-<section id="hyper-parameter-optimization" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="hyper-parameter-optimization">Hyper-Parameter Optimization</h2>
-<p>While we already achieve good performance with our KB-BERT model finetuned to do NER, we want to see if this can be improved by choosing a different set of hyper-parameters. With Hyper-Parameter Optimization (HPO) methods we can test combinations of different values for a chosen set of hyper-parameters that we believe can impact the performance of our final NER system.</p>
-<section id="baselines" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="baselines">Baselines</h3>
-<p>First we use the standard set of parameters of the huggingface 🤗 training API to create our baselines. We refer to the manually annotated tags as <code>original</code> (<code>org</code>) and the automatically annotated ones as <code>simple</code>. The measurement used for NER is F1-score, a measure that combines (for each tag) both the precision (to annotate only when it truly is of some type) and recall (to annotate all instances of some type).</p>
-<p>Each column illustrates one setting of NER tag &amp; case type with batch size 64 and standard hyperparameters.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 14%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 18%">
-<col style="width: 15%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>org/cased</th>
-<th>org/uncased</th>
-<th>org/mixed</th>
-<th>simple/cased</th>
-<th>simple/uncased</th>
-<th>simple/mixed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>F1-Dev</td>
-<td>0.8901</td>
-<td>0.8683</td>
-<td>0.866</td>
-<td>0.9359</td>
-<td>0.912</td>
-<td>0.9111</td>
-</tr>
-<tr class="even">
-<td>F1-Test</td>
-<td>0.8901</td>
-<td>0.867</td>
-<td>0.8687</td>
-<td>0.9346</td>
-<td>0.9017</td>
-<td>0.9118</td>
-</tr>
-</tbody>
-</table>
-<aside>
-Note that these experiments use a version for the <em>simple</em> tags that does not use BIO-encoding in combination with the NE-tags. The dataset we publish uses BIO-tags, which can be removed if necessary.
-</aside>
-<p>While there are many hyperparameters that one can vary, we only vary the learning rate, the weight decay, and the warmup ratio, three closely interconnected training parameters. The hyperparameter space that is shown below, was initially determined through inspiration from published related work and adapted after initial experiments.</p>
-<p>The <em>learning rate</em> controls how much parameters are changed at every optimization step. <em>Weight decay</em> denotes a parameter that controls the impact of the regularizing L<sub>2</sub>-norm, favouring models with weights closer to zero. Finally, the <em>warmup ratio</em> controls the length of a warmup period during training in which the learning rate is increased to its initial maximum, aiming to avoid instability during early updates when the model weights are not yet aligned and the learning rate is too large.</p>
-<p><strong>Original Hyperparameters:</strong></p>
-<pre class="text"><code>Learning Rate: 5e-5
-Weight Decay:  0.0
-Warmup Ratio:  0.0</code></pre>
-<p><strong>Hyperparameter Search Space:</strong></p>
-<pre class="text"><code>Learning Rate: [2e-5, 3e-5, ..., 8e-5]
-Weight Decay:  [0.00, 0.05, 0.10, 0.15]
-Warmup Ratio:  [0.00, 0.04, 0.08, 0.12]</code></pre>
-</section>
-<section id="methods" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="methods">Methods</h3>
-<p>Choosing which hyperparameters to use when training machine learning models often requires a good understanding of the model, the dataset, but also the impact of each of the parameters as well, and how they are connected to each other. Additionally to that, a certain experience is needed as well, and the knowledge of the dark arts of optimization: specific parameter settings that generally work well out of the box, without necessarily being published in some way. For the HPO experiments we used the <a href="https://docs.ray.io/en/latest/tune/index.html"><code>ray tune</code></a> library, which is <a href="https://huggingface.co/blog/ray-tune">easily integrated</a> within the huggingface 🤗 ecosystem.</p>
-<p>But even then, there are simply too many possible settings that one can reasonably test manually while making informed decisions based on previous results. One way to solve this is by using grid-search, a method that simply checks every combination of hyperparameters. If the search space is too large, one can instead only search a random sub-space with random search. The following figure illustrates some ways of visualizing the results of hyperparameter optimization, which is useful to gain intuition of the hyperparameter behaviors.</p>
-<div class="page-columns page-full">
-<div id="fig-hpo-overview" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-hpo-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/RS_simple_lowermix_overall.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset."><img src="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/RS_simple_lowermix_overall.png" class="img-fluid figure-img column-page"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hpo-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;2: Weights and biases overview over the results from an HPO experiment with the simple lower mix variant of the dataset.
-</figcaption>
-</figure>
-</div>
-</div>
-<p>While more advanced methods such as <a href="https://arxiv.org/abs/1810.05934">ASHA</a>, <a href="https://arxiv.org/abs/1807.01774">BOHB</a>, and <a href="https://arxiv.org/abs/1711.09846">PBT</a> are applicable in our setting (and were tested to some degree), it is sufficient to employ random search when choosing a discrete set of values for each hyperparameter, instead of letting the algorithms explore the search space on their own.</p>
-<section id="advanced-hpo-methods" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="advanced-hpo-methods">Advanced HPO Methods</h4>
-<p>The more advanced HPO algorithms excel in different settings and can provide more efficient optimization. For example, ASHA and BOHB are both scalable and robust and can rapidly search through a large hyperparameter space by heavily utilizing early termination of non-promising runs. Furthermore, Bayesian Optimization (BO) models estimate the objective function and can draw informed samples of hyperparameter configurations, yielding successively better samples throughout the HPO session. While BO and early stopping sound promising, they possess the most value with a large number of runs and when early iterations of training consistently indicate end-of-run performance. In our case, we used a limited number of runs and searched for hyperparameters that clearly do not benefit from early stopping. For instance, a low learning rate with a large warmup ratio might perform poorly after training only for an epoch but may result in good performance after the full run.</p>
-<p>The figure below demonstrates the early stopping behavior used in ASHA, terminating the lowest performing runs after roughly 2 epochs. Note that mechanisms as early stopping makes it difficult to visualize results and gain intuition about hyperparameters, as the final F1-scores become strongly biased towards runs that make it through the early phases of training.</p>
-<div class="page-columns page-full">
-<div id="fig-asha-original-lower" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-asha-original-lower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/ASHA_original_lower_f1.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset."><img src="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ASHA_original_lower_f1.png" class="img-fluid figure-img column-body-outset"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-asha-original-lower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;3: The validation F1 scores for an HPO session using ASHA, searching hyperparameters for the original lower case variation of the dataset.
-</figcaption>
-</figure>
-</div>
-</div>
-<p>DeepMind’s PBT proved highly resource-demanding in our experiments and showed little to no performance gain. Increasing the population size and tweaking with other settings may yield a strong hyperparameter schedule if one has access to compute and wants to push the most out of a model/dataset. We did not investigate this further. Our experiments showed no significant advantage to using these advanced methods over random search.</p>
-<p>We also conducted some modest experiments tuning the attention dropout rate, hidden dropout rate, and random seed as well, together with the more advanced HPO methods. Those results indicated that we can squeeze out a small amount of performance through more intricate HPO, but the procedure becomes expensive and prone to overfitting on the validation set without observing any performance gains on the test set.</p>
-</section>
-</section>
-<section id="results" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="results">Results</h3>
-<p>We report our results using random search with 30 trials training on both the <em>original</em> and <em>simple</em> tags. For each tag-family we train the taggers on cased, uncased, and a mixed data set, while evaluating on all three development and test sets plus an additional set where only the named entity has been lower-cased. The columns labelled <em>uncased-cased-both</em> and <em>ne-lower-cased-both</em> denote data sets, in which every sentence appears both cased and uncased.</p>
-<p>Most notably in these results is the performance of a system trained on regular <em>cased</em> data, when evaluated on <em>uncased</em> or partially lowercased data. At the same time we see that the system trained on a mix of cased and uncased data performs only slightly worse than their pure counterparts on the pure evaluation sets, while clearly outperforming them on the mixed evaluation sets.</p>
-<section id="development" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="development">Development</h4>
-<div class="column-body-outset">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 13%">
-<col style="width: 5%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 13%">
-<col style="width: 14%">
-<col style="width: 6%">
-<col style="width: 14%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>cased</th>
-<th>uncased</th>
-<th>uncased-cased-mix</th>
-<th>uncased-cased-both</th>
-<th>ne-lower</th>
-<th>ne-lower-cased-mix</th>
-<th>ne-lower-cased-both</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.8951</td>
-<td>0.4067</td>
-<td>0.7054</td>
-<td>0.6987</td>
-<td>0.4110</td>
-<td>0.7045</td>
-<td>0.6985</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.7847</td>
-<td>0.8713</td>
-<td>0.8278</td>
-<td>0.8293</td>
-<td>0.8695</td>
-<td>0.8263</td>
-<td>0.8285</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.8821</td>
-<td>0.8573</td>
-<td>0.8702</td>
-<td>0.8698</td>
-<td>0.8504</td>
-<td>0.8671</td>
-<td>0.866</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.9345</td>
-<td>0.3037</td>
-<td>0.7035</td>
-<td>0.6974</td>
-<td>0.3038</td>
-<td>0.6995</td>
-<td>0.6941</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.8361</td>
-<td>0.9157</td>
-<td>0.8753</td>
-<td>0.8774</td>
-<td>0.9154</td>
-<td>0.8754</td>
-<td>0.8773</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.9275</td>
-<td>0.9078</td>
-<td>0.9185</td>
-<td>0.9177</td>
-<td>0.9029</td>
-<td>0.9155</td>
-<td>0.9153</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="test" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="test">Test</h4>
-<div class="column-body-outset">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 13%">
-<col style="width: 5%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 13%">
-<col style="width: 14%">
-<col style="width: 6%">
-<col style="width: 14%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>cased</th>
-<th>uncased</th>
-<th>uncased-cased-mix</th>
-<th>uncased-cased-both</th>
-<th>ne-lower</th>
-<th>ne-lower-cased-mix</th>
-<th>ne-lower-cased-both</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.8978</td>
-<td>0.4053</td>
-<td>0.6940</td>
-<td>0.7000</td>
-<td>0.4103</td>
-<td>0.6924</td>
-<td>0.6998</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.7811</td>
-<td>0.8656</td>
-<td>0.8248</td>
-<td>0.8245</td>
-<td>0.8649</td>
-<td>0.8245</td>
-<td>0.8242</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.8833</td>
-<td>0.8523</td>
-<td>0.8661</td>
-<td>0.8680</td>
-<td>0.8489</td>
-<td>0.8650</td>
-<td>0.8663</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>0.9304</td>
-<td>0.2963</td>
-<td>0.6940</td>
-<td>0.6929</td>
-<td>0.2902</td>
-<td>0.6879</td>
-<td>0.6861</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>0.8299</td>
-<td>0.9075</td>
-<td>0.8687</td>
-<td>0.8702</td>
-<td>0.9074</td>
-<td>0.8685</td>
-<td>0.8702</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>0.9219</td>
-<td>0.8988</td>
-<td>0.9083</td>
-<td>0.9104</td>
-<td>0.8950</td>
-<td>0.9064</td>
-<td>0.9085</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="baselines-comparison" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="baselines-comparison">Baselines Comparison</h4>
-<p>In order to see how much HPO actually helps for this task we compare with our unoptimized baseline systems. Each column illustrates one setting of tag &amp; case type with the performance difference after HPO: <code>F1(HPO) - F1(baseline)</code></p>
-<div class="column-body-outset">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 14%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 18%">
-<col style="width: 15%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>org/cased</th>
-<th>org/uncased</th>
-<th>org/mixed</th>
-<th>simple/cased</th>
-<th>simple/uncased</th>
-<th>simple/mixed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>F1-Dev</td>
-<td>+0.005</td>
-<td>+0.003</td>
-<td>+0.0042</td>
-<td>-0.0014</td>
-<td>+0.0037</td>
-<td>+0.0074</td>
-</tr>
-<tr class="even">
-<td>F1-Test</td>
-<td>+0.0077</td>
-<td>-0.0014</td>
-<td>-0.0026</td>
-<td>-0.0042</td>
-<td>+0.0058</td>
-<td>-0.0035</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Unfortunately these differences are not what we hoped for, pointing to either a bad choice of hyperparameters and values to optimize or the stability of the model being trained regardless of the chosen hyperparameters (up to a certain degree of reasonable values). One such hyperparameter might be the <em>warmup ratio</em>, given that the model is already stable and is only being finetuned to a relatively simple task. We speculate that a more consistent gain in validation set performance could be achieved by taking the stochastic elements into account, i.e.&nbsp;running each experiment with multiple seeds, which argues for the insignificance of the HPO results.</p>
-</section>
-<section id="successful-hyperparameters" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="successful-hyperparameters">Successful Hyperparameters</h4>
-<div class="column-body-outset">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 14%">
-<col style="width: 23%">
-<col style="width: 9%">
-<col style="width: 18%">
-<col style="width: 16%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tag Family</th>
-<th>Trained on</th>
-<th>HPO Alg</th>
-<th>learning rate</th>
-<th>weight decay</th>
-<th>warmup ratio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Original</td>
-<td>cased</td>
-<td>RS</td>
-<td>7e-05</td>
-<td>0.15</td>
-<td>0.04</td>
-</tr>
-<tr class="even">
-<td>Original</td>
-<td>uncased</td>
-<td>RS</td>
-<td>5e-05</td>
-<td>0.10</td>
-<td>0.08</td>
-</tr>
-<tr class="odd">
-<td>Original</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>8e-05</td>
-<td>0.15</td>
-<td>0.12</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>cased</td>
-<td>RS</td>
-<td>5e-05</td>
-<td>0.05</td>
-<td>0.04</td>
-</tr>
-<tr class="odd">
-<td>Simple</td>
-<td>uncased</td>
-<td>RS</td>
-<td>8e-05</td>
-<td>0.05</td>
-<td>0.04</td>
-</tr>
-<tr class="even">
-<td>Simple</td>
-<td>uncased-cased-mix</td>
-<td>RS</td>
-<td>6e-05</td>
-<td>0.05</td>
-<td>0.12</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="models" class="level3">
-<h3 class="anchored" data-anchor-id="models">Models</h3>
-<p>We publish two models for our <em>simple</em> tags without BIO-encoding, trained on <a href="https://huggingface.co/KBLab/bert-base-swedish-cased-reallysimple-ner">cased data</a> and <a href="https://huggingface.co/KBLab/bert-base-swedish-lowermix-reallysimple-ner">mixed cased-uncased data</a> data for anyone to try, with more models to follow. If you feel that the model underperforms, feel free to continue training it on the validation and test data, or your own personal data. Let us know how the models perform in your projects and how you improved them.</p>
-</section>
-</section>
-<section id="conclusion" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>We have taken the venerable SUC 3.0 dataset and given it a little refresher for people wanting to use its named entity annotations for training and evaluating NER taggers. We hope that the new format and its availability via the huggingface 🤗 ecosystem, together with a suggested train-development-test split will encourage more people to evaluate their models on this task, simply as a downstream finetuning task for large language models or for small specialist models trained to only do NER. With our little excursion to hyperparameter optimization we have learned to use the existing tools to easily find a better fitting set of hyperparameters, while also realizing that the results do not necessarily have to be better than when using the standard set of parameters.</p>
-<aside>
-The scripts to generate the <em>SUCX 3.0 - NER</em> data from the original data supplied by Språkbanken, as well as the code for HPO and some additional information can be accessed at https://github.com/kb-labb/sucx3_ner.
-</aside>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>We gratefully acknowledge the HPC RIVR consortium (https://www.hpc-rivr.si) and EuroHPC JU (https://eurohpc-ju.europa.eu) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (https://www.izum.si).</p>
-
-
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{kurtz2022,
-  author = {Kurtz, Robin and Öhman, Joey},
-  title = {SUCX 3.0 - {NER}},
-  date = {2022-02-07},
-  url = {https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kurtz2022" class="csl-entry quarto-appendix-citeas">
-Kurtz, Robin, and Joey Öhman. 2022. <span>“SUCX 3.0 - NER.”</span>
-February 7, 2022. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/">https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</guid>
-  <pubDate>Sun, 06 Feb 2022 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/images/ner.png" medium="image" type="image/png" height="26" width="144"/>
 </item>
 </channel>
 </rss>

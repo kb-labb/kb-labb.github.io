@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -16,6 +16,9 @@
 
 <title>Welcome KB-Whisper, a new fine-tuned Swedish Whisper model! – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -31,7 +34,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -64,10 +66,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,7 +111,8 @@ div.csl-indent {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -300,7 +303,7 @@ div.csl-indent {
 </section>
 <section id="two-stages-of-data-quality" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="two-stages-of-data-quality">Two stages of data quality</h2>
-<p>To assess the quality of transcriptions, i.e.&nbsp;how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
+<p>To assess the quality of transcriptions, i.e.&nbsp;how well the subtitles, protocols and other transcriptions match the spoken audio, we implemented a preprocessing pipeline. The training examples are split into small 30-seconds chunks and each audio chunk is transcribed using OpenAI’s Whisper-large-v3 and KBLabs VoxRex <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten et al. 2022</a>)</span>. Then the overlap between the original transcript and the two AI-generated transcriptions are assessed using Character Error Rate (CER), BLEU and ROUGE scores.</p>
 <p>The first quality assessment catches examples with low or no overlap, but still of sufficient quality for the model to learn from, yielding a large training dataset with an increased probability of covering rare Swedish words and names, denoted below as the Stage 1 data. The second quality assessment focuses on defining the style of transcription, aiming to teach the model how to transcribe rather than providing a large number of examples. Two styles of transcriptions are defined: one more subtitle-like (Stage 2-subtitle), and one more orthographic (Stage 2-standard) for more precise transcription.</p>
 <p>Each stage is defined by a set of criteria on CER, BLEU and ROUGE, which are outlined in Table 1.</p>
 <div class="column-body">
@@ -601,12 +604,12 @@ div.csl-indent {
 <p><img src="images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-wav2vec2" class="csl-entry" role="listitem">
-Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language</em>. <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
 </div>
 <div id="ref-radford2022robustspeechrecognitionlargescale" class="csl-entry" role="listitem">
-Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <span>“Robust Speech Recognition via Large-Scale Weak Supervision.”</span> <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
+Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <em>Robust Speech Recognition via Large-Scale Weak Supervision</em>. <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{vesterbacka2025,
   author = {Vesterbacka, Leonora and Rekathati, Faton and Kurtz, Robin
@@ -620,7 +623,7 @@ Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ily
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vesterbacka2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and
 Agnes Toftgård. 2025. <span>“Welcome KB-Whisper, a New Fine-Tuned
-Swedish Whisper Model!”</span> March 7, 2025. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
+Swedish Whisper Model!”</span> March 7. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -673,13 +676,14 @@ Swedish Whisper Model!”</span> March 7, 2025. <a href="https://kb-labb.github.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

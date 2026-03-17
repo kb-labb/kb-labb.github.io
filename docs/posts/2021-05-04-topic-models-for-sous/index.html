@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>Topic models for Statens Offentliga Utredningar – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -75,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,7 +122,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -247,10 +251,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="cleaning-and-pre-processing">Cleaning and pre-processing</h2>
 <p>Let’s say we want to build a topic model for the ’50s, and see what Swedish politics was most concerned with at that time. We start by loading the dataset and having a look at our data.</p>
 <div id="a50b2f3a" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"sou_1950-1959_pages.csv"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.groupby(<span class="st">'year'</span>)[<span class="st">'issue'</span>].nunique())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.groupby(<span class="st">'year'</span>)[<span class="st">'issue'</span>].nunique())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <table class="caption-top table">
 <thead>
@@ -304,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>We can see that we have between 36 and 62 issues for each year from 1950 to 1959. Let’s have a look at the number of pages per year:</p>
 <div id="641afc5e" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.value_counts(subset<span class="op">=</span>[<span class="st">'year'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.value_counts(subset<span class="op">=</span>[<span class="st">'year'</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <table class="caption-top table">
 <thead>
@@ -359,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We have thousands of pages for each year, but there is certain degree of variation: 1956 has almost double as many pages as 1953. For a political scientist, this could already be telling them something about the Swedish government in the 50s.</p>
 <p>Now let’s see what the actual text looks like, to have an idea of how to proceed with the cleaning. We want to see a typical page, not the table of contents or an appendix full of tables, so we choose one random page in the middle of an issue, for example page 40 in the first SOU of 1952:</p>
 <div id="6439ebb3" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[(df[<span class="st">'issue'</span>]<span class="op">==</span><span class="dv">1</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>]<span class="op">==</span><span class="dv">1952</span>)].iloc[<span class="dv">40</span>][<span class="st">'text'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[(df[<span class="st">'issue'</span>]<span class="op">==</span><span class="dv">1</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>]<span class="op">==</span><span class="dv">1952</span>)].iloc[<span class="dv">40</span>][<span class="st">'text'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -369,18 +373,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>It looks pretty good, but we need to remove unnecessary whitespace characters and numbers. We don’t want to remove punctuation at this step because we will do sentence segmentation and part-of-speech tagging at a later stage, and the punctuation really helps with that.</p>
 <div id="1905ec15" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn all consecutive whitespace characters into one space</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn all consecutive whitespace characters into one space</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>] <span class="op">=</span> df[<span class="st">'text'</span>].<span class="bu">map</span>(<span class="kw">lambda</span> x: re.sub(<span class="vs">r'</span><span class="dv">\s</span><span class="op">+</span><span class="vs">'</span>, <span class="st">' '</span>, x))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># remove numbers</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>] <span class="op">=</span> df[<span class="st">'text'</span>].<span class="bu">map</span>(<span class="kw">lambda</span> x: re.sub(<span class="vs">r'</span><span class="dv">\d</span><span class="op">+</span><span class="vs">'</span>, <span class="st">''</span>, x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>] <span class="op">=</span> df[<span class="st">'text'</span>].<span class="bu">map</span>(<span class="kw">lambda</span> x: re.sub(<span class="vs">r'</span><span class="dv">\d</span><span class="op">+</span><span class="vs">'</span>, <span class="st">''</span>, x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next we might want to remove the pages that contain less than a given number of words, for example we can set the threshold at 20 words. Those pages most likely do not contain regular text, because if you look at the previous sentence, that is already 27 words not counting punctuation.</p>
 <div id="05e9c0d5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'text'</span>].<span class="bu">str</span>.split().<span class="bu">str</span>.<span class="bu">len</span>() <span class="op">&gt;=</span> <span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'text'</span>].<span class="bu">str</span>.split().<span class="bu">str</span>.<span class="bu">len</span>() <span class="op">&gt;=</span> <span class="dv">20</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can start the actual pre-processing. We want to base our topic model only on nouns and verbs, as other word classes rarely carry the type of topical semantic information that we are interested in. In order to do that, we need to segment each document into sentences, tokenize the words, remove stopwords and assign POS tags. We also need to lemmatize to reduce the size of the vocabulary and make the model cleaner. Since Swedish is not a major language like English, we have more limited options in the choice of NLP tools. In this example we use the python library <a href="https://stanfordnlp.github.io/stanza/">Stanza</a> by the Stanford NLP group. While it is really accurate and provides a great lemmatizer for Swedish, it does take several hours on a GPU to process a decade of SOUs. This might be complete overkill or totally reasonable depending on the use case. We decided to go with this tool because we have access to a GPU and it provides sentence segmentation, tokenization, POS-tagging and lemmatization in a few lines of python code. Other possibilities are <a href="https://www.nltk.org/">NLTK</a> (which only has a stemmer for Swedish), <a href="https://github.com/robertostling/efselab">efselab</a> or <a href="https://github.com/TakeLab/spacy-udpipe">spaCy-UDPipe</a>. Our own <a href="https://github.com/Kungbib/swedish-spacy">spaCy models</a> still don’t have a good lemmatizer because it isn’t trainable, so we couldn’t consider them as an option.</p>
 <div id="211d6dbf" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stanza</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stanza</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pages <span class="op">=</span> <span class="bu">list</span>(df.text)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -393,15 +397,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> pages:</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  doc <span class="op">=</span> nlp(page)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  data.append([word.lemma <span class="cf">for</span> sent <span class="kw">in</span> doc.sentences <span class="cf">for</span> word <span class="kw">in</span> sent.words <span class="cf">if</span> word.pos <span class="kw">in</span> allowed_tags</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">and</span> word.lemma <span class="kw">not</span> <span class="kw">in</span> stopwords <span class="kw">and</span> re.search(<span class="vs">r'</span><span class="dv">\w</span><span class="op">{2}</span><span class="vs">'</span>, word.lemma) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">and</span> word.lemma <span class="kw">not</span> <span class="kw">in</span> stopwords <span class="kw">and</span> re.search(<span class="vs">r'</span><span class="dv">\w</span><span class="op">{2}</span><span class="vs">'</span>, word.lemma) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s see what is going on in the code snippet above. First we need to convert the text column of our dataframe into a list. Then we load the stanza model (if it’s the first time you use Stanza you will need to download it first) and we define the word classes that we want to include. Next we loop though each page (or document) in our dataset and we run the Stanza model on it. For each sentence we only want to keep the lemmas of the words that are nouns or verbs, provided that they are not stopwords and that they are at least two letters long (this is an arbitrary number, we picked two because Swedish has many meaningful two-letter nouns). With this step we automatically lowercase the words and we get rid of isolated punctuation. Some punctuation marks that have been tokenized in the same token as a word might still appear (for example “kr.”), but it shouldn’t bother us too much in training our model and we can always remove them later if we want to. We use a stopword list that can be downloaded <a href="https://github.com/peterdalle/svensktext/tree/master/stoppord">here</a>.</p>
 <p>The result of the step above is a list where every document is represented by a list of words. Now we need to create the vocabulary and the corpus that we will use in our topic model. Often in topic modeling a great deal of time is spent tweaking the stopword list with domain-specific stopwords. That gives the researcher a greater degree of control, but we can also use word frequencies and occurrence statistics to help us prune our vocabulary much faster.</p>
 <div id="0dbaf88f" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>id2word <span class="op">=</span> gensim.corpora.Dictionary(data)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>id2word <span class="op">=</span> gensim.corpora.Dictionary(data)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>id2word.filter_extremes(no_below<span class="op">=</span><span class="dv">10</span>, no_above<span class="op">=</span><span class="fl">0.4</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>corpus <span class="op">=</span> [id2word.doc2bow(text) <span class="cf">for</span> text <span class="kw">in</span> data]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>corpus <span class="op">=</span> [id2word.doc2bow(text) <span class="cf">for</span> text <span class="kw">in</span> data]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The vocabulary is just a look-up table where an index is assigned to every word in our data. We create it with a built-in <code>gensim</code> function. In order to make sure that we keep only relevant words, we would like to get rid of the extremes: words that occur in very few documents are probably OCR errors or context-specific names that would only make our model messier, whereas words that occur in many documents are not likely to be very informative in regard to our topics. We use <code>gensim</code>’s built in <code>filter_extremes()</code> function to get rid of all the words that occur in less than 10 pages or more than 40% of all documents. These numbers are a judgment call and should be adjusted according to the specific problem. In this case, before filtering we have 461253 words in the dictionary and after filtering there are only 47119, which is a much more reasonable number. The corpus is a also a list where each document is represented by a list of tuples. Each tuple contains a word ID and the frequency of that word in the document.</p>
 </section>
@@ -409,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="building-a-topic-model">Building a topic model</h2>
 <p>Now we have all the pieces to build a topic model, but we still have a problem: we have no idea what the number of topics k should be. There are a few different ways to measure the quality of a topic model, for example perplexity and coherence. In this example we use coherence as our metric to compare models with different values of k. The code below trains a separate topic model for each k between 20 and 100 topics with a step of 5, and plots the resulting coherence. We use a <code>gensim</code> wrapper for the java-based tool <a href="http://mallet.cs.umass.edu/">Mallet</a> which is considered one of the best options for topic models in python. The algorithm that we use is a standard Latent Dirichlet Allocation. It should also be mentioned that with this amount of documents it takes 12-13 minutes to train one topic model, so this process of finding the best value of k is rather time consuming.</p>
 <div id="9624a715" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mallet_path <span class="op">=</span> <span class="st">"Mallet/bin/mallet"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mallet_path <span class="op">=</span> <span class="st">"Mallet/bin/mallet"</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>coherence <span class="op">=</span> []</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">20</span>,<span class="dv">105</span>,<span class="dv">5</span>)):</span>
@@ -429,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Topics'</span>)</span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Coherence'</span>)</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>plt.xticks(x_val)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -447,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It seems to be a mix of words that are likely to appear in a table and OCR errors. We can guess that such pages with a complex layout are not easy for the OCR software and therefore more likely to contain errors. Luckily for us, they have grouped themselves neatly into a single topic and we don’t even need to hunt them down and exclude them manually!</p>
 <p>Another common way to visualize topic models is the library <code>pyLDAvis</code>. First we need to convert our Mallet model into a <code>gensim</code> model to make it compatible with the library. Then we can run the visualization with pyLDAvis and we obtain the widget below:</p>
 <div id="4f021b2d" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_mallet_to_gensim(mallet_model):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_mallet_to_gensim(mallet_model):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    model_gensim <span class="op">=</span> LdaModel(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        id2word<span class="op">=</span>mallet_model.id2word, num_topics<span class="op">=</span>mallet_model.num_topics,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        alpha<span class="op">=</span>mallet_model.alpha) </span>
@@ -458,7 +462,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ldagensim <span class="op">=</span> convert_mallet_to_gensim(ldamallet)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>vis_data <span class="op">=</span> gensimvis.prepare(ldagensim, corpus, id2word, sort_topics<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>pyLDAvis.display(vis_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>pyLDAvis.display(vis_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="column-page">
 <iframe src="pyLDAvis_widget.html" width="100%" height="900px" frameborder="0"></iframe>
@@ -479,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2021" class="csl-entry quarto-appendix-citeas" role="listitem">
 Fano, Elena. 2021. <span>“Topic Models for Statens Offentliga
-Utredningar.”</span> May 4, 2021. <a href="https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/">https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/</a>.
+Utredningar.”</span> May 4. <a href="https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/">https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -532,13 +536,14 @@ Utredningar.”</span> May 4, 2021. <a href="https://kb-labb.github.io/posts/202
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

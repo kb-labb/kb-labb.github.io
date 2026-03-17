@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -13,6 +13,9 @@
 
 <title>SUCX 3.0 - NER – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -76,10 +79,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -123,7 +126,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -332,11 +336,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="data-splits">Data Splits</h3>
 <p>In order to compare the performance of various models, it is common in NLP practice to create a canonical split of the training data into training-, development-, and test-data, that everyone uses to train and evaluate their models to provide a fair comparison. While this practice comes with a <a href="https://aclanthology.org/P19-1267/">heap of problems</a>, it is nonetheless an easy way to quickly compare models with the same setup to give an intuition about their performance. We therefore split the SUC 3.0 corpus into these three parts at random, while keeping the distribution of sentences with and without annotations, and the number of named entities per category the same across the three splits.</p>
 <p>The original SUC 3.0 corpus uses XML to structure its various types of annotations. We use a much friendlier <code>json</code>-based format that only contains the sentence split into tokens, the POS annotations, and the NER annotations in the BIO format.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">e245ac6c-e24b4fe4</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">e245ac6c-e24b4fe4</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"I"</span><span class="ot">,</span> <span class="st">"dag"</span><span class="ot">,</span> <span class="st">"är"</span><span class="ot">,</span> <span class="st">"han"</span><span class="ot">,</span> <span class="st">"ingenjör"</span><span class="ot">,</span> <span class="st">"på"</span><span class="ot">,</span> <span class="st">"vetenskapsakademins"</span><span class="ot">,</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"kemisk-tekniska"</span><span class="ot">,</span> <span class="st">"institution"</span><span class="ot">,</span> <span class="st">"i"</span><span class="ot">,</span> <span class="st">"Vilnius"</span><span class="ot">,</span> <span class="st">"."</span> <span class="ot">]</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"VB"</span><span class="ot">,</span> <span class="st">"PN"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"JJ"</span><span class="ot">,</span> <span class="st">"NN"</span><span class="ot">,</span> <span class="st">"PP"</span><span class="ot">,</span> <span class="st">"PM"</span><span class="ot">,</span> <span class="st">"MAD"</span> <span class="ot">]</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"B-TME"</span><span class="ot">,</span> <span class="st">"I-TME"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"B-LOC"</span><span class="ot">,</span> <span class="st">"O"</span> <span class="ot">]</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span> <span class="st">"B-TME"</span><span class="ot">,</span> <span class="st">"I-TME"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"O"</span><span class="ot">,</span> <span class="st">"B-LOC"</span><span class="ot">,</span> <span class="st">"O"</span> <span class="ot">]</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The data and its variations can be downloaded either with <code>git</code> or directly as a huggingface 🤗 <code>dataset</code> here https://huggingface.co/datasets/KBLab/sucx3_ner.</p>
 </section>
 <section id="variations" class="level3">
@@ -821,7 +825,7 @@ The scripts to generate the <em>SUCX 3.0 - NER</em> data from the original data 
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kurtz2022" class="csl-entry quarto-appendix-citeas" role="listitem">
 Kurtz, Robin, and Joey Öhman. 2022. <span>“SUCX 3.0 - NER.”</span>
-February 7, 2022. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/">https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</a>.
+February 7. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/">https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -874,13 +878,14 @@ February 7, 2022. <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

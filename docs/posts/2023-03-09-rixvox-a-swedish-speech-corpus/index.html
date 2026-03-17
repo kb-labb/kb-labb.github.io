@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -27,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -60,10 +62,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -94,7 +96,7 @@ div.csl-indent {
 <script src="rixvox-a-swedish-speech-corpus_files/pagedtable-1.1/js/pagedtable.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -107,7 +109,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -135,7 +137,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -327,7 +330,7 @@ window.Quarto = {
 </div>
 <section id="most-and-least-intelligible-electoral-districts" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="most-and-least-intelligible-electoral-districts">Most and least intelligible electoral districts</h3>
-<p>Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab’s <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten, Haffenden, and Börjeson 2022</a>)</span>. We then calculated the <a href="https://en.wikipedia.org/wiki/BLEU">BLEU score</a> to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there’s a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts.</p>
+<p>Each observation in our dataset belongs to a speech in a debate. After segmenting the speeches from debate audio files, we machine transcribed every speech using KBLab’s <a href="https://huggingface.co/KBLab/wav2vec2-large-voxrex-swedish">wav2vec2-large-voxrex-swedish</a> model <span class="citation" data-cites="wav2vec2">(<a href="#ref-wav2vec2" role="doc-biblioref">Malmsten et al. 2022</a>)</span>. We then calculated the <a href="https://en.wikipedia.org/wiki/BLEU">BLEU score</a> to measure the correspondence between the machine generated transcription and the official written transcript. A high BLEU score indicates there’s a higher correspondence, or overlap, between the machine generated transcript and the official transcript. This may indicate that ASR systems find certain regions easier to transcribe, or may alternatively indicate that the people who transcribe the speeches tend to rephrase or reword written transcripts of speeches from these districts.</p>
 <div class="column-body-outset">
 <div data-pagedtable="false">
 <script data-pagedtable-source="" type="application/json">
@@ -409,15 +412,15 @@ window.Quarto = {
 
 
 
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Biczysko1674281" class="csl-entry" role="listitem">
 Biczysko, Klaudia. 2022. <span>“Automatic Annotation of Speech: Exploring Boundaries Within Forced Alignment for Swedish and Norwegian.”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology.
 </div>
 <div id="ref-wav2vec2" class="csl-entry" role="listitem">
-Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <span>“Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language.”</span> <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
+Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices at the National Library – a Speech Corpus and Acoustic Model for the Swedish Language</em>. <a href="https://arxiv.org/abs/2205.03026">https://arxiv.org/abs/2205.03026</a>.
 </div>
 <div id="ref-rekathati2023finding" class="csl-entry" role="listitem">
-Rekathati, Faton. 2023. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+Rekathati, Faton. 2023. <em>The KBLab Blog: Finding Speeches in the Riksdag’s Debates</em>. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
@@ -429,7 +432,7 @@ Rekathati, Faton. 2023. <span>“The KBLab Blog: Finding Speeches in the Riksdag
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas" role="listitem">
 Rekathati, Faton. 2023. <span>“RixVox: A Swedish Speech Corpus with 5500
-Hours of Speech from Parliamentary Debates.”</span> March 9, 2023. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+Hours of Speech from Parliamentary Debates.”</span> March 9. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -482,13 +485,14 @@ Hours of Speech from Parliamentary Debates.”</span> March 9, 2023. <a href="ht
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

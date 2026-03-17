@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>For how long is a person recognisable by their voice? – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -27,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -60,10 +62,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -107,7 +109,8 @@ div.csl-indent {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -259,7 +262,7 @@ div.csl-indent {
 </section>
 <section id="converting-to-voiceprints" class="level3">
 <h3 class="anchored" data-anchor-id="converting-to-voiceprints">Converting to voiceprints</h3>
-<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(<a href="#ref-koluguri2022titanet" role="doc-biblioref">Koluguri, Park, and Ginsburg 2022</a>)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
+<p>The next step was to convert the extracted audio to voiceprints. For this I used <code>TitaNet-large</code> <span class="citation" data-cites="koluguri2022titanet">(<a href="#ref-koluguri2022titanet" role="doc-biblioref">Koluguri et al. 2022</a>)</span>. TitaNet was trained on the speaker identification task, which meant its final layer was the size of the number of speakers it was trained to recognise. The way this model was trained, meant that the representations in the previous layer maximise the cosine similarity when they belong to different speakers, and minise it when they belong to the same speaker. It is this 192-dimensional 1D vector that is extracted as the voiceprint of a speaker. Some of the speeches overloaded the GPU, so these were excluded.</p>
 </section>
 <section id="division-of-data" class="level3">
 <h3 class="anchored" data-anchor-id="division-of-data">Division of data</h3>
@@ -655,18 +658,18 @@ div.csl-indent {
 
 
 
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-koluguri2022titanet" class="csl-entry" role="listitem">
-Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1D Depth-Wise Separable Convolutions and Global Context.”</span> In <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6. IEEE.
+Koluguri, Nithin Rao, Taejin Park, and Boris Ginsburg. 2022. <span>“TitaNet: Neural Model for Speaker Representation with 1D Depth-Wise Separable Convolutions and Global Context.”</span> <em>ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 8102–6.
 </div>
 <div id="ref-Nachesa1762445" class="csl-entry" role="listitem">
 Nachesa, Maya Konstantinovna. 2023. <span>“How Do Voiceprints Age?”</span> Master’s thesis, Uppsala University, Department of Linguistics; Philology; Uppsala University, Department of Linguistics; Philology. <a href="https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445">https://www.diva-portal.org/smash/record.jsf?pid=diva2:1762445</a>.
 </div>
 <div id="ref-rekathati2023finding" class="csl-entry" role="listitem">
-Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksdag’s Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
+Rekathati, Faton. 2023a. <em>The KBLab Blog: Finding Speeches in the Riksdag’s Debates</em>. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div>
 <div id="ref-rekathati2023rixvox" class="csl-entry" role="listitem">
-———. 2023b. <span>“The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates.”</span> <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
+Rekathati, Faton. 2023b. <em>The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</em>. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{nachesa2023,
   author = {Nachesa, Maya},
@@ -677,7 +680,7 @@ Rekathati, Faton. 2023a. <span>“The KBLab Blog: Finding Speeches in the Riksda
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-nachesa2023" class="csl-entry quarto-appendix-citeas" role="listitem">
 Nachesa, Maya. 2023. <span>“For How Long Is a Person Recognisable by
-Their Voice?”</span> July 4, 2023. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
+Their Voice?”</span> July 4. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -730,13 +733,14 @@ Their Voice?”</span> July 4, 2023. <a href="https://kb-labb.github.io/posts/20
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>Introducing a Swedish Sentence Transformer – The KBLab Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -27,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -60,10 +62,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0c34c7e3b46d04c5303d7e535b141003.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -101,7 +103,7 @@ div.csl-indent {
 <script src="../../site_libs/reactable-binding-0.4.4/reactable.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -114,7 +116,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -141,7 +143,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/kblab_logo_noprint.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The KBLab Blog</span>
@@ -302,7 +305,7 @@ window.Quarto = {
 </section>
 <section id="swedish-training-data" class="level2">
 <h2 class="anchored" data-anchor-id="swedish-training-data">Swedish training data?</h2>
-<p>An ever-present concern when training Swedish language models tends to be the lack of training data for fine-tuning. The situation is no different in the area of semantic textual similarity, where training data is plentiful in English, but sorely lacking in Swedish. Below is an example of data sources used to train many of the English sentence transformers models in the <a href="https://www.sbert.net/docs/installation.html"><code>sentence-transformers</code></a> package <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> . The evaluation dataset most often used is STSb: the Semantic Textual Similarity benchmark <span class="citation" data-cites="stsb">(<a href="#ref-stsb" role="doc-biblioref">Cer et al. 2017</a>)</span>. A subset of the STSb’s test set was translated into Swedish and included as part of SuperLim <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam, Berdicevskis, and Morger 2020</a>)</span> under the name of <a href="https://spraakbanken.gu.se/en/resources/sweparaphrase">SweParaphrase</a>.</p>
+<p>An ever-present concern when training Swedish language models tends to be the lack of training data for fine-tuning. The situation is no different in the area of semantic textual similarity, where training data is plentiful in English, but sorely lacking in Swedish. Below is an example of data sources used to train many of the English sentence transformers models in the <a href="https://www.sbert.net/docs/installation.html"><code>sentence-transformers</code></a> package <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> . The evaluation dataset most often used is STSb: the Semantic Textual Similarity benchmark <span class="citation" data-cites="stsb">(<a href="#ref-stsb" role="doc-biblioref">Cer et al. 2017</a>)</span>. A subset of the STSb’s test set was translated into Swedish and included as part of SuperLim <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam et al. 2020</a>)</span> under the name of <a href="https://spraakbanken.gu.se/en/resources/sweparaphrase">SweParaphrase</a>.</p>
 <table class="docutils" border="1">
 <thead>
 <tr>
@@ -535,7 +538,7 @@ STSb-dev
 </table>
 <section id="machine-translation" class="level3">
 <h3 class="anchored" data-anchor-id="machine-translation">Machine translation</h3>
-<p>Different ways of getting around the issue of data have been explored. <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span> investigated whether simply machine translating the English NLI and STS training datasets to Swedish could yield competitive results. They used <a href="https://huggingface.co/KB/bert-base-swedish-cased">KB-BERT</a> <span class="citation" data-cites="swedish-bert">(<a href="#ref-swedish-bert" role="doc-biblioref">Malmsten, Börjeson, and Haffenden 2020</a>)</span> trained in a cross-encoder setting and found it outperformed all other evaluated options (<span class="math inline">\(82.5\)</span> Pearson correlation on a machine translated version of STS-b test set). Ultimately the authors still recommended against using their model “due to a high prevalence of translation errors” in the data with unknown effects on downstream applications.</p>
+<p>Different ways of getting around the issue of data have been explored. <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span> investigated whether simply machine translating the English NLI and STS training datasets to Swedish could yield competitive results. They used <a href="https://huggingface.co/KB/bert-base-swedish-cased">KB-BERT</a> <span class="citation" data-cites="swedish-bert">(<a href="#ref-swedish-bert" role="doc-biblioref">Malmsten et al. 2020</a>)</span> trained in a cross-encoder setting and found it outperformed all other evaluated options (<span class="math inline">\(82.5\)</span> Pearson correlation on a machine translated version of STS-b test set). Ultimately the authors still recommended against using their model “due to a high prevalence of translation errors” in the data with unknown effects on downstream applications.</p>
 </section>
 <section id="self-supervised" class="level3">
 <h3 class="anchored" data-anchor-id="self-supervised">Self-supervised</h3>
@@ -604,7 +607,7 @@ STSb-dev
 </section>
 <section id="evaluations-on-superlim" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="evaluations-on-superlim">Evaluations on SuperLim</h2>
-<p>SuperLim is a Swedish evaluation suite for natural language understanding models <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam, Berdicevskis, and Morger 2020</a>)</span>. It was inspired by the English SuperGLUE <span class="citation" data-cites="superglue">(<a href="#ref-superglue" role="doc-biblioref">Wang et al. 2020</a>)</span>.</p>
+<p>SuperLim is a Swedish evaluation suite for natural language understanding models <span class="citation" data-cites="superlim">(<a href="#ref-superlim" role="doc-biblioref">Adesam et al. 2020</a>)</span>. It was inspired by the English SuperGLUE <span class="citation" data-cites="superglue">(<a href="#ref-superglue" role="doc-biblioref">Wang et al. 2020</a>)</span>.</p>
 <p>We chose the four resources most relevant to the tasks our model was trained on:</p>
 <ul>
 <li><p><a href="https://spraakbanken.gu.se/en/resources/sweparaphrase">SweParaphrase</a>: A subset of the English STS benchmark <span class="citation" data-cites="stsb">(<a href="#ref-stsb" role="doc-biblioref">Cer et al. 2017</a>)</span> dataset translated to Swedish. It consists of 165 sentence pairs. Human evaluators ranked the sentences according to how similar the two sentences were deemed to be (from 0 meaning no meaning overlap, to 5 meaning equivalence). Assembled and translated to Swedish by <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span>. <strong><em>Update (correction, 2021-09-07):</em></strong> The English STSb was machine translated to Swedish by <span class="citation" data-cites="isbister-simply">Isbister and Sahlgren (<a href="#ref-isbister-simply" role="doc-biblioref">2020</a>)</span>. A subset of 165 sentence pairs from this automatically translated dataset were manually corrected by a native speaker of Swedish as part of the SuperLim project.</p></li>
@@ -673,39 +676,39 @@ STSb-dev
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-superlim" class="csl-entry" role="listitem">
-Adesam, Yvonne, Aleksandrs Berdicevskis, and Felix Morger. 2020. <span>“SwedishGLUE – Towards a Swedish Test Set for Evaluating Natural Language Understanding Models.”</span>
+Adesam, Yvonne, Aleksandrs Berdicevskis, and Felix Morger. 2020. <em>SwedishGLUE – Towards a Swedish Test Set for Evaluating Natural Language Understanding Models</em>.
 </div>
 <div id="ref-carlsson" class="csl-entry" role="listitem">
 Carlsson, Fredrik, Evangelina Gogoulou, Erik Ylipää, Amaru Cuba Gyllensten, and Magnus Sahlgren. 2021. <em>Semantic Re-Tuning with Contrastive Tension</em>. International Conference on Learning Representations, <span>ICLR</span> 2021. <a href="https://openreview.net/pdf?id=Ov_sMNau-PF">https://openreview.net/pdf?id=Ov_sMNau-PF</a>.
 </div>
 <div id="ref-stsb" class="csl-entry" role="listitem">
-Cer, Daniel, Mona Diab, Eneko Agirre, Inigo Lopez-Gazpio, and Lucia Specia. 2017. <span>“SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Crosslingual Focused Evaluation.”</span> <em>Proceedings of the 11th International Workshop on Semantic Evaluation (SemEval-2017)</em>. <a href="https://doi.org/10.18653/v1/s17-2001">https://doi.org/10.18653/v1/s17-2001</a>.
+Cer, Daniel, Mona Diab, Eneko Agirre, Inigo Lopez-Gazpio, and Lucia Specia. 2017. <span>“SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Crosslingual Focused Evaluation.”</span> <em>Proceedings of the 11th International Workshop on Semantic Evaluation (SemEval-2017)</em>, ahead of print. <a href="https://doi.org/10.18653/v1/s17-2001">https://doi.org/10.18653/v1/s17-2001</a>.
 </div>
 <div id="ref-supersim" class="csl-entry" role="listitem">
-Hengchen, Simon, and Nina Tahmasebi. 2021. <span>“<span>S</span>uper<span>S</span>im: A Test Set for Word Similarity and Relatedness in <span>S</span>wedish.”</span> In <em>Proceedings of the 23rd Nordic Conference on Computational Linguistics (NoDaLiDa)</em>, 268–75. Reykjavik, Iceland (Online): Link<span>ö</span>ping University Electronic Press, Sweden. <a href="https://aclanthology.org/2021.nodalida-main.27">https://aclanthology.org/2021.nodalida-main.27</a>.
+Hengchen, Simon, and Nina Tahmasebi. 2021. <span>“<span>S</span>uper<span>S</span>im: A Test Set for Word Similarity and Relatedness in <span>S</span>wedish.”</span> <em>Proceedings of the 23rd Nordic Conference on Computational Linguistics (NoDaLiDa)</em> (Reykjavik, Iceland (Online)), 268–75. <a href="https://aclanthology.org/2021.nodalida-main.27">https://aclanthology.org/2021.nodalida-main.27</a>.
 </div>
 <div id="ref-isbister-simply" class="csl-entry" role="listitem">
-Isbister, Tim, and Magnus Sahlgren. 2020. <span>“Why Not Simply Translate? A First Swedish Evaluation Benchmark for Semantic Similarity.”</span> <a href="https://arxiv.org/abs/2009.03116">https://arxiv.org/abs/2009.03116</a>.
+Isbister, Tim, and Magnus Sahlgren. 2020. <em>Why Not Simply Translate? A First Swedish Evaluation Benchmark for Semantic Similarity</em>. <a href="https://arxiv.org/abs/2009.03116">https://arxiv.org/abs/2009.03116</a>.
 </div>
 <div id="ref-opensubtitles" class="csl-entry" role="listitem">
-Lison, Pierre, and Jörg Tiedemann. 2016. <span>“<span>O</span>pen<span>S</span>ubtitles2016: Extracting Large Parallel Corpora from Movie and <span>TV</span> Subtitles.”</span> In <em>Proceedings of the Tenth International Conference on Language Resources and Evaluation (<span>LREC</span>’16)</em>, 923–29. Portoro<span>ž</span>, Slovenia: European Language Resources Association (ELRA). <a href="https://aclanthology.org/L16-1147">https://aclanthology.org/L16-1147</a>.
+Lison, Pierre, and Jörg Tiedemann. 2016. <span>“<span>O</span>pen<span>S</span>ubtitles2016: Extracting Large Parallel Corpora from Movie and <span>TV</span> Subtitles.”</span> <em>Proceedings of the Tenth International Conference on Language Resources and Evaluation (<span>LREC</span>’16)</em> (Portoro<span>ž</span>, Slovenia), May, 923–29. <a href="https://aclanthology.org/L16-1147">https://aclanthology.org/L16-1147</a>.
 </div>
 <div id="ref-swedish-bert" class="csl-entry" role="listitem">
-Malmsten, Martin, Love Börjeson, and Chris Haffenden. 2020. <span>“Playing with Words at the National Library of Sweden – Making a Swedish BERT.”</span> <a href="https://arxiv.org/abs/2007.01658">https://arxiv.org/abs/2007.01658</a>.
+Malmsten, Martin, Love Börjeson, and Chris Haffenden. 2020. <em>Playing with Words at the National Library of Sweden – Making a Swedish BERT</em>. <a href="https://arxiv.org/abs/2007.01658">https://arxiv.org/abs/2007.01658</a>.
 </div>
 <div id="ref-sentence-bert" class="csl-entry" role="listitem">
-Reimers, Nils, and Iryna Gurevych. 2019. <span>“Sentence-BERT: Sentence Embeddings Using Siamese BERT-Networks.”</span> In <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing</em>. Association for Computational Linguistics. <a href="https://arxiv.org/abs/1908.10084">https://arxiv.org/abs/1908.10084</a>.
+Reimers, Nils, and Iryna Gurevych. 2019. <span>“Sentence-BERT: Sentence Embeddings Using Siamese BERT-Networks.”</span> <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing</em>, November. <a href="https://arxiv.org/abs/1908.10084">https://arxiv.org/abs/1908.10084</a>.
 </div>
 <div id="ref-multilingual-sentence-bert" class="csl-entry" role="listitem">
-———. 2020. <span>“Making Monolingual Sentence Embeddings Multilingual Using Knowledge Distillation.”</span> In <em>Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing</em>. Association for Computational Linguistics. <a href="https://arxiv.org/abs/2004.09813">https://arxiv.org/abs/2004.09813</a>.
+Reimers, Nils, and Iryna Gurevych. 2020. <span>“Making Monolingual Sentence Embeddings Multilingual Using Knowledge Distillation.”</span> <em>Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing</em>, November. <a href="https://arxiv.org/abs/2004.09813">https://arxiv.org/abs/2004.09813</a>.
 </div>
 <div id="ref-opus" class="csl-entry" role="listitem">
-Tiedemann, Jörg. 2012. <span>“Parallel Data, Tools and Interfaces in OPUS.”</span> In <em>Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC’12)</em>, edited by Nicoletta Calzolari (Conference Chair), Khalid Choukri, Thierry Declerck, Mehmet Ugur Dogan, Bente Maegaard, Joseph Mariani, Jan Odijk, and Stelios Piperidis. Istanbul, Turkey: European Language Resources Association (ELRA).
+Tiedemann, Jörg. 2012. <span>“Parallel Data, Tools and Interfaces in OPUS.”</span> In <em>Proceedings of the Eighth International Conference on Language Resources and Evaluation (LREC’12)</em>, edited by Nicoletta Calzolari (Conference Chair), Khalid Choukri, Thierry Declerck, et al. European Language Resources Association (ELRA).
 </div>
 <div id="ref-superglue" class="csl-entry" role="listitem">
-Wang, Alex, Yada Pruksachatkun, Nikita Nangia, Amanpreet Singh, Julian Michael, Felix Hill, Omer Levy, and Samuel R. Bowman. 2020. <span>“SuperGLUE: A Stickier Benchmark for General-Purpose Language Understanding Systems.”</span> <a href="https://arxiv.org/abs/1905.00537">https://arxiv.org/abs/1905.00537</a>.
+Wang, Alex, Yada Pruksachatkun, Nikita Nangia, et al. 2020. <em>SuperGLUE: A Stickier Benchmark for General-Purpose Language Understanding Systems</em>. <a href="https://arxiv.org/abs/1905.00537">https://arxiv.org/abs/1905.00537</a>.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
@@ -722,7 +725,7 @@ Wang, Alex, Yada Pruksachatkun, Nikita Nangia, Amanpreet Singh, Julian Michael, 
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2021" class="csl-entry quarto-appendix-citeas" role="listitem">
 Rekathati, Faton. 2021. <span>“Introducing a Swedish Sentence
-Transformer.”</span> August 23, 2021. <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/">https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/</a>.
+Transformer.”</span> August 23. <a href="https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/">https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -775,13 +778,14 @@ Transformer.”</span> August 23, 2021. <a href="https://kb-labb.github.io/posts
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
