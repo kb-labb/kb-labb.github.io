@@ -60,7 +60,7 @@ Content-based search allows us to engage in precisely the kind of granular inqui
 
 ![The Mediesök interface, a search demo for exploring KB’s radio archives through free-text queries](images/mediesok.png){#fig-3 .lightbox }
 
-The search tool currently includes broadcasts from P1, as well as local radio from P4, and is intended to expand as more of the radio archives are transcribed. Because the material has been automatically transcribed and aligned with the audio, users can not only identify relevant broadcasts but also follow the transcript as the recording plays and jump directly to a specific passage from a search result. As a prototype, *Mediesök*sök suggests a new way into the radio archives – one that makes large audio collections far easier to search and use as research material. It shows what becomes possible when sound can be searched like text.
+The search tool currently includes broadcasts from P1, as well as local radio from P4, and is intended to expand as more of the radio archives are transcribed. Because the material has been automatically transcribed and aligned with the audio, users can not only identify relevant broadcasts but also follow the transcript as the recording plays and jump directly to a specific passage from a search result. As a prototype, *Mediesök* suggests a new way into the radio archives – one that makes large audio collections far easier to search and use as research material. It shows what becomes possible when sound can be searched like text.
 
 # Searching for “det svenska folkhemmet”
 
