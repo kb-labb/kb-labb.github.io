@@ -7,6 +7,14 @@ author:
     affiliations: 
       - name: KBLab
         url: https://www.kb.se/in-english/research-collaboration/kblab.html
+  - name: Faton Rekathati
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+  - name: Emma Rende
+    affiliations: 
+      - name: KBLab
+        url: https://www.kb.se/in-english/research-collaboration/kblab.html
 date: 2026-03-20
 bibliography: references.bib
 image: images/thumb.jpg
@@ -76,7 +84,7 @@ The transcript is also enriched with named entities. People, places, organisatio
 
 As this example suggests, Mediesök makes it possible to search the spoken contents of broadcasts rather than relying only on programme metadata. In doing so, it opens up words and phrases that would otherwise be difficult to find. The search tool shows how AI can provide both greater precision and a more efficient way of navigating the radio archive.
 
-# A demo still in development
+# A tool still in development
 
 Mediesök is still a beta service, and there are some practical limitations to bear in mind. For legal reasons relating to copyright and data protection, access is currently restricted to researchers working on site at KB who have an SMDB account. The service is also still under development, and its coverage will continue to expand as more material is transcribed and incorporated. 
 
