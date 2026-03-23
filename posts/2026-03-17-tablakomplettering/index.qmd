@@ -41,6 +41,10 @@ This seemed to us a perfect project for KBx, a collaborative initiative between 
 Ideally we would want to accommodate visitors and researchers by making all of the AV-content searchable, something we are working on in our project *Mediesök*. However, due to legacy systems and limited capacity, we do not currently have the ability to transcribe every broadcast, nor to store every transcription. So an intermediate solution is required!
 In our case it means limiting the amount of processing to only the news programs that are currently being manually enriched, which severely lack in metadata and are likely to be relevant to research; and limiting the amount of information stored to a summary instead of the whole transcript. Resulting in the following automated workflow:
 
+<aside>
+Read more about making full radio transcriptions searchable [here](/posts/2026-03-20-mediesok/index.qmd)
+</aside>
+
 ![Automated workflow](images/process.png)
 
 Selected TV and radio programs are transcribed using KB-Whisper [@vesterbacka2025swedishwhispersleveragingmassive], a transcription model we released in February 2025. The transcribed text is then summarized using a language model (currently Llama 3.1-8B-Instruct [@grattafiori2024llama]). These summaries are automatically added to the institution’s national AV catalogue, SMDB, in a dedicated field clearly labeled as AI-generated. Catalogue staff manage only the selection of programs to be processed - everything else happens without manual input.
