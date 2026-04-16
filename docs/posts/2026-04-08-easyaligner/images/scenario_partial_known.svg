@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120" font-family="system-ui, sans-serif">
+
+  <!-- Audio bar: grey (irrelevant) | blue (Chapter II) | grey (irrelevant) -->
+  <rect x="40"  y="16" width="115" height="26" rx="5" fill="#9db8cc" opacity="0.9"/>
+  <rect x="155" y="16" width="210" height="26" rx="0" fill="#4a90d9" opacity="0.85"/>
+  <rect x="365" y="16" width="115" height="26" rx="5" fill="#9db8cc" opacity="0.9"/>
+
+  <!-- Audio section labels -->
+  <text x="97"  y="34" text-anchor="middle" fill="white" font-size="10" font-style="italic">other chapters</text>
+  <text x="260" y="34" text-anchor="middle" fill="white" font-size="12" font-weight="500">Audio</text>
+  <text x="422" y="34" text-anchor="middle" fill="white" font-size="10" font-style="italic">other chapters</text>
+
+  <!-- Known timestamp labels above the boundaries -->
+  <text x="155" y="57" text-anchor="middle" fill="#3a6a8a" font-size="10" font-weight="600">7:06</text>
+  <text x="365" y="57" text-anchor="middle" fill="#3a6a8a" font-size="10" font-weight="600">19:54</text>
+
+  <!-- Text bar -->
+  <rect x="155" y="62" width="210" height="26" rx="5" fill="#e07850" opacity="0.85"/>
+  <text x="260" y="80" text-anchor="middle" fill="white" font-size="12" font-weight="500">Text (Chapter II)</text>
+
+  <!-- Solid lines from text edges to time axis (known = solid, not dashed) -->
+  <line x1="155" y1="88" x2="155" y2="108" stroke="#3a6a8a" stroke-width="1.5"/>
+  <line x1="365" y1="88" x2="365" y2="108" stroke="#3a6a8a" stroke-width="1.5"/>
+
+  <!-- Time axis -->
+  <line x1="40"  y1="108" x2="480" y2="108" stroke="#999" stroke-width="1"/>
+  <line x1="40"  y1="104" x2="40"  y2="112" stroke="#999" stroke-width="1"/>
+  <line x1="155" y1="104" x2="155" y2="112" stroke="#3a6a8a" stroke-width="1.5"/>
+  <line x1="365" y1="104" x2="365" y2="112" stroke="#3a6a8a" stroke-width="1.5"/>
+  <line x1="480" y1="104" x2="480" y2="112" stroke="#999" stroke-width="1"/>
+
+</svg>

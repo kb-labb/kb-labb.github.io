@@ -9,8 +9,888 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.9.29</generator>
-<lastBuildDate>Thu, 19 Mar 2026 23:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.36</generator>
+<lastBuildDate>Tue, 07 Apr 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>easyaligner: Forced alignment of text and audio, made easy</title>
+  <dc:creator>Faton Rekathati</dc:creator>
+  <link>https://kb-labb.github.io/posts/2026-04-08-easyaligner/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><img src="https://kb-labb.github.io/posts/2026-04-08-easyaligner/images/easyaligner.png" class="img-fluid" style="width:100.0%"></p>
+<p><a href="https://kb-labb.github.io/easyaligner/"><code>easyaligner</code></a> is a forced alignment library for aligning text transcripts with audio. It is designed with a focus on ease of use, flexibility, and performance. The library can be used for a variety of applications, including</p>
+<ul>
+<li>Aligning e-texts with audiobook recordings to create interactive reading experiences (see the interactive demo below).</li>
+<li>Aligning podcast transcripts to enable features like chapter navigation and keyword search.</li>
+<li>Aligning protocols and recordings of parliamentary debates for research and accessibility purposes.</li>
+<li>Fixing misaligned subtitles in videos, or creating new subtitles from transcripts.</li>
+<li>Creating large-scale speech recognition and speech synthesis datasets for AI model training.</li>
+</ul>
+<p>The aligned outputs from <a href="https://kb-labb.github.io/easyaligner/"><code>easyaligner</code></a> can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text’s formatting.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <code>easyaligner</code>’s documentation on <a href="https://kb-labb.github.io/easyaligner/get-started/text_processing.html">text processing</a> for more details on how to customize tokenization and text normalization to suit your specific use case and language.</p>
+</div>
+</div>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<p>The <code>easyaligner</code> documentation provides tutorials for three common forced alignment scenarios. The guides cover scenarios where the ground-truth text spans either all or only part of the spoken content in the audio, and where the relevant audio region is either known in advance or needs to be discovered.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs"><li class="nav-item"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" aria-controls="tabset-1-1" aria-selected="true" href="">Tutorial 1: Simple case</a></li><li class="nav-item"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" aria-controls="tabset-1-2" aria-selected="false" href="">Tutorial 2: Known audio region</a></li><li class="nav-item"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" aria-controls="tabset-1-3" aria-selected="false" href="">Tutorial 3: Unknown audio region</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" aria-labelledby="tabset-1-1-tab">
+<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scenario
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://kb-labb.github.io/easyaligner/get-started/tutorial01.html">Align text and audio</a>: the text transcript covers all the spoken content in the audio.</p>
+<p><img src="https://kb-labb.github.io/posts/2026-04-08-easyaligner/images/scenario_full_coverage.svg" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" aria-labelledby="tabset-1-2-tab">
+<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scenario
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://kb-labb.github.io/easyaligner/get-started/tutorial02.html">Known audio region</a>: the text covers only part of the spoken content in the audio. But we know the relevant audio region in advance (e.g.&nbsp;from metadata or a table of contents).</p>
+<p><img src="https://kb-labb.github.io/posts/2026-04-08-easyaligner/images/scenario_partial_known.svg" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" aria-labelledby="tabset-1-3-tab">
+<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scenario
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://kb-labb.github.io/easyaligner/get-started/tutorial03.html">Locate relevant audio region</a>: the text covers only part of the spoken content in the audio, and we don’t know the relevant audio region in advance. Uses fuzzy text matching against an ASR transcription to discover the region.</p>
+<p><img src="https://kb-labb.github.io/posts/2026-04-08-easyaligner/images/scenario_partial_unknown.svg" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="pipeline" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="pipeline">Pipeline</h2>
+<p><code>easyaligner</code> runs three pipeline stages in sequence: voice activity detection (VAD), emission extraction, and forced alignment. These can, most conveniently, be run as a single <code>pipeline()</code> call. Each stage can however also be run independently.</p>
+<p>For VAD, <code>easyaligner</code> supports both <code>pyannote</code> and <code>silero</code> models. Note that <code>pyannote</code> is a gated model. You need to accept the <a href="https://huggingface.co/pyannote/segmentation-3.0">terms and conditions</a> and authenticate with a Hugging Face <a href="https://huggingface.co/docs/hub/en/security-tokens">access token</a> to be able to run the model. <code>silero</code> can be used without authentication.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>VAD outputs are currently not used for alignment purposes, but rather for ASR transcription purposes in the companion library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a>.</p>
+</div>
+</div>
+<p><code>easyaligner</code> scales well for longer audio recordings. It can be used to align hours of audio in a single pass—without the need to segment the audio into smaller chunks. This allows the forced alignment to operate globally over the full sequence, rather than segment by segment <span class="citation" data-cites="pratap2024scaling">(<span class="nocase">Pratap et al.</span> 2024)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The GPU-accelerated forced alignment in <code>easyaligner</code> uses Pytorch’s <a href="https://docs.pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html">forced alignment API</a>.</p>
+</div></div></section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install easyaligner <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--extra-index-url</span> https://download.pytorch.org/whl/cu128</span></code></pre></div></div>
+<p>When installing with <a href="https://docs.astral.sh/uv/">uv</a>, PyTorch’s CUDA/CPU version is selected automatically:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> pip install easyaligner</span></code></pre></div></div>
+</section>
+<section id="usage" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>The following example downloads and aligns a 57-second snippet from a LibriVox audiobook recording of <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">A Tale of Two Cities</a>, corresponding to the first paragraph of Chapter I. The text to be aligned is supplied directly as a string:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> pathlib <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Path</span>
+<span id="cb3-2"></span>
+<span id="cb3-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> (</span>
+<span id="cb3-4">    AutoModelForCTC,</span>
+<span id="cb3-5">    Wav2Vec2Processor,</span>
+<span id="cb3-6">)</span>
+<span id="cb3-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> huggingface_hub <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> snapshot_download</span>
+<span id="cb3-8"></span>
+<span id="cb3-9"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.text <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_tokenizer</span>
+<span id="cb3-10"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.data.datamodel <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> SpeechSegment</span>
+<span id="cb3-11"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.pipelines <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pipeline</span>
+<span id="cb3-12"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.text <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> text_normalizer</span>
+<span id="cb3-13"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> easyaligner.vad.pyannote <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_vad_model</span>
+<span id="cb3-14"></span>
+<span id="cb3-15">file_pattern <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tale-of-two-cities_align-en/taleoftwocities_01_dickens_64kb_align.mp3"</span></span>
+<span id="cb3-16"></span>
+<span id="cb3-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Download mp3 from HF dataset repo</span></span>
+<span id="cb3-18">snapshot_download(</span>
+<span id="cb3-19">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Lauler/easytranscriber_tutorials"</span>,</span>
+<span id="cb3-20">    repo_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dataset"</span>,</span>
+<span id="cb3-21">    local_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/tutorials"</span>,</span>
+<span id="cb3-22">    allow_patterns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>file_pattern,</span>
+<span id="cb3-23">)</span>
+<span id="cb3-24"></span>
+<span id="cb3-25">text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb3-26"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">It was the best of times, it was the worst of times, it was the age of</span></span>
+<span id="cb3-27"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">wisdom, it was the age of foolishness, it was the epoch of belief, it</span></span>
+<span id="cb3-28"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">was the epoch of incredulity, it was the season of Light, it was the</span></span>
+<span id="cb3-29"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">season of Darkness, it was the spring of hope, it was the winter of</span></span>
+<span id="cb3-30"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">despair, we had everything before us, we had nothing before us, we were</span></span>
+<span id="cb3-31"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">all going direct to Heaven, we were all going direct the other way--in</span></span>
+<span id="cb3-32"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">short, the period was so far like the present period, that some of its</span></span>
+<span id="cb3-33"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">noisiest authorities insisted on its being received, for good or for</span></span>
+<span id="cb3-34"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">evil, in the superlative degree of comparison only.</span></span>
+<span id="cb3-35"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb3-36"></span>
+<span id="cb3-37">text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> text.strip()</span>
+<span id="cb3-38"></span>
+<span id="cb3-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The alignments will be organized according to how the text is tokenized</span></span>
+<span id="cb3-40">tokenizer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> load_tokenizer(language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"english"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># sentence tokenizer</span></span>
+<span id="cb3-41">span_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>(tokenizer.span_tokenize(text)) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># start, end character indices</span></span>
+<span id="cb3-42">speeches <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[SpeechSegment(speech_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>text, text_spans<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>span_list, start<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, end<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>)]]</span>
+<span id="cb3-43"></span>
+<span id="cb3-44"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Load models and run pipeline</span></span>
+<span id="cb3-45">model_vad <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> load_vad_model()</span>
+<span id="cb3-46">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb3-47">    AutoModelForCTC.from_pretrained(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"facebook/wav2vec2-base-960h"</span>).to(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span>).half()</span>
+<span id="cb3-48">)</span>
+<span id="cb3-49">processor <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Wav2Vec2Processor.from_pretrained(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"facebook/wav2vec2-base-960h"</span>)</span>
+<span id="cb3-50"></span>
+<span id="cb3-51"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># File(s) to align</span></span>
+<span id="cb3-52">filepath <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Path(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/tutorials"</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> filepath_pattern</span>
+<span id="cb3-53">audio_dir <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> filepath.parent</span>
+<span id="cb3-54">audio_files <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [filepath.name]</span>
+<span id="cb3-55"></span>
+<span id="cb3-56">pipeline(</span>
+<span id="cb3-57">    vad_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model_vad,</span>
+<span id="cb3-58">    emissions_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model,</span>
+<span id="cb3-59">    processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>processor,</span>
+<span id="cb3-60">    audio_paths<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>audio_files,</span>
+<span id="cb3-61">    audio_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>audio_dir,</span>
+<span id="cb3-62">    speeches<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>speeches,</span>
+<span id="cb3-63">    alignment_strategy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"speech"</span>,</span>
+<span id="cb3-64">    text_normalizer_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>text_normalizer,</span>
+<span id="cb3-65">    tokenizer<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tokenizer,</span>
+<span id="cb3-66">    start_wildcard<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb3-67">    end_wildcard<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb3-68">    blank_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>processor.tokenizer.pad_token_id,</span>
+<span id="cb3-69">    word_boundary<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"|"</span>,</span>
+<span id="cb3-70">)</span></code></pre></div></div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>easyaligner</code> allows organizing the output at any level of granularity (sentence, paragraph, or custom). In this example, we use <code>nltk</code>’s <code>PunktTokenizer</code> for sentence-level segmentation. See the <a href="https://kb-labb.github.io/easyaligner/get-started/text_processing.html">text processing documentation</a> for custom tokenizers.</p>
+</div>
+</div>
+</div><div class="">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To use <code>silero</code> instead of <code>pyannote</code> for VAD, simply replace the import: <code>from easyaligner.vad.silero import load_vad_model</code>. The rest of the code stays the same.</p>
+</div>
+</div>
+</div></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A list of suitable emission models for different languages can be found in the <a href="https://github.com/m-bain/whisperX/blob/d8a078eed46b139f90d7f33b472119e9be9ff969/whisperx/alignment.py#L41-L77">WhisperX library</a>.</p>
+<p>If your audio and transcript are multilingual, you can try using the Massively Multilingual Speech model from Meta: <a href="https://huggingface.co/facebook/mms-1b-all">mms-1b-all</a>.</p>
+</div>
+</div>
+<section id="output" class="level3">
+<h3 class="anchored" data-anchor-id="output">Output</h3>
+<p><code>easyaligner</code> outputs a JSON file for each pipeline stage. The final aligned output in <code>output/alignments</code> contains word-level timestamps:</p>
+<pre><code>output
+├── vad          ← SpeechSegments with AudioChunks (VAD boundaries)
+├── emissions    ← + emission file paths (.npy)
+└── alignments   ← + AlignmentSegments with word timestamps</code></pre>
+<p>Each alignment segment includes segment-level and word-level start/end timestamps with confidence scores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb5-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4.972</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">56.992</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-4">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"It was the best of times, it was the worst of times, ..."</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-5">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.975</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-6">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"words"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span></span>
+<span id="cb5-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"It "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4.972</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5.052</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.631</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"was "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>     <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.673</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.773</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.000</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"the "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>     <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.853</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6.953</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.920</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"best "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.273</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.594</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.000</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-11">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"of "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.734</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.774</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.000</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-12">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"text"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"times, "</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"start"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7.894</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"end"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8.574</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span>  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"score"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.969</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb5-13">  <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb5-14"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div></div>
+</section>
+</section>
+<section id="interactive-demo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="interactive-demo">Interactive demo</h2>
+<p>Word-level timestamps allow for building interactive applications where text is highlighted in sync with the audio. In the demo below, we use the alignment output from the first paragraph of A Tale of Two Cities.</p>
+<p>Pressing play will highlight each word as it is spoken. You can also click any word to jump to that point in the audio. Dragging the progress bar will also cause the relevant spoken word at that timestamp to be highlighted.</p>
+<div id="audio-player" class="audio-card">
+<div class="audio-card-label">
+Sample audio
+</div>
+<div class="audio-card-title">
+<em>A Tale of Two Cities</em> — Chapter 1, Paragraph 1 (LibriVox)
+</div>
+<p><audio controls=""> <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_align-en/taleoftwocities_01_dickens_64kb_align.mp3" type="audio/mpeg"> </audio></p>
+</div>
+<div id="transcript-container" class="transcript-container transcript-card" data-highlight-sentence="false" data-src="images/taleoftwocities_01_dickens_64kb_align.json">
+
+</div>
+<script>
+const audioPlayer = document.querySelector("#audio-player audio");
+const container = document.getElementById("transcript-container");
+const highlightSentence = container.dataset.highlightSentence !== "false";
+
+const wordMap = [];
+const alignmentMap = [];
+let prevWord = null;
+let prevAlignment = null;
+
+fetch(container.dataset.src)
+  .then((r) => r.json())
+  .then((data) => {
+    data.speeches.forEach((speech) => {
+      let para = document.createElement("p");
+      para.className = "chunk";
+
+      speech.alignments.forEach((alignment) => {
+        const sentenceSpan = document.createElement("span");
+        sentenceSpan.className = "alignment";
+
+        // Click sentence to jump audio
+        sentenceSpan.addEventListener("click", () => {
+          audioPlayer.currentTime = alignment.start;
+          audioPlayer.play();
+        });
+
+        alignment.words.forEach((word) => {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          wordSpan.textContent = word.text;
+          wordSpan.dataset.start = word.start;
+          wordSpan.dataset.end = word.end;
+          sentenceSpan.appendChild(wordSpan);
+
+          // Click word to jump audio
+          wordSpan.addEventListener("click", (e) => {
+            e.stopPropagation();
+            audioPlayer.currentTime = word.start;
+            audioPlayer.play();
+          });
+
+          wordMap.push({ el: wordSpan, start: word.start, end: word.end });
+        });
+
+        para.appendChild(sentenceSpan);
+        alignmentMap.push({
+          el: sentenceSpan,
+          start: alignment.start,
+          end: alignment.end,
+        });
+
+        // Double newline signals a paragraph break
+        if (/\r?\n\r?\n/.test(alignment.text)) {
+          container.appendChild(para);
+          para = document.createElement("p");
+          para.className = "chunk";
+        }
+      });
+
+      // Append any remaining sentences
+      if (para.childElementCount > 0) {
+        container.appendChild(para);
+      }
+    });
+  });
+
+function updateHighlight() {
+  const t = audioPlayer.currentTime;
+
+  const curWord = wordMap.find((w) => t >= w.start && t < w.end);
+  if (curWord && curWord.el !== prevWord) {
+    if (prevWord) prevWord.classList.remove("highlight-word");
+    curWord.el.classList.add("highlight-word");
+    if (audioPlayer.paused) {
+      curWord.el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    prevWord = curWord.el;
+  }
+
+  if (highlightSentence) {
+    const curAlignment = alignmentMap.find((a) => t >= a.start && t < a.end);
+    if (curAlignment && curAlignment.el !== prevAlignment) {
+      if (prevAlignment) prevAlignment.classList.remove("highlight-sentence");
+      curAlignment.el.classList.add("highlight-sentence");
+      prevAlignment = curAlignment.el;
+    }
+  }
+}
+
+// Update on seek (dragging progress bar while paused)
+audioPlayer.addEventListener("seeked", updateHighlight);
+
+// Use requestAnimationFrame (~60fps) instead of timeupdate (~4fps)
+// so short words (< 250ms) don't get skipped
+function tick() {
+  if (!audioPlayer.paused) {
+    updateHighlight();
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can find the <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">recording</a> of the audiobook at LibriVox.</p>
+</div></div></section>
+<section id="search-interface-easysearch" class="level2">
+<h2 class="anchored" data-anchor-id="search-interface-easysearch">Search interface: easysearch</h2>
+<p>Want to create similar interactive search interfaces for browsing and querying your alignment outputs?</p>
+<p><code>easysearch</code> is a lightweight search interface for browsing and querying alignment outputs, built into the companion library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a>. It indexes the alignment JSON files into a SQLite database with full-text search and serves a web UI with synchronized audio playback and transcript highlighting.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install easytranscriber<span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">search</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb6-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">easysearch</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--alignments-dir</span> output/alignments <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--audio-dir</span> data/audio</span></code></pre></div></div>
+<p>This indexes all alignment JSON files and starts a web server at <code>http://127.0.0.1:8642</code>. On subsequent launches, only new or modified files are re-indexed.</p>
+<p>The search uses SQLite FTS5 and supports queries like <code>"exact phrase"</code>, <code>prefix*</code>, <code>word1 OR word2</code>, <code>word1 NOT word2</code>, and <code>NEAR(word1 word2, 3)</code>. Clicking a search result navigates to the document at the matching timestamp and begins playback with synchronized highlighting.</p>
+</section>
+<section id="documentation-and-source-code" class="level2">
+<h2 class="anchored" data-anchor-id="documentation-and-source-code">Documentation and source code</h2>
+<p>Visit <code>easyaligner</code>’s documentation website for detailed guides, API references and more:</p>
+<ul>
+<li><strong>Documentation</strong>: <a href="https://kb-labb.github.io/easyaligner/">kb-labb.github.io/easyaligner</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com/kb-labb/easyaligner">github.com/kb-labb/easyaligner</a></li>
+<li><strong>PyPI</strong>: <a href="https://pypi.org/project/easyaligner/">pypi.org/project/easyaligner</a></li>
+</ul>
+<p><code>easyaligner</code> can be used standalone for forced alignment of ground-truth transcripts with audio. For automatic speech recognition with alignment, see the companion library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a>, which uses <code>easyaligner</code> as its alignment backend.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>The forced alignment in <code>easyaligner</code> is based on Pytorch’s forced alignment API, which implements a GPU-accelerated version of the Viterbi algorithm <span class="citation" data-cites="pratap2024scaling">(<span class="nocase">Pratap et al.</span> 2024)</span>.</p>
+<p>Public domain LibriVox recordings are used as tutorial examples.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-pratap2024scaling" class="csl-entry">
+<span class="nocase">Pratap, Vineel, Andros Tjandra, Bowen Shi, et al.</span> 2024. <span>“Scaling Speech Technology to 1,000+ Languages.”</span> <em>Journal of Machine Learning Research</em> 25: 1–52. <a href="https://jmlr.org/papers/volume25/23-1318/23-1318.pdf">https://jmlr.org/papers/volume25/23-1318/23-1318.pdf</a>.
+</div>
+</div>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2026,
+  author = {Rekathati, Faton},
+  title = {Easyaligner: {Forced} Alignment of Text and Audio, Made Easy},
+  date = {2026-04-08},
+  url = {https://kb-labb.github.io/posts/2026-04-08-easyaligner/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
+Rekathati, Faton. 2026. <span>“Easyaligner: Forced Alignment of Text and
+Audio, Made Easy.”</span> April 8. <a href="https://kb-labb.github.io/posts/2026-04-08-easyaligner/">https://kb-labb.github.io/posts/2026-04-08-easyaligner/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://kb-labb.github.io/posts/2026-04-08-easyaligner/</guid>
+  <pubDate>Tue, 07 Apr 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://kb-labb.github.io/posts/2026-04-08-easyaligner/images/easyaligner.png" medium="image" type="image/png" height="48" width="144"/>
+</item>
 <item>
   <title>Making the Radio Archives Searchable with Mediesök</title>
   <dc:creator>Chris Haffenden</dc:creator>
@@ -5158,306 +6038,6 @@ Topic Modeling Made Easier via KB-BERT.”</span> June 14. <a href="https://kb-l
   <guid>https://kb-labb.github.io/posts/2022-06-14-bertopic/</guid>
   <pubDate>Mon, 13 Jun 2022 22:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png" medium="image" type="image/png" height="127" width="144"/>
-</item>
-<item>
-  <title>Evaluating Swedish Language Models</title>
-  <dc:creator>Robin Kurtz</dc:creator>
-  <link>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="introduction" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In the last couple of years the field of natural language processing (NLP) has seen the rise of larger and larger language models (LMs), such as <a href="https://aclanthology.org/N19-1423.pdf">BERT</a>, <a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf">GPT</a>, and others, based on the <a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">transformer architecture</a>. These massive models are trained on a simple language modeling task, guessing words using the their previous or surrounding context. Due to the large number of parameters and the amounts of text the models see during training, they learn both syntactic and semantic patterns of words in contexts and thus to some extent language, resembling <a href="https://aclanthology.org/2020.acl-main.463/">natural language understanding (NLU)</a>. From a practical point of view, these models serve as the basis for specialist models that are finetuned to solve a specific task, such as sentiment analysis, named entity recognition, and more. The <a href="https://gluebenchmark.com/">GLUE</a> and <a href="https://super.gluebenchmark.com/">SuperGLUE</a> benchmark suites are a collection of tasks designed to require some form of NLU to outperform a human baseline. With these benchmarks, model creators can easily test the usefulness of their new models on a wide range of tasks, while comparing the performance to other similar models. For the three Scandinavian languages Swedish, Danish, and Norwegian there are so far only few such tasks, that can be used to evaluate a transformer LM’s downstream performance. With the introduction of <em>OverLim</em> we hope to provide a simple benchmark to help assess the quality of the model, while comparing its performance to others. Due to its nature of being an automatically translated dataset, any performance differences should be interpreted carefully, as these models <a href="https://aclanthology.org/2021.nodalida-main.28/">tend to learn</a> with the help of <a href="https://aclanthology.org/N18-2017/">data artifacts</a> unrelated to NLU, of which the automatic translation might introduce even more. A more serious effort of a benchmark suite for Swedish is done in the <a href="https://spraakbanken.gu.se/en/resources/superlim">SuperLim</a> project, which is currently working on creating training data to accompany their test sets.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/images/bokstaver_kvalitet.jpg" class="img-fluid figure-img"></p>
-<figcaption>Quality! Photographer: Jens Gustavsson/KB</figcaption>
-</figure>
-</div>
-</div></div></section>
-<section id="creation-and-content" class="level2">
-<h2 class="anchored" data-anchor-id="creation-and-content">Creation and Content</h2>
-<p>From the 10 main GLUE tasks and the 8 SuperGLUE tasks (not counting the diagnostic datasets), we choose the following 11 tasks:</p>
-<ul>
-<li>MNLI – <a href="https://cims.nyu.edu/~sbowman/multinli/">Multi NLI</a></li>
-<li>MRPC – <a href="https://aclanthology.org/I05-5002/">Microsoft Reasearch Paraphrase Corpus</a></li>
-<li>QNLI – <a href="https://rajpurkar.github.io/SQuAD-explorer/">Question-answering NLI</a></li>
-<li>QQP – <a href="https://quoradata.quora.com/First-Quora-Dataset-Release-Question-Pairs">Quora Question Pairs</a></li>
-<li>RTE – <a href="https://arxiv.org/pdf/1804.07461.pdf">Recognizing Textual Entailment</a></li>
-<li>SST – <a href="https://nlp.stanford.edu/sentiment/treebank.html">Stanford Sentiment Treebank</a></li>
-<li>STS-B – <a href="http://ixa2.si.ehu.eus/stswiki/index.php/STSbenchmark">Semantic Textual Similarity Benchmark</a></li>
-<li>WNLI – <a href="https://cs.nyu.edu/~davise/papers/WinogradSchemas/WS.html">Winograd NLI</a></li>
-<li>BoolQ – <a href="https://arxiv.org/abs/1905.10044">Boolean Questions</a></li>
-<li>CB – <a href="https://github.com/mcdm/CommitmentBank">Commitment Bank</a></li>
-<li>COPA – <a href="https://people.ict.usc.edu/~gordon/copa.html">Choice of Plausible Alternatives</a></li>
-</ul>
-<p>The translations were done using <a href="https://marian-nmt.github.io/">Marian-NMT</a> and the models for Swedish, Danish, and Norwegian bokmål provided by <a href="https://github.com/Helsinki-NLP/Opus-MT">Opus-MT</a>.</p>
-<p>The original GLUE and SuperGLUE datasets use a test set, which does not have its labels published, as competitors send in their results on the test set, while the benchmark maintainers then evaluate on the hidden labels to avoid cheating by pre-evaluating on the test set, or even training on it. This means that we only have labels for the training and development splits. We use the former development split as the new test split and divide the training split with an 80-20 distribution into a new training and development split. Comparing the results to the English GLUE and SuperGLUE results is therefore difficult, given the smaller training set as well as the different test set.</p>
-</section>
-<section id="evaluation" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="evaluation">Evaluation</h2>
-<p>Together this new dataset we want to give potential users some simple baselines and an easy way to evaluate their own models, and present some of our new and upcoming work-in-progress.</p>
-<p>We evaluate the following models:</p>
-<ul>
-<li><a href="https://huggingface.co/AI-Nordics/bert-large-swedish-cased">AI-Sweden BERT-large</a></li>
-<li><a href="https://huggingface.co/bert-base-multilingual-cased">mBERT-base</a></li>
-<li><a href="https://huggingface.co/KB/electra-base-swedish-cased-discriminator">ELECTRA-base</a></li>
-<li><a href="https://huggingface.co/KBLab/sentence-bert-swedish-cased">Sentence-BERT</a></li>
-<li><a href="https://huggingface.co/KBLab/bart-base-swedish-cased">KB-BART</a></li>
-<li><a href="https://huggingface.co/KB/bert-base-swedish-cased">KB-BERT</a></li>
-<li><a href="https://huggingface.co/KBLab/bert-base-swedish-cased-new">BERT 🤗</a></li>
-<li><a href="https://huggingface.co/KBLab/megatron-bert-base-swedish-cased-new">Megatron-BERT-base 125k</a></li>
-<li><a href="https://huggingface.co/KBLab/megatron-bert-base-swedish-cased-600k">Megatron-BERT-base 600k</a></li>
-<li><a href="https://huggingface.co/KBLab/megatron-bert-large-swedish-cased-110k">Megatron-BERT-large 110k</a></li>
-</ul>
-<p>KB-BART and the last four models in that list use the same amount of data, roughly 70GB. BERT 🤗 was trained using the huggingface 🤗 framework, concatenating multiple short documents into one long sequence, additionally to the traditional splitting of documents longer than 512 tokens into multiple sequences. The two Megatron-BERT-base models use the same setup, with one being trained for 125k steps and the other for 600k steps, to test the impact of longer training times. Finally, our large BERT model, also using the Megatron-LM framework, is only an intermediate model checkpoint. The intended training time is set to 500k steps and will be continued in the foreseeable future.</p>
-<p>Each model was trained and evaluated five times with varying seeds. The final models were chosen according to their performance on the development set. The results below on the test set can therefore in some cases be lower than if the best model had been chosen directly with respect to test-set performance. This does not change the order of the best models with the exception for the RTE task. Some of the sub-tasks return two evaluation measures, accuracy and F-score, which are averaged here for simplicity. For the moment we do not evaluate on COPA.</p>
-<p>The training- and evaluation script can be downloaded via the <a href="https://github.com/kb-labb/overlim_eval">git repository</a>.</p>
-<div class="column-body-outset">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 8%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Model</th>
-<th>mnli</th>
-<th>mrpc</th>
-<th>qnli</th>
-<th>qqp</th>
-<th>rte</th>
-<th>sst</th>
-<th>stsb</th>
-<th>wnli</th>
-<th>boolq</th>
-<th>cb</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AI-Sweden BERT-large</td>
-<td>83.49%</td>
-<td><strong>86.67%</strong></td>
-<td>90.10%</td>
-<td>68.69%</td>
-<td><strong>70.40%</strong></td>
-<td>91.28%</td>
-<td>87.61%</td>
-<td>46.48%</td>
-<td>70.28%</td>
-<td>59.14%</td>
-</tr>
-<tr class="even">
-<td>mBERT-base</td>
-<td>78.40%</td>
-<td>81.73%</td>
-<td>86.97%</td>
-<td>69.17%</td>
-<td>67.15%</td>
-<td>89.22%</td>
-<td>81.93%</td>
-<td>43.66%</td>
-<td>65.96%</td>
-<td>58.95%</td>
-</tr>
-<tr class="odd">
-<td>ELECTRA-base</td>
-<td>78.18%</td>
-<td>76.66%</td>
-<td>84.07%</td>
-<td>60.68%</td>
-<td>54.51%</td>
-<td>88.19%</td>
-<td>10.54%</td>
-<td><strong>60.56%</strong></td>
-<td>62.35%</td>
-<td>56.08%</td>
-</tr>
-<tr class="even">
-<td>Sentence-BERT</td>
-<td>81.60%</td>
-<td>76.22%</td>
-<td>86.73%</td>
-<td>69.67%</td>
-<td>51.26%</td>
-<td>90.25%</td>
-<td>82.81%</td>
-<td>42.25%</td>
-<td>67.43%</td>
-<td>59.16%</td>
-</tr>
-<tr class="odd">
-<td>KB-BART</td>
-<td>79.60%</td>
-<td>73.41%</td>
-<td>85.47%</td>
-<td></td>
-<td>53.07%</td>
-<td>89.33%</td>
-<td>74.33%</td>
-<td>45.07%</td>
-<td>63.33%</td>
-<td>55.81%</td>
-</tr>
-<tr class="even">
-<td>KB-BERT</td>
-<td>80.97%</td>
-<td>83.53%</td>
-<td>89.27%</td>
-<td>70.21%</td>
-<td>65.34%</td>
-<td>90.83%</td>
-<td>87.42%</td>
-<td>38.03%</td>
-<td>67.31%</td>
-<td>57.66%</td>
-</tr>
-<tr class="odd">
-<td>BERT 🤗</td>
-<td>81.15%</td>
-<td>76.75%</td>
-<td>87.63%</td>
-<td>62.65%</td>
-<td>52.35%</td>
-<td>90.71%</td>
-<td>54.83%</td>
-<td>47.89%</td>
-<td>64.98%</td>
-<td><strong>60.44%</strong></td>
-</tr>
-<tr class="even">
-<td>Megatron-BERT-base 125k</td>
-<td>80.23%</td>
-<td>78.40%</td>
-<td>88.38%</td>
-<td>73.73%</td>
-<td>65.34%</td>
-<td>88.88%</td>
-<td>83.61%</td>
-<td>50.70%</td>
-<td>64.98%</td>
-<td>59.19%</td>
-</tr>
-<tr class="odd">
-<td>Megatron-BERT-base 600k</td>
-<td>82.48%</td>
-<td>76.34%</td>
-<td>89.13%</td>
-<td><strong>75.56%</strong></td>
-<td>63.90%</td>
-<td>90.37%</td>
-<td>77.46%</td>
-<td>40.85%</td>
-<td>62.39%</td>
-<td>57.61%</td>
-</tr>
-<tr class="even">
-<td>KB BERT-large 110k</td>
-<td><strong>84.50%</strong></td>
-<td>81.36%</td>
-<td><strong>91.12%</strong></td>
-<td>72.44%</td>
-<td>69.31%</td>
-<td><strong>93.00%</strong></td>
-<td><strong>87.75%</strong></td>
-<td>29.58%</td>
-<td><strong>72.23%</strong></td>
-<td>54.63%</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>The two large models mostly come out on top, with some exceptions achieved by the new BERT-base models. All models fail on the WNLI set, with the exception of ELECTRA-base, which in turn underperforms on everything else; performance on this sub-task should therefore be taken (even more than the others) with a grain of salt. The MRPC and RTE tasks show that our models do not perform, compared to the large AI-Sweden BERT and Google’s multilingual BERT, well there. We believe that this might be due to difference in training data used, which relies much less on data crawled from the web.</p>
-<section id="double-check-performance-on-other-datasets" class="level3">
-<h3 class="anchored" data-anchor-id="double-check-performance-on-other-datasets">Double-Check Performance on other Datasets</h3>
-<p>When evaluating models it is very important to test them on a wide variety of tasks. While it is tempting to test models on a test-suite like (Super)GLUE or OverLim, these in particular focus on one type of application. Large LMs also benefit other applications considered more basic such as tagging or parsing. Users should not choose their model because of some over-optimized aggregate of task-irrelevant scores, that favors larger models, which might even be too unwieldy for production purposes. When evaluating some of the models on our <a href="https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/">SUCX 3.0 - NER</a> dataset, we see this clearly. For these experiments we again trained and evaluated each model five times, on the mixed-case variations of the <em>SUCX 3.0 - NER</em> dataset using both the <em>original</em> tags as well as the more stable <em>simple</em> ones. The reported F-scores on the test set were averaged to give a more even view.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Model</th>
-<th>Simple</th>
-<th>Original</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AI-Sweden BERT-large</td>
-<td>88.73%</td>
-<td>86.07%</td>
-</tr>
-<tr class="even">
-<td>KB-BERT</td>
-<td>89.35%</td>
-<td>86.71%</td>
-</tr>
-<tr class="odd">
-<td>BERT 🤗</td>
-<td><strong>89.80%</strong></td>
-<td><strong>87.43%</strong></td>
-</tr>
-<tr class="even">
-<td>Megatron-BERT-base 125k</td>
-<td>87.84%</td>
-<td>84.95%</td>
-</tr>
-<tr class="odd">
-<td>Megatron-BERT-base 600k</td>
-<td>88.60%</td>
-<td>86.11%</td>
-</tr>
-<tr class="even">
-<td>Megatron-BERT-large 110k</td>
-<td>89.78%</td>
-<td>87.32%</td>
-</tr>
-</tbody>
-</table>
-<p>Here we can see that additional training time increases the performance for the two Megatron-BERT-base models, but even though they have been trained for longer and on more data, the small model differences let them stay behind the <em>old</em> KB-BERT. AI-Sweden’s Megatron-BERT-large model also performs worse than the KB-BERT, while our Megatron-BERT-large manages to barely outperform its smaller predecessor. The winner in this little competition however is the new BERT 🤗 which was also only trained for 125k steps, showing that there is no one best model.</p>
-<p>One important aspect when comparing models has been omitted so far. Statistical significance testing is an important tool that is very much underused (such as here). With significance testing we can get a much better idea on which performance differences actually matter, or whether some model only performs consistently better, by already having seen five test-set examples during pretraining.</p>
-<p>We invite everyone to test their models, optimize performance of already evaluated models, and compare, even across languages to better understand the strengths and weaknesses of language models.</p>
-</section>
-</section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>With the publication of this dataset we hope to give the Scandinavian NLP community a new tool for evaluating their language models. Even though we think that any results on this data should not be used to claim the state-of-the-art of your newest model, we hope to instill a little bit of healthy competition into the community, especially for everyone developing multi-lingual models.</p>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>We gratefully acknowledge the HPC RIVR consortium (https://www.hpc-rivr.si) and EuroHPC JU (https://eurohpc-ju.europa.eu) for funding this research by providing computing resources of the HPC system Vega at the Institute of Information Science (https://www.izum.si).</p>
-
-
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{kurtz2022,
-  author = {Kurtz, Robin},
-  title = {Evaluating {Swedish} {Language} {Models}},
-  date = {2022-03-16},
-  url = {https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kurtz2022" class="csl-entry quarto-appendix-citeas">
-Kurtz, Robin. 2022. <span>“Evaluating Swedish Language Models.”</span>
-March 16. <a href="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/">https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/</guid>
-  <pubDate>Tue, 15 Mar 2022 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/images/bokstaver_kvalitet.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

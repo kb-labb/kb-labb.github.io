@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" width="520" height="100" font-family="system-ui, sans-serif">
+
+  <!-- Audio bar -->
+  <rect x="40" y="16" width="440" height="26" rx="5" fill="#4a90d9" opacity="0.85"/>
+  <text x="260" y="34" text-anchor="middle" fill="white" font-size="12" font-weight="500">Audio</text>
+
+  <!-- Text bar — slightly shorter, centered -->
+  <rect x="60" y="54" width="400" height="26" rx="5" fill="#e07850" opacity="0.85"/>
+  <text x="260" y="72" text-anchor="middle" fill="white" font-size="12" font-weight="500">Text</text>
+
+  <!-- Time axis ticks -->
+  <line x1="40" y1="92" x2="480" y2="92" stroke="#999" stroke-width="1"/>
+  <line x1="40" y1="88" x2="40" y2="96" stroke="#999" stroke-width="1"/>
+  <line x1="480" y1="88" x2="480" y2="96" stroke="#999" stroke-width="1"/>
+
+  <!-- Dashed alignment lines from text edges down to axis -->
+  <line x1="60" y1="80" x2="60" y2="92" stroke="#999" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="460" y1="80" x2="460" y2="92" stroke="#999" stroke-width="1" stroke-dasharray="3,2"/>
+
+</svg>
