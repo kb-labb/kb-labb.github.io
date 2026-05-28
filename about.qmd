@@ -39,29 +39,6 @@ My background is in computer science and software development. Having implemente
 <br />
 ```
 
-![](images/robin.jpg){width="25%"}
-
-### Robin Kurtz, Data scientist [✉️](mailto:robin.kurtz@kb.se)
-As one of the KBLab's data scientists I work on developing models and datasets
-that are intended to be used not only internally at the National Library, but
-also for general use by industry, governmental agencies, and academia.
-With the recent rise of importance of transformer-based language models, we
-focus on making use of the library's vast amounts of text data to train and
-publish these language models.
-
-I have a strong background in language technology, with degrees in natural
-language processing (NLP), computational linguistics and computer science.
-Before starting at the library in October 2020 I received my
-[doctoral degree](http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-167847)
-in computer science (datalogi) from Linköping University, working on semantic
-dependency parsing, studying algorithms, machine learning methods, and
-potential applications.
-
-```{=html}
-<hr>
-<br />
-```
-
 ![](images/faton.jpg){width="25%"}
 
 ### Faton Rekathati, Data scientist [✉️](mailto:faton.rekathati@kb.se)
@@ -135,17 +112,6 @@ My background is in Classics and I have a [PhD in Greek from Uppsala University 
 <br />
 ```
 
-![](images/leoves.jpg){width="25%"}
-
-### Leonora Vesterbacka Olsson, Senior data scientist [✉️](mailto:leonora.vesterbackaolsson@kb.se)
-
-I work as a senior data scientist at KBLab. I first came into contact with the lab when I used KB-BERT in my previous job as a data scientist at another government agency. Being impressed by the quality and impact of the many large language models trained on swedish data, I applied for a job as soon as there was an opening and voilà! I now lead a project training speech recognition models on the librarys audiovisual archives, using supercomputing facilities provided by the EuroHPC Joint Undertaking. I have a background in particle physics, with research conducted at CERN, and a PhD from ETH Zürich, as well as a postdoc experience at NYU doing research in ML applied to particle physics.
-
-
-```{=html}
-<hr>
-<br />
-```
 ![](images/agnes.png){width="25%"}
 
 ### Agnes Toftgård, Data scientist [✉️](mailto:agnes.toftgard@kb.se)
