@@ -15,7 +15,7 @@ about:
 
 ## People
 
-![](images/love.
+![](images/love.png
 ){width="25%"}
 
 ### Love Börjeson, Director [✉️](mailto:love.borjeson@kb.se)
