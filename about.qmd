@@ -64,21 +64,9 @@ My academic background is in the field of intellectual and cultural history. I h
 <br />
 ```
 
-![](images/fredrik.jpg){width="25%"}
-
-### Fredrik Klingwall, Developer/Data curator (part-time) [✉️](mailto:fredrik.klingwall@kb.se)
-I am a developer at the National Library nearing two decades of working with the national Libris systems. Joined the KBLab team part-time in 2019 and would describe myself as a Semantic information modeler thinking about "connectedness" and usefulness of data. RDF is the language of expression and my current role at KBLab is being a helping hand in this field and integration of our metadata infrastructure. Special interest as some may already have surmised is linking entities and identity disambiguation.  
-
-My background is sprawling but started somewhere long ago in Computer Science classes at Stockholm University/DSV. Gravitated to musicology and sound engineering for a while but back hands on in the information/knowledge sphere again.
-
-```{=html}
-<hr>
-<br />
-```
-
 ![](images/emma.jpeg){width="25%"}
 
-### Emma Rende, Product manager (part-time) [✉️](mailto:emma.rende@kb.se)
+### Emma Rende, Product manager [✉️](mailto:emma.rende@kb.se)
 My contribution to the lab is within overall strategy and usability. In my work I try to understand who our users are, what their needs are, and how to reach them in the best possible way.
 I have driven the process of mapping the lab user journey, which changes continuously as the lab develops. I´ve also had a leading part in identifying the core values for the lab. I only work part-time in the lab, but as a product manager I naturally take the lab's questions into the various forums I participate in at KB.  
  
