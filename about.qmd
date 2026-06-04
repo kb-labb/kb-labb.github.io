@@ -15,7 +15,8 @@ about:
 
 ## People
 
-![](images/love.png){width="25%"}
+![](images/love.
+){width="25%"}
 
 ### Love Börjeson, Director [✉️](mailto:love.borjeson@kb.se)
 I work as a director for KBLab. I’m also a Research Fellow at the Stockholm School of Economics, Center for Educational Leadership and Excellence (CELE). To a large extent, my job involves collocating data, competence, and computational resources.
@@ -130,3 +131,12 @@ My background is a MSE from Linköping University in Data-driven Analysis and Ma
 I work as a senior data scientist at KBLab. My academic background is mainly in philosophy, particularly the philosophy of perception and the data structures underlying our sensory experiences. After leaving academia, I spent ten years working with the development and application of machine learning based solutions in industry. During that time I had the opportunity to work on a wide variety of projects, such as real-time behavioural prediction for website visitors, a near real-time pipeline for anomaly detection on large scale telemetry data from network switches, prediction models for the sale of baked goods, automated layout generation for publishing, using near-infrared for non-destructive testing of avocados... The list goes on. Like most researchers I'm driven by curiosity; if I don't know it then I want to learn it and if it involves data then I can usually help.
 
 
+```{=html}
+<hr>
+<br />
+```
+
+![](images/marie.jpg){width="25%"}
+
+### Marie Mattson, Data scientist [✉️](mailto:marie.mattson@kb.se)
+I am a data scientist at KBLab, where my work mostly involves making our collections searchable and usable for researchers. For example, I work with automating the process of cataloguing personal archives. My academic background is in Swedish and Linguistics, which I worked with for two years at the Swedish Language Council. There, my work was focused on the fields of language technology for minority languages, which inspired me to apply to the master's program of language technology at Uppsala Universtiy.
