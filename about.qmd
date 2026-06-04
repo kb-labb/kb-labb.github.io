@@ -117,3 +117,16 @@ My background is in Classics and I have a [PhD in Greek from Uppsala University 
 ### Agnes Toftgård, Data scientist [✉️](mailto:agnes.toftgard@kb.se)
 I am a data scientist at KBLab, where I work with training Swedish language models (such as our speech-to-text model kb-whisper), and with finding ways to integrate AI in the broader activity at the National Library (such as auto-transcribing radio-archives to make them searchable).
 My background is a MSE from Linköping University in Data-driven Analysis and Machine Learning, where I found that natural language processing was a perfect mix of my interests in languages and computer science.
+
+
+```{=html}
+<hr>
+<br />
+```
+
+![](images/jonathan.jpg){width="25%"}
+
+### Jonathan Salisbury, Senior Data scientist [✉️](mailto:jonathan.salisbury@kb.se)
+I work as a senior data scientist at KBLab. My academic background is mainly in philosophy, particularly the philosophy of perception and the data structures underlying our sensory experiences. After leaving academia, I spent ten years working with the development and application of machine learning based solutions in industry. During that time I had the opportunity to work on a wide variety of projects, such as real-time behavioural prediction for website visitors, a near real-time pipeline for anomaly detection on large scale telemetry data from network switches, prediction models for the sale of baked goods, automated layout generation for publishing, using near-infrared for non-destructive testing of avocados... The list goes on. Like most researchers I'm driven by curiosity; if I don't know it then I want to learn it and if it involves data then I can usually help.
+
+
