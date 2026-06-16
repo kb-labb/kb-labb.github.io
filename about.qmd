@@ -128,3 +128,15 @@ I work as a senior data scientist at KBLab. My academic background is mainly in 
 
 ### Marie Mattson, Data scientist [✉️](mailto:marie.mattson@kb.se)
 I am a data scientist at KBLab, where my work mostly involves making our collections searchable and usable for researchers. For example, I work with automating the process of cataloguing personal archives. My academic background is in Swedish and Linguistics, which I worked with for two years at the Swedish Language Council. There, my work was focused on the fields of language technology for minority languages, which inspired me to apply to the master's program of language technology at Uppsala Universtiy.
+
+
+```{=html}
+<hr>
+<br />
+```
+
+![](images/viktoria.jpg){width="25%"}
+
+### Viktoria Lundborg, Librarian[✉️](mailto:viktoria.lundborg@kb.se)
+ 
+I'm a librarian at the National Library of Sweden. My work centers on subject analysis and stewardship of Svenska ämnesord (SAO), the national subject headings system. At KBLab, I explore how machine technologies and AI tools can transform how libraries understand and surface the aboutness of their collections.
