@@ -23,7 +23,7 @@ citation: true
 
 Comics have been a recurring feature of Swedish newspapers for more than a century. Yet despite their cultural significance, they remain surprisingly difficult to study at scale. Researchers interested in the history of comics, visual storytelling, popular culture, or newspaper entertainment often face a fundamental problem: while newspapers have been extensively digitized, comics themselves are rarely described in the metadata of digital archives.
 
-This challenge became the starting point for an exploratory internship project at KBLab. The work was developed in dialogue with the research project Against the Algos: How Comic Artists Manage Careers and Work in the Age of AI (2026–2029), led by Erik Nylander and Robert Aman at Linköping University. While that broader project investigates contemporary comic artists and their relationship to technological change, this pilot focused on a more foundational question: how might historical newspaper comics be made more discoverable in the first place?
+This challenge became the starting point for an exploratory internship project at KBLab. The work was developed in dialogue with the research project *Against the Algos: How Comic Artists Manage Careers and Work in the Age of AI* (2026–2029), led by Erik Nylander and Robert Aman at Linköping University. While that broader project investigates contemporary comic artists and their relationship to technological change, this pilot focused on a more foundational question: how might historical newspaper comics be made more discoverable in the first place?
 
 The aim was modest but useful: to test whether computer vision could help identify likely comic pages in digitised newspapers and to produce a preliminary candidate list that future work could validate, improve and build upon. Such a resource could eventually support studies in Swedish comics history, computational media history, visual culture and the changing role of comics in public life.
 
@@ -84,9 +84,9 @@ For the purposes of this project, a comic page was defined as a newspaper page c
 
 ::: {#fig-manus layout-ncol=2}
 
-![](images/image2.jpg){#fig-2 .lightbox}
+![](images/image2.jpg)
 
-![](images/image3.jpg){#fig-3 .lightbox}
+![](images/image3.jpg)
 
 A newspaper page containing several comic strips (left), used as an example of the positive class. A visually similar illustrated page that was not classified as a comic page (right), since it lacks a clear sequential comic-strip structure.
 :::
@@ -95,9 +95,9 @@ This distinction was not always straightforward. Full-page satirical illustratio
 
 ::: {#fig-manus layout-ncol=2}
 
-![](images/image4.jpg){#fig-4 .lightbox}
+![](images/image4.jpg)
 
-![](images/image4.jpg){#fig-5 .lightbox}
+![](images/image4.jpg)
 
 Two borderline examples from the annotation process. Pages with large illustrations, puzzles, advertisements, or mixed visual material can resemble comics while still requiring interpretive judgement.
 :::

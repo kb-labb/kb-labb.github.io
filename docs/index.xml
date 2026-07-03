@@ -24,7 +24,7 @@
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Comics have been a recurring feature of Swedish newspapers for more than a century. Yet despite their cultural significance, they remain surprisingly difficult to study at scale. Researchers interested in the history of comics, visual storytelling, popular culture, or newspaper entertainment often face a fundamental problem: while newspapers have been extensively digitized, comics themselves are rarely described in the metadata of digital archives.</p>
-<p>This challenge became the starting point for an exploratory internship project at KBLab. The work was developed in dialogue with the research project Against the Algos: How Comic Artists Manage Careers and Work in the Age of AI (2026–2029), led by Erik Nylander and Robert Aman at Linköping University. While that broader project investigates contemporary comic artists and their relationship to technological change, this pilot focused on a more foundational question: how might historical newspaper comics be made more discoverable in the first place?</p>
+<p>This challenge became the starting point for an exploratory internship project at KBLab. The work was developed in dialogue with the research project <em>Against the Algos: How Comic Artists Manage Careers and Work in the Age of AI</em> (2026–2029), led by Erik Nylander and Robert Aman at Linköping University. While that broader project investigates contemporary comic artists and their relationship to technological change, this pilot focused on a more foundational question: how might historical newspaper comics be made more discoverable in the first place?</p>
 <p>The aim was modest but useful: to test whether computer vision could help identify likely comic pages in digitised newspapers and to produce a preliminary candidate list that future work could validate, improve and build upon. Such a resource could eventually support studies in Swedish comics history, computational media history, visual culture and the changing role of comics in public life.</p>
 <p>The pilot produced a preliminary list of more than 85,000 candidate comic pages from four major Swedish newspapers, covering material from the early twentieth century to the present. These should be understood as candidate pages rather than a fully validated comics corpus.</p>
 </section>
@@ -78,29 +78,11 @@
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image2.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;1&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image2.jpg" id="fig-2" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image2.jpg" class="img-fluid figure-img"></p>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image3.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;1&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image3.jpg" id="fig-3" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image3.jpg" class="img-fluid figure-img"></p>
 </div>
 </div>
 </div>
@@ -114,29 +96,11 @@
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image4.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" id="fig-4" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" class="img-fluid figure-img"></p>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-5" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/image4.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" id="fig-5" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" class="img-fluid figure-img"></p>
 </div>
 </div>
 </div>
