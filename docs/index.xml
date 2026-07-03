@@ -9,8 +9,329 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.9.38</generator>
-<lastBuildDate>Tue, 07 Apr 2026 22:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.36</generator>
+<lastBuildDate>Fri, 02 Jul 2027 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Finding Comics in Swedish Newspapers: A Computer Vision Pilot at KBLab</title>
+  <link>https://kb-labb.github.io/posts/2026-07-03-comics/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Comics have been a recurring feature of Swedish newspapers for more than a century. Yet despite their cultural significance, they remain surprisingly difficult to study at scale. Researchers interested in the history of comics, visual storytelling, popular culture, or newspaper entertainment often face a fundamental problem: while newspapers have been extensively digitized, comics themselves are rarely described in the metadata of digital archives.</p>
+<p>This challenge became the starting point for an exploratory internship project at KBLab. The work was developed in dialogue with the research project Against the Algos: How Comic Artists Manage Careers and Work in the Age of AI (2026–2029), led by Erik Nylander and Robert Aman at Linköping University. While that broader project investigates contemporary comic artists and their relationship to technological change, this pilot focused on a more foundational question: how might historical newspaper comics be made more discoverable in the first place?</p>
+<p>The aim was modest but useful: to test whether computer vision could help identify likely comic pages in digitised newspapers and to produce a preliminary candidate list that future work could validate, improve and build upon. Such a resource could eventually support studies in Swedish comics history, computational media history, visual culture and the changing role of comics in public life.</p>
+<p>The pilot produced a preliminary list of more than 85,000 candidate comic pages from four major Swedish newspapers, covering material from the early twentieth century to the present. These should be understood as candidate pages rather than a fully validated comics corpus.</p>
+</section>
+<section id="why-comics-are-difficult-to-find" class="level2">
+<h2 class="anchored" data-anchor-id="why-comics-are-difficult-to-find">Why Comics Are Difficult to Find</h2>
+<p>At first glance, locating comics in digitized newspapers might appear straightforward. One might imagine searching for comic titles, character names, or keywords through OCR-generated text.</p>
+<p>In practice, however, this approach quickly breaks down.</p>
+<p>Several methods were explored during the early stages of the project, including:</p>
+<ul>
+<li>OCR keyword searches</li>
+<li>Title matching</li>
+<li>Metadata-based retrieval</li>
+<li>Rule-based page classification</li>
+</ul>
+<p>None of these approaches produced satisfactory results.</p>
+<p>The underlying problem is that comics are fundamentally visual objects. Many comic strips contain relatively little text, and the text they do contain is often embedded in speech bubbles or stylized lettering. Historical newspapers introduce additional complications: scan quality varies considerably across decades, fonts change over time, and comic series may appear under different titles or formats.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>A keyword search for “serie” in Svenska Tidningar returns many results, but most refer to other uses of the word rather than newspaper comics. This illustrates why text-based search is a poor starting point for finding comics at scale.</figcaption>
+</figure>
+</div>
+<p>As a result, many comics remain effectively invisible to traditional text-based retrieval methods.</p>
+<p>Rather than treating comics as textual content, this project approached them as visual patterns. The question became: could a computer learn to recognize the visual characteristics of a comic page directly from images?</p>
+</section>
+<section id="building-a-training-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-training-dataset">Building a Training Dataset</h2>
+<section id="choosing-dagens-nyheter" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-dagens-nyheter">Choosing Dagens Nyheter</h3>
+<p>To train a comic classifier, an annotated dataset was first required.</p>
+<p>Dagens Nyheter was selected as the primary source for training data for several reasons. Most importantly, the newspaper contains a long and relatively stable tradition of comics publication. During parts of its history, comics were even organized within a dedicated section known as DN Serier. This consistency made it an ideal starting point for identifying examples of comic pages across different historical periods.</p>
+</section>
+<section id="sampling-across-time" class="level3">
+<h3 class="anchored" data-anchor-id="sampling-across-time">Sampling Across Time</h3>
+<p>One of the central challenges was ensuring that the classifier could recognize comics from newspapers published over more than a century.</p>
+<p>To achieve this, three issues were randomly selected from each year between 1923 and 2025. This sampling strategy was intended to balance annotation effort with broad historical coverage, while still keeping the training phase manageable for an internship project.</p>
+<p>By including material from many different decades, the dataset captured substantial variation in:</p>
+<ul>
+<li>Page layouts</li>
+<li>Printing techniques</li>
+<li>Graphic styles</li>
+<li>Newspaper design conventions</li>
+</ul>
+<p>This temporal diversity proved crucial for developing a classifier capable of generalizing across historical periods.</p>
+</section>
+<section id="what-counts-as-a-comic" class="level3">
+<h3 class="anchored" data-anchor-id="what-counts-as-a-comic">What Counts as a Comic?</h3>
+<p>Defining the positive class turned out to be more challenging than expected.</p>
+<p>For the purposes of this project, a comic page was defined as a newspaper page containing comic strips or serialized comics. Single illustrations, decorative drawings, and standalone images were excluded.</p>
+<div id="fig-manus" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image2.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;1&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image2.jpg" id="fig-2" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image3.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;1&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image3.jpg" id="fig-3" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1: A newspaper page containing several comic strips (left), used as an example of the positive class. A visually similar illustrated page that was not classified as a comic page (right), since it lacks a clear sequential comic-strip structure.
+</figcaption>
+</figure>
+</div>
+<p>This distinction was not always straightforward. Full-page satirical illustrations, for example, often resemble comics visually while lacking sequential narrative structures. Determining where comics end and other forms of visual culture begin became one of the project’s recurring methodological questions.</p>
+<div id="fig-manus" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image4.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(a): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" id="fig-4" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manus" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/image4.jpg" class="lightbox" data-gallery="fig-manus" title="Figure&nbsp;2&nbsp;(b): "><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image4.jpg" id="fig-5" class="img-fluid figure-img" data-ref-parent="fig-manus"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-manus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2: Two borderline examples from the annotation process. Pages with large illustrations, puzzles, advertisements, or mixed visual material can resemble comics while still requiring interpretive judgement.
+</figcaption>
+</figure>
+</div>
+<p>The final annotated dataset consisted of:</p>
+<div style="width: 400px; margin: 0 auto;">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: right;">Number of Images</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Comics</td>
+<td style="text-align: right;">447</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-comics</td>
+<td style="text-align: right;">5,962</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Additional comic examples from other newspapers, including Svenska Dagbladet and Aftonbladet, were incorporated to increase visual diversity.</p>
+</section>
+</section>
+<section id="teaching-a-computer-to-recognize-comics" class="level2">
+<h2 class="anchored" data-anchor-id="teaching-a-computer-to-recognize-comics">Teaching a Computer to Recognize Comics</h2>
+<section id="why-dinov2" class="level3">
+<h3 class="anchored" data-anchor-id="why-dinov2">Why DINOv2?</h3>
+<p>Several computer vision approaches were explored during the project, including CLIP- and ResNet-based solutions.</p>
+<p>While these models perform well on many contemporary image recognition tasks, historical newspaper material presents a distinct challenge. Newspaper pages exhibit highly variable layouts, degraded print quality, changing visual styles, and inconsistent scanning conditions. Models optimized for object recognition or image-text alignment do not necessarily perform well in such environments.</p>
+<p>The final workflow relied on DINOv2, a self-supervised vision model developed for robust visual representation learning.</p>
+<p>DINOv2 offered several advantages:</p>
+<ul>
+<li>It does not depend on OCR quality.</li>
+<li>It captures broader visual structures rather than isolated image features.</li>
+<li>It can be useful with limited labeled data.</li>
+<li>It appeared promising for this kind of historical image material.</li>
+</ul>
+<p>Most importantly, DINOv2 made it possible to represent the visual organisation of a page itself - an important feature when dealing with comics, where panel structures, speech bubbles and page layouts often matter more than textual content.</p>
+</section>
+<section id="why-logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="why-logistic-regression">Why Logistic Regression?</h3>
+<p>Rather than fine-tuning a large neural network, the project used DINOv2 as a feature extractor and trained a Logistic Regression classifier on top of the generated embeddings.</p>
+<p>This approach offered several practical advantages.</p>
+<p>First, the number of positive training examples was relatively small. Deep model fine-tuning would likely require substantially more annotated data.</p>
+<p>Second, Digital Humanities projects often operate under limited computational resources. Training a lightweight classifier dramatically reduced computational costs while still achieving useful performance.</p>
+<p>Third, Logistic Regression produces easily interpretable probability scores, making it possible to adjust confidence thresholds for different newspapers and use cases.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/image6.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Initial training metrics for the DINOv2 + Logistic Regression workflow. The high scores were promising, but the results should be interpreted cautiously given the limited number of positive comic examples and the exploratory nature of the pilot.</figcaption>
+</figure>
+</div>
+<p>The workflow can be summarized as follows:</p>
+<ul>
+<li>Newspaper page image</li>
+<li>DINOv2 embedding</li>
+<li>Logistic Regression classifier</li>
+<li>Comic probability score</li>
+</ul>
+</section>
+</section>
+<section id="from-classifier-to-candidate-list" class="level2">
+<h2 class="anchored" data-anchor-id="from-classifier-to-candidate-list">From Classifier to Candidate List</h2>
+<p>After training and testing, the classifier was applied in an exploratory run over selected digitised newspaper collections.</p>
+<p>The resulting candidate list currently contains:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Newspaper</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: right;">Candidate Comic Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dagens Nyheter</td>
+<td style="text-align: left;">1908–2024</td>
+<td style="text-align: right;">24,692</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Svenska Dagbladet</td>
+<td style="text-align: left;">1907–2025</td>
+<td style="text-align: right;">16,438</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Expressen</td>
+<td style="text-align: left;">1944–2025</td>
+<td style="text-align: right;">32,694</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Arbetet</td>
+<td style="text-align: left;">1925–1999</td>
+<td style="text-align: right;">11,761</td>
+</tr>
+</tbody>
+</table>
+<p>In total, the pilot identified approximately 85,585 candidate comic pages.</p>
+<p>The word candidate is important. While confidence thresholds were selected through manual inspection and newspaper-specific evaluation, the list still contains false positives and should be understood as a discovery aid rather than a fully validated corpus.</p>
+<p>Even with these limitations, the candidate list suggests how computer vision can help researchers move from isolated examples towards broader questions about comics across Swedish newspaper history.</p>
+<p>One preliminary observation emerged during the process: candidate comic pages appeared as early as the 1910s. This finding requires further verification, but it illustrates how exploratory computational work can generate new historical questions as well as new datasets.</p>
+</section>
+<section id="connecting-comics-back-to-the-archive" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-comics-back-to-the-archive">Connecting Comics Back to the Archive</h2>
+<p>Identifying comics was only one part of the project.</p>
+<p>Equally important was connecting detected pages back to the original archival environment.</p>
+<p>The output stores:</p>
+<ul>
+<li>Unique page identifier</li>
+<li>Confidence score</li>
+<li>URL or link information for tracing the page back to the newspaper archive</li>
+<li>URL to Svenska Tidningar where available</li>
+</ul>
+<p>To establish these connections, page identifiers extracted from KB’s data infrastructure were mapped to corresponding records in Svenska Tidningar. The workflow relied on identifiers embedded within page URLs, including page-level references, DARK identifiers and LIBRIS identifiers retrieved through KB APIs.</p>
+<p>For the processed material, this mapping worked reliably and made it possible to trace candidate pages back to their newspaper context.</p>
+<p>This step significantly increases the usefulness of the candidate list. Rather than working with isolated image files, researchers can navigate back to the original newspaper page, where access conditions allow, and recover the broader publication context.</p>
+<p>This contextual information is often essential. Comics do not exist independently of newspapers. Their placement on the page, proximity to advertisements, relationship to news content, and position within newspaper culture all contribute to their historical meaning.</p>
+<p>By linking candidate pages back to Svenska Tidningar, the pilot shows how a computational classification task can become more useful when it remains connected to the broader newspaper archive.</p>
+</section>
+<section id="current-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="current-limitations">Current Limitations</h2>
+<p>Several limitations remain.</p>
+<p>The most common source of classification errors consists of pages that visually resemble comics:</p>
+<ol type="1">
+<li>Word puzzles</li>
+<li>Advertisements</li>
+<li>Articles about comic artists</li>
+<li>Illustrated reports</li>
+</ol>
+<p>Interestingly, removing these false positives proved more difficult than training the initial classifier.</p>
+<p>The challenge is partly conceptual. Many borderline cases occupy a grey zone between comics and other forms of visual communication. Distinguishing them often requires interpretive judgments that are difficult to encode computationally.</p>
+<p>The candidate list also contains uncertainty regarding false negatives. While obvious classification errors have been examined, a systematic analysis of missed comics remains future work.</p>
+<p>Finally, a small number of historical pages suffer from scanning distortions or skewed scans. Fortunately, the overall quality of Swedish newspaper digitization is generally high, limiting the impact of these issues.</p>
+</section>
+<section id="future-directions" class="level2">
+<h2 class="anchored" data-anchor-id="future-directions">Future Directions</h2>
+<p>Several possible improvements could be explored in future work.</p>
+<p>First, false positives identified during manual review can be incorporated into future training datasets, potentially improving classifier performance.</p>
+<p>Second, a comprehensive validation effort would strengthen the reliability of the database and provide more accurate estimates of classification quality.</p>
+<p>Third, separate classifiers could be trained for individual newspapers. Since newspapers differ substantially in layout, graphic design, and publishing traditions, newspaper-specific models may outperform a general classifier.</p>
+<p>More broadly, the project demonstrates how computer vision can contribute to the study of visual cultural heritage materials. While OCR-based methods have transformed access to textual archives, many visual forms remain difficult to discover computationally. Comics represent only one example among many.</p>
+</section>
+<section id="reusing-and-extending-the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="reusing-and-extending-the-workflow">Reusing and Extending the Workflow</h2>
+<p>An important aim of the project was to make the workflow understandable and reusable.</p>
+<p>The comic classification workflow has been documented in an open-source repository: https://github.com/Dina-YanZhuang/comic_classifier</p>
+<p>Researchers can adapt the workflow to:</p>
+<ul>
+<li>Additional Swedish newspapers</li>
+<li>Other historical newspaper collections</li>
+<li>Related visual genres</li>
+<li>Alternative classification tasks</li>
+</ul>
+<p>The pilot output is linked to material accessible through Svenska Tidningar and participating research libraries, making it possible for researchers to move from computational discovery back to archival investigation.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Historical comics have long occupied an unusual position within newspaper archives. They are culturally significant, visually distinctive, and historically rich, yet they remain difficult to discover using conventional search methods.</p>
+<p>By combining manual annotation, computer vision and digital newspaper collections, this internship project demonstrates one possible approach to making historical comics more discoverable. The resulting candidate list is still a work in progress, but it illustrates how machine learning can support exploratory work with visual cultural heritage collections.</p>
+<p>Most importantly, it shifts the focus from finding individual comics to asking broader historical questions: When did comics become a regular feature of newspapers? How did visual storytelling evolve across the twentieth century? How did comics reflect changing social and cultural contexts?</p>
+<p>Answering these questions requires more than algorithms. It requires making the material visible in the first place.</p>
+</section>
+<section id="acknowledgements" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>Part of this development work was carried out within the <a href="https://www.huminfra.se/">HUMINFRA</a> infrastructure project.</p>
+
+
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
+</div></div></section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2027,
+  author = {},
+  title = {Finding {Comics} in {Swedish} {Newspapers:} {A} {Computer}
+    {Vision} {Pilot} at {KBLab}},
+  date = {2027-07-03},
+  url = {https://kb-labb.github.io/posts/2026-07-03-comics/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2027" class="csl-entry quarto-appendix-citeas">
+<span>“Finding Comics in Swedish Newspapers: A Computer Vision Pilot at
+KBLab.”</span> 2027. July 3. <a href="https://kb-labb.github.io/posts/2026-07-03-comics/">https://kb-labb.github.io/posts/2026-07-03-comics/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://kb-labb.github.io/posts/2026-07-03-comics/</guid>
+  <pubDate>Fri, 02 Jul 2027 22:00:00 GMT</pubDate>
+  <media:content url="https://kb-labb.github.io/posts/2026-07-03-comics/images/thumb.png" medium="image" type="image/png" height="76" width="144"/>
+</item>
 <item>
   <title>easyaligner: Forced alignment of text and audio, made easy</title>
   <dc:creator>Faton Rekathati</dc:creator>
@@ -5939,105 +6260,6 @@ January 16. <a href="https://kb-labb.github.io/posts/2023-01-16-sentence-transfo
   <guid>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</guid>
   <pubDate>Sun, 15 Jan 2023 23:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/images/sentence_transformer.svg" medium="image" type="image/svg+xml"/>
-</item>
-<item>
-  <title>BERTopic for Swedish: Topic modeling made easier via KB-BERT</title>
-  <dc:creator>Elena Fano</dc:creator>
-  <dc:creator>Chris Haffenden</dc:creator>
-  <link>https://kb-labb.github.io/posts/2022-06-14-bertopic/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>The emergence of transformer-based language models has significantly enhanced the potential for machine learning to be used for extracting meaning from large volumes of text. Yet this potential has hitherto been limited to the select few with the requisite knowledge in data science. To the vast majority without prior experience of programming in Python, the promise of cutting-edge language processing from a BERT model remains just that—a distant promise.</p>
-<p>However, this has now changed with the development of BERTopic. Recent work by the Dutch data scientist, Maarten Grootendorst makes it possible to harness the impressive performance of BERT language models without first needing to become an expert in data science. More specifically, it enables the sophisticated and flexible NLP capacities of a BERT model to serve as the basis for a more accessible form of topic modeling. By offering a new and simpler way of using KBLab’s language models, BERTopic brings a cutting-edge yet previously technically challenging method within reach of a broader range of researchers and other users working with Swedish material.</p>
-<p>In this post, we provide a brief introduction to using BERTopic for topic modeling with Swedish text data. We explain how BERTopic harnesses KBLab’s models to produce state-of-the-art topic models, and we outline some tips on how to get started. If you’re interested in finding out more about this particular method, or about topic modeling in general, check out the links at the bottom of the page!</p>
-<div id="fig-intertopic" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-intertopic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="Bertopic1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Intertopic distance map for a topic model of Swedish governmental reports (SOUs) on education between 1970-2021"><img src="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic1.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intertopic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;1: Intertopic distance map for a topic model of Swedish governmental reports (SOUs) on education between 1970-2021
-</figcaption>
-</figure>
-</div>
-<section id="what-is-topic-modeling-and-why-might-it-be-helpful-for-researchers" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-topic-modeling-and-why-might-it-be-helpful-for-researchers">What is topic modeling and why might it be helpful for researchers?</h3>
-<p>Topic modeling is a quantitative method for text analysis that allows researchers to gain insights on large text corpora without manually going through all the data themselves. The principal idea is to find a number of major topics in the collection and to be able to retrieve documents that are relevant for these topics.</p>
-<p>The output of a topic model is a list of topics represented by words that define them. It is possible to visualize the topics in charts to see their size and distance to each other (see Figure&nbsp;1).<br>
-Topic models can be used in many ways, for example to follow the development of a concept over time or to analyze subtopics of a given issue (see Figure&nbsp;2 and Figure&nbsp;3). The main insight is in utilizing data mining algorithms to make vast amounts of data searchable—and thus legible—according to the particular themes of which it is comprised.</p>
-<div id="fig-topicstime" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-topicstime-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="Bertopic4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Topics over time for model of Swedish governmental reports (SOUs) on education between 1970-2021"><img src="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic4.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-topicstime-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;2: Topics over time for model of Swedish governmental reports (SOUs) on education between 1970-2021
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="whats-new-with-bertopic-and-how-does-it-make-the-method-more-accessible" class="level3">
-<h3 class="anchored" data-anchor-id="whats-new-with-bertopic-and-how-does-it-make-the-method-more-accessible">What’s new with BERTopic and how does it make the method more accessible?</h3>
-<p>BERTopic is a new topic modeling tool that builds on powerful neural networks. At the base there is a model called sentence-BERT, which can be considered an all-purpose language model that has some understanding of the meaning of a sentence or paragraph. The documents are grouped into clusters and then some words are extracted from each cluster to label the topic.</p>
-<p>The main advantage of BERTopic over traditional topic models is that there is next to no pre-processing of the documents required prior to modeling: the pre-trained transformer model, sentence-BERT, takes care of identifying the meaningful parts of the text, which means that we don’t need to do it by hand. On top of that, the process is highly automated, so there are relatively few operative decisions that can influence the final result and that need to be accounted for.</p>
-</section>
-<section id="what-do-you-need-to-do-to-get-started-with-this-method" class="level3">
-<h3 class="anchored" data-anchor-id="what-do-you-need-to-do-to-get-started-with-this-method">What do you need to do to get started with this method?</h3>
-<p>To build a BERTopic model you need to have a collection of relatively short documents, for example paragraphs or abstracts. While you don’t need to be an expert, you do need some experience with Python programming, since you need to be able to load your documents into Python to run the modeling on them. If you are planning to use the method on Swedish data, then you may want to use the sentence transformer model we have released, which can be found on KBLab’s HuggingFace page (see link below).</p>
-<p>There are excellent tutorials available via the BERTopic repository on Github (link below), which provide the best starting point for testing out the method.</p>
-</section>
-<section id="what-are-the-computational-requirements-of-this-approach" class="level3">
-<h3 class="anchored" data-anchor-id="what-are-the-computational-requirements-of-this-approach">What are the computational requirements of this approach?</h3>
-<p>The powerful language model that BERTopic is based on needs to run on a GPU, which not everyone has at their disposal. There are two possible solutions if you do not have access to a GPU at your institution: either you can run BERTopic with less computation-intensive embedding models like Flair, spaCy or Gensim, or you can use Google Colab to have temporary free access to a GPU.</p>
-<p>Both options have pros and cons. Using a lighter model that runs on CPU means giving up some of the complex language understanding of a transformer model: BERT and similar models have consistently proven to be superior to other methods in many NLP tasks, and a BERTopic without an underlying BERT would be falling short of its full potential. Using Google Colab, on the other hand, means that you need to have a Google account, you need to have permission to load your documents online and you might not get enough GPU memory and/or time for your modelling needs. But having said that, experimenting with this latter option would certainly be a good place to start!</p>
-<div id="fig-hierarchical" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-hierarchical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="Bertopic2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Hierarchical clustering of topics for a model of Swedish governmental reports (SOUs) on education between 1970-2021"><img src="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic2.png" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hierarchical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;3: Hierarchical clustering of topics for a model of Swedish governmental reports (SOUs) on education between 1970-2021
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="links-about-bertopic" class="level3">
-<h3 class="anchored" data-anchor-id="links-about-bertopic">Links about BERTopic:</h3>
-<p>Tutorials on GitHub: https://github.com/MaartenGr/BERTopic<br>
-Complete documentation: https://maartengr.github.io/BERTopic/<br>
-KBLab’s sentence BERT for Swedish: https://huggingface.co/KBLab/sentence-bert-swedish-cased<br>
-Google Colab: https://colab.research.google.com/</p>
-</section>
-<section id="further-reading-on-topic-modeling-as-a-research-method" class="level3">
-<h3 class="anchored" data-anchor-id="further-reading-on-topic-modeling-as-a-research-method">Further reading on topic modeling as a research method:</h3>
-<p>“Topic Modeling with BERT,” Medium article by Maarten Grootendorst: https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6</p>
-<p>“Interactive Topic Modeling with BERT,” Medium article by Maarten Grootendorst https://towardsdatascience.com/interactive-topic-modeling-with-bertopic-1ea55e7d73d8</p>
-<p>“Probabilistic Topic Models,” David M. Blei article: https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf</p>
-<p>“The Digital Humanities Contribution to Topic Modeling”, Journal of Digital Humanities special edition: http://journalofdigitalhumanities.org/2-1/</p>
-<p>“Topic Modeling: What Humanists Actually Do With It,” University of California blog post by Teddy Roland: https://digitalhumanities.berkeley.edu/blog/16/07/14/topic-modeling-what-humanists-actually-do-it-guest-post-teddy-roland-university</p>
-
-
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fano2022,
-  author = {Fano, Elena and Haffenden, Chris},
-  title = {BERTopic for {Swedish:} {Topic} Modeling Made Easier via
-    {KB-BERT}},
-  date = {2022-06-14},
-  url = {https://kb-labb.github.io/posts/2022-06-14-bertopic/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fano2022" class="csl-entry quarto-appendix-citeas">
-Fano, Elena, and Chris Haffenden. 2022. <span>“BERTopic for Swedish:
-Topic Modeling Made Easier via KB-BERT.”</span> June 14. <a href="https://kb-labb.github.io/posts/2022-06-14-bertopic/">https://kb-labb.github.io/posts/2022-06-14-bertopic/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://kb-labb.github.io/posts/2022-06-14-bertopic/</guid>
-  <pubDate>Mon, 13 Jun 2022 22:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2022-06-14-bertopic/Bertopic_algorithm.png" medium="image" type="image/png" height="127" width="144"/>
 </item>
 </channel>
 </rss>
