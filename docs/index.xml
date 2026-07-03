@@ -13,6 +13,7 @@
 <lastBuildDate>Fri, 02 Jul 2027 22:00:00 GMT</lastBuildDate>
 <item>
   <title>Finding Comics in Swedish Newspapers: A Computer Vision Pilot at KBLab</title>
+  <dc:creator>Yan Zhuang</dc:creator>
   <link>https://kb-labb.github.io/posts/2026-07-03-comics/</link>
   <description><![CDATA[ 
 
@@ -289,7 +290,7 @@
 <section id="reusing-and-extending-the-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="reusing-and-extending-the-workflow">Reusing and Extending the Workflow</h2>
 <p>An important aim of the project was to make the workflow understandable and reusable.</p>
-<p>The comic classification workflow has been documented in an open-source repository: https://github.com/Dina-YanZhuang/comic_classifier</p>
+<p>The comic classification workflow has been documented in <a href="https://github.com/Dina-YanZhuang/comic_classifier">an open-source repository</a>.</p>
 <p>Researchers can adapt the workflow to:</p>
 <ul>
 <li>Additional Swedish newspapers</li>
@@ -316,17 +317,17 @@
 <p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2027,
-  author = {},
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zhuang2027,
+  author = {Zhuang, Yan},
   title = {Finding {Comics} in {Swedish} {Newspapers:} {A} {Computer}
     {Vision} {Pilot} at {KBLab}},
   date = {2027-07-03},
   url = {https://kb-labb.github.io/posts/2026-07-03-comics/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2027" class="csl-entry quarto-appendix-citeas">
-<span>“Finding Comics in Swedish Newspapers: A Computer Vision Pilot at
-KBLab.”</span> 2027. July 3. <a href="https://kb-labb.github.io/posts/2026-07-03-comics/">https://kb-labb.github.io/posts/2026-07-03-comics/</a>.
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zhuang2027" class="csl-entry quarto-appendix-citeas">
+Zhuang, Yan. 2027. <span>“Finding Comics in Swedish Newspapers: A
+Computer Vision Pilot at KBLab.”</span> July 3. <a href="https://kb-labb.github.io/posts/2026-07-03-comics/">https://kb-labb.github.io/posts/2026-07-03-comics/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2026-07-03-comics/</guid>
   <pubDate>Fri, 02 Jul 2027 22:00:00 GMT</pubDate>

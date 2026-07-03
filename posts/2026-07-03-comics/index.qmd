@@ -3,10 +3,10 @@ title: "Finding Comics in Swedish Newspapers: A Computer Vision Pilot at KBLab"
 description: |
   An exploratory internship project testing how computer vision can help identify candidate comic pages in digitised Swedish newspapers
 author:
-  - name: 
+  - name: Yan Zhuang
     affiliations:
-      - name: KBLab
-        url: https://www.kb.se/in-english/research-collaboration/kblab.html
+      - name: Linköping University
+        url: https://liu.se/
 date: 2027-07-03
 image: images/thumb.png
 bibliography: references.bib
@@ -235,8 +235,7 @@ More broadly, the project demonstrates how computer vision can contribute to the
 
 An important aim of the project was to make the workflow understandable and reusable.
 
-The comic classification workflow has been documented in an open-source repository:
-https://github.com/Dina-YanZhuang/comic_classifier
+The comic classification workflow has been documented in [an open-source repository](https://github.com/Dina-YanZhuang/comic_classifier).
 
 Researchers can adapt the workflow to:
 
