@@ -10,7 +10,7 @@
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.9.36</generator>
-<lastBuildDate>Fri, 02 Jul 2027 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 02 Jul 2026 22:00:00 GMT</lastBuildDate>
 <item>
   <title>Finding Comics in Swedish Newspapers: A Computer Vision Pilot at KBLab</title>
   <dc:creator>Yan Zhuang</dc:creator>
@@ -281,20 +281,20 @@
 <p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zhuang2027,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zhuang2026,
   author = {Zhuang, Yan},
   title = {Finding {Comics} in {Swedish} {Newspapers:} {A} {Computer}
     {Vision} {Pilot} at {KBLab}},
-  date = {2027-07-03},
+  date = {2026-07-03},
   url = {https://kb-labb.github.io/posts/2026-07-03-comics/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zhuang2027" class="csl-entry quarto-appendix-citeas">
-Zhuang, Yan. 2027. <span>“Finding Comics in Swedish Newspapers: A
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zhuang2026" class="csl-entry quarto-appendix-citeas">
+Zhuang, Yan. 2026. <span>“Finding Comics in Swedish Newspapers: A
 Computer Vision Pilot at KBLab.”</span> July 3. <a href="https://kb-labb.github.io/posts/2026-07-03-comics/">https://kb-labb.github.io/posts/2026-07-03-comics/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2026-07-03-comics/</guid>
-  <pubDate>Fri, 02 Jul 2027 22:00:00 GMT</pubDate>
+  <pubDate>Thu, 02 Jul 2026 22:00:00 GMT</pubDate>
   <media:content url="https://kb-labb.github.io/posts/2026-07-03-comics/images/thumb.png" medium="image" type="image/png" height="76" width="144"/>
 </item>
 <item>
