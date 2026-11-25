@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kb-labb.github.io/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.642Z</lastmod>
+    <loc>https://kb-labb.github.io/about.html</loc>
+    <lastmod>2026-11-25T10:24:26.150Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.655Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2026-04-08-easyaligner/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.745Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2022-03-16-evaluating-swedish-language-models/index.html</loc>
@@ -17,135 +17,123 @@
     <lastmod>2026-11-24T12:22:05.652Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.660Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.646Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2022-06-14-bertopic/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.657Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.718Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.664Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2021-03-28-ad-classification/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.645Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-08-29-kubord/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.713Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.679Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.717Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/cite.html</loc>
-    <lastmod>2026-11-24T12:22:05.492Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.654Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.651Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.657Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.652Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/index.html</loc>
     <lastmod>2026-11-24T12:22:05.658Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.652Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2021-08-23-a-swedish-sentence-transformer/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.652Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.706Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.712Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.701Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2022-06-14-bertopic/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.657Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/index.html</loc>
     <lastmod>2026-11-24T12:22:05.721Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.719Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kb-labb.github.io/about.html</loc>
-    <lastmod>2026-06-16T09:00:17.563Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2023-08-29-kubord/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.713Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/index.html</loc>
     <lastmod>2026-11-24T12:22:05.730Z</lastmod>
   </url>
   <url>
+    <loc>https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.718Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2021-05-04-topic-models-for-sous/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.646Z</lastmod>
+  </url>
+  <url>
     <loc>https://kb-labb.github.io/posts/2025-12-01-clip-topic/index.html</loc>
     <lastmod>2026-11-24T12:22:05.735Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2025-01-12-clip-topic/index.html</loc>
-    <lastmod>2025-12-01T14:46:51.549Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.655Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2026-02-26-easytranscriber/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.736Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.679Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2026-03-05-tablakomplettering/index.html</loc>
-    <lastmod>2026-03-17T12:20:20.349Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2021-06-15-a-swedish-norwegian-federated-language-model/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.651Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.642Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/publications.html</loc>
+    <lastmod>2026-11-24T15:57:11.074Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.712Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.660Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.717Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.719Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/index.html</loc>
     <lastmod>2026-11-24T12:22:05.741Z</lastmod>
   </url>
   <url>
+    <loc>https://kb-labb.github.io/posts/2026-02-26-easytranscriber/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.736Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.706Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2022-02-07-sucx3_ner/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.654Z</lastmod>
+  </url>
+  <url>
     <loc>https://kb-labb.github.io/posts/2026-03-20-mediesok/index.html</loc>
     <lastmod>2026-11-24T12:22:05.744Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2026-04-07-easyaligner/index.html</loc>
-    <lastmod>2026-04-06T22:39:55.219Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2021-11-15-kblabs-director-love-brjeson-nominated-as-ai-swede-of-the-year-2021/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.652Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/posts/2026-04-08-easyaligner/index.html</loc>
-    <lastmod>2026-11-24T12:22:05.745Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.701Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.664Z</lastmod>
   </url>
   <url>
     <loc>https://kb-labb.github.io/posts/2026-07-03-comics/index.html</loc>
     <lastmod>2026-11-24T12:22:05.753Z</lastmod>
   </url>
   <url>
-    <loc>https://kb-labb.github.io/publications.html</loc>
-    <lastmod>2026-11-24T15:57:11.074Z</lastmod>
+    <loc>https://kb-labb.github.io/posts/2021-03-28-ad-classification/index.html</loc>
+    <lastmod>2026-11-24T12:22:05.645Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kb-labb.github.io/cite.html</loc>
+    <lastmod>2026-11-24T12:22:05.492Z</lastmod>
   </url>
 </urlset>

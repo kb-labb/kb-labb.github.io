@@ -140,3 +140,10 @@ I am a data scientist at KBLab, where my work mostly involves making our collect
 ### Viktoria Lundborg, Librarian[✉️](mailto:viktoria.lundborg@kb.se)
  
 I'm a librarian at the National Library of Sweden. My work centers on subject analysis and stewardship of Svenska ämnesord (SAO), the national subject headings system. At KBLab, I explore how machine technologies and AI tools can transform how libraries understand and surface the aboutness of their collections.
+
+
+![](images/taras.jpg){width="25%"}
+
+### Taras Kucherenko, Lead Research Scientist [✉️](mailto:taras.kucherenko@kb.se)
+
+At KBLab, I lead the work on training Swedish large language models, drawing on the library's archive of more than a thousand years of Swedish data. I've spent the last ten years training machine learning models: first during my master's at RWTH, then during my PhD at KTH, and most recently as a research scientist at SEED, Electronic Arts' research division, where I got to put my research into practice. My previous research was on getting virtual characters to move and gesture naturally when they speak. Joining the lab meant moving from body language to spoken and written language, which mirrors the order in which humans learn to communicate - non-verbal first, then speech and writing. I'm passionate about evaluation: it's often overlooked, and I think it's a crucial piece of making meaningful progress.
