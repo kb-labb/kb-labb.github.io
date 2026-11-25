@@ -24,6 +24,8 @@ website:
             href: https://huggingface.co/collections/KBLab/kb-whisper-67af9eafb24da903b63cc4aa
       - text: About
         href: about.qmd
+      - text: Publications
+        href: publications.qmd
       - text: How to cite
         href: cite.qmd
       - icon: github

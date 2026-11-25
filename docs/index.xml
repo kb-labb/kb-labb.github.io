@@ -9,7 +9,7 @@
 <link>https://kb-labb.github.io/</link>
 <atom:link href="https://kb-labb.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.9.36</generator>
+<generator>quarto-1.11.9</generator>
 <lastBuildDate>Thu, 02 Jul 2026 22:00:00 GMT</lastBuildDate>
 <item>
   <title>Finding Comics in Swedish Newspapers: A Computer Vision Pilot at KBLab</title>
@@ -281,7 +281,7 @@
 <p><img src="https://kb-labb.github.io/posts/2026-07-03-comics/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zhuang2026,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{zhuang2026,
   author = {Zhuang, Yan},
   title = {Finding {Comics} in {Swedish} {Newspapers:} {A} {Computer}
     {Vision} {Pilot} at {KBLab}},
@@ -289,7 +289,7 @@
   url = {https://kb-labb.github.io/posts/2026-07-03-comics/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zhuang2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zhuang2026" class="csl-entry quarto-appendix-citeas">
 Zhuang, Yan. 2026. <span>“Finding Comics in Swedish Newspapers: A
 Computer Vision Pilot at KBLab.”</span> July 3. <a href="https://kb-labb.github.io/posts/2026-07-03-comics/">https://kb-labb.github.io/posts/2026-07-03-comics/</a>.
 </div></div></section></div> ]]></description>
@@ -337,7 +337,7 @@ Tip
 <ul class="nav nav-tabs"><li class="nav-item"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" aria-controls="tabset-1-1" aria-selected="true" href="">Tutorial 1: Simple case</a></li><li class="nav-item"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" aria-controls="tabset-1-2" aria-selected="false" href="">Tutorial 2: Known audio region</a></li><li class="nav-item"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" aria-controls="tabset-1-3" aria-selected="false" href="">Tutorial 3: Unknown audio region</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" aria-labelledby="tabset-1-1-tab">
-<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -353,7 +353,7 @@ Tip
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" aria-labelledby="tabset-1-2-tab">
-<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -369,7 +369,7 @@ Tip
 </div>
 </div>
 <div id="tabset-1-3" class="tab-pane" aria-labelledby="tabset-1-3-tab">
-<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1162,14 +1162,14 @@ font-style: inherit;">--audio-dir</span> data/audio</span></code></pre></div></d
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2026,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2026,
   author = {Rekathati, Faton},
   title = {Easyaligner: {Forced} Alignment of Text and Audio, Made Easy},
   date = {2026-04-08},
   url = {https://kb-labb.github.io/posts/2026-04-08-easyaligner/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2026. <span>“Easyaligner: Forced Alignment of Text and
 Audio, Made Easy.”</span> April 8. <a href="https://kb-labb.github.io/posts/2026-04-08-easyaligner/">https://kb-labb.github.io/posts/2026-04-08-easyaligner/</a>.
 </div></div></section></div> ]]></description>
@@ -1392,20 +1392,22 @@ Table&nbsp;1: Current size of the transcribed radio corpus underlying Mediesök,
 <p><img src="https://kb-labb.github.io/posts/2026-03-20-mediesok/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2026,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{haffenden2026,
   author = {Haffenden, Chris and Rekathati, Faton and Rende, Emma},
-  title = {Making the {Radio} {Archives} {Searchable} with {*Mediesök*}},
+  title = {Making the {Radio} {Archives} {Searchable} with
+    \emph{{Mediesök}}},
   date = {2026-03-20},
   url = {https://kb-labb.github.io/posts/2026-03-20-mediesok/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2026" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, Faton Rekathati, and Emma Rende. 2026. <span>“Making
-the Radio Archives Searchable with *Mediesök*.”</span> March 20. <a href="https://kb-labb.github.io/posts/2026-03-20-mediesok/">https://kb-labb.github.io/posts/2026-03-20-mediesok/</a>.
+the Radio Archives Searchable with <em>Mediesök</em>.”</span> March 20.
+<a href="https://kb-labb.github.io/posts/2026-03-20-mediesok/">https://kb-labb.github.io/posts/2026-03-20-mediesok/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2026-03-20-mediesok/</guid>
   <pubDate>Thu, 19 Mar 2026 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2026-03-20-mediesok/images/thumb.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2026-03-20-mediesok/images/thumb.jpg" medium="image" type="image/jpeg" height="79" width="144"/>
 </item>
 <item>
   <title>Using AI to Improve Metadata in the Swedish Audio-visual Archive</title>
@@ -1532,7 +1534,7 @@ Team, Gemma, Aishwarya Kamath, Johan Ferret, et al. 2025. <em>Gemma 3 Technical 
 <div id="ref-vesterbacka2025swedishwhispersleveragingmassive" class="csl-entry">
 Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and Agnes Toftgård. 2025. <em>Swedish Whispers; Leveraging a Massive Speech Corpus for Swedish Speech Recognition</em>. <a href="https://arxiv.org/abs/2505.17538">https://arxiv.org/abs/2505.17538</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{toftgård2026,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{toftgård2026,
   author = {Toftgård, Agnes and Rende, Emma},
   title = {Using {AI} to {Improve} {Metadata} in the {Swedish}
     {Audio-visual} {Archive}},
@@ -1540,13 +1542,13 @@ Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and Agnes To
   url = {https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-toftgård2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-toftgård2026" class="csl-entry quarto-appendix-citeas">
 Toftgård, Agnes, and Emma Rende. 2026. <span>“Using AI to Improve
 Metadata in the Swedish Audio-Visual Archive.”</span> March 17. <a href="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/">https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/</guid>
   <pubDate>Mon, 16 Mar 2026 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/bandrulle.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2026-03-17-tablakomplettering/images/bandrulle.jpg" medium="image" type="image/jpeg" height="108" width="144"/>
 </item>
 <item>
   <title>easytranscriber: Speech recognition with precise timestamps</title>
@@ -2208,7 +2210,7 @@ Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“Whisper
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2026,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2026,
   author = {Rekathati, Faton},
   title = {Easytranscriber: {Speech} Recognition with Precise
     Timestamps},
@@ -2216,7 +2218,7 @@ Bain, Max, Jaesung Huh, Tengda Han, and Andrew Zisserman. 2023. <span>“Whisper
   url = {https://kb-labb.github.io/posts/2026-02-26-easytranscriber/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2026" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2026. <span>“Easytranscriber: Speech Recognition with
 Precise Timestamps.”</span> February 26. <a href="https://kb-labb.github.io/posts/2026-02-26-easytranscriber/">https://kb-labb.github.io/posts/2026-02-26-easytranscriber/</a>.
 </div></div></section></div> ]]></description>
@@ -2377,7 +2379,7 @@ Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digi
 <p><img src="https://kb-labb.github.io/posts/2025-12-01-clip-topic/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{haffenden2025,
   author = {Haffenden, Chris and Sikora, Justyna},
   title = {CLIP-Topic: {Identifying} {Themes} in {Large} {Image}
     {Collections}},
@@ -2385,7 +2387,7 @@ Smits, Thomas, and Melvin Wevers. 2023. <span>“A Multimodal Turn in <span>Digi
   url = {https://kb-labb.github.io/posts/2025-12-01-clip-topic/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, and Justyna Sikora. 2025. <span>“CLIP-Topic:
 Identifying Themes in Large Image Collections.”</span> December 1. <a href="https://kb-labb.github.io/posts/2025-12-01-clip-topic/">https://kb-labb.github.io/posts/2025-12-01-clip-topic/</a>.
 </div></div></section></div> ]]></description>
@@ -3438,7 +3440,7 @@ Vaswani, Ashish, Noam Shazeer, Niki Parmar, et al. 2017. <span>“Attention Is <
 <p><img src="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/images/huminfra.svg" class="img-fluid" style="width:40.0%"></p>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{sikora2025,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{sikora2025,
   author = {Sikora, Justyna and Haffenden, Chris and Böckerman, Robin},
   title = {From {Parchment} to {Pixels:} {Testing} {HTR} for {Medieval}
     {Latin} {Manuscripts} at {KBLab}},
@@ -3446,7 +3448,7 @@ Vaswani, Ashish, Noam Shazeer, Niki Parmar, et al. 2017. <span>“Attention Is <
   url = {https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2025" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2025" class="csl-entry quarto-appendix-citeas">
 Sikora, Justyna, Chris Haffenden, and Robin Böckerman. 2025. <span>“From
 Parchment to Pixels: Testing HTR for Medieval Latin Manuscripts at
 KBLab.”</span> June 11. <a href="https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/">https://kb-labb.github.io/posts/2025-06-11-from-parchment-to-pixel/</a>.
@@ -3808,7 +3810,7 @@ Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices 
 <div id="ref-radford2022robustspeechrecognitionlargescale" class="csl-entry">
 Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. <em>Robust Speech Recognition via Large-Scale Weak Supervision</em>. <a href="https://arxiv.org/abs/2212.04356">https://arxiv.org/abs/2212.04356</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{vesterbacka2025,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{vesterbacka2025,
   author = {Vesterbacka, Leonora and Rekathati, Faton and Kurtz, Robin
     and Sikora, Justyna and Toftgård, Agnes},
   title = {Welcome {KB-Whisper,} a New Fine-Tuned {Swedish} {Whisper}
@@ -3817,14 +3819,14 @@ Radford, Alec, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ily
   url = {https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vesterbacka2025" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-vesterbacka2025" class="csl-entry quarto-appendix-citeas">
 Vesterbacka, Leonora, Faton Rekathati, Robin Kurtz, Justyna Sikora, and
 Agnes Toftgård. 2025. <span>“Welcome KB-Whisper, a New Fine-Tuned
 Swedish Whisper Model!”</span> March 7. <a href="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/">https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/</guid>
   <pubDate>Thu, 06 Mar 2025 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/images/KBLab-whisper.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/images/KBLab-whisper.jpg" medium="image" type="image/jpeg" height="103" width="144"/>
 </item>
 <item>
   <title>Preserving the history of cultural heritage conservation</title>
@@ -3941,14 +3943,14 @@ Lowenthal, David. 1985. <em>The Past Is a Foreign Country</em>. Cambridge Univer
 <div id="ref-Swenson2013tro" class="csl-entry">
 Swenson, Astrid. 2013. <em>The Rise of Heritage : Preserving the Past in France, Germany and England, 1789-1914</em>. Cambridge University Press.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2025,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{haffenden2025,
   author = {Haffenden, Chris and Stenback, Emil},
   title = {Preserving the History of Cultural Heritage Conservation},
   date = {2025-01-31},
   url = {https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2025" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, and Emil Stenback. 2025. <span>“Preserving the History
 of Cultural Heritage Conservation.”</span> January 31. <a href="https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/">https://kb-labb.github.io/posts/2025-01-31-preserving-the-history-of-cultural-heritage-conservation/</a>.
 </div></div></section></div> ]]></description>
@@ -3974,7 +3976,7 @@ of Cultural Heritage Conservation.”</span> January 31. <a href="https://kb-lab
 
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hollén2024,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{hollén2024,
   author = {Hollén, Jimmy},
   title = {Analysis of Financial Data at the {Financial} {Supervisory}
     {Authority}},
@@ -3982,13 +3984,13 @@ of Cultural Heritage Conservation.”</span> January 31. <a href="https://kb-lab
   url = {https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hollén2024" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hollén2024" class="csl-entry quarto-appendix-citeas">
 Hollén, Jimmy. 2024. <span>“Analysis of Financial Data at the Financial
 Supervisory Authority.”</span> January 30. <a href="https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/">https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/</guid>
   <pubDate>Mon, 29 Jan 2024 23:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/finansinspektionen.JPG" medium="image"/>
+  <media:content url="https://kb-labb.github.io/posts/2024-01-30-finansinspektionen/finansinspektionen.JPG" medium="image" height="58" width="144"/>
 </item>
 <item>
   <title>Unearthing forgotten images with the help of AI</title>
@@ -4123,14 +4125,14 @@ Carlsson, Fredrik, Philipp Eisen, Faton Rekathati, and Magnus Sahlgren. 2022. <s
 <div id="ref-radford2021learning" class="csl-entry">
 Radford, Alec, Jong Wook Kim, Chris Hallacy, et al. 2021. <em>Learning Transferable Visual Models from Natural Language Supervision</em>. <a href="https://arxiv.org/abs/2103.00020">https://arxiv.org/abs/2103.00020</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haffenden2023,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{haffenden2023,
   author = {Haffenden, Chris and Rekathati, Faton and Rende, Emma},
   title = {Unearthing Forgotten Images with the Help of {AI}},
   date = {2023-10-20},
   url = {https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haffenden2023" class="csl-entry quarto-appendix-citeas">
 Haffenden, Chris, Faton Rekathati, and Emma Rende. 2023.
 <span>“Unearthing Forgotten Images with the Help of AI.”</span> October
 20. <a href="https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/">https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/</a>.
@@ -4230,14 +4232,14 @@ Haffenden, Chris, Faton Rekathati, and Emma Rende. 2023.
 </div>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{forsberg2023,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{forsberg2023,
   author = {Forsberg, Markus and Sikora, Justyna and Sköldberg, Emma},
   title = {Words Unboxed: Discovering New Words with {Kubord}},
   date = {2023-08-29},
   url = {https://kb-labb.github.io/posts/2023-08-29-kubord/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-forsberg2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-forsberg2023" class="csl-entry quarto-appendix-citeas">
 Forsberg, Markus, Justyna Sikora, and Emma Sköldberg. 2023. <span>“Words
 Unboxed: Discovering New Words with Kubord.”</span> August 29. <a href="https://kb-labb.github.io/posts/2023-08-29-kubord/">https://kb-labb.github.io/posts/2023-08-29-kubord/</a>.
 </div></div></section></div> ]]></description>
@@ -4688,20 +4690,20 @@ Rekathati, Faton. 2023a. <em>The KBLab Blog: Finding Speeches in the Riksdag’s
 <div id="ref-rekathati2023rixvox" class="csl-entry">
 Rekathati, Faton. 2023b. <em>The KBLab Blog: RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</em>. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{nachesa2023,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{nachesa2023,
   author = {Nachesa, Maya},
   title = {For How Long Is a Person Recognisable by Their Voice?},
   date = {2023-07-04},
   url = {https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-nachesa2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-nachesa2023" class="csl-entry quarto-appendix-citeas">
 Nachesa, Maya. 2023. <span>“For How Long Is a Person Recognisable by
 Their Voice?”</span> July 4. <a href="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/">https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/</guid>
   <pubDate>Mon, 03 Jul 2023 22:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/images/tsne2.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/images/tsne2.jpg" medium="image" type="image/jpeg" height="120" width="144"/>
 </item>
 <item>
   <title>A robust, multi-label sentiment classifier for Swedish</title>
@@ -4790,20 +4792,20 @@ font-style: inherit;">=</span> classifier(text)</span></code></pre></div></div>
 <ol>
 <li id="fn1"><p>Rozado D, Hughes R, Halberstadt J (2022) Longitudinal analysis of sentiment and emotion in news media headlines using automated labeling with Transformer language models. PLoS ONE 17(10): e0276367. <a href="https://doi.org/10.1371/journal.pone.0276367">https://doi.org/10.1371/journal.pone.0276367</a>↩︎</p></li>
 </ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hägglöf2023,
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{hägglöf2023,
   author = {Hägglöf, Hillevi},
   title = {A Robust, Multi-Label Sentiment Classifier for {Swedish}},
   date = {2023-06-16},
   url = {https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
 Hägglöf, Hillevi. 2023. <span>“A Robust, Multi-Label Sentiment
 Classifier for Swedish.”</span> June 16. <a href="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/">https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/</guid>
   <pubDate>Thu, 15 Jun 2023 22:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/Wingard_Bo_Dagen_H_3_KoB_F_Saml_36.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2023-06-16-a-robust-multi-label-sentiment-classifier-for-swedish/Wingard_Bo_Dagen_H_3_KoB_F_Saml_36.jpg" medium="image" type="image/jpeg" height="108" width="144"/>
 </item>
 <item>
   <title>Swedish speech synthesis</title>
@@ -4971,14 +4973,14 @@ font-style: inherit;">git</span> clone https://huggingface.co/KBLab/piper-tts-ns
 <li id="fn4"><p>https://github.com/rhasspy/piper/issues/72#issuecomment-1550170779↩︎</p></li>
 <li id="fn5"><p>https://github.com/rhasspy/piper↩︎</p></li>
 </ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
   title = {Swedish Speech Synthesis},
   date = {2023-05-24},
   url = {https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“Swedish Speech Synthesis.”</span> May 24.
 <a href="https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/">https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/</a>.
 </div></div></section></div> ]]></description>
@@ -5084,20 +5086,20 @@ body {text-align: justify}
 </div>
 </div></div></section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hägglöf2023,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{hägglöf2023,
   author = {Hägglöf, Hillevi and Sikora, Justyna},
   title = {Scientific Discourse with {BERTopic}},
   date = {2023-03-30},
   url = {https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hägglöf2023" class="csl-entry quarto-appendix-citeas">
 Hägglöf, Hillevi, and Justyna Sikora. 2023. <span>“Scientific Discourse
 with BERTopic.”</span> March 30. <a href="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/">https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/</guid>
   <pubDate>Wed, 29 Mar 2023 22:00:00 GMT</pubDate>
-  <media:content url="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/Forskarsalen_1920-talet.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://kb-labb.github.io/posts/2023-03-17-scientific-discourse-with-bertopic/Forskarsalen_1920-talet.jpg" medium="image" type="image/jpeg" height="109" width="144"/>
 </item>
 <item>
   <title>RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates</title>
@@ -5268,7 +5270,7 @@ Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices 
 <div id="ref-rekathati2023finding" class="csl-entry">
 Rekathati, Faton. 2023. <em>The KBLab Blog: Finding Speeches in the Riksdag’s Debates</em>. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
   title = {RixVox: {A} {Swedish} {Speech} {Corpus} with 5500 {Hours} of
     {Speech} from {Parliamentary} {Debates}},
@@ -5276,7 +5278,7 @@ Rekathati, Faton. 2023. <em>The KBLab Blog: Finding Speeches in the Riksdag’s 
   url = {https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“RixVox: A Swedish Speech Corpus with 5500
 Hours of Speech from Parliamentary Debates.”</span> March 9. <a href="https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/">https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/</a>.
 </div></div></section></div> ]]></description>
@@ -5816,14 +5818,14 @@ Malmsten, Martin, Chris Haffenden, and Love Börjeson. 2022. <em>Hearing Voices 
 <li id="fn1"><p>An example can be seen here: <a href="https://www.riksdagen.se/sv/webb-tv/video/partiledardebatt/partiledardebatt_HAC120230118pd">https://www.riksdagen.se/sv/webb-tv/video/partiledardebatt/partiledardebatt_HAC120230118pd</a>↩︎</p></li>
 <li id="fn2"><p>The file Sagtochgjort.csv.zip here: <a href="https://data.riksdagen.se/data/ledamoter/">https://data.riksdagen.se/data/ledamoter/</a>↩︎</p></li>
 </ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
   title = {Finding {Speeches} in the {Riksdag’s} {Debates}},
   date = {2023-02-23},
   url = {https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“Finding Speeches in the Riksdag’s
 Debates.”</span> February 23. <a href="https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/">https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/</a>.
 </div></div></section></div> ]]></description>
@@ -5882,14 +5884,14 @@ Debates.”</span> February 23. <a href="https://kb-labb.github.io/posts/2023-02
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{sikora2023,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{sikora2023,
   author = {Sikora, Justyna},
   title = {Swedish Zero-Shot Classification Model},
   date = {2023-02-13},
   url = {https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sikora2023" class="csl-entry quarto-appendix-citeas">
 Sikora, Justyna. 2023. <span>“Swedish Zero-Shot Classification
 Model.”</span> February 13. <a href="https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/">https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/</a>.
 </div></div></section></div> ]]></description>
@@ -6211,14 +6213,14 @@ Examples how to evaluate the newer model on some of the test sets of SuperLim v2
 <p>The code used to train and evaluate KBLab’s Swedish Sentence BERT is available at https://github.com/kb-labb/swedish-sbert.</p>
 
 
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rekathati2023,
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{rekathati2023,
   author = {Rekathati, Faton},
   title = {Swedish {Sentence} {Transformer} 2.0},
   date = {2023-01-16},
   url = {https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rekathati2023" class="csl-entry quarto-appendix-citeas">
 Rekathati, Faton. 2023. <span>“Swedish Sentence Transformer 2.0.”</span>
 January 16. <a href="https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/">https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/</a>.
 </div></div></section></div> ]]></description>

@@ -1,0 +1,49 @@
+---
+title: "Publications"
+---
+
+## 2026
+
+- Chris Haffenden, Faton Rekathati & Emma Rende. 2026. [Searching Without Labels: Multimodal AI and Image Search at the National Library of Sweden](https://gupea.ub.gu.se/server/api/core/bitstreams/99a09067-3b24-4e97-b30f-175d7394c129/content#page=137). In *Flows and Frictions*, eds. Daniel Brodén & Lina Samuelsson. Borås: LIR skrifter, pp. 137–160.
+
+- Yifan Lu, Taras Kucherenko, Hedvig Kjellström & Judith Bütepage. 2026. [RA-ClipScore: Making Generative Model Evaluation More Interpretable](https://arxiv.org/abs/2608.12088). *NeurIPS 2026*.
+
+## 2025
+
+- Leonora Vesterbacka, Faton Rekathati, Robin Kurtz, Justyna Sikora & Agnes Toftgård. 2025. [Swedish Whispers: Leveraging a Massive Speech Corpus for Swedish Speech Recognition](https://doi.org/10.21437/Interspeech.2025-2646). *Proceedings of Interspeech 2025*, pp. 758–762.
+
+- Martin Malmsten, Viktoria Lundborg, Elena Fano, Chris Haffenden, Fredrik Klingwall, Robin Kurtz, Niklas Lindström, Faton Rekathati & Love Börjeson. 2025. [Without Heading? Automatic Creation of a Linked Subject System](https://www.degruyter.com/document/doi/10.1515/9783111336435-014/html). In *New Horizons in Artificial Intelligence in Libraries*, eds. Edmund Balnaves, Leda Bultrini, Andrew Cox & Raymond Uzwyshn. Boston: De Gruyter Saur, pp. 179–198.
+
+- Chris Haffenden & Justyna Sikora. 2025. [Doing Digital Research at KBLab: A Practical Introduction to Using the National Library of Sweden's Data Lab](https://doi.org/10.58009/aere-perennius0171). In *Huminfra Handbook: Empowering Digital and Experimental Humanities*, eds. Gerlof Bouma, Dana Dannélls, Dimitrios Kokkinakis & Elena Volodina. NEALT Proceedings Series, pp. 17–56.
+
+- Chris Haffenden & Justyna Sikora. 2025. [AI Pedagogy and New Methods for Humanities Scholars: A Reflective Case Study](https://hdl.handle.net/10062/118296). *Proceedings of the 2nd Huminfra Conference (HiC 2025)*, pp. 35–40.
+
+## 2024
+
+- Love Börjeson, Chris Haffenden, Martin Malmsten, Fredrik Klingwall, Emma Rende, Robin Kurtz, Faton Rekathati, Hillevi Hägglöf & Justyna Sikora. 2024. [Transfiguring the Library as Digital Research Infrastructure: Making KBLab at the National Library of Sweden](https://doi.org/10.5860/crl.85.4.564). *College & Research Libraries*, 85(4), pp. 564–582.
+
+- Leonora Vesterbacka. 2024. [Training Speech Recognition Models at the National Library of Sweden](https://doi.org/10.1016/j.procs.2024.07.004). *Procedia Computer Science*, 240, pp. 13–16.
+
+- Justyna Sikora & Chris Haffenden. 2024. [AI, Data Curation and the Data Readiness of Heritage Collections: Exploring the Swedish Newspaper Archive at KBLab](https://doi.org/10.3384/ecp205009). *Proceedings of the Huminfra Conference (HiC 2024)*, pp. 60–67.
+
+- Evie Coussé, Yvonne Adesam, Faton Rekathati & Aleksandrs Berdicevskis. 2024. [Hur används de, dem och dom i nutida skriftspråk? En storskalig korpusundersökning av nyheter och sociala medier](https://doi.org/10.61965/sos.v33i.18928). *Språk och stil*, 33.
+
+## 2023
+
+- Chris Haffenden, Elena Fano, Martin Malmsten & Love Börjeson. 2023. [Making and Using AI in the Library: Creating a BERT Model at the National Library of Sweden](https://doi.org/10.5860/crl.84.1.30). *College & Research Libraries*, 84(1), pp. 30–48.
+
+- Aleksandrs Berdicevskis et al. 2023. [Superlim: A Swedish Language Understanding Evaluation Benchmark](https://aclanthology.org/2023.emnlp-main.506/). In *Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023)*. Singapore: Association for Computational Linguistics, pp. 8137–8153. (KBLab co-authors: Robin Kurtz, Martin Malmsten, Faton Rekathati & Love Börjeson.)
+
+## 2022
+
+- Martin Malmsten, Chris Haffenden & Love Börjeson. 2022. [Hearing Voices at the National Library of Sweden – A Speech Corpus and Acoustic Model for the Swedish Language](https://arxiv.org/pdf/2205.03026.pdf). *Proceedings of Fonetik 2022: Speech, Music and Hearing Quarterly Progress and Status Report, TMH-QPSR*. Stockholm: KTH Royal Institute of Technology.
+
+- Fredrik Carlsson, Philipp Eisen, Faton Rekathati & Magnus Sahlgren. 2022. [Cross-lingual and Multilingual CLIP](https://aclanthology.org/2022.lrec-1.739/). In *Proceedings of the Thirteenth Language Resources and Evaluation Conference (LREC 2022)*. Marseille: European Language Resources Association, pp. 6848–6854.
+
+## 2021
+
+- Magnus Sahlgren, Fredrik Carlsson, Fredrik Olsson & Love Börjeson. 2021. [It's Basically the Same Language Anyway: the Case for a Nordic Language Model](https://aclanthology.org/2021.nodalida-main.39/). In *Proceedings of the 23rd Nordic Conference on Computational Linguistics (NoDaLiDa)*. Linköping University Electronic Press, pp. 367–372.
+
+## 2020
+
+- Martin Malmsten, Love Börjeson & Chris Haffenden. 2020. [Playing With Words at the National Library of Sweden: Making a Swedish BERT](https://arxiv.org/pdf/2007.01658.pdf). *arXiv*.
